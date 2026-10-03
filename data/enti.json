@@ -1,0 +1,5 @@
+[
+  {"id": "comune-milano", "name": "Comune di Milano · Servizi anagrafici", "role_it": "Anagrafe: carta d'identità, residenza, certificati", "source_ids": ["ds549"], "status": "verified"},
+  {"id": "questura-milano", "name": "Questura di Milano", "role_it": "TODO: what it handles for non-EU citizens, from the source", "source_ids": ["permesso-soggiorno"], "status": "todo"},
+  {"id": "agenzia-entrate", "name": "Agenzia delle Entrate", "role_it": "TODO: codice fiscale, from the source", "source_ids": ["codice-fiscale"], "status": "todo"}
+]

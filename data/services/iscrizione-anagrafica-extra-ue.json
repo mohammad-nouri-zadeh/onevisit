@@ -1,0 +1,29 @@
+{
+  "id": "iscrizione-anagrafica-extra-ue",
+  "title": {"it": "Iscrizione anagrafica (residenza) di un cittadino extra-UE arrivato dall'estero", "en": "Registering residence in Milan as a non-EU citizen arriving from abroad"},
+  "ente": "comune-milano",
+  "summary_it": "TODO: two lines from the official page",
+  "source_ids": ["residenza-estero", "permesso-soggiorno", "codice-fiscale", "ds549"],
+  "deciding_questions": [
+    {"id": "permesso", "ask_it": "Hai già il permesso di soggiorno, o la ricevuta della richiesta?", "ask_en": "Do you already have your residence permit, or the receipt of your application?", "options": ["permesso", "ricevuta", "nessuno"]},
+    {"id": "famiglia", "ask_it": "Ti trasferisci da solo o con familiari?", "ask_en": "Are you moving alone or with family members?", "options": ["solo", "con-familiari"]},
+    {"id": "alloggio", "ask_it": "A che titolo abiti nella casa (affitto, ospite, proprietà)?", "ask_en": "How do you live in the home (renting, guest, owner)?", "options": ["affitto", "ospite", "proprieta"]},
+    {"id": "scadenza", "ask_it": "Ti serve la residenza entro una data precisa?", "ask_en": "Do you need residence by a specific date?", "kind": "date"}
+  ],
+  "requirements": [
+    {"id": "come-si-presenta", "text_it": "TODO: HOW the declaration is submitted in Milan (counter appointment, email, online). Decides whether this case fits the 'one visit' story", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "permesso", "text_it": "TODO: which permit or receipt is required", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "passaporto", "text_it": "TODO: identity document required", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "alloggio", "text_it": "TODO: what proves the right to live in the home", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "documenti-esteri", "text_it": "TODO: family documents issued abroad: translation and legalisation", "when": {"famiglia": ["con-familiari"]}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "accertamento", "text_it": "TODO: what happens after (address check, time limit)", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"}
+  ],
+  "steps": [
+    {"order": 1, "ente": "questura-milano", "text_it": "TODO: residence permit step, from the source", "source_id": "permesso-soggiorno", "status": "todo"},
+    {"order": 2, "ente": "agenzia-entrate", "text_it": "TODO: tax code step, from the source", "source_id": "codice-fiscale", "status": "todo"},
+    {"order": 3, "ente": "comune-milano", "text_it": "TODO: residence declaration, from the source", "source_id": "residenza-estero", "status": "todo"}
+  ],
+  "unknowns_it": [
+    "L'ordine dei passaggi tra enti va confermato sulle fonti prima di mostrarlo al cittadino."
+  ]
+}

@@ -1,0 +1,8 @@
+id,title,url,publisher,kind,snapshot,retrieved_at,status,notes
+ds549,Sedi dei servizi anagrafici,https://dati.comune.milano.it/dataset/ds549-sedi-dei-servizi-anagrafici,Comune di Milano,opendata,opendata/ds549-sedi-dei-servizi-anagrafici.csv,2026-10-03,ok,"Licence CC BY. CSV resource last modified 2026-01-28. Cleaned into offices.json by tools/clean_offices.py"
+cie,Carta d'identità elettronica (pagina del servizio),,Comune di Milano,page,,,todo,"Find the official service page on comune.milano.it, paste the URL, then run tools/save_page.py cie"
+residenza-estero,Iscrizione anagrafica / residenza per chi arriva dall'estero,,Comune di Milano,page,,,todo,"Official page for residence of people arriving from abroad and non-EU citizens. Check HOW the declaration is submitted (counter, email, online)"
+prenotazione,Prenotazione appuntamenti anagrafe,,Comune di Milano,page,,,todo,"The booking page the assistant links to"
+permesso-soggiorno,Permesso di soggiorno (Questura / Polizia di Stato),,Polizia di Stato,page,,,todo,"National source: who issues it and how to apply"
+codice-fiscale,Codice fiscale per cittadini stranieri,,Agenzia delle Entrate,page,,,todo,"National source"
+yesmilano-students,Percorso informativo studenti internazionali,,YesMilano,page,,,todo,"Mentioned in the hackathon brief as something the City already has"

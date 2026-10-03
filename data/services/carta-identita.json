@@ -1,0 +1,47 @@
+{
+  "id": "carta-identita",
+  "title": {"it": "Carta d'identità elettronica (CIE)", "en": "Electronic identity card (CIE)"},
+  "ente": "comune-milano",
+  "summary_it": "TODO: two lines from the official page",
+  "source_ids": ["cie", "ds549", "prenotazione"],
+  "deciding_questions": [
+    {"id": "motivo", "ask_it": "È la tua prima carta d'identità, un rinnovo, o quella vecchia è stata persa o rubata?", "ask_en": "Is this your first ID card, a renewal, or was the old one lost or stolen?", "options": ["prima", "rinnovo", "smarrimento-furto"]},
+    {"id": "eta", "ask_it": "La carta è per un adulto o per un minorenne?", "ask_en": "Is the card for an adult or a minor?", "options": ["adulto", "minore"]},
+    {"id": "cittadinanza", "ask_it": "Che cittadinanza ha la persona?", "ask_en": "What is the person's citizenship?", "options": ["italiana", "ue", "extra-ue"]},
+    {"id": "scadenza", "ask_it": "Ti serve entro una data precisa?", "ask_en": "Do you need it by a specific date?", "kind": "date"}
+  ],
+  "requirements": [
+    {
+      "id": "su-appuntamento",
+      "text_it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
+      "text_en": "Registry desks only see people with an appointment, booked online.",
+      "when": {},
+      "source_id": "ds549",
+      "quote": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online.",
+      "verified_at": "2026-10-03",
+      "status": "verified"
+    },
+    {
+      "id": "prenotazione-senza-spid",
+      "text_it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
+      "text_en": "At most offices you can book without SPID, with no registration.",
+      "when": {},
+      "source_id": "ds549",
+      "quote": "La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione.",
+      "verified_at": "2026-10-03",
+      "status": "verified"
+    },
+    {"id": "fototessera", "text_it": "TODO: photo requirements, from the page", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "documento-precedente", "text_it": "TODO: bring the old card / expired document", "when": {"motivo": ["rinnovo"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "denuncia", "text_it": "TODO: police report for loss or theft", "when": {"motivo": ["smarrimento-furto"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "codice-fiscale", "text_it": "TODO: tax code / health card", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "costo", "text_it": "TODO: cost and how to pay", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "minori", "text_it": "TODO: what minors need (parents present, consent for travel validity)", "when": {"eta": ["minore"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "stranieri", "text_it": "TODO: what non-EU residents need, and whether the card is valid for travel abroad", "when": {"cittadinanza": ["extra-ue"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
+    {"id": "tempi-consegna", "text_it": "TODO: how long until the card arrives (matters for the 'scadenza' question)", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"}
+  ],
+  "steps": [],
+  "unknowns_it": [
+    "Le fonti salvate non dicono ancora quali documenti servono: finché i requisiti sono 'todo', l'assistente deve dire che non lo sa e rimandare alla pagina ufficiale."
+  ]
+}

@@ -1,0 +1,269 @@
+[
+  {
+    "id": "ds549-01",
+    "municipio": 1,
+    "address": "via Larga 12",
+    "entrance_note": "Ingresso provvisorio da Via Pecorari 3",
+    "address_raw": "(sede via Larga 12) INGRESSO PROVVISORIO da Via Pecorari 3",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lun.al ven. dalle 08:30 alle 15:30 Orario prolungato (su appuntamento): giovedì fino alle 19:00; sabato dalle 8:30 alle 11:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. I ticket relativi alle urgenze sono erogati fino a mezz'ora precedente la chiusura della sede",
+    "appointment_only": true,
+    "booking_without_spid": null,
+    "nil": {
+      "id": 1,
+      "name": "DUOMO"
+    },
+    "lat": 45.46184599990516,
+    "lon": 9.192323000293767,
+    "source_id": "ds549",
+    "data_issues": [
+      "Ingresso indicato come provvisorio: verificare se è ancora valido"
+    ]
+  },
+  {
+    "id": "ds549-02",
+    "municipio": 2,
+    "address": "via Padova 118",
+    "entrance_note": null,
+    "address_raw": "via Padova 118",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 19,
+      "name": "PADOVA - TURRO - CRESCENZAGO"
+    },
+    "lat": 45.49658899981122,
+    "lon": 9.230720000401659,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-03",
+    "municipio": 3,
+    "address": "via Sansovino 9",
+    "entrance_note": null,
+    "address_raw": "via Sansovino 9",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. Tessere elettorali senza appuntamento",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 21,
+      "name": "BUENOS AIRES - PORTA VENEZIA - PORTA MONFORTE"
+    },
+    "lat": 45.47922500031219,
+    "lon": 9.218573999819345,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-04",
+    "municipio": 4,
+    "address": "via Oglio 18",
+    "entrance_note": null,
+    "address_raw": "via Oglio 18",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. Tessere elettorali senza appuntamento",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 35,
+      "name": "LODI - CORVETTO"
+    },
+    "lat": 45.44018999998373,
+    "lon": 9.218008000104913,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-05",
+    "municipio": 5,
+    "address": "viale Tibaldi 41",
+    "entrance_note": null,
+    "address_raw": "viale Tibaldi 41",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 6,
+      "name": "PORTA TICINESE - CONCA DEL NAVIGLIO"
+    },
+    "lat": 45.444604000168425,
+    "lon": 9.183193999677986,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-06",
+    "municipio": 6,
+    "address": "via San Paolino 18",
+    "entrance_note": null,
+    "address_raw": "via San Paolino 18",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 46,
+      "name": "BARONA"
+    },
+    "lat": 45.43112314924546,
+    "lon": 9.163039566846756,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-07",
+    "municipio": 6,
+    "address": "viale Legioni Romane 54",
+    "entrance_note": null,
+    "address_raw": "viale Legioni Romane 54",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 56,
+      "name": "FORZE ARMATE"
+    },
+    "lat": 45.459548999872624,
+    "lon": 9.127471000445809,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-08",
+    "municipio": 7,
+    "address": "piazza Stovani 3",
+    "entrance_note": null,
+    "address_raw": "piazza Stovani 3",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 55,
+      "name": "BAGGIO - Q.RE DEGLI OLMI - Q.RE VALSESIA"
+    },
+    "lat": 45.460589999893024,
+    "lon": 9.09251800010174,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-09",
+    "municipio": 8,
+    "address": "via Quarenghi 21",
+    "entrance_note": null,
+    "address_raw": "via Quarenghi 21",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. Tessere elettorali senza appuntamento",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 65,
+      "name": "Q.RE GALLARATESE - Q.RE SAN LEONARDO - LAMPUGNANO"
+    },
+    "lat": 45.49625100024309,
+    "lon": 9.115161999656863,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-10",
+    "municipio": 8,
+    "address": "piazzale Accursio 5",
+    "entrance_note": null,
+    "address_raw": "piazzale Accursio 5",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 71,
+      "name": "VILLAPIZZONE - CAGNOLA - BOLDINASCO"
+    },
+    "lat": 45.491438999825235,
+    "lon": 9.146148000180409,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-11",
+    "municipio": 9,
+    "address": "Largo De Benedetti 1",
+    "entrance_note": null,
+    "address_raw": "Largo De Benedetti 1",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 11,
+      "name": "ISOLA"
+    },
+    "lat": 45.48612300008762,
+    "lon": 9.193904000159531,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-12",
+    "municipio": 9,
+    "address": "via Baldinucci 76",
+    "entrance_note": null,
+    "address_raw": "via Baldinucci 76",
+    "phone": "020202",
+    "hours_it": "Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30",
+    "notes_it": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione. I ticket relativi ad urgenze sono erogati fino alla mezz'ora precedente la chiusura sede",
+    "appointment_only": true,
+    "booking_without_spid": true,
+    "nil": {
+      "id": 77,
+      "name": "BOVISA"
+    },
+    "lat": 45.503404000128675,
+    "lon": 9.168775999841996,
+    "source_id": "ds549",
+    "data_issues": []
+  },
+  {
+    "id": "ds549-13",
+    "municipio": null,
+    "address": "Via Passerini 5",
+    "entrance_note": null,
+    "address_raw": "Via Passerini 5",
+    "phone": null,
+    "hours_it": "solo il lunedì dalle 8:30 alle 12:30 e dalle 14:30 alle 15:30 - lunedì 5 gennaio 2026: CHIUSO",
+    "notes_it": null,
+    "appointment_only": null,
+    "booking_without_spid": null,
+    "nil": {
+      "id": 14,
+      "name": "NIGUARDA - CA' GRANDA - PRATO CENTENARO - Q.RE FULVIO TESTI"
+    },
+    "lat": 45.51542898156959,
+    "lon": 9.193187430227072,
+    "source_id": "ds549",
+    "data_issues": [
+      "Campo 'titolo' vuoto: il Municipio della sede non è indicato",
+      "Telefono mancante",
+      "Nessuna nota su prenotazione e accesso",
+      "Il testo cita una data già passata (5 gennaio 2026): informazione probabilmente non aggiornata"
+    ]
+  }
+]
