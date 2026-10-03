@@ -12,6 +12,7 @@ import sys
 import uuid
 
 import streamlit as st
+import streamlit.components.v1 as components
 from dotenv import load_dotenv
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -202,7 +203,7 @@ def ask(text: str) -> None:
     state.chat.append({"role": "assistant", **reply})
 
 
-citizen, panel = st.tabs(["For citizens", "For City staff"])
+citizen, panel, design = st.tabs(["For citizens", "For City staff", "Design preview"])
 
 # ---------- citizen ----------
 with citizen:
@@ -322,6 +323,12 @@ with panel:
                     except Exception as e:
                         st.error(f"Could not draft: {e}")
                 st.rerun()
+
+# ---------- design ----------
+with design:
+    st.caption("The interface we designed for the next version (IO app design system, black and white). "
+               "Clickable, with example content. The tabs on the left run the real assistant.")
+    components.html((ROOT / "design" / "onevisit-prototype.html").read_text(encoding="utf-8"), height=1100, scrolling=True)
 
 st.markdown('<div class="ov-foot">Prototype built at the Claude Impact Lab Milano, 3 Oct 2026. '
             'Not an official City of Milan service. Open source, MIT.</div>', unsafe_allow_html=True)
