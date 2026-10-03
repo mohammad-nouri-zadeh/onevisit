@@ -46,7 +46,16 @@ Built today:
 - **Registry offices from City open data** (`data/offices.json`, from dataset `ds549`), cleaned, with the dataset's own errors flagged.
 - **Tools for the agent** (`onevisit/tools.py`): list services, get the deciding questions, get the checklist for this case, find offices, cite a source.
 - **The OneVisit kit** (`apps/`, `libs/`): a uv monorepo with the citizen web chat (`apps/assistant_web`), the City panel (`apps/dashboard`), the channel gateway with SMS webhook, reply links, a fake phone for the demo and the reminder loop (`apps/gateway`), and libraries for the knowledge catalog, the Claude agent and reply validator, the privacy pipeline, the database (schemas `pii`/`core`/`analytics` with separate roles), channels and analytics. Status per story: [docs/progress.md](docs/progress.md).
-- TODO: screenshots of the agent's flow and of the panel.
+
+Screenshots from the running apps, with synthetic demo data only (`onevisit seed-demo`, 400 invented cases):
+
+| Citizen web chat (browser in English) | City panel: overview, k = 5 |
+|---|---|
+| ![Web chat welcome in English](docs/screenshots/chat-welcome-en.png) | ![Panel overview](docs/screenshots/panel-overview.png) |
+| **Panel: a gap with three correction drafts** | **Panel: City context from open data** |
+| ![Gap detail](docs/screenshots/panel-gap-detail.png) | ![City context](docs/screenshots/panel-context.png) |
+
+More: [gaps list](docs/screenshots/panel-gaps.png), [interventions before/after](docs/screenshots/panel-interventions.png), [demo phone for SMS](docs/screenshots/demo-phone.png).
 
 ## Quick start
 
@@ -120,7 +129,13 @@ Full list with retrieval dates: [data/sources.csv](data/sources.csv). Inventory 
 
 ## Day one
 
-TODO: what the Comune needs to switch it on (the source pages it already has, a list of requirements per service, a hook into the existing appointment confirmation emails).
+What the Comune needs to switch it on:
+
+1. **The requirements, verified once by the office that owns each procedure.** The City already publishes the pages; each requirement becomes `"status": "verified"` only with a verbatim quote (`onevisit ingest` saves the page, `onevisit catalog-check` checks every quote).
+2. **A link in the confirmation email the booking system already sends** ("prepare your appointment with OneVisit"): no change to the booking system itself, OneVisit never books.
+3. **Infrastructure it already has or can procure:** a Linux server with Docker (`make deploy`, Caddy for HTTPS), the institutional SMTP, an EU-based SMS provider, staff login (OIDC) for the panel.
+4. **One number for the estimate:** the average cost of a desk slot (panel settings, direzione role).
+5. **A DPIA with the DPO**, starting from [docs/privacy.md](docs/privacy.md).
 
 From the design so far: the official service pages to quote (the City already publishes them), the average cost of a desk slot for the estimate, a hook into the confirmation emails the booking system already sends, an EU-based SMS provider and the institutional SMTP, staff login for the panel, and a DPIA with the DPO ([docs/privacy.md](docs/privacy.md)).
 
