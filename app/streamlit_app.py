@@ -39,7 +39,8 @@ html {{ font-size: {'20px' if big else '16px'}; }}
 .ov-muted {{ color:#6E727C; }}
 .ov-warn {{ border-top:1px solid #C6C8CE; color:#4A4D55; padding:6px 0; font-size:0.9em; }}
 [data-testid="stToolbar"], [data-testid="stDecoration"], footer {{ display:none !important; }}
-.block-container {{ max-width: 460px !important; padding-top: 2.2rem !important; }}
+.block-container {{ max-width: 460px !important; padding-top: 4.5rem !important; }}
+[data-testid="stHeader"] {{ background: transparent !important; }}
 h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
 [data-baseweb="tab-list"] {{ background:#EDEEF0; border-radius:999px; padding:3px; gap:2px; width:fit-content; }}
 [data-baseweb="tab"] {{ border-radius:999px !important; padding:6px 16px !important; height:auto !important; }}
@@ -54,7 +55,8 @@ h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
 .stButton > button {{ background:transparent; }}
 [data-testid="stVerticalBlockBorderWrapper"] {{ border-radius:22px !important; }}
 [data-testid="stExpander"] details {{ border-radius:14px !important; }}
-[data-testid="stTabs"] [role="tablist"] {{ background:#EDEEF0; border-radius:999px; padding:3px; gap:2px; width:fit-content; border:0 !important; box-shadow:none !important; }}
+[data-testid="stTabs"] [role="tablist"] {{ background:#EDEEF0; border-radius:999px; padding:3px; gap:2px; width:fit-content; max-width:100%; border:0 !important; box-shadow:none !important; overflow:visible !important; margin:2px 0 6px; }}
+[data-testid="stTabs"] [role="tablist"]::after {{ display:none !important; }}
 [data-testid="stTab"] {{ border-radius:999px !important; padding:6px 16px !important; }}
 [data-testid="stTab"][aria-selected="true"] {{ background:#FFFFFF; box-shadow:0 1px 3px rgba(0,0,0,.14); }}
 [data-testid="stTab"] > div:not([data-testid]) {{ display:none !important; }}
