@@ -9,3 +9,4 @@ data/opendata/ds1702-*.csv
 data/opendata/ds1511-*.csv
 data/opendata/ds1512-*.csv
 data/opendata/ds74-*.csv
+runtime/
