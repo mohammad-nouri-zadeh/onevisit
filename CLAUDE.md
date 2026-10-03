@@ -1,5 +1,7 @@
 # CLAUDE.md: OneVisit
 
+> **Several people, each with their own Claude account, work on this repo at the same time. Your session doesn't share memory with theirs: the repo is the only shared state.** Before any task, read [TEAM.md](TEAM.md) (who owns what, git rules, decisions, log) and run `git pull --rebase origin main`. Stay in your own area, push small commits often, never force-push or delete others' work, and write any decision or contract change in TEAM.md in the same push.
+
 We are a team at the Claude Impact Lab Milano (3 October 2026, with the Comune di Milano). Hub repo with the brief, rules and judging: https://github.com/Claude-Milano/impact-lab-oct-2026. The concept, in Italian, is in `docs/concept.md`.
 
 Our user: a person going to a City registry desk, first of all a non-EU citizen who has just arrived and doesn't speak Italian well.
