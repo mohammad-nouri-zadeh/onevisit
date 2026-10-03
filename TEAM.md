@@ -40,15 +40,16 @@ Record a decision here when the team makes it, so every session follows it.
 
 | Decision | Value | Decided by, when |
 |---|---|---|
-| Track | TODO (01 or 03) | |
-| Runtime model | TODO | |
-| Stack for agent and UI | TODO | |
-| Demo case | TODO | |
+| Track | 01 (proposed; confirm before submitting) | |
+| Runtime model | `claude-sonnet-5-5` (agent, classification, drafts) | team / @Saroth85, 13:20; used in the app 14:46 |
+| Stack for agent and UI | Demo: Streamlit app (`app/`) on the shared data layer. Production plan: the kit on branch `claude/busy-mccarthy-uq5xoi` | @mohammad-nouri-zadeh, 14:46 |
+| Demo case | Lost ID card, Egyptian newcomer living in Isola, chat in Arabic or English | @mohammad-nouri-zadeh, 14:46 |
 
 ## Log
 
 Newest at the top. One line per push that others depend on: time, handle, what changed.
 
+- 14:46 · @mohammad-nouri-zadeh · **Working product on `main`**: Streamlit app (`app/`), agent loop (`onevisit/agent.py`), reports and drafts (`onevisit/outcomes.py`), design prototype, final video. Tested end to end with real Claude (Sonnet 5.5). README completed.
 - 14:46 · @mohammad-nouri-zadeh · Final demo video `video/onevisit-final.mp4` (2:02, voiceover + B&W AI-generated cold open, labelled), built by `video/build_final.py` on branch `momo/streamlit-demo`.
 - 12:32 · @mohammad-nouri-zadeh · City statistics in `data/context/` (surveys, arrivals, foreign residents) and `kb.context_tables()` for the panel. Summary: `data/context/README.md`.
 - 12:26 · @mohammad-nouri-zadeh · Added TEAM.md (this file) and a pointer to it at the top of CLAUDE.md.

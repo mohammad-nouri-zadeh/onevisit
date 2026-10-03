@@ -27,18 +27,23 @@ st.set_page_config(page_title="OneVisit", page_icon="🗂️", layout="centered"
 big = st.session_state.get("big_text", False)
 st.markdown(f"""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 html {{ font-size: {'20px' if big else '16px'}; }}
-.ov-chip {{ display:inline-block; font-size:0.78em; padding:1px 8px; margin-left:6px; border-radius:999px;
-           background:#e8f1ec; color:#14532d; border:1px solid #b7d7c2; white-space:nowrap; }}
-.ov-chip.todo {{ background:#f4f4f5; color:#52525b; border-color:#d4d4d8; }}
-.ov-item {{ padding:6px 0; border-bottom:1px solid rgba(128,128,128,.18); }}
-.ov-muted {{ color:#6b7280; font-size:0.9em; }}
-.ov-warn {{ background:#fff7ed; border:1px solid #fed7aa; color:#7c2d12; padding:6px 10px; border-radius:8px; font-size:0.9em; }}
-.ov-foot {{ color:#6b7280; font-size:0.8em; margin-top:2rem; }}
+.stMarkdown, .stMarkdown p, .stMarkdown li, h1, h2, h3, .stCaption, [data-testid="stMetricValue"], [data-testid="stMetricLabel"] p {{ font-family: "Titillium Web", -apple-system, system-ui, sans-serif; }}
+.ov-chip {{ display:inline-block; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:0.72em; padding:1px 8px; margin-left:6px; border-radius:999px;
+           background:#111214; color:#FFFFFF; white-space:nowrap; vertical-align:middle; }}
+.ov-chip.todo {{ background:transparent; color:#6E727C; border:1px dashed #C6C8CE; }}
+.ov-item {{ padding:8px 0; border-bottom:1px solid #E4E5E9; }}
+.ov-muted {{ color:#6E727C; }}
+.ov-warn {{ border-top:1px solid #C6C8CE; color:#4A4D55; padding:6px 0; font-size:0.9em; }}
+.ov-foot {{ color:#6E727C; font-size:0.8em; margin-top:2rem; border-top:1px solid #C6C8CE; padding-top:10px; }}
+div[data-testid="stMetricValue"] {{ font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }}
+.stButton > button, .stDownloadButton > button {{ border-radius:999px; border:1.5px solid #111214; font-weight:600; }}
 @media (prefers-color-scheme: dark) {{
-  .ov-chip {{ background:#12311f; color:#bbf7d0; border-color:#1f5134; }}
-  .ov-chip.todo {{ background:#27272a; color:#d4d4d8; border-color:#3f3f46; }}
-  .ov-warn {{ background:#3b1d0a; color:#fed7aa; border-color:#7c2d12; }}
+  .ov-chip {{ background:#F2F2F3; color:#0C0C0E; }}
+  .ov-chip.todo {{ color:#8B8E97; border-color:#3A3C42; }}
+  .ov-item {{ border-color:#24252A; }}
+  .stButton > button, .stDownloadButton > button {{ border-color:#F2F2F3; }}
 }}
 </style>""", unsafe_allow_html=True)
 
@@ -183,8 +188,8 @@ with citizen:
                     try:
                         result = outcomes.classify(state.service_id or "unknown", code, note)
                         row = outcomes.save_report(state.service_id or "unknown", code, result)
-                        st.success(f"Thank you. Recorded as: {outcomes.CAUSES[row['cause']][0]}. "
-                                   f"Saved: “{row['summary_en']}” (your own words are not stored).")
+                        st.markdown(f"**✓ Thank you.** Recorded as: {outcomes.CAUSES[row['cause']][0]}. "
+                                    f"Saved: “{row['summary_en']}” (your own words are not stored).")
                     except Exception as e:
                         st.error(f"Could not send: {e}")
 
@@ -229,9 +234,10 @@ with panel:
             for ex in g["examples_en"]:
                 st.caption(f"“{ex}”")
             if key in state.approved:
-                st.success("Approved by a City officer. The checklist will be updated once the page is changed.")
+                st.markdown("**✓ Approved by a City officer.** The checklist will be updated once the page is changed.")
             elif key in state.drafts:
-                st.info(state.drafts[key])
+                with st.container(border=True):
+                    st.markdown(state.drafts[key])
                 if st.button("Approve correction", key=f"ap-{key}"):
                     state.approved.add(key)
                     st.rerun()

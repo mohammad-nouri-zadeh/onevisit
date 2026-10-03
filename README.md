@@ -1,54 +1,64 @@
 # OneVisit
 
-> Claude Impact Lab Milano · 3 October 2026 · Track **TODO: 01 or 03, decide as a team**
+> Claude Impact Lab Milano · 3 October 2026 · Track **01 · Welcome journey for people arriving in Milan** (team: change here and in the submission form if you pick 03)
 
-**One line:** for people who go to a City of Milan registry desk (above all non-EU newcomers), OneVisit checks with them, from official sources, everything they need before the appointment, so the procedure closes on the first visit.
+**One line:** for people who go to a City of Milan registry desk, above all newcomers who don't speak Italian, OneVisit checks with them, in their language and from official sources, what they need before the appointment, so the procedure closes the first time.
 
-**Demo video:** TODO
+**Demo video:** TODO YouTube link · file in the repo: [`video/onevisit-final.mp4`](video/onevisit-final.mp4) (2:02)
 
 ## The problem
 
-Daniel, a Brazilian engineer who has just moved to Milan, books an appointment at the registry office, waits, goes, and finds out at the desk that something is missing. He has to book again. The slot he used could have served someone else.
+In 2024, **19,755 people registered in Milan arriving from abroad**, 42.1% of all new registrations (City open data, `ds1959`). When the City surveyed users of its online residence service in 2022, **42.1% of foreign respondents said it helped them little or not at all, against 28.2% of Italians**; for foreign newcomers' residence requests the figure was 46.2% (`ds1702`, 10,194 answers). Online certificates, by comparison, left only 2.3% unhelped (`ds1512`).
 
-The full concept, in Italian, is in [docs/concept.md](docs/concept.md).
+When a document turns out to be missing at the desk, the citizen has to book and wait again, and the City loses a slot someone else could have used.
 
 ## What we built
 
-TODO: the agent's flow, step by step, with a screenshot or two.
+**For citizens** (`app/streamlit_app.py`, tab "For citizens"):
+1. The person describes their situation in any language. Tested in Arabic, English, Spanish and Italian.
+2. Claude works out the service and asks only the questions that change the answer, as tap buttons.
+3. A checklist where every item shows its source and the date it was checked. Items without a verified source are shown as unknown, with a pointer to comune.milano.it.
+4. The nearest registry office from City open data, with hours and booking without SPID.
+5. A calendar reminder three days before (`.ics`, no email needed).
+6. After the appointment: one question. Claude classifies the problem and removes personal details; the citizen's own words are not stored.
 
-Built today:
+**For City staff** (tab "For City staff"): real City statistics, errors found in the City's own office dataset, reports grouped by cause with a threshold of 5 before they reach an office, and a correction drafted by Claude that a City officer approves.
 
-- **A sourced knowledge base** (`data/`): every requirement carries a verbatim quote from an official page or City dataset and the date it was checked. A validator rejects any fact whose quote isn't in the saved source.
-- **Registry offices from City open data** (`data/offices.json`, from dataset `ds549`), cleaned, with the dataset's own errors flagged.
-- **Tools for the agent** (`onevisit/tools.py`): list services, get the deciding questions, get the checklist for this case, find offices, cite a source.
-- TODO: the agent, the post-appointment loop, the panel.
+Clickable design prototype: [`design/onevisit-prototype.html`](design/onevisit-prototype.html).
 
 ## Where Claude works
 
-*Required section. TODO: the agent team completes this once the agent runs.*
+What Claude does every time someone uses OneVisit:
 
-- **Model(s):** TODO
-- **What it does at runtime:** understands the citizen's situation in their own language; picks the service and variant; asks only the questions that change the answer (`get_service` → `deciding_questions`); builds the checklist with `get_checklist`; points to the right office with `find_offices`; answers in the citizen's language and cites every source.
-- **Prompts and tools:** system prompt in TODO; tools in [`onevisit/tools.py`](onevisit/tools.py), backed by [`onevisit/kb.py`](onevisit/kb.py).
-- **What it decides, and what a human confirms:** Claude proposes the checklist; the citizen confirms the summary of their case; the officer at the desk makes the final assessment. OneVisit never says the documents are "valid", only that, according to the cited sources, everything listed is present.
-- **What happens when it's wrong:** Claude can only state requirements returned by `get_checklist`, which returns only facts whose quote was checked against the saved source. When a requirement isn't verified, Claude says it doesn't know and links the official page.
+- **Model:** `claude-sonnet-5-5` (set with `CLAUDE_MODEL`), through the Anthropic API, with server-side fallback if a request is declined.
+- **Conversation** (`onevisit/agent.py`): Claude reads the citizen's message, picks the service, decides which deciding questions to ask, calls the tools, and answers in the citizen's language. The system prompt is `SYSTEM` in that file.
+- **Tools** (`onevisit/tools.py`, backed by `onevisit/kb.py`): `list_services`, `get_service`, `get_checklist`, `find_offices`, `get_source`. They return only facts marked `verified`: each has a verbatim quote that `data/tools/validate.py` found in the saved official source.
+- **After the appointment** (`onevisit/outcomes.py`): Claude classifies each report into one of six causes (page incomplete, procedure out of date, no page for the case, wrong office, page not followed, request not in the procedure) and rewrites it as one anonymous sentence, with structured output.
+- **For City staff:** Claude drafts the correction for the page from a group of reports.
+- **What a human confirms:** the citizen confirms their case; the desk officer makes the final check (OneVisit never says documents are valid); a City officer approves every correction before anything changes.
+- **When it's wrong:** Claude may state a City rule only if a tool returned it, with its source id in brackets. Anything not verified is shown as unknown. A wrong verified fact is traceable to its quote and source, and the validator fails if a quote is not in the saved page.
 
 ## City data and sources
 
 | Source | How we used it |
 |---|---|
-| `ds549-sedi-dei-servizi-anagrafici` (retrieved 3 Oct 2026; resource last modified 28 Jan 2026) | The 13 registry offices: address, hours, booking rules, coordinates. Cleaning found a stale note ("5 gennaio 2026: CHIUSO") and missing fields |
-| `ds1702` survey of the online residence service, 2022 (10,194 responses) | 42.1% of foreign respondents said it helped little or not at all, vs 28.2% of Italians; 46.2% for foreign newcomers' residence requests. Baseline for the panel |
-| `ds1511`, `ds1512` surveys of online appointments and certificates, 2021 | Comparison: certificates online leave 2.3% unhelped, residence 30.4% |
-| `ds1959` registrations by previous residence, 2020–2024 | 19,755 people registered arriving from abroad in 2024: the size of our user group |
-| `ds74` foreign residents by citizenship, 2025 | Which languages to support first |
-| comune.milano.it service pages (TODO, see [data/sources.csv](data/sources.csv)) | Requirements for each service, quoted word for word |
+| `ds549` Sedi dei servizi anagrafici (retrieved 3 Oct 2026; resource modified 28 Jan 2026) | The 13 registry offices: address, hours, booking rules, coordinates. Cleaning found a stale note still saying "lunedì 5 gennaio 2026: CHIUSO" and missing fields |
+| `ds1702` survey of the online residence service, 2022 | Equity baseline for the panel: 42.1% foreign vs 28.2% Italian respondents helped little or not at all |
+| `ds1511`, `ds1512` surveys of online appointments and certificates, 2021 | Comparison with services that work online |
+| `ds1959` registrations by previous residence, 2020–2024 | Size of the user group |
+| `ds74` foreign residents by citizenship, 2025 | Which languages to offer first |
+| comune.milano.it service pages | Requirements, quoted word for word once saved (see `data/README.md`); until then they are shown as unknown |
 
-Full list with retrieval dates: [data/sources.csv](data/sources.csv). What the numbers say: [data/context/README.md](data/context/README.md). How the data works: [data/README.md](data/README.md).
+All sources with retrieval dates: [data/sources.csv](data/sources.csv). What the numbers say: [data/context/README.md](data/context/README.md).
 
 ## Day one
 
-TODO: what the Comune needs to switch it on (the source pages it already has, a list of requirements per service, a hook into the existing appointment confirmation emails).
+The City already has what OneVisit needs: its service pages, its open data and the welcome emails it sends to new residents. To switch it on:
+- save the service pages for each procedure and confirm the requirements (`data/services/`), with the office that owns each procedure;
+- add a link to OneVisit in the existing welcome emails;
+- name the people who approve corrections in the staff panel.
+
+Version 2: more procedures, the panel connected to real appointment outcomes, and the production architecture on branch `claude/busy-mccarthy-uq5xoi` (Docker, PostgreSQL with personal data kept separate from analytics, email and SMS reminders).
 
 ## Run it
 
@@ -58,19 +68,19 @@ cd onevisit
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env               # add your ANTHROPIC_API_KEY
-python data/tools/validate.py      # check the data
-python -m onevisit.tools           # try the tools without the API
+streamlit run app/streamlit_app.py
+python data/tools/validate.py      # checks that every verified fact quotes its source
 ```
 
 ## Team
 
 | Name | Role | GitHub |
 |---|---|---|
-| Mohammad Nouri Zadeh | Data and sources | [@mohammad-nouri-zadeh](https://github.com/mohammad-nouri-zadeh) |
-| TODO | TODO | [@Saroth85](https://github.com/Saroth85) |
+| Mohammad Nouri Zadeh | Data and sources, app, video | [@mohammad-nouri-zadeh](https://github.com/mohammad-nouri-zadeh) |
+| TODO | Production architecture (kit) | [@Saroth85](https://github.com/Saroth85) |
 | TODO | TODO | [@mkaihara](https://github.com/mkaihara) |
 | TODO | TODO | [@leonardosilvani-ops](https://github.com/leonardosilvani-ops) |
 
 ## Licence
 
-MIT. Built at the Claude Impact Lab Milano and donated to the Comune di Milano.
+MIT. Built at the Claude Impact Lab Milano and donated to the Comune di Milano. Not an official City of Milan service.

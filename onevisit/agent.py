@@ -19,7 +19,7 @@ import anthropic
 from onevisit import kb
 from onevisit.tools import TOOLS, run_tool
 
-MODEL = os.getenv("CLAUDE_MODEL", "claude-opus-5-5")
+MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-5-5")  # team decision (TEAM.md): fast and within the event credits
 EFFORT = os.getenv("CLAUDE_EFFORT", "medium")
 # Server-side fallback if a request is declined; retried on Anthropic's recommended model.
 FALLBACK = {"betas": ["server-side-fallback-2026-07-01"], "fallbacks": "default"}
