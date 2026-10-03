@@ -46,7 +46,7 @@ h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
 [data-baseweb="tab-highlight"], [data-baseweb="tab-border"] {{ display:none !important; }}
 [data-testid="stChatMessage"] {{ border-radius:20px; padding:10px 14px !important; gap:0 !important; }}
 [data-testid="stChatMessageAvatarUser"], [data-testid="stChatMessageAvatarAssistant"] {{ display:none !important; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {{ background:#111214 !important; margin-left:14%; border-bottom-right-radius:6px; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {{ background:#111214 !important; margin-left:auto; max-width:86%; width:fit-content; border-bottom-right-radius:6px; }}
 [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) p {{ color:#FFFFFF !important; }}
 [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {{ background:#E4E5E9 !important; margin-right:8%; border-bottom-left-radius:6px; }}
 [data-testid="stChatInput"] {{ border-radius:999px !important; }}
