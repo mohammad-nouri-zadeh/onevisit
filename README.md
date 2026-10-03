@@ -4,7 +4,7 @@
 
 **One line:** for people who go to a City of Milan registry desk, above all newcomers who don't speak Italian, OneVisit checks with them, in their language and from official sources, what they need before the appointment, so the procedure closes the first time.
 
-**Demo video:** TODO YouTube link · file in the repo: [`video/onevisit-final.mp4`](video/onevisit-final.mp4) (2:02)
+**Demo video:** [`video/onevisit-final.mp4`](video/onevisit-final.mp4) (2:02) · **Live app:** https://onevisit.streamlit.app (paste an Anthropic API key in the sidebar if asked)
 
 ## The problem
 
