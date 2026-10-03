@@ -64,6 +64,8 @@ python -m onevisit.tools           # try the tools without the API
 |---|---|---|
 | Mohammad Nouri Zadeh | Data and sources | [@mohammad-nouri-zadeh](https://github.com/mohammad-nouri-zadeh) |
 | TODO | TODO | [@Saroth85](https://github.com/Saroth85) |
+| TODO | TODO | [@mkaihara](https://github.com/mkaihara) |
+| TODO | TODO | [@leonardosilvani-ops](https://github.com/leonardosilvani-ops) |
 
 ## Licence
 
