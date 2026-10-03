@@ -20,6 +20,7 @@ load_dotenv(ROOT / ".env")
 
 from onevisit import kb, outcomes  # noqa: E402
 from onevisit.agent import MODEL, run_turn  # noqa: E402
+import anthropic  # noqa: E402
 
 st.set_page_config(page_title="OneVisit", page_icon="🗂️", layout="centered")
 
@@ -36,6 +37,22 @@ html {{ font-size: {'20px' if big else '16px'}; }}
 .ov-item {{ padding:8px 0; border-bottom:1px solid #E4E5E9; }}
 .ov-muted {{ color:#6E727C; }}
 .ov-warn {{ border-top:1px solid #C6C8CE; color:#4A4D55; padding:6px 0; font-size:0.9em; }}
+[data-testid="stToolbar"], [data-testid="stDecoration"], footer {{ display:none !important; }}
+.block-container {{ max-width: 460px !important; padding-top: 2.2rem !important; }}
+h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
+[data-baseweb="tab-list"] {{ background:#EDEEF0; border-radius:999px; padding:3px; gap:2px; width:fit-content; }}
+[data-baseweb="tab"] {{ border-radius:999px !important; padding:6px 16px !important; height:auto !important; }}
+[data-baseweb="tab"][aria-selected="true"] {{ background:#FFFFFF; box-shadow:0 1px 3px rgba(0,0,0,.14); }}
+[data-baseweb="tab-highlight"], [data-baseweb="tab-border"] {{ display:none !important; }}
+[data-testid="stChatMessage"] {{ border-radius:20px; padding:10px 14px !important; gap:0 !important; }}
+[data-testid="stChatMessageAvatarUser"], [data-testid="stChatMessageAvatarAssistant"] {{ display:none !important; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {{ background:#111214 !important; margin-left:14%; border-bottom-right-radius:6px; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) p {{ color:#FFFFFF !important; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {{ background:#E4E5E9 !important; margin-right:8%; border-bottom-left-radius:6px; }}
+[data-testid="stChatInput"] {{ border-radius:999px !important; }}
+.stButton > button {{ background:transparent; }}
+[data-testid="stVerticalBlockBorderWrapper"] {{ border-radius:22px !important; }}
+[data-testid="stExpander"] details {{ border-radius:14px !important; }}
 .ov-foot {{ color:#6E727C; font-size:0.8em; margin-top:2rem; border-top:1px solid #C6C8CE; padding-top:10px; }}
 div[data-testid="stMetricValue"] {{ font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }}
 .stButton > button, .stDownloadButton > button {{ border-radius:999px; border:1.5px solid #111214; font-weight:600; }}
@@ -61,13 +78,22 @@ if not os.getenv("ANTHROPIC_API_KEY"):  # Streamlit Community Cloud: key stored 
         os.environ["ANTHROPIC_API_KEY"] = st.secrets["ANTHROPIC_API_KEY"]
     except Exception:
         pass
-has_key = bool(os.getenv("ANTHROPIC_API_KEY"))
+state_key = st.session_state.get("api_key", "").strip()
+has_key = bool(os.getenv("ANTHROPIC_API_KEY") or state_key)
+
+
+def client() -> anthropic.Anthropic:
+    """Server key if configured, otherwise the key pasted in this browser session only."""
+    return anthropic.Anthropic(api_key=state_key) if state_key and not os.getenv("ANTHROPIC_API_KEY") else anthropic.Anthropic()
 
 with st.sidebar:
     st.toggle("Larger text", key="big_text")
     st.caption(f"Runs on Claude · `{MODEL}`")
-    if not has_key:
-        st.error("ANTHROPIC_API_KEY is missing. Add it to `.env` to talk to OneVisit.")
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        st.text_input("Anthropic API key", type="password", key="api_key",
+                      help="Kept only in this browser session. Never stored or shared.")
+        if not has_key:
+            st.caption("Paste the API key to talk to OneVisit.")
     if st.button("New conversation"):
         for k in ("messages", "chat", "checklist", "offices", "service_id"):
             state[k] = [] if k in ("messages", "chat") else None
@@ -126,7 +152,7 @@ def ask(text: str) -> None:
     state.messages.append({"role": "user", "content": text})
     with st.spinner("Claude is checking the official sources…"):
         try:
-            reply = run_turn(state.messages)
+            reply = run_turn(state.messages, client=client())
         except Exception as e:  # show the error instead of a blank screen during the demo
             state.messages.pop()
             state.chat.append({"role": "assistant", "text": f"Something went wrong: {e}", "options": [], "trace": []})
@@ -191,7 +217,7 @@ with citizen:
                 code = {"All fine": "ok", "Something was missing": "missing", "Other": "other"}[outcome]
                 with st.spinner("Claude is removing personal details and classifying your report…"):
                     try:
-                        result = outcomes.classify(state.service_id or "unknown", code, note)
+                        result = outcomes.classify(state.service_id or "unknown", code, note, client=client())
                         row = outcomes.save_report(state.service_id or "unknown", code, result)
                         st.markdown(f"**✓ Thank you.** Recorded as: {outcomes.CAUSES[row['cause']][0]}. "
                                     f"Saved: “{row['summary_en']}” (your own words are not stored).")
@@ -249,7 +275,7 @@ with panel:
             elif st.button("Draft a correction with Claude", key=f"dr-{key}", disabled=not has_key):
                 with st.spinner("Claude is drafting…"):
                     try:
-                        state.drafts[key] = outcomes.draft_fix(g)
+                        state.drafts[key] = outcomes.draft_fix(g, client=client())
                     except Exception as e:
                         st.error(f"Could not draft: {e}")
                 st.rerun()
