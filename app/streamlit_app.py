@@ -53,6 +53,14 @@ h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
 .stButton > button {{ background:transparent; }}
 [data-testid="stVerticalBlockBorderWrapper"] {{ border-radius:22px !important; }}
 [data-testid="stExpander"] details {{ border-radius:14px !important; }}
+[data-testid="stTabs"] [role="tablist"] {{ background:#EDEEF0; border-radius:999px; padding:3px; gap:2px; width:fit-content; border:0 !important; box-shadow:none !important; }}
+[data-testid="stTab"] {{ border-radius:999px !important; padding:6px 16px !important; }}
+[data-testid="stTab"][aria-selected="true"] {{ background:#FFFFFF; box-shadow:0 1px 3px rgba(0,0,0,.14); }}
+[data-testid="stTab"] > div:not([data-testid]) {{ display:none !important; }}
+[data-testid="stChatInput"] > div {{ border-radius:999px !important; }}
+.ov-hero h1 {{ font-size:2.4rem; line-height:1.06; margin:.2rem 0 .6rem; padding:0; }}
+.ov-kicker {{ color:#6E727C; font-size:.85rem; }}
+.ov-lead {{ color:#4A4D55; font-size:1.05rem; }}
 .ov-foot {{ color:#6E727C; font-size:0.8em; margin-top:2rem; border-top:1px solid #C6C8CE; padding-top:10px; }}
 div[data-testid="stMetricValue"] {{ font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }}
 .stButton > button, .stDownloadButton > button {{ border-radius:999px; border:1.5px solid #111214; font-weight:600; }}
@@ -98,6 +106,34 @@ with st.sidebar:
         for k in ("messages", "chat", "checklist", "offices", "service_id"):
             state[k] = [] if k in ("messages", "chat") else None
         st.rerun()
+
+
+WELCOME = {
+    "English": {"dir": "ltr", "kicker": "Anagrafe, Comune di Milano", "h": "Get it right at your first appointment.",
+                "lead": "Tell us your situation in your language. We check every requirement against official City sources and show where each one comes from.",
+                "note": "We never ask for your name, tax code or documents. Prototype, not an official City of Milan service.",
+                "examples": ["I lost my ID card and I travel next month. I live in Isola.",
+                             "I just moved to Milan from abroad and need to register my residence."]},
+    "Italiano": {"dir": "ltr", "kicker": "Anagrafe, Comune di Milano", "h": "La pratica chiusa al primo appuntamento.",
+                 "lead": "Raccontaci la tua situazione nella tua lingua. Controlliamo ogni requisito sulle fonti ufficiali del Comune e ti mostriamo da dove viene.",
+                 "note": "Non chiediamo mai nome, codice fiscale o documenti. Prototipo, non è un servizio ufficiale del Comune di Milano.",
+                 "examples": ["Ho perso la carta d'identità e parto il mese prossimo. Abito all'Isola.",
+                              "Mi sono appena trasferito a Milano dall'estero e devo registrare la residenza."]},
+    "العربية": {"dir": "rtl", "kicker": "Anagrafe، بلدية ميلانو", "h": "أنجز معاملتك من الموعد الأول.",
+                "lead": "أخبرنا بوضعك بلغتك. نتحقق من كل شرط في المصادر الرسمية لبلدية ميلانو ونُظهر لك مصدر كل معلومة.",
+                "note": "لا نطلب أبدًا اسمك أو رمزك الضريبي أو وثائقك. نموذج أولي، وليس خدمة رسمية من بلدية ميلانو.",
+                "examples": ["فقدت بطاقة هويتي وسأسافر الشهر القادم. أسكن في إيزولا.",
+                             "انتقلت للتو إلى ميلانو من الخارج وأحتاج إلى تسجيل إقامتي."]},
+    "中文": {"dir": "ltr", "kicker": "Anagrafe，米兰市政府", "h": "第一次预约就把事情办好。",
+             "lead": "用你的语言告诉我们你的情况。我们根据米兰市政府的官方来源核对每一项要求，并告诉你每一项的出处。",
+             "note": "我们从不询问你的姓名、税号或证件。这是原型，不是米兰市政府的官方服务。",
+             "examples": ["我的身份证丢了，下个月要出行。我住在Isola。", "我刚从国外搬到米兰，需要登记居住。"]},
+    "Español": {"dir": "ltr", "kicker": "Anagrafe, Ayuntamiento de Milán", "h": "Resuélvelo en tu primera cita.",
+                "lead": "Cuéntanos tu situación en tu idioma. Comprobamos cada requisito con las fuentes oficiales del Ayuntamiento y te mostramos de dónde viene cada uno.",
+                "note": "Nunca te pedimos tu nombre, tu código fiscal ni tus documentos. Prototipo, no es un servicio oficial del Ayuntamiento de Milán.",
+                "examples": ["Perdí mi carta de identidad y viajo el mes que viene. Vivo en Isola.",
+                             "Acabo de mudarme a Milán desde el extranjero y tengo que registrar mi residencia."]},
+}
 
 
 def chip(text: str, todo: bool = False) -> str:
@@ -170,13 +206,20 @@ citizen, panel = st.tabs(["For citizens", "For City staff"])
 
 # ---------- citizen ----------
 with citizen:
-    st.title("OneVisit")
-    st.markdown("Get ready for your registry office appointment, in your language. "
-                "Every answer comes from official City sources, with the source shown.")
-
     if not state.chat:
-        st.caption("Try: *I just moved to Milan from Cairo and need to register my residence* · "
-                   "*Perdí mi carta de identidad italiana* · *أحتاج إلى بطاقة هوية*")
+        lang = st.selectbox("Language", list(WELCOME), key="lang", label_visibility="collapsed")
+        w = WELCOME[lang]
+        st.markdown(
+            f'<div class="ov-hero" dir="{w["dir"]}"><div class="ov-kicker">{w["kicker"]}</div>'
+            f'<h1>{w["h"]}</h1><p class="ov-lead">{w["lead"]}</p></div>', unsafe_allow_html=True)
+        for j, ex in enumerate(w["examples"]):
+            if st.button(ex, key=f"ex-{lang}-{j}", use_container_width=True, disabled=not has_key):
+                state.pending = ex
+                st.rerun()
+        st.markdown(f'<p class="ov-muted" dir="{w["dir"]}" style="font-size:.85em">{w["note"]}</p>', unsafe_allow_html=True)
+    else:
+        st.markdown('<div class="ov-kicker">Anagrafe, Comune di Milano</div>', unsafe_allow_html=True)
+        st.title("OneVisit")
 
     for i, m in enumerate(state.chat):
         with st.chat_message(m["role"]):
