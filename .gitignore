@@ -23,3 +23,10 @@ backups/
 test-results/
 playwright-report/
 docs/video/*.mp4
+
+runtime/
+
+# demo video recorder output (raw recordings)
+video/rec/
+video/rec2/
+video/timing*.txt

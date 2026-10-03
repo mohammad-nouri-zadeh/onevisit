@@ -30,8 +30,8 @@ e2e = [
 [tool.ruff]
 line-length = 100
 target-version = "py313"
-# onevisit/ e data/tools/ sono il livello dati del team (area di Mohammad), fuori dal workspace uv.
-extend-exclude = ["**/migrations/versions/*.py", "onevisit/", "data/tools/"]
+# onevisit/, data/tools/, app/ (demo Streamlit) e video/ sono del team, fuori dal workspace uv.
+extend-exclude = ["**/migrations/versions/*.py", "onevisit/", "data/tools/", "app/", "video/"]
 
 [tool.ruff.lint]
 select = [

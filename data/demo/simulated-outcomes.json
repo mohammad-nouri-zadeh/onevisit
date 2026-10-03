@@ -1,0 +1,281 @@
+[
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W38",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W39",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W38",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W39",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "pagina-incompleta",
+  "summary_it": "Un documento rilasciato all'estero non è stato accettato senza traduzione.",
+  "summary_en": "A document issued abroad was not accepted without a translation.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "procedura-mancante",
+  "summary_it": "Nessuna pagina spiega il caso di chi ha solo la ricevuta della richiesta di permesso.",
+  "summary_en": "No page explains the case of someone who only has the receipt of the permit application.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "procedura-mancante",
+  "summary_it": "Nessuna pagina spiega il caso di chi ha solo la ricevuta della richiesta di permesso.",
+  "summary_en": "No page explains the case of someone who only has the receipt of the permit application.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "procedura-mancante",
+  "summary_it": "Nessuna pagina spiega il caso di chi ha solo la ricevuta della richiesta di permesso.",
+  "summary_en": "No page explains the case of someone who only has the receipt of the permit application.",
+  "week": "2026-W38",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "procedura-mancante",
+  "summary_it": "Nessuna pagina spiega il caso di chi ha solo la ricevuta della richiesta di permesso.",
+  "summary_en": "No page explains the case of someone who only has the receipt of the permit application.",
+  "week": "2026-W39",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "procedura-mancante",
+  "summary_it": "Nessuna pagina spiega il caso di chi ha solo la ricevuta della richiesta di permesso.",
+  "summary_en": "No page explains the case of someone who only has the receipt of the permit application.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "iscrizione-anagrafica-extra-ue",
+  "outcome": "missing",
+  "cause": "procedura-mancante",
+  "summary_it": "Nessuna pagina spiega il caso di chi ha solo la ricevuta della richiesta di permesso.",
+  "summary_en": "No page explains the case of someone who only has the receipt of the permit application.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "missing",
+  "cause": "ufficio-sbagliato",
+  "summary_it": "Il cittadino si è presentato in una sede che non tratta quella pratica.",
+  "summary_en": "The citizen went to an office that doesn't handle that procedure.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "missing",
+  "cause": "ufficio-sbagliato",
+  "summary_it": "Il cittadino si è presentato in una sede che non tratta quella pratica.",
+  "summary_en": "The citizen went to an office that doesn't handle that procedure.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "missing",
+  "cause": "ufficio-sbagliato",
+  "summary_it": "Il cittadino si è presentato in una sede che non tratta quella pratica.",
+  "summary_en": "The citizen went to an office that doesn't handle that procedure.",
+  "week": "2026-W38",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "missing",
+  "cause": "non-seguita",
+  "summary_it": "La fototessera non rispettava i requisiti indicati nella checklist.",
+  "summary_en": "The photo didn't meet the requirements shown in the checklist.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "missing",
+  "cause": "non-seguita",
+  "summary_it": "La fototessera non rispettava i requisiti indicati nella checklist.",
+  "summary_en": "The photo didn't meet the requirements shown in the checklist.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W38",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W39",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W38",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W39",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W36",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W37",
+  "simulated": true
+ },
+ {
+  "service_id": "carta-identita",
+  "outcome": "ok",
+  "cause": "non-seguita",
+  "summary_it": "Pratica chiusa al primo appuntamento.",
+  "summary_en": "Closed at the first appointment.",
+  "week": "2026-W38",
+  "simulated": true
+ }
+]

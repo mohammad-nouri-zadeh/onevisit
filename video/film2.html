@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OneVisit film v2</title>
+<link rel="stylesheet" href="fonts-local.css">
+<style>
+:root {
+  --paper: #EDEEF0; --sheet: #FFFFFF; --ink: #111214; --graphite: #4A4D55; --pewter: #6E727C; --silver: #C6C8CE; --mist: #E4E5E9;
+  --sans: "Titillium Web", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --ease: cubic-bezier(.65,0,.35,1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+.scene { position: absolute; inset: 0; opacity: 0; transition: opacity .45s ease; overflow: hidden; }
+.scene.on { opacity: 1; }
+.drift { position: absolute; inset: 0; transform-origin: 50% 50%; }
+.scene.on .drift { animation: drift 14s linear forwards; }
+@keyframes drift { from { transform: scale(1); } to { transform: scale(1.045); } }
+.up { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .7s var(--ease); }
+.up.in { opacity: 1; transform: none; }
+.mono { font-family: var(--mono); }
+.src { font-family: var(--mono); font-size: 22px; color: var(--pewter); }
+.kick { font-family: var(--mono); font-size: 24px; color: var(--pewter); }
+.pill { position: absolute; left: 64px; bottom: 44px; font-family: var(--mono); font-size: 20px; color: var(--pewter); border: 1px dashed var(--silver); border-radius: 999px; padding: 6px 18px; background: var(--paper); z-index: 5; }
+
+/* title */
+#s-title .wrap { position: absolute; left: 160px; top: 50%; transform: translateY(-50%); }
+#s-title .t { font-size: 190px; font-weight: 700; letter-spacing: -0.035em; line-height: .9; }
+#s-title .s { font-size: 46px; color: var(--graphite); margin-top: 18px; }
+
+/* problem */
+.pad { position: absolute; left: 160px; right: 160px; top: 50%; transform: translateY(-50%); }
+.big { font-size: 260px; font-weight: 700; letter-spacing: -0.045em; line-height: .88; font-variant-numeric: tabular-nums; }
+.say { font-size: 54px; line-height: 1.15; margin-top: 24px; max-width: 30ch; }
+.q { font-size: 50px; line-height: 1.15; max-width: 34ch; margin-bottom: 60px; }
+.bars { display: grid; gap: 44px; }
+.barrow { display: grid; grid-template-columns: 330px 1fr; align-items: center; gap: 40px; }
+.barrow .lab { font-size: 36px; line-height: 1.1; }
+.track { height: 120px; position: relative; border-left: 2px solid var(--ink); }
+.fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--ink); transition: width 1.6s var(--ease); }
+.fill.light { background: var(--silver); }
+.val { position: absolute; top: 50%; transform: translateY(-50%); left: 0; font-size: 92px; font-weight: 700; letter-spacing: -0.03em; transition: left 1.6s var(--ease), opacity .4s; opacity: 0; padding-left: 26px; font-variant-numeric: tabular-nums; }
+.docs { display: grid; gap: 18px; width: 900px; }
+.doc { display: flex; gap: 26px; align-items: center; font-size: 52px; border-bottom: 1px solid var(--silver); padding-bottom: 14px; }
+.doc .m { width: 64px; height: 64px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 34px; flex: none; }
+.doc.miss .m { background: transparent; border: 3px dashed var(--ink); color: var(--ink); }
+.doc.miss.hit { animation: shake .5s; }
+@keyframes shake { 20%,60% { transform: translateX(-12px); } 40%,80% { transform: translateX(12px); } }
+.again { position: absolute; right: 0; top: 50%; transform: translate(60px,-50%); opacity: 0; transition: all .7s var(--ease); background: var(--ink); color: #fff; padding: 46px 54px; border-radius: 28px; width: 560px; }
+.again.in { opacity: 1; transform: translate(0,-50%); }
+.again .a1 { font-family: var(--mono); font-size: 24px; color: #B7B9C0; }
+.again .a2 { font-size: 76px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin-top: 12px; }
+
+/* demo */
+.cap { position: absolute; left: 120px; top: 50%; transform: translateY(-50%); width: 660px; }
+.cap .step { font-family: var(--mono); font-size: 22px; color: var(--pewter); margin-bottom: 20px; }
+.cap h2 { margin: 0; font-size: 76px; line-height: 1.02; letter-spacing: -0.025em; transition: opacity .3s, transform .45s var(--ease); }
+.cap h2.out { opacity: 0; transform: translateY(18px); }
+.vp { position: absolute; left: 820px; top: 0; width: 1100px; height: 1080px; overflow: hidden; }
+.cam { position: absolute; left: 0; top: 0; width: 1100px; height: 1080px; transform-origin: 0 0; transition: transform 1.25s var(--ease); }
+.cam iframe { position: absolute; border: 0; transform-origin: 0 0; background: transparent; }
+#phone { left: 323px; top: 64px; width: 420px; height: 900px; transform: scale(1.06); }
+.vp-full { left: 0; width: 1920px; }
+.vp-full .cam { width: 1920px; }
+#staffv { left: 120px; top: 120px; width: 1280px; height: 1000px; transform: scale(1.32); }
+.lower { position: absolute; left: 64px; bottom: 110px; background: var(--ink); color: #fff; padding: 26px 38px; border-radius: 22px; max-width: 1100px; z-index: 6; transition: opacity .35s, transform .5s var(--ease); }
+.lower.out { opacity: 0; transform: translateY(16px); }
+.lower b { display: block; font-size: 52px; line-height: 1.05; letter-spacing: -0.015em; }
+.lower span { display: block; font-size: 28px; color: #B7B9C0; margin-top: 8px; }
+
+/* cursor */
+#cur { position: absolute; left: 0; top: 0; width: 38px; height: 38px; z-index: 40; opacity: 0; transition: transform .75s var(--ease), opacity .3s; pointer-events: none; }
+#cur svg { width: 38px; height: 38px; display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+#cur .ring { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--ink); opacity: 0; }
+#cur.click .ring { animation: ring .55s ease-out; }
+@keyframes ring { from { opacity: .9; transform: scale(.4); } to { opacity: 0; transform: scale(1.6); } }
+
+/* claude */
+.flow { position: absolute; left: 160px; right: 160px; top: 170px; display: grid; grid-template-columns: 1fr 120px 1.15fr 120px 1fr; align-items: center; }
+.node { border: 2px solid var(--ink); border-radius: 28px; padding: 34px 36px; background: var(--sheet); }
+.node.dark { background: var(--ink); color: #fff; }
+.node h3 { margin: 0; font-size: 54px; letter-spacing: -0.02em; }
+.node p { margin: 8px 0 0; font-size: 28px; color: var(--graphite); line-height: 1.25; }
+.node.dark p { color: #B7B9C0; }
+.wire { height: 2px; background: var(--ink); position: relative; margin: 0 14px; }
+.wire i { position: absolute; top: -9px; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); animation: run 1.6s linear infinite; }
+@keyframes run { from { left: 0; } to { left: calc(100% - 20px); } }
+.verbs { position: absolute; left: 160px; right: 160px; top: 560px; display: flex; gap: 22px; flex-wrap: wrap; }
+.verb { font-size: 44px; font-weight: 600; padding: 14px 30px; border: 2px solid var(--silver); border-radius: 999px; color: var(--silver); transition: all .45s ease; }
+.verb.lit { border-color: var(--ink); color: var(--ink); }
+.decide { position: absolute; left: 160px; right: 160px; bottom: 120px; border-top: 2px solid var(--ink); padding-top: 30px; font-size: 80px; font-weight: 700; letter-spacing: -0.025em; }
+
+/* close */
+.cards { position: absolute; left: 160px; right: 160px; top: 300px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; transition: opacity .5s, transform .7s var(--ease); }
+.cards.gone { opacity: 0; transform: translateY(-40px); }
+.card { border: 2px solid var(--ink); border-radius: 28px; padding: 40px 40px 46px; background: var(--sheet); }
+.card .n { font-family: var(--mono); font-size: 24px; color: var(--pewter); }
+.card h3 { margin: 14px 0 0; font-size: 64px; letter-spacing: -0.02em; line-height: 1; }
+.card p { margin: 14px 0 0; font-size: 30px; color: var(--graphite); }
+.endq { position: absolute; left: 160px; right: 160px; top: 50%; transform: translateY(-50%); }
+.endq .it { font-size: 92px; font-weight: 700; line-height: 1.04; letter-spacing: -0.03em; max-width: 22ch; }
+.endq .en { font-size: 42px; color: var(--graphite); margin-top: 26px; }
+.endq .en b { color: var(--ink); }
+.sign { position: absolute; left: 160px; right: 160px; bottom: 80px; display: flex; justify-content: space-between; align-items: baseline; border-top: 2px solid var(--ink); padding-top: 22px; }
+.sign .w { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; }
+</style>
+</head>
+<body>
+
+<section class="scene" id="s-title"><div class="drift"><div class="wrap">
+  <div class="kick up" id="ti-k">Claude Impact Lab Milano · 3 October 2026</div>
+  <div class="t up" id="ti-t">OneVisit</div>
+  <div class="s up" id="ti-s">Get it right at your first registry appointment.</div>
+</div></div></section>
+
+<section class="scene" id="s-f1"><div class="drift"><div class="pad">
+  <div class="big" id="cnt">0</div>
+  <div class="say up" id="f1-say">people registered in Milan arriving from abroad in 2024.</div>
+  <div class="src up" id="f1-src" style="margin-top:26px">City of Milan open data · ds1959</div>
+</div></div></section>
+
+<section class="scene" id="s-f2"><div class="drift"><div class="pad">
+  <div class="q up" id="f2-q">The City asked users of its online residence service: <i>did it help?</i> Share who said <b>little or not at all</b>:</div>
+  <div class="bars">
+    <div class="barrow"><div class="lab"><b>Foreign</b><br>citizens</div><div class="track"><div class="fill" id="b1"></div><div class="val" id="v1">42.1%</div></div></div>
+    <div class="barrow"><div class="lab">Italian<br>citizens</div><div class="track"><div class="fill light" id="b2"></div><div class="val" id="v2" style="color:var(--pewter)">28.2%</div></div></div>
+  </div>
+  <div class="src up" id="f2-src" style="margin-top:56px">City of Milan open data · ds1702 · 2022 survey · 10,194 answers</div>
+</div></div></section>
+
+<section class="scene" id="s-f3"><div class="pad">
+  <div class="docs">
+    <div class="doc up" id="d1"><span class="m">✓</span>Appointment booked</div>
+    <div class="doc up" id="d2"><span class="m">✓</span>Identity document</div>
+    <div class="doc up" id="d3"><span class="m">✓</span>Forms filled in</div>
+    <div class="doc miss up" id="d4"><span class="m">?</span>One document missing</div>
+  </div>
+  <div class="again" id="again"><div class="a1">At the desk</div><div class="a2">Visit wasted. Book again.</div></div>
+</div></section>
+
+<section class="scene" id="s-demo">
+  <div class="cap"><div class="step">The citizen app</div><h2 id="dh">Your situation, in your language.</h2></div>
+  <div class="vp"><div class="cam" id="pcam"><iframe id="phone" src="proto.html" title="Citizen app"></iframe></div></div>
+  <span class="pill">Prototype · example conversation</span>
+</section>
+
+<section class="scene" id="s-staff">
+  <div class="vp vp-full"><div class="cam" id="scam"><iframe id="staffv" src="proto.html#staff" title="City staff panel"></iframe></div></div>
+  <div class="lower" id="sl"><b id="sl-b">The City sees where its pages fail.</b><span id="sl-s">The panel for City staff</span></div>
+  <span class="pill">Reports are simulated · statistics are real</span>
+</section>
+
+<section class="scene" id="s-claude"><div class="drift">
+  <div class="kick" style="position:absolute;left:160px;top:96px">Where Claude works: every time someone uses OneVisit</div>
+  <div class="flow">
+    <div class="node up" id="n1"><h3>Citizen</h3><p>Any language. No name, no documents.</p></div>
+    <div class="wire up" id="w1"><i></i></div>
+    <div class="node dark up" id="n2"><h3>Claude</h3><p>At runtime, through the API, with tools over City data.</p></div>
+    <div class="wire up" id="w2"><i></i></div>
+    <div class="node up" id="n3"><h3>City sources</h3><p>Open data and official pages, quoted, with the date checked.</p></div>
+  </div>
+  <div class="verbs">
+    <span class="verb" id="v-1">understands</span><span class="verb" id="v-2">asks</span><span class="verb" id="v-3">checks against City sources</span><span class="verb" id="v-4">classifies reports</span><span class="verb" id="v-5">drafts corrections</span>
+  </div>
+  <div class="decide up" id="dec">A person always decides.</div>
+</div></section>
+
+<section class="scene" id="s-close">
+  <div class="kick up" id="c-k" style="position:absolute;left:160px;top:180px">Day one</div>
+  <div class="cards" id="cards">
+    <div class="card up" id="c1"><div class="n">comune.milano.it</div><h3>Its pages</h3><p>The official service pages.</p></div>
+    <div class="card up" id="c2"><div class="n">dati.comune.milano.it</div><h3>Its open data</h3><p>Offices, hours, statistics.</p></div>
+    <div class="card up" id="c3"><div class="n">already sent today</div><h3>Its welcome emails</h3><p>To every new resident.</p></div>
+  </div>
+  <div class="endq">
+    <div class="it up" id="e-it" lang="it">Il Comune non deve chiedersi dove sbaglia: glielo dicono gli appuntamenti.</div>
+    <div class="en up" id="e-en">The City doesn't have to guess where it goes wrong. <b>The appointments tell it.</b></div>
+  </div>
+  <div class="sign up" id="sign"><span class="w">OneVisit</span><span class="src">github.com/mohammad-nouri-zadeh/onevisit · open source, MIT · a prototype, not an official City of Milan service</span></div>
+</section>
+
+<div id="cur"><div class="ring"></div><svg viewBox="0 0 24 24"><path d="M4 2 L4 19 L8.6 14.8 L11.6 21.6 L14.4 20.4 L11.4 13.7 L17.6 13.4 Z" fill="#111214" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+
+<script>
+const SPEED = +(new URLSearchParams(location.search).get("speed") || 1);
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms / SPEED));
+let T0 = 0;
+const at = (t, fn) => setTimeout(() => { try { fn(); } catch (e) { console.error(e); window.__errs = (window.__errs || []).concat(String(e)); } }, Math.max(0, t * 1000 / SPEED - (performance.now() - T0)));
+function scene(id) { document.querySelectorAll(".scene").forEach(s => s.classList.toggle("on", s.id === id)); }
+const show = (...ids) => ids.forEach(i => $(i).classList.add("in"));
+function prep(frame, css) { const d = frame.contentDocument; const st = d.createElement("style"); st.textContent = css; d.head.appendChild(st); return d; }
+
+// camera: put element centre of `frame` at viewport point (cx, cy) with zoom z
+function frameScale(frame) { return parseFloat(getComputedStyle(frame).transform.split(",")[0].replace("matrix(", "")) || 1; }
+function focus(cam, frame, el, z, cx, cy) {
+  if (!el) { cam.style.transform = "translate(0px,0px) scale(1)"; return; }
+  const r = el.getBoundingClientRect(), s = frameScale(frame);
+  const px = frame.offsetLeft + (r.left + r.width / 2) * s, py = frame.offsetTop + (r.top + r.height / 2) * s;
+  cam.style.transform = `translate(${cx - z * px}px, ${cy - z * py}px) scale(${z})`;
+}
+function screenPt(frame, el) {
+  const fr = frame.getBoundingClientRect(), r = el.getBoundingClientRect(), k = fr.width / frame.offsetWidth;
+  return [fr.left + (r.left + r.width / 2) * k, fr.top + (r.top + r.height / 2) * k];
+}
+const cur = $("cur"); cur.style.transform = "translate(1500px, 900px)";
+function curTo(x, y) { cur.style.opacity = 1; cur.style.transform = `translate(${x}px, ${y}px)`; }
+async function clickEl(frame, el) {
+  const [x, y] = screenPt(frame, el); curTo(x - 4, y - 2); await sleep(800);
+  cur.classList.remove("click"); void cur.offsetWidth; cur.classList.add("click"); el.click();
+}
+function head(t) { const h = $("dh"); h.classList.add("out"); setTimeout(() => { h.textContent = t; h.classList.remove("out"); }, 300 / SPEED); }
+function lower(b, s) { const l = $("sl"); l.classList.add("out"); setTimeout(() => { $("sl-b").textContent = b; $("sl-s").textContent = s; l.classList.remove("out"); }, 300 / SPEED); }
+function count(el, to, ms) { const t0 = performance.now(); (function f() { const p = Math.min(1, (performance.now() - t0) / (ms / SPEED)); const e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(to * e).toLocaleString("en-US"); if (p < 1) requestAnimationFrame(f); })(); }
+function bar(fill, val, pct) { fill.style.width = (pct * 1.6) + "%"; val.style.opacity = 1; val.style.left = (pct * 1.6) + "%"; }
+function typeIn(el, text, ms) { const n = text.length; el.textContent = ""; for (let i = 1; i <= n; i++) setTimeout(() => { el.textContent = text.slice(0, i); }, (ms * i / n) / SPEED); }
+function hl(d, sel, on) { d.querySelectorAll(sel).forEach(e => { e.style.transition = "box-shadow .35s, background .35s"; e.style.boxShadow = on ? "0 0 0 2px #111214" : ""; e.style.borderRadius = on ? "6px" : ""; e.style.background = on ? "#E4E5E9" : ""; }); }
+
+async function run() {
+  const P = prep($("phone"), ".top,.about,.foot{display:none!important}.wrap{padding:0!important}body{background:transparent!important;overflow:hidden!important}.stage{display:block!important}.phone{min-height:880px!important;border-radius:44px!important}.hid{opacity:0;transform:translateY(14px)}.anim{transition:opacity .5s ease,transform .6s cubic-bezier(.65,0,.35,1)}");
+  const S = prep($("staffv"), ".top,.foot{display:none!important}.wrap{padding:18px 0 0!important;max-width:none!important}body{background:#EDEEF0!important;overflow:hidden!important}");
+  const PW = P.defaultView, pcam = $("pcam"), phone = $("phone"), scam = $("scam"), staffv = $("staffv");
+  const sel = P.getElementById("lang"); const setLang = v => { sel.value = v; sel.dispatchEvent(new Event("change")); };
+  setLang("en");
+  const q = s => P.querySelector(s), qa = s => [...P.querySelectorAll(s)];
+  // pre-hide chat and checklist pieces for staged reveals
+  const me = q(".msg.me"), meText = me.textContent;
+  const chatBits = [q(".checked"), q(".msg.ai"), q(".opts")];
+  const items = qa(".item"); const afterBits = [q(".field"), q(".done")];
+  [...chatBits, ...items, ...afterBits].forEach(e => e.classList.add("anim", "hid"));
+  me.classList.add("anim", "hid");
+  qa(".choice").forEach(c => c.setAttribute("aria-pressed", "false"));
+  const sw = qa(".switch")[0]; sw.setAttribute("aria-checked", "false");
+  T0 = performance.now();
+
+  // title
+  at(0.0, () => { scene("s-title"); show("ti-k"); });
+  at(0.25, () => show("ti-t")); at(0.6, () => show("ti-s"));
+  // f1
+  at(2.6, () => scene("s-f1")); at(2.9, () => count($("cnt"), 19755, 2200));
+  at(4.0, () => show("f1-say")); at(5.0, () => show("f1-src"));
+  // f2
+  at(11.42, () => { scene("s-f2"); show("f2-q"); }); at(12.4, () => show("f2-src"));
+  at(15.7, () => bar($("b1"), $("v1"), 42.1)); at(21.4, () => bar($("b2"), $("v2"), 28.2));
+  // f3
+  at(23.63, () => { scene("s-f3"); show("d1"); }); at(23.9, () => show("d2")); at(24.15, () => show("d3")); at(24.5, () => show("d4"));
+  at(25.4, () => $("d4").classList.add("hit")); at(26.4, () => $("again").classList.add("in"));
+
+  // demo
+  at(29.54, () => { scene("s-demo"); focus(pcam, phone, null); });
+  at(32.4, () => { head("Write it in your own words, in your own language."); focus(pcam, phone, q(".screen.hero h2"), 1.45, 550, 470); });
+  at(33.2, () => setLang("ar")); at(34.0, () => setLang("zh")); at(34.7, () => setLang("es"));
+  at(35.4, () => { setLang("en"); focus(pcam, phone, null); });
+  at(36.7, () => clickEl(phone, q(".screen.hero .btn")));
+  at(37.6, () => { me.classList.remove("hid"); typeIn(me, meText, 1500); focus(pcam, phone, me, 1.5, 550, 380); head("Claude understands the case."); });
+  at(39.2, () => chatBits[0].classList.remove("hid"));
+  at(39.8, () => { chatBits[1].classList.remove("hid"); focus(pcam, phone, chatBits[1], 1.3, 550, 560); });
+  at(40.6, () => head("It asks only the questions that change the answer."));
+  at(41.7, () => { chatBits[2].classList.remove("hid"); focus(pcam, phone, chatBits[2], 1.6, 550, 640); });
+  at(43.0, () => clickEl(phone, qa(".opt")[0]));
+  at(44.2, () => { cur.style.opacity = 0; focus(pcam, phone, null); q(".btn[data-go='2']").click(); head("Then it builds your checklist."); });
+  items.forEach((it, i) => at(44.6 + i * 0.22, () => it.classList.remove("hid")));
+  at(46.3, () => { focus(pcam, phone, items[0], 1.7, 560, 520); head("Every requirement: its official source and the date checked."); });
+  at(46.8, () => hl(P, ".item.ok .src", true));
+  at(50.6, () => { hl(P, ".item.ok .src", false); focus(pcam, phone, items[3], 1.55, 560, 520); head("No verified source? It says so, instead of guessing."); });
+  at(51.0, () => hl(P, ".item.todo .src", true));
+  at(54.4, () => { hl(P, ".item.todo .src", false); focus(pcam, phone, null); });
+  at(55.0, () => q(".btn[data-go='3']").click());
+  at(55.6, () => { cur.style.opacity = 0; head("The nearest registry office, from the City's open data."); focus(pcam, phone, q(".office"), 1.45, 550, 470); });
+  at(58.6, () => { focus(pcam, phone, sw.closest(".toggle"), 1.55, 550, 560); head("A reminder three days before."); });
+  at(59.9, () => clickEl(phone, sw));
+  at(61.0, () => { cur.style.opacity = 0; focus(pcam, phone, null); });
+  at(61.5, () => { q(".btn[data-go='4']").click(); head("After the appointment: one question."); });
+  at(62.4, () => focus(pcam, phone, q(".choices"), 1.45, 550, 470));
+  at(64.6, () => clickEl(phone, qa(".choice")[1]));
+  at(65.6, () => { const f = afterBits[0], t = f.textContent; f.classList.remove("hid"); typeIn(f, t, 1300); focus(pcam, phone, f, 1.5, 550, 520); });
+  at(67.3, () => { head("It keeps the type of problem, never your words."); afterBits[1].classList.remove("hid"); focus(pcam, phone, afterBits[1], 1.6, 550, 540); });
+  at(68.6, () => { const f = afterBits[0]; f.style.transition = "opacity .8s, filter .8s"; f.style.opacity = .25; f.style.filter = "blur(3px)"; });
+  at(70.4, () => { cur.style.opacity = 0; });
+
+  // staff
+  at(71.03, () => { scene("s-staff"); focus(scam, staffv, null); lower("The City sees where its pages fail.", "Panel for City staff · in Italian"); });
+  at(73.7, () => { focus(scam, staffv, S.querySelector(".cols .sec"), 1.25, 760, 470); lower("Real problems in its own data.", "Found today in the City's open dataset ds549"); });
+  at(76.8, () => { focus(scam, staffv, S.querySelector(".rep"), 1.2, 1080, 470); lower("Reports grouped by cause.", "Sent by the City office only when five people hit the same problem"); });
+  at(80.2, () => { focus(scam, staffv, S.getElementById("draft"), 1.35, 1060, 470); lower("Claude drafts the fix.", "The draft text for the City page"); });
+  at(82.4, () => { lower("A City officer approves it.", "Nothing is published without a person"); clickEl(staffv, S.getElementById("approve")); });
+  at(84.6, () => { cur.style.opacity = 0; });
+
+  // claude
+  at(85.81, () => { scene("s-claude"); show("n1"); }); at(86.3, () => show("w1")); at(86.7, () => show("n2")); at(87.2, () => show("w2")); at(87.6, () => show("n3"));
+  [89.6, 90.5, 91.1, 92.6, 93.9].forEach((t, i) => at(t, () => $("v-" + (i + 1)).classList.add("lit")));
+  at(95.9, () => show("dec"));
+
+  // close
+  at(98.14, () => { scene("s-close"); show("c-k"); });
+  at(102.5, () => show("c1")); at(103.5, () => show("c2")); at(104.7, () => show("c3"));
+  at(107.9, () => $("cards").classList.add("gone")); at(108.2, () => show("e-it")); at(108.9, () => show("e-en"));
+  at(112.0, () => show("sign"));
+  at(113.6, () => { window.__done = true; });
+}
+window.__start = () => { run(); };
+</script>
+</body>
+</html>
