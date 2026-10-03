@@ -1,0 +1,7 @@
+Non possiamo leggere risposte libere. Continua nella chat:
+
+Apri la chat: {{ link }}
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

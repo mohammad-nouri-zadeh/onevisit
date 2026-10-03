@@ -1,0 +1,10 @@
+id: iscrizione-permesso-en
+quick: true
+messages:
+  - "I just moved to Milan from India. I have my residence permit and I want to register my residence here."
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: permesso
+  language: en
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale, passport number, your name]

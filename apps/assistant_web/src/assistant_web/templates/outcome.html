@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t.outcome_title }}</h1>
+<form method="post" action="/o/{{ token }}" class="card">
+  <fieldset>
+    <legend>{{ t.outcome_title }}</legend>
+    <button type="submit" name="outcome" value="ok">{{ t.outcome_ok }}</button>
+    <button type="submit" name="outcome" value="missing">{{ t.outcome_missing }}</button>
+    <button type="submit" name="outcome" value="other">{{ t.outcome_other }}</button>
+  </fieldset>
+  {% if items %}
+  <label for="missing_id">{{ t.outcome_pick }}</label>
+  <select id="missing_id" name="missing_id">
+    <option value=""></option>
+    {% for item in items %}<option value="{{ item.id }}">{{ item.official }}</option>{% endfor %}
+  </select>
+  {% endif %}
+  <label for="missing_text">{{ t.outcome_text }}</label>
+  <textarea id="missing_text" name="missing_text" rows="2"></textarea>
+  <fieldset>
+    <legend>{{ t.outcome_closed }}</legend>
+    <label><input type="radio" name="closed_in_time" value="yes"> {{ t.yes }}</label>
+    <label><input type="radio" name="closed_in_time" value="no"> {{ t.no }}</label>
+    <label><input type="radio" name="closed_in_time" value="" checked> {{ t.dont_know }}</label>
+  </fieldset>
+  <label for="rating">{{ t.outcome_rating }}</label>
+  <select id="rating" name="rating">
+    <option value=""></option>
+    {% for n in range(1, 6) %}<option value="{{ n }}">{{ n }}</option>{% endfor %}
+  </select>
+  <label for="suggestion">{{ t.outcome_suggestion }}</label>
+  <textarea id="suggestion" name="suggestion" rows="2"></textarea>
+</form>
+{% endblock %}

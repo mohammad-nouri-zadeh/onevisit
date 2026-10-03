@@ -1,0 +1,9 @@
+Per ricevere i promemoria da OneVisit conferma questo indirizzo.
+
+Se non sei stato tu, ignora questa email: non riceverai altro.
+
+Conferma l'indirizzo: {{ link }}
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

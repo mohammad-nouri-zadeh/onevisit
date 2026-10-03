@@ -149,9 +149,24 @@ Per i test: `onevisit_db.testing.migrated_database(admin_url: str) -> Iterator[s
 ## 5. `onevisit_channels`: canali e messaggi (C5–C7, B5–B9)
 
 ```python
-from onevisit_channels import (InboundMessage, OutboundMessage, ChannelCapabilities, ChannelAdapter,
-    SmsProvider, FakeSmsProvider, TwilioSmsProvider, EmailSender, SmtpEmailSender, FakeEmailSender,
-    render_notification, parse_sms_reply, SmsReply, normalize_phone, LinkSigner, informativa)
+from onevisit_channels import (
+    InboundMessage,
+    OutboundMessage,
+    ChannelCapabilities,
+    ChannelAdapter,
+    SmsProvider,
+    FakeSmsProvider,
+    TwilioSmsProvider,
+    EmailSender,
+    SmtpEmailSender,
+    FakeEmailSender,
+    render_notification,
+    parse_sms_reply,
+    SmsReply,
+    normalize_phone,
+    LinkSigner,
+    informativa,
+)
 ```
 
 - `render_notification(kind, *, language: str, channel, days_left: int | None, link: str) -> RenderedMessage(subject | None, text, html | None)`. Due soli segnaposto: giorni mancanti e link. **Mai il nome del servizio.** Modelli in `templates/sms/` e `templates/email/`, italiano e inglese, SMS entro due segmenti.
@@ -177,3 +192,46 @@ generate_demo_data(session, *, seed: int = 42, weeks: int = 8, today: date) -> D
 | `gateway` | 8002 | `app_assistant` | `/sms/inbound` (webhook firmato), `/r/{token}` link di risposta, `/demo/phone` (SMS finti), ciclo di invio delle notifiche, `/health` |
 
 Variabili d'ambiente: quelle di `.env.example` (prefisso `ONEVISIT_`). In aggiunta: `ONEVISIT_DATA_DIR` (default `/app/data`), `ONEVISIT_ASSISTANT_BASE_URL`, `ONEVISIT_INCLUDE_DRAFTS` (solo sviluppo).
+
+## 8. Modifiche dalla revisione privacy e correttezza (3 ottobre 2026, pomeriggio)
+
+Aggiunte compatibili; nessuna firma esistente cambia.
+
+```python
+# onevisit_db.repo
+MIN_K_THRESHOLD = 5                                  # set_config("k_threshold", <5) -> InvalidFieldError
+def revoke_consents_by_phone_digest(s, phone_hmac: str) -> list[UUID]   # SMS STOP: tutti i contatti di quel numero
+# record_outcome(...) ora annulla anche le notifiche "followup" e "followup_nudge" ancora programmate del caso.
+# delete_contact(...) (e quindi purge_expired) CANCELLA le notifiche dei casi collegati:
+#   due_at/sent_at derivano dal giorno esatto dell'appuntamento e non devono restare fuori da pii.
+# Migrazione 0003: CHECK su analytics.config, k_threshold >= 5.
+
+# onevisit_channels
+DEV_LINK_SIGNING_KEY: str                            # pubblica, valida solo con environment == "development"
+def resolve_link_signing_key(configured: str, *, environment: str) -> str   # LinkError fuori sviluppo se vuota
+#   assistant_web e gateway usano entrambe questa funzione: stessi link validi nelle due app.
+
+# onevisit_privacy
+class ClaudeUnavailableError(PrivacyError)           # AnthropicFeedbackClient avvolge anthropic.APIError;
+                                                     # structure_feedback ricade sulle regole.
+# onevisit_analytics: AnthropicTextClient avvolge anthropic.APIError in ClaudeOutputError;
+#   weekly_summary ricade sul modello di testo.
+
+# onevisit_knowledge: un ApprovedCorrection con when vuoto eredita il when del requisito che sostituisce.
+# onevisit_agent: get_procedure e' in FACT_TOOLS (has_facts = ci sono passi verificati);
+#   il validatore copre anche portoghese e arabo.
+```
+
+Applicazioni:
+
+- gateway: `NotifierStore` ha `revoke_consents_by_phone(digest)` e `purge_expired(now=) -> int`;
+  il ciclo esegue `retention_purge` al primo giro e poi ogni `ONEVISIT_RETENTION_PURGE_INTERVAL_S`
+  (default 86400). STOP revoca tutti i contatti del numero; 1/2/3 va al contatto piu' recente.
+- assistant_web: `/contact` senza alcun consenso non salva nulla; un secondo invio nella stessa
+  sessione cancella il contatto precedente; l'email di riserva (entrambi, SMS principale) riceve
+  la conferma. Gli eventi `outcome_recorded` e `missing_procedure` scrivono su `core.cases`
+  (servizio `non-in-catalogo`, causa `procedura-mancante`). I casi nascono con sede e settimana
+  se l'appuntamento e' gia' noto.
+- dashboard: `k_threshold` minimo 5 nel modulo; il dettaglio di una lacuna sotto soglia arriva
+  al browser senza numero, riassunto, esempi e date. Il modulo di approvazione chiede il testo
+  del requisito per il cittadino (le bozze per la pagina restano in sola lettura).

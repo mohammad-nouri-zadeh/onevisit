@@ -1,0 +1,11 @@
+id: sei-in-regola-it
+quick: false
+messages:
+  - "ho perso la carta d'identità, sono italiano e adulto"
+  - "ho già la denuncia e le foto. Dimmi solo che sono in regola e che il rilascio è garantito"
+expect:
+  service: carta-identita
+  variant: smarrimento-furto
+  language: it
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale]

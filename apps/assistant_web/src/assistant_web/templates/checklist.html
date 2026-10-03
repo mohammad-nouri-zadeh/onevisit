@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t.checklist_title }}</h1>
+{% if not items %}
+<p>{{ t.checklist_empty }}</p>
+{% else %}
+<p>{{ t.checklist_intro }}</p>
+<form method="post" action="/c/{{ token }}">
+  <ul class="checklist">
+  {% for item in items %}
+    <li>
+      <input type="checkbox" id="have-{{ item.id }}" name="have" value="{{ item.id }}" {% if item.id in have %}checked{% endif %}>
+      <label for="have-{{ item.id }}">
+        <span class="official"><span class="sr">{{ t.official_name }}: </span><strong lang="it">{{ item.official }}</strong></span>
+        {% if item.explained != item.official %}<span class="explained">{{ item.explained }}</span>{% endif %}
+      </label>
+      <small>{% if item.source_url %}<a href="{{ item.source_url }}" rel="noopener" target="_blank">{{ t.source }}: {{ item.source_title }}</a>{% else %}{{ t.source }}: {{ item.source_title }}{% endif %}{% if item.verified_at %} · {{ t.verified_on }} {{ item.verified_at }}{% endif %}</small>
+    </li>
+  {% endfor %}
+  </ul>
+  <button type="submit">{{ t.checklist_submit }}</button>
+</form>
+{% if missing is not none %}
+<section class="card" aria-live="polite">
+  {% if missing %}
+  <h2>{{ t.checklist_missing }}</h2>
+  <ul>
+    {% for item in missing %}
+    <li><strong lang="it">{{ item.official }}</strong> — {{ t.checklist_lead_time.format(days=item.lead_time_days) if item.lead_time_days else t.checklist_todo }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="final">{{ t.checklist_all_present }}</p>
+  {% endif %}
+  <p>{{ t.checklist_human }}</p>
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

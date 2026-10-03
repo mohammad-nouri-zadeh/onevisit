@@ -1,0 +1,1 @@
+Sintesi della settimana (dati aggregati, gruppi sotto $k casi esclusi). Tasso di pratiche chiuse al primo appuntamento: $rates. Migliorato: $improved. Peggiorato: $worsened. Lacune aperte per causa: $gaps. Effetto delle correzioni: $effects. Interventi consigliati: 1) $rec1; 2) $rec2; 3) $rec3. I numeri sono quelli delle tabelle del pannello.

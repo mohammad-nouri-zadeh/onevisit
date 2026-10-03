@@ -1,0 +1,1 @@
+OneVisit: confirm your contact to receive reminders: {{ link }}

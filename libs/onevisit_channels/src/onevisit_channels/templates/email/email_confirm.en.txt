@@ -1,0 +1,9 @@
+To receive reminders from OneVisit, please confirm this address.
+
+If this was not you, ignore this email: you will receive nothing else.
+
+Confirm the address: {{ link }}
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

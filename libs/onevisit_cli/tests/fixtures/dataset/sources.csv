@@ -1,0 +1,3 @@
+id,title,url,publisher,kind,snapshot,retrieved_at,status,notes
+pagina-demo,Pagina demo,,Comune di Prova,page,,,todo,"Nota con virgola, da non toccare"
+altra-fonte,Altra fonte,https://example.org/altra,Ente di Prova,page,pages/altra-fonte.md,2026-01-01,ok,Riga che non deve cambiare

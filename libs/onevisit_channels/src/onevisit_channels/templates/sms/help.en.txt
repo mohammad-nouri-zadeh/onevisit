@@ -1,0 +1,2 @@
+OneVisit, City of Milan assistant (artificial intelligence). Chat and consents: {{ link }}
+Reply 1, 2 or 3 after your appointment. STOP to opt out

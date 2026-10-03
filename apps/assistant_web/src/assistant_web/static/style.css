@@ -1,0 +1,36 @@
+/* Stile minimo, contrasto AA (testo #1a1a1a su #fff, link #0b4f8a). */
+:root { --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b4f8a; --soft: #eef3f8; --err: #a1001a; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 1rem/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+.top { padding: .75rem 1rem; background: var(--accent); color: #fff; }
+main { max-width: 46rem; margin: 0 auto; padding: 1rem; }
+a { color: var(--accent); }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 2; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.disclosure { font-size: .9rem; color: var(--muted); border-left: 4px solid var(--accent); padding-left: .75rem; }
+.messages { display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0; }
+.msg { padding: .75rem 1rem; border-radius: .5rem; max-width: 100%; }
+.msg p { margin: .25rem 0; }
+.msg.user { background: var(--soft); align-self: flex-end; }
+.msg.assistant { border: 1px solid #c9d3de; }
+.who { display: block; font-size: .8rem; font-weight: 600; color: var(--muted); }
+.cite { font-size: .85rem; }
+.quick { display: flex; flex-wrap: wrap; gap: .5rem; }
+.quick form { margin: 0; }
+.chat-form, .card form { display: flex; flex-direction: column; gap: .5rem; }
+textarea, input[type=email], input[type=tel], select { font: inherit; padding: .5rem; border: 1px solid #6b6b6b; border-radius: .25rem; }
+button { font: inherit; padding: .5rem 1rem; border: 0; border-radius: .25rem; background: var(--accent); color: #fff; cursor: pointer; }
+button.danger { background: var(--err); }
+.quick button { background: var(--soft); color: var(--accent); border: 1px solid var(--accent); }
+:focus-visible { outline: 3px solid #f2a900; outline-offset: 2px; }
+fieldset { border: 1px solid #c9d3de; border-radius: .25rem; }
+fieldset label { display: block; }
+.card { border: 1px solid #c9d3de; border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
+.error { color: var(--err); font-weight: 600; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: .5rem 0; border-bottom: 1px solid #e3e3e3; }
+.checklist small { display: block; color: var(--muted); }
+.explained { display: block; }
+.final { font-weight: 600; }
+.informativa div { white-space: pre-line; font-size: .9rem; }

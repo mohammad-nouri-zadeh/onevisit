@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% from "_macros.html" import info, pct, num, cell %}
+{% block title %}Panoramica{% endblock %}
+{% block content %}
+<h1>Panoramica</h1>
+<p class="note">Solo dati aggregati. Nessuna cella mostra meno di {{ k }} casi: al loro posto compare «dati insufficienti».</p>
+
+<section aria-labelledby="h-service">
+  <h2 id="h-service">Pratiche chiuse al primo appuntamento, per servizio {{ info("first_visit_rate") }}</h2>
+  <table>
+    <thead><tr><th scope="col">Servizio</th><th scope="col">Tasso</th></tr></thead>
+    <tbody>
+    {% for service, c in by_service.items() %}
+      <tr><th scope="row">{{ service }}</th><td>{{ cell(c) }}</td></tr>
+    {% else %}
+      <tr><td colspan="2"><span class="insufficient">dati insufficienti</span></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section aria-labelledby="h-weekly">
+  <h2 id="h-weekly">Andamento settimanale {{ info("weekly") }}</h2>
+  <canvas data-chart="weekly-data" data-type="line" data-max="100" role="img" aria-label="Grafico del tasso settimanale; i dati sono nella tabella seguente"></canvas>
+  <script type="application/json" id="weekly-data">{{ weekly_chart|tojson }}</script>
+  <table>
+    <caption>Tabella equivalente al grafico</caption>
+    <thead><tr><th scope="col">Servizio</th><th scope="col">Settimana</th><th scope="col">Casi</th><th scope="col">Tasso</th></tr></thead>
+    <tbody>
+    {% for r in weekly %}
+      <tr><td>{{ r.service_id }}</td><td>{{ r.week.isoformat() }}</td><td>{{ r.cases }}</td><td>{{ pct(r.rate) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{% for title, key, m in [("per lingua", "by_language", by_language), ("per categoria", "by_category", by_category)] %}
+<section>
+  <h2>Pratiche chiuse al primo appuntamento, {{ title }} {{ info(key) }}</h2>
+  <table>
+    <thead><tr><th scope="col">Servizio</th>{% for col in m.columns %}<th scope="col">{{ col }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for service, cols in m.rows.items() %}
+      <tr><th scope="row">{{ service }}</th>{% for col in m.columns %}<td>{{ cell(cols[col]) }}</td>{% endfor %}</tr>
+    {% else %}
+      <tr><td><span class="insufficient">dati insufficienti</span></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endfor %}
+
+<section aria-labelledby="h-causes">
+  <h2 id="h-causes">Lacune per causa {{ info("gaps_by_cause") }}</h2>
+  <table>
+    <thead><tr><th scope="col">Causa</th><th scope="col">Lacune</th><th scope="col">Aperte</th><th scope="col">Casi</th></tr></thead>
+    <tbody>
+    {% for c in causes %}
+      <tr><td>{{ c.cause }}</td><td>{{ c.gaps }}</td><td>{{ c.open_gaps }}</td><td>{{ num(c.cases) }}</td></tr>
+    {% else %}
+      <tr><td colspan="4">Nessuna lacuna.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section aria-labelledby="h-avoided">
+  <h2 id="h-avoided">Appuntamenti a vuoto evitati e costo (stima) {{ info("avoided") }}</h2>
+  <p><strong>Stima.</strong> Formula: visite evitate = Σ max(tasso dopo − tasso prima, 0) × casi dopo; costo stimato = visite evitate × costo per slot. Costo per slot usato: <strong>{{ "%.2f"|format(cost_per_slot) }} €</strong> (modificabile dalla direzione in Impostazioni).</p>
+  <table>
+    <thead><tr><th scope="col">Servizio</th><th scope="col">Correzioni</th><th scope="col">Visite evitate (stima)</th><th scope="col">Costo evitato (stima)</th></tr></thead>
+    <tbody>
+    {% for a in avoided %}
+      <tr><td>{{ a.service_id }}</td><td>{{ a.interventions }}</td><td>{{ num(a.avoided_visits) }}</td>
+          <td>{% if a.avoided_cost_eur is none %}<span class="insufficient">dati insufficienti</span>{% else %}{{ "%.2f"|format(a.avoided_cost_eur) }} €{% endif %}</td></tr>
+    {% else %}
+      <tr><td colspan="4">Nessuna correzione approvata.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

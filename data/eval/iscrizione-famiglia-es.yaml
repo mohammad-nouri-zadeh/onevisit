@@ -1,0 +1,10 @@
+id: iscrizione-famiglia-es
+quick: false
+messages:
+  - "Vengo de Colombia con mi esposa y mis dos hijos, tengo permiso de residencia y queremos registrarnos como residentes en Milán."
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: permesso
+  language: es
+  forbidden_phrases: [elegible, garantizado, en regla]
+  must_not_ask: [codice fiscale, nombre]

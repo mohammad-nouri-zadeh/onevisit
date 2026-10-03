@@ -1,0 +1,2 @@
+OneVisit: I cannot read free text by SMS. Continue here: {{ link }}
+HELP for info, STOP to opt out

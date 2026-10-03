@@ -1,0 +1,2 @@
+OneVisit, assistente del Comune di Milano (intelligenza artificiale). Chat e consensi: {{ link }}
+Rispondi 1, 2 o 3 dopo l'appuntamento. STOP per non ricevere altro

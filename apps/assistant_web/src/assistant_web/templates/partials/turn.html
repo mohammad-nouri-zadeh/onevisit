@@ -1,0 +1,17 @@
+{% if user_text %}<div class="msg user"><span class="who">{{ t.you }}</span><p>{{ user_text }}</p></div>{% endif %}
+{% for reply in replies %}
+<div class="msg assistant"><span class="who">{{ t.assistant }}</span>{{ reply }}</div>
+{% endfor %}
+{% if quick_replies %}
+<div class="quick" role="group" aria-label="{{ t.quick_replies }}">
+  {% for q in quick_replies %}
+  <form hx-post="/chat" hx-target="#messages" hx-swap="beforeend" method="post" action="/chat">
+    <input type="hidden" name="message" value="{{ q }}">
+    <button type="submit">{{ q }}</button>
+  </form>
+  {% endfor %}
+</div>
+{% endif %}
+{% if show_contact %}
+<div hx-swap-oob="innerHTML:#contact-slot">{% include "partials/contact.html" %}</div>
+{% endif %}

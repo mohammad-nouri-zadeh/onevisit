@@ -3,9 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}OneVisit{% endblock %}</title>
+  <title>{% block title %}{{ t.title }}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
 </head>
 <body>
+  <a class="skip" href="#main">{{ t.label_message }}</a>
+  <header class="top"><strong>OneVisit</strong> · Comune di Milano</header>
   <main id="main">{% block content %}{% endblock %}</main>
 </body>
 </html>

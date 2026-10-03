@@ -6,16 +6,20 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from onevisit_db.models import metadata
+
 config = context.config
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+# Chi invoca Alembic da codice (onevisit_db.testing) puo' disattivare la configurazione
+# dei log, che altrimenti sostituirebbe quella dell'applicazione o di pytest.
+if config.config_file_name is not None and config.attributes.get("configure_logger", True):
+    fileConfig(config.config_file_name, disable_existing_loggers=False)
 
+# La URL passata da codice ha la precedenza sulla variabile d'ambiente.
 database_url = os.environ.get("ONEVISIT_DATABASE_URL")
-if database_url:
-    config.set_main_option("sqlalchemy.url", database_url)
+if database_url and not config.get_main_option("sqlalchemy.url"):
+    config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))
 
-# Quando esisteranno i modelli, impostare qui il loro MetaData per l'autogenerazione.
-target_metadata = None
+target_metadata = metadata
 
 
 def run_migrations_offline() -> None:

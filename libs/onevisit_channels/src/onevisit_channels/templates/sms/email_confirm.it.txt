@@ -1,0 +1,1 @@
+OneVisit: conferma il tuo contatto per ricevere i promemoria: {{ link }}

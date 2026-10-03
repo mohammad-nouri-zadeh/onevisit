@@ -1,0 +1,9 @@
+OneVisit è l'assistente del Comune di Milano: è un'intelligenza artificiale. Le decisioni le prende sempre l'operatore allo sportello.
+
+Chat e gestione dei consensi:
+
+Apri OneVisit: {{ link }}
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

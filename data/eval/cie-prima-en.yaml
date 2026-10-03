@@ -1,0 +1,11 @@
+id: cie-prima-en
+quick: true
+messages:
+  - "Hi, I live in Milan and I need my first Italian identity card. I'm an adult."
+expect:
+  service: carta-identita
+  variant: prima
+  language: en
+  requirements_include: [su-appuntamento]
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale, your name, address]

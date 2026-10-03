@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Accesso dimostrativo{% endblock %}
+{% block content %}
+<h1>Accesso dimostrativo</h1>
+<p class="box">Questo è un <strong>accesso dimostrativo</strong> per l'hackathon: si sceglie un ruolo, senza password e senza nome. In produzione l'accesso avverrà con il sistema di autenticazione del Comune (OIDC), non implementato oggi.</p>
+<form method="post" action="/login">
+  <fieldset>
+    <legend>Scegli il ruolo</legend>
+    {% for r in roles %}
+    <label><input type="radio" name="role" value="{{ r }}" {% if loop.first %}checked{% endif %}> {{ r }}</label>
+    {% endfor %}
+  </fieldset>
+  <p><button type="submit">Entra</button></p>
+</form>
+{% endblock %}

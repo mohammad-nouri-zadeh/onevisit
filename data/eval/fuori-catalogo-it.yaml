@@ -1,0 +1,11 @@
+id: fuori-catalogo-it
+quick: true
+messages:
+  - "devo chiedere il contrassegno per il parcheggio disabili per mia madre"
+expect:
+  service: null
+  missing_procedure: true
+  language: it
+  citations: false
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

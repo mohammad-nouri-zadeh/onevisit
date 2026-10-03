@@ -1,0 +1,9 @@
+Hai revocato i consensi: questo è l'ultimo messaggio che ricevi da OneVisit.
+
+Se vuoi cancellare anche il contatto:
+
+Gestisci i tuoi dati: {{ link }}
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

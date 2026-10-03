@@ -1,0 +1,30 @@
+<section id="contact" class="card" aria-labelledby="contact-title">
+  <h2 id="contact-title">{{ t.contact_title }}</h2>
+  {% if error_key %}<p class="error" role="alert">{{ t[error_key] }}</p>{% endif %}
+  <form hx-post="/contact" hx-target="#contact" hx-swap="outerHTML" method="post" action="/contact">
+    <fieldset>
+      <legend>{{ t.contact_choice }}</legend>
+      <label><input type="radio" name="choice" value="email" checked> {{ t.contact_email }}</label>
+      <label><input type="radio" name="choice" value="sms"> {{ t.contact_sms }}</label>
+      <label><input type="radio" name="choice" value="both"> {{ t.contact_both }}</label>
+      <label><input type="radio" name="choice" value="none"> {{ t.contact_none }}</label>
+    </fieldset>
+    <label for="email">{{ t.label_email }}</label>
+    <input id="email" name="email" type="email" autocomplete="email">
+    <label for="phone">{{ t.label_phone }}</label>
+    <input id="phone" name="phone" type="tel" autocomplete="tel">
+    <fieldset>
+      <legend>{{ t.label_primary }}</legend>
+      <label><input type="radio" name="primary" value="email" checked> {{ t.contact_email }}</label>
+      <label><input type="radio" name="primary" value="sms"> {{ t.contact_sms }}</label>
+    </fieldset>
+    <fieldset>
+      <legend>{{ t.consents_legend }}</legend>
+      <label><input type="checkbox" name="consent_reminder" value="1"> {{ t.consent_reminder }}</label>
+      <label><input type="checkbox" name="consent_followup" value="1"> {{ t.consent_followup }}</label>
+      <label><input type="checkbox" name="consent_correction" value="1"> {{ t.consent_correction }}</label>
+    </fieldset>
+    <details class="informativa"><summary>Privacy</summary><div>{{ informativa }}</div></details>
+    <button type="submit">{{ t.contact_submit }}</button>
+  </form>
+</section>

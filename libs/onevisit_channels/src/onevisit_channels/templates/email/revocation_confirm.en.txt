@@ -1,0 +1,9 @@
+You have withdrawn your consent: this is the last message you will receive from OneVisit.
+
+If you also want to delete your contact:
+
+Manage your data: {{ link }}
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

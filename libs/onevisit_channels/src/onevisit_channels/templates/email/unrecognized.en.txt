@@ -1,0 +1,7 @@
+We cannot read free replies. Continue in the chat:
+
+Open the chat: {{ link }}
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_macros.html" import info, recipient_label %}
+{% block title %}Lacune{% endblock %}
+{% block content %}
+<h1>Lacune</h1>
+<form class="filters" method="get" action="/gaps">
+  <label for="f-cause">Causa
+    <select id="f-cause" name="cause"><option value="">tutte</option>
+      {% for c in causes %}<option value="{{ c }}" {% if selected.cause == c %}selected{% endif %}>{{ c }}</option>{% endfor %}
+    </select></label>
+  <label for="f-service">Servizio
+    <select id="f-service" name="service"><option value="">tutti</option>
+      {% for s in services %}<option value="{{ s }}" {% if selected.service == s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select></label>
+  <label for="f-status">Stato
+    <select id="f-status" name="status"><option value="">tutti</option>
+      {% for s in statuses %}<option value="{{ s }}" {% if selected.status == s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select></label>
+  <button type="submit">Filtra</button>
+</form>
+
+<h2>Sopra soglia (almeno {{ k }} casi), per numero di casi</h2>
+<table>
+  <thead><tr><th scope="col">Lacuna</th><th scope="col">Causa</th><th scope="col">Servizio</th><th scope="col">Pagina</th><th scope="col">Casi {{ info("case_count") }}</th><th scope="col">Stato</th><th scope="col">Destinatario</th></tr></thead>
+  <tbody>
+  {% for g in above %}
+    <tr><td><a href="/gaps/{{ g.id }}">{{ g.title }}</a></td><td>{{ g.cause }}</td><td>{{ g.service_id }}</td><td>{{ g.source_id or "non indicata" }}</td>
+        <td>{{ g.case_count }}</td><td><span class="status-{{ g.status }}">{{ g.status }}</span></td><td>{{ recipient_label(g) }}</td></tr>
+  {% else %}
+    <tr><td colspan="7">Nessuna lacuna sopra soglia con questi filtri.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h2>Gruppi sotto soglia</h2>
+<p class="note">Meno di {{ k }} casi: si mostrano solo causa, servizio e pagina, senza sede, date o numero esatto.</p>
+<table>
+  <thead><tr><th scope="col">Causa</th><th scope="col">Servizio</th><th scope="col">Pagina</th><th scope="col">Casi</th><th scope="col">Destinatario</th></tr></thead>
+  <tbody>
+  {% for g in below %}
+    <tr><td>{{ g.cause }}</td><td>{{ g.service_id }}</td><td>{{ g.source_id or "non indicata" }}</td><td><span class="insufficient">dati insufficienti</span></td><td>{{ recipient_label(g) }}</td></tr>
+  {% else %}
+    <tr><td colspan="5">Nessun gruppo sotto soglia.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

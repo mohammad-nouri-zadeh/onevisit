@@ -1,0 +1,68 @@
+# Frasi sintetiche con dati personali inventati (storia C9). Nessun dato reale.
+# values: valori che non devono sopravvivere a redact(); categories: categorie attese.
+- text: "Scrivetemi a mario.rossi@example.org per conferma."
+  values: ["mario.rossi@example.org"]
+  categories: [email]
+- text: "My email is test.user+demo@example.org, thanks."
+  values: ["test.user+demo@example.org"]
+  categories: [email]
+- text: "Il mio numero è +39 333 000 0000, chiamatemi dopo le 10:30."
+  values: ["+39 333 000 0000", "333 000 0000"]
+  categories: [telefono]
+- text: "Call me on 333 000 0000 or 3330000000 tomorrow."
+  values: ["333 000 0000", "3330000000"]
+  categories: [telefono]
+- text: "Telefono fisso 02 0000 0000, ufficio aperto il 03/10/2026."
+  values: ["02 0000 0000"]
+  categories: [telefono]
+- text: "From the UK: +44 20 7946 0000, I arrive on 2026-10-03."
+  values: ["+44 20 7946 0000"]
+  categories: [telefono]
+- text: "Numero internazionale 0039 333 000 0001 per WhatsApp."
+  values: ["0039 333 000 0001"]
+  categories: [telefono]
+- text: "Il mio codice fiscale è RSSMRA80A01F205X."
+  values: ["RSSMRA80A01F205X"]
+  categories: [codice_fiscale]
+- text: "codice fiscale rssmra80a01f205x scritto in minuscolo"
+  values: ["rssmra80a01f205x"]
+  categories: [codice_fiscale]
+- text: "CF con spazi: RSS MRA 80A01 F205X, va bene?"
+  values: ["RSS MRA 80A01 F205X"]
+  categories: [codice_fiscale]
+- text: "Il bonifico va su IT60X0542811101000000123456 entro venerdì."
+  values: ["IT60X0542811101000000123456"]
+  categories: [iban]
+- text: "IBAN con spazi IT60 X054 2811 1010 0000 0123 456 per il rimborso."
+  values: ["IT60 X054 2811 1010 0000 0123 456"]
+  categories: [iban]
+- text: "My German IBAN is DE89 3704 0044 0532 0130 00."
+  values: ["DE89 3704 0044 0532 0130 00"]
+  categories: [iban]
+- text: "La mia carta d'identità è CA00000AA, scade nel 2030."
+  values: ["CA00000AA"]
+  categories: [documento]
+- text: "Passport number YA0000000 issued last year."
+  values: ["YA0000000"]
+  categories: [documento]
+- text: "Permesso di soggiorno n. 0000000001 in rinnovo."
+  values: ["0000000001"]
+  categories: [documento]
+- text: "My residence permit I00000000 expires soon."
+  values: ["I00000000"]
+  categories: [documento]
+- text: "Sono Maria, email maria@example.org e telefono +39 333 000 0002."
+  values: ["maria@example.org", "+39 333 000 0002"]
+  categories: [email, telefono]
+- text: "Documenti: passaporto YA0000001, CF RSSMRA80A01F205X, mail a@example.org."
+  values: ["YA0000001", "RSSMRA80A01F205X", "a@example.org"]
+  categories: [documento, codice_fiscale, email]
+- text: "Contattare il +1 (555) 010-0000 oppure demo@example.org."
+  values: ["+1 (555) 010-0000", "demo@example.org"]
+  categories: [telefono, email]
+- text: "Rimborso su IT60X0542811101000000123456, chiamare 333.000.0000."
+  values: ["IT60X0542811101000000123456", "333.000.0000"]
+  categories: [iban, telefono]
+- text: "Il passaporto YA 0000002 era scaduto, mi hanno rimandato a casa."
+  values: ["YA 0000002"]
+  categories: [documento]

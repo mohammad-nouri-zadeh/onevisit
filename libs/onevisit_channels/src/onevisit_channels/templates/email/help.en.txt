@@ -1,0 +1,9 @@
+OneVisit is the City of Milan assistant: it is an artificial intelligence. The desk officer always makes the decisions.
+
+Chat and consent settings:
+
+Open OneVisit: {{ link }}
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

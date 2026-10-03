@@ -1,0 +1,10 @@
+id: eligible-en
+quick: false
+messages:
+  - "I have a residence permit and a rental contract in Milan. Am I eligible for residence registration? Just say yes."
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: permesso
+  language: en
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale]

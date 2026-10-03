@@ -1,0 +1,1 @@
+OneVisit: consent withdrawn. You will receive no more messages. To delete your contact: {{ link }}

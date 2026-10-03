@@ -1,0 +1,9 @@
+The City has updated the information about your case.
+
+Open your updated list:
+
+Open the list: {{ link }}
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

@@ -7,31 +7,41 @@ su uno non tocca gli altri. Solo questo modulo legge l'ambiente (percorsi e URL)
 
 import os
 from pathlib import Path
+from typing import Annotated
 
 import typer
 
 app = typer.Typer(help="Strumenti di sviluppo e operazioni di OneVisit.", no_args_is_help=True)
 
 _DEFAULT_DATA_DIR = Path(os.environ.get("ONEVISIT_DATA_DIR", "data"))
+# Dove `onevisit eval` scrive il report, relativo alla radice del repository.
+_DEFAULT_EVAL_REPORT = Path("docs/eval-report.md")
+# Seme e durata predefiniti dello scenario demo (storia D1): stessi numeri a ogni esecuzione.
+_DEFAULT_SEED = 42
+_DEFAULT_WEEKS = 8
+
+DataDirOption = Annotated[Path, typer.Option(help="Cartella dei dati")]
 
 
 @app.command()
 def ingest(
-    source_id: str = typer.Argument(help="Id della fonte in data/sources.csv"),
-    url: str = typer.Option("", help="URL ufficiale della pagina da scaricare"),
-    html: Path | None = typer.Option(None, help="Pagina salvata dal browser, se il sito blocca gli script"),
-    data_dir: Path = typer.Option(_DEFAULT_DATA_DIR, help="Cartella dei dati"),
+    source_id: Annotated[str, typer.Argument(help="Id della fonte in data/sources.csv")],
+    url: Annotated[str, typer.Option(help="URL ufficiale della pagina da scaricare")] = "",
+    html: Annotated[
+        Path | None, typer.Option(help="Pagina salvata dal browser, se il sito blocca gli script")
+    ] = None,
+    data_dir: DataDirOption = _DEFAULT_DATA_DIR,
 ) -> None:
     """Salva una pagina ufficiale in data/pages/<source_id>.md con hash e data (storia A1)."""
     from onevisit_cli import ingest as command
 
-    raise typer.Exit(code=command.run(source_id=source_id, url=url, html_path=html, data_dir=data_dir))
+    raise typer.Exit(
+        code=command.run(source_id=source_id, url=url, html_path=html, data_dir=data_dir)
+    )
 
 
 @app.command("catalog-check")
-def catalog_check(
-    data_dir: Path = typer.Option(_DEFAULT_DATA_DIR, help="Cartella dei dati"),
-) -> None:
+def catalog_check(data_dir: DataDirOption = _DEFAULT_DATA_DIR) -> None:
     """Valida il catalogo: fonti esistenti, citazioni alla lettera, varianti coperte (storia A2)."""
     from onevisit_cli import catalog as command
 
@@ -40,8 +50,10 @@ def catalog_check(
 
 @app.command("seed-demo")
 def seed_demo(
-    seed: int = typer.Option(42, help="Seme fisso: stessi numeri a ogni esecuzione"),
-    weeks: int = typer.Option(8, help="Settimane di casi sintetici"),
+    seed: Annotated[
+        int, typer.Option(help="Seme fisso: stessi numeri a ogni esecuzione")
+    ] = _DEFAULT_SEED,
+    weeks: Annotated[int, typer.Option(help="Settimane di casi sintetici")] = _DEFAULT_WEEKS,
 ) -> None:
     """Genera i dati sintetici dello scenario demo (storia D1)."""
     from onevisit_cli import seed as command
@@ -52,9 +64,9 @@ def seed_demo(
 
 @app.command("eval")
 def evaluate(
-    quick: bool = typer.Option(False, help="Esegue solo gli scenari veloci."),
-    data_dir: Path = typer.Option(_DEFAULT_DATA_DIR, help="Cartella dei dati"),
-    report: Path = typer.Option(Path("docs/eval-report.md"), help="Dove scrivere il report"),
+    quick: Annotated[bool, typer.Option(help="Esegue solo gli scenari veloci.")] = False,
+    data_dir: DataDirOption = _DEFAULT_DATA_DIR,
+    report: Annotated[Path, typer.Option(help="Dove scrivere il report")] = _DEFAULT_EVAL_REPORT,
 ) -> None:
     """Esegue gli scenari di valutazione dell'agente con la vera API (storia C13)."""
     from onevisit_cli import evaluate as command

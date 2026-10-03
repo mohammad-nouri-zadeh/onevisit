@@ -1,0 +1,11 @@
+id: cie-smarrimento-it
+quick: true
+messages:
+  - "ho perso la carta d'identità e tra un mese parto"
+expect:
+  service: carta-identita
+  variant: smarrimento-furto
+  language: it
+  requirements_include: [su-appuntamento]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome, indirizzo]

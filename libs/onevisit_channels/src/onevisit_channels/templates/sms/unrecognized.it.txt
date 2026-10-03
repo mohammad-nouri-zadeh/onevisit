@@ -1,0 +1,2 @@
+OneVisit: non posso leggere messaggi liberi via SMS. Continua qui: {{ link }}
+AIUTO per info, STOP per non ricevere altro

@@ -33,3 +33,23 @@ def test_dashboard_role_never_gets_access_to_pii(monkeypatch: pytest.MonkeyPatch
     pii_grants = [line for line in sql.splitlines() if "ON SCHEMA pii" in line]
     assert pii_grants
     assert all("app_dashboard" not in line for line in pii_grants)
+
+
+def test_core_pii_analytics_tables_and_views_are_created(monkeypatch: pytest.MonkeyPatch) -> None:
+    sql = _offline_sql(monkeypatch)
+
+    for table in ("core.cases", "core.notifications", "pii.contacts", "analytics.config"):
+        assert f"CREATE TABLE {table}" in sql
+    for view in ("first_visit_rate", "weekly_first_visit", "intervention_effect"):
+        assert f"CREATE VIEW analytics.{view}" in sql
+    assert "security_invoker" not in sql
+
+
+def test_dashboard_never_granted_on_pii_or_cases(monkeypatch: pytest.MonkeyPatch) -> None:
+    sql = _offline_sql(monkeypatch)
+    statements = [s for s in sql.split(";") if "GRANT" in s and "app_dashboard" in s]
+
+    assert statements
+    for statement in statements:
+        assert "pii." not in statement
+        assert "core.cases" not in statement

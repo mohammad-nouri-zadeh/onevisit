@@ -1,0 +1,32 @@
+/* Stile del pannello: contrasto AA, focus visibile, niente framework. */
+:root { --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b5cad; --line: #c8c8c8;
+        --warn-bg: #fff4d6; --ok-bg: #e5f3e8; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+a { color: var(--accent); }
+a:focus, button:focus, input:focus, select:focus, textarea:focus, summary:focus {
+  outline: 3px solid #f2a900; outline-offset: 2px; }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 10; }
+header { background: #0d2c4f; color: #fff; padding: .75rem 1rem; }
+header a { color: #fff; }
+header nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 1rem; margin: .5rem 0 0; padding: 0; }
+.demo-badge { background: #f2a900; color: #1a1a1a; padding: .1rem .5rem; border-radius: 4px; font-weight: 600; }
+main { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+table { border-collapse: collapse; width: 100%; margin: .5rem 0 1.5rem; }
+th, td { border: 1px solid var(--line); padding: .35rem .5rem; text-align: left; vertical-align: top; }
+th { background: #eef2f6; }
+.insufficient { color: var(--muted); font-style: italic; }
+.note { color: var(--muted); }
+.box { border: 1px solid var(--line); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; }
+.national { background: var(--warn-bg); padding: .1rem .4rem; border-radius: 4px; }
+.status-corretta { background: var(--ok-bg); padding: .1rem .4rem; border-radius: 4px; }
+details.info { display: inline-block; margin-left: .25rem; }
+details.info summary { cursor: pointer; list-style: none; color: var(--accent); font-weight: 700; }
+details.info p { max-width: 36rem; background: #f6f8fa; border: 1px solid var(--line); padding: .5rem; }
+label { display: block; font-weight: 600; margin-top: .75rem; }
+textarea { width: 100%; min-height: 6rem; font: inherit; }
+button { font: inherit; padding: .4rem .9rem; background: var(--accent); color: #fff; border: 0; border-radius: 4px; cursor: pointer; }
+button.secondary { background: #4a4a4a; }
+form.filters { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; }
+form.filters label { margin-top: 0; }

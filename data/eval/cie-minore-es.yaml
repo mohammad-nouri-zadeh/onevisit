@@ -1,0 +1,10 @@
+id: cie-minore-es
+quick: false
+messages:
+  - "Hola, necesito la primera carta de identidad para mi hijo de 8 años."
+expect:
+  service: carta-identita
+  variant: prima
+  language: es
+  forbidden_phrases: [elegible, garantizado, en regla]
+  must_not_ask: [codice fiscale, nombre, dirección]

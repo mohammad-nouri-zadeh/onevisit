@@ -1,0 +1,2 @@
+OneVisit: the City has updated the information for your case. Check your list: {{ link }}
+Reply STOP to opt out

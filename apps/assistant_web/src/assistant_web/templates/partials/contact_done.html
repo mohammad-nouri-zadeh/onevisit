@@ -1,0 +1,14 @@
+<section id="contact" class="card" role="status">
+  {% if result == "none" %}
+  <p>{{ t.contact_none_done }}</p>
+  <p><a href="/case.ics">{{ t.download_ics }}</a></p>
+  {% else %}
+  <p>{{ t.contact_saved_email if result == "email" else t.contact_saved_sms }}</p>
+  <h2>{{ t.your_links }}</h2>
+  <ul>
+    <li><a href="{{ checklist_url }}">{{ t.link_checklist }}</a></li>
+    <li><a href="{{ consents_url }}">{{ t.link_consents }}</a></li>
+  </ul>
+  <p><a href="/case.ics">{{ t.download_ics }}</a></p>
+  {% endif %}
+</section>

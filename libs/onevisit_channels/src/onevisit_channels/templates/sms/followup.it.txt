@@ -1,0 +1,2 @@
+OneVisit: com'e' andato l'appuntamento? Rispondi 1 tutto fatto, 2 mancava qualcosa, 3 altro. Dettagli: {{ link }}
+STOP per non ricevere altro

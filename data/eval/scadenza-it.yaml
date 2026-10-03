@@ -1,0 +1,11 @@
+id: scadenza-it
+quick: false
+messages:
+  - "mi serve la carta d'identità entro 10 giorni perché parto per lavoro, quella vecchia è scaduta. Sono adulto e italiano"
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: it
+  deadline_set: true
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

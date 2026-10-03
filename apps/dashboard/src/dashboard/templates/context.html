@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Contesto città{% endblock %}
+{% block content %}
+<h1>Contesto città</h1>
+<p class="note">Statistiche del Comune di Milano dal portale open data (dati.comune.milano.it, licenza CC BY), scaricate il 3 ottobre 2026. Servono a capire il problema; non sono requisiti per i cittadini.</p>
+
+<section>
+  <h2>Iscrizioni anagrafiche dall'estero (ds1959)</h2>
+  <table>
+    <thead><tr><th scope="col">Anno</th><th scope="col">Dall'estero</th><th scope="col">Tutte le iscrizioni</th><th scope="col">Quota dall'estero</th></tr></thead>
+    <tbody>{% for r in tables.arrivals %}<tr><td>{{ r.year }}</td><td>{{ r.registrations_from_abroad }}</td><td>{{ r.all_registrations }}</td><td>{{ r.share_from_abroad_pct }}%</td></tr>{% else %}<tr><td colspan="4">Dati non disponibili.</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Servizi online: «Ha facilitato la gestione della tua esigenza?» (ds1702, ds1511, ds1512)</h2>
+  <table>
+    <thead><tr><th scope="col">Servizio</th><th scope="col">Anno</th><th scope="col">Dataset</th><th scope="col">Risposte</th><th scope="col">Poco o per niente</th></tr></thead>
+    <tbody>{% for r in tables.online %}<tr><td>{{ r.service }}</td><td>{{ r.year }}</td><td>{{ r.dataset }}</td><td>{{ r.responses }}</td><td>{{ r.helped_little_or_not_pct }}%</td></tr>{% else %}<tr><td colspan="5">Dati non disponibili.</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Richieste di residenza online 2022, per gruppo (ds1702)</h2>
+  <table>
+    <thead><tr><th scope="col">Suddivisione</th><th scope="col">Gruppo</th><th scope="col">Risposte</th><th scope="col">Poco o per niente</th></tr></thead>
+    <tbody>{% for r in tables.residence_groups %}<tr><td>{{ r.split }}</td><td>{{ r.group }}</td><td>{{ r.responses }}</td><td>{{ r.helped_little_or_not_pct }}%</td></tr>{% else %}<tr><td colspan="4">Dati non disponibili.</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Residenti stranieri 2025, prime 20 cittadinanze (ds74)</h2>
+  <table>
+    <thead><tr><th scope="col">Posizione</th><th scope="col">Cittadinanza</th><th scope="col">Residenti</th><th scope="col">Quota</th></tr></thead>
+    <tbody>{% for r in tables.foreign_residents %}<tr><td>{{ r.rank }}</td><td>{{ r.citizenship }}</td><td>{{ r.residents }}</td><td>{{ r.share_of_foreign_residents_pct }}%</td></tr>{% else %}<tr><td colspan="4">Dati non disponibili.</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+{% endblock %}

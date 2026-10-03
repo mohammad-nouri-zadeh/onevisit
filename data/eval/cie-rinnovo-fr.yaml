@@ -1,0 +1,10 @@
+id: cie-rinnovo-fr
+quick: false
+messages:
+  - "Bonjour, ma carte d'identité italienne est expirée et je dois la renouveler."
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: fr
+  forbidden_phrases: [éligible, garanti, en règle]
+  must_not_ask: [codice fiscale, votre nom, adresse]

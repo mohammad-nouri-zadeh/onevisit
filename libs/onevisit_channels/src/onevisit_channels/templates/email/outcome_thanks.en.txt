@@ -1,0 +1,9 @@
+Thank you, your answer is recorded.
+
+If you want to tell us more:
+
+Tell us more: {{ link }}
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

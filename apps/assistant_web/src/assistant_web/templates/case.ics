@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OneVisit//Comune di Milano//IT
+BEGIN:VEVENT
+UID:{{ uid }}
+DTSTAMP:{{ stamp }}
+DTSTART:{{ start }}
+DTEND:{{ end }}
+SUMMARY:{{ summary }}
+{% if location %}LOCATION:{{ location }}
+{% endif %}END:VEVENT
+END:VCALENDAR

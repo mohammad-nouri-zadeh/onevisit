@@ -1,0 +1,11 @@
+La tua risposta aiuta il Comune a migliorare le informazioni per tutti. Com'è andato l'appuntamento?
+
+1. Tutto fatto: {{ link }}?choice=1
+
+2. Mancava qualcosa: {{ link }}?choice=2
+
+3. Altro: {{ link }}?choice=3
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

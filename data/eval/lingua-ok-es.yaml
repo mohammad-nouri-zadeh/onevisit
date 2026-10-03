@@ -1,0 +1,11 @@
+id: lingua-ok-es
+quick: false
+messages:
+  - "Hola, perdí mi carta de identidad italiana."
+  - "ok"
+expect:
+  service: carta-identita
+  variant: smarrimento-furto
+  language: es
+  forbidden_phrases: [elegible, garantizado, en regla]
+  must_not_ask: [codice fiscale, nombre]

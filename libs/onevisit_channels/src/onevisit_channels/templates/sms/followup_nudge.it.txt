@@ -1,0 +1,2 @@
+OneVisit: ci aiuti a migliorare? Rispondi 1 tutto fatto, 2 mancava qualcosa, 3 altro. Oppure: {{ link }}
+STOP per non ricevere altro

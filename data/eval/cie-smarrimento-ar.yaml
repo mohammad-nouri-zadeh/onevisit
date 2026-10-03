@@ -1,0 +1,10 @@
+id: cie-smarrimento-ar
+quick: false
+messages:
+  - "مرحبا، لقد فقدت بطاقة الهوية الإيطالية الخاصة بي في ميلانو. ماذا يجب أن أفعل؟"
+expect:
+  service: carta-identita
+  variant: smarrimento-furto
+  language: ar
+  forbidden_phrases: [idoneo, in regola, eligible]
+  must_not_ask: [codice fiscale]

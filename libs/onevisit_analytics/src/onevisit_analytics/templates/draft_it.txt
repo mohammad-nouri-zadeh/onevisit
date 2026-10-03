@@ -1,0 +1,1 @@
+Pagina da modificare: $page. Testo da aggiungere nella sezione dei documenti richiesti per «$service»: indicare in modo esplicito il requisito «$requirement» (causa rilevata: $cause), con cosa portare allo sportello e da quale ufficio o ente si ottiene. Prima della pubblicazione, verificare il testo con l'ufficio titolare della procedura.

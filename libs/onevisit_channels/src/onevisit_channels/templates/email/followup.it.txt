@@ -1,0 +1,11 @@
+Com'è andato il tuo appuntamento allo sportello? Scegli una risposta:
+
+1. Tutto fatto: {{ link }}?choice=1
+
+2. Mancava qualcosa: {{ link }}?choice=2
+
+3. Altro: {{ link }}?choice=3
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

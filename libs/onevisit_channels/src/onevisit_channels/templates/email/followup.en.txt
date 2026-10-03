@@ -1,0 +1,11 @@
+How did your appointment at the City desk go? Choose an answer:
+
+1. All done: {{ link }}?choice=1
+
+2. Something was missing: {{ link }}?choice=2
+
+3. Other: {{ link }}?choice=3
+
+--
+OneVisit is an assistant based on artificial intelligence. It does not decide on your case: the desk officer does.
+Manage or withdraw consent: {{ consents_link }}

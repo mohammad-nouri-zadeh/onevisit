@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="disclosure" aria-label="AI">
+  <p>{{ t.ai_disclosure }}</p>
+</section>
+<div id="messages" class="messages" aria-live="polite" aria-relevant="additions">
+  <div class="msg assistant"><span class="who">{{ t.assistant }}</span><p>{{ t.welcome }}</p></div>
+</div>
+<form id="chat-form" class="chat-form" method="post" action="/chat"
+      hx-post="/chat" hx-target="#messages" hx-swap="beforeend"
+      hx-on::after-request="if(event.detail.successful){this.reset();document.getElementById('message').focus();}">
+  <label for="message">{{ t.label_message }}</label>
+  <textarea id="message" name="message" rows="3" required
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.form.requestSubmit();}"></textarea>
+  <button type="submit">{{ t.send }}</button>
+</form>
+<div id="contact-slot"></div>
+{% endblock %}

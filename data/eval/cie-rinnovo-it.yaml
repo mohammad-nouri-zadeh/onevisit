@@ -1,0 +1,11 @@
+id: cie-rinnovo-it
+quick: false
+messages:
+  - "la mia carta d'identità scade il mese prossimo, devo rinnovarla. Sono maggiorenne e italiano"
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: it
+  requirements_include: [su-appuntamento, prenotazione-senza-spid]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

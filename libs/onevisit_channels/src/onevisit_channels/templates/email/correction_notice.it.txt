@@ -1,0 +1,9 @@
+Il Comune ha aggiornato le informazioni che riguardano la tua pratica.
+
+Apri la tua lista aggiornata:
+
+Apri la lista: {{ link }}
+
+--
+OneVisit è un assistente basato su intelligenza artificiale. Non decide sulla tua pratica: decide l'operatore allo sportello.
+Gestisci o revoca i consensi: {{ consents_link }}

@@ -1,0 +1,34 @@
+{# Macro comuni: definizioni delle metriche (coerenti con docs/metrics.md, storia A5) e formati. #}
+{% set DEFINITIONS = {
+  "first_visit_rate": "Pratiche chiuse al primo appuntamento: quota dei casi con esito registrato in cui il cittadino ha chiuso la pratica al primo appuntamento (esito «ok») sul totale dei casi con esito. Gruppi con meno di k casi esclusi.",
+  "by_language": "Lo stesso tasso, per lingua della conversazione. Somma dei gruppi servizio, categoria e lingua che superano la soglia k.",
+  "by_category": "Lo stesso tasso, per categoria del cittadino (italiana, UE, extra-UE). Somma dei gruppi che superano la soglia k.",
+  "weekly": "Tasso di chiusura al primo appuntamento per settimana dell'appuntamento (lunedì). Settimane con meno di k casi escluse.",
+  "gaps_by_cause": "Lacune non archiviate per causa (una delle sei cause), con le lacune aperte (nuove o in revisione) e il totale dei casi collegati, nascosto sotto soglia k.",
+  "avoided": "Stima delle visite a vuoto evitate: per ogni correzione, aumento del tasso dopo la correzione (se positivo) per il numero di casi dopo. Costo stimato = visite evitate × costo per slot.",
+  "effect": "Tasso di chiusura al primo appuntamento nelle settimane prima e dopo l'approvazione della correzione, con il numero di casi. Nullo sotto soglia k.",
+  "case_count": "Numero di esiti negativi collegati alla lacuna nel periodo."
+} %}
+
+{% macro info(key) -%}
+<details class="info"><summary aria-label="Definizione della metrica">ⓘ</summary><p>{{ DEFINITIONS[key] }}</p></details>
+{%- endmacro %}
+
+{% macro pct(value) -%}
+{% if value is none %}<span class="insufficient">dati insufficienti</span>{% else %}{{ "%.0f"|format(value * 100) }}%{% endif %}
+{%- endmacro %}
+
+{% macro num(value) -%}
+{% if value is none %}<span class="insufficient">dati insufficienti</span>{% else %}{{ value }}{% endif %}
+{%- endmacro %}
+
+{% macro cell(c) -%}
+{% if c is none %}<span class="insufficient">dati insufficienti</span>{% else %}{{ "%.0f"|format(c.rate * 100) }}% <span class="note">(n={{ c.cases }})</span>{% endif %}
+{%- endmacro %}
+
+{% macro recipient_label(gap) -%}
+{% if gap.recipient == "ente-nazionale" %}<span class="national">fonte non comunale</span> · {{ gap.owner_ente or "ente nazionale" }}
+{% elif gap.recipient == "assistente" %}migliorare l'assistente
+{% elif gap.recipient == "ufficio" %}ufficio titolare
+{% else %}redazione{% endif %}
+{%- endmacro %}

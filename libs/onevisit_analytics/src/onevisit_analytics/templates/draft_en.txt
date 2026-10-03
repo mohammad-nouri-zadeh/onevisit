@@ -1,0 +1,1 @@
+Page to change: $page. Text to add in the list of required documents for «$service»: state clearly the requirement «$requirement» (detected cause: $cause), what to bring to the desk and which office or authority issues it. Check the text with the office that owns the procedure before publishing.

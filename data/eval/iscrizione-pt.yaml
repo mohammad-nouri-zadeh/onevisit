@@ -1,0 +1,10 @@
+id: iscrizione-pt
+quick: false
+messages:
+  - "Olá, cheguei a Milão do Brasil com o meu permesso di soggiorno e quero fazer a inscrição de residência."
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: permesso
+  language: pt
+  forbidden_phrases: [idoneo, in regola, eligible]
+  must_not_ask: [codice fiscale, seu nome, endereço]

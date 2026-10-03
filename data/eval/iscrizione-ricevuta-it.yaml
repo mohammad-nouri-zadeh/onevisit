@@ -1,0 +1,10 @@
+id: iscrizione-ricevuta-it
+quick: false
+messages:
+  - "sono arrivato dal Perù, ho solo la ricevuta della questura per il permesso di soggiorno e voglio prendere la residenza a Milano"
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: ricevuta
+  language: it
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome, numero della ricevuta]

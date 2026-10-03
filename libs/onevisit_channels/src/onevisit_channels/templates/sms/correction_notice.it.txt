@@ -1,0 +1,2 @@
+OneVisit: il Comune ha aggiornato le informazioni per la tua pratica. Controlla la tua lista: {{ link }}
+STOP per non ricevere altro

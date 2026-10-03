@@ -1,0 +1,17 @@
+{
+  "id": "servizio-demo",
+  "title": {"it": "Servizio demo", "en": "Demo service"},
+  "ente": "comune-prova",
+  "source_ids": ["pagina-demo", "altra-fonte"],
+  "deciding_questions": [
+    {"id": "motivo", "ask_it": "Perché?", "ask_en": "Why?", "options": ["prima", "rinnovo"]}
+  ],
+  "requirements": [
+    {"id": "appuntamento", "text_it": "Serve un appuntamento.", "when": {}, "source_id": "altra-fonte",
+     "quote": "Lo sportello riceve solo su appuntamento.", "verified_at": "2026-10-01", "status": "verified"},
+    {"id": "carta-scaduta", "text_it": "Porta la carta scaduta.", "when": {"motivo": ["rinnovo"]},
+     "source_id": "pagina-demo", "quote": "", "verified_at": null, "status": "todo"}
+  ],
+  "steps": [],
+  "unknowns_it": []
+}
