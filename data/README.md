@@ -10,6 +10,7 @@ This folder is the difference between OneVisit and asking a general chatbot. The
 | `opendata/` | City open datasets exactly as downloaded (never edited by hand) |
 | `pages/` | Official web pages saved as clean text, one file per source id |
 | `offices.json` | Registry offices, cleaned from dataset `ds549` by `tools/clean_offices.py` |
+| `context/` | City statistics for the pitch and the panel (surveys, arrivals from abroad, foreign residents), built by `tools/summarise_opendata.py`. Read `context/README.md` |
 | `enti.json` | The offices responsible (Comune, Questura, Agenzia delle Entrate) |
 | `services/*.json` | One file per service: deciding questions, requirements, steps |
 
@@ -41,6 +42,9 @@ python data/tools/validate.py
 ```
 
 ## Refreshing the open data
+
+`python data/tools/fetch_opendata.py` downloads every dataset we use; `python data/tools/summarise_opendata.py` rebuilds `context/`.
+
 
 `opendata/ds549-sedi-dei-servizi-anagrafici.csv` was downloaded from the City's CKAN API on 3 Oct 2026 (resource last modified 28 Jan 2026, licence CC BY). To refresh it, download the CSV again from the dataset page into `opendata/`, then run `python data/tools/clean_offices.py`.
 

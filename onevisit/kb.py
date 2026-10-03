@@ -152,6 +152,16 @@ def find_offices(area: str | None = None, municipio: int | None = None,
     return [{k: o[k] for k in keep if k in o} for o in offices[:limit]]
 
 
+def context_tables() -> dict[str, list[dict]]:
+    """City statistics for the panel and the pitch (data/context/*.csv): arrivals from
+    abroad, survey results on online services, largest foreign communities."""
+    tables = {}
+    for path in sorted((DATA / "context").glob("*.csv")):
+        with path.open(encoding="utf-8", newline="") as f:
+            tables[path.stem] = list(csv.DictReader(f))
+    return tables
+
+
 def prompt_context() -> str:
     """A compact index of what the knowledge base covers, for the system prompt."""
     lines = ["Services covered (call get_service / get_checklist for details):"]

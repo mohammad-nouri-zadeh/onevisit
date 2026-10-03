@@ -1,0 +1,4 @@
+service,year,dataset,group,responses,Molto,Abbastanza,Poco,Per niente,helped_little_or_not_pct
+Richieste residenza (online),2022,ds1702,all respondents,10194,4753,2338,1080,2023,30.4
+Certificati anagrafici (online),2021,ds1512,all respondents,10915,9892,771,85,167,2.3
+Appuntamenti online,2021,ds1511,all respondents,4646,2368,1144,388,746,24.4

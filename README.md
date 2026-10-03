@@ -38,9 +38,13 @@ Built today:
 | Source | How we used it |
 |---|---|
 | `ds549-sedi-dei-servizi-anagrafici` (retrieved 3 Oct 2026; resource last modified 28 Jan 2026) | The 13 registry offices: address, hours, booking rules, coordinates. Cleaning found a stale note ("5 gennaio 2026: CHIUSO") and missing fields |
+| `ds1702` survey of the online residence service, 2022 (10,194 responses) | 42.1% of foreign respondents said it helped little or not at all, vs 28.2% of Italians; 46.2% for foreign newcomers' residence requests. Baseline for the panel |
+| `ds1511`, `ds1512` surveys of online appointments and certificates, 2021 | Comparison: certificates online leave 2.3% unhelped, residence 30.4% |
+| `ds1959` registrations by previous residence, 2020–2024 | 19,755 people registered arriving from abroad in 2024: the size of our user group |
+| `ds74` foreign residents by citizenship, 2025 | Which languages to support first |
 | comune.milano.it service pages (TODO, see [data/sources.csv](data/sources.csv)) | Requirements for each service, quoted word for word |
 
-Full list with retrieval dates: [data/sources.csv](data/sources.csv). How the data works: [data/README.md](data/README.md).
+Full list with retrieval dates: [data/sources.csv](data/sources.csv). What the numbers say: [data/context/README.md](data/context/README.md). How the data works: [data/README.md](data/README.md).
 
 ## Day one
 
