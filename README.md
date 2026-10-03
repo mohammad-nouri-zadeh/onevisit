@@ -74,12 +74,13 @@ python data/tools/validate.py      # checks that every verified fact quotes its 
 
 ## Team
 
-| Name | Role | GitHub |
-|---|---|---|
-| Mohammad Nouri Zadeh | Data and sources, app, video | [@mohammad-nouri-zadeh](https://github.com/mohammad-nouri-zadeh) |
-| TODO | Production architecture (kit) | [@Saroth85](https://github.com/Saroth85) |
-| TODO | TODO | [@mkaihara](https://github.com/mkaihara) |
-| TODO | TODO | [@leonardosilvani-ops](https://github.com/leonardosilvani-ops) |
+| Name | GitHub |
+|---|---|
+| Mohammad Nouri Zadeh | [@mohammad-nouri-zadeh](https://github.com/mohammad-nouri-zadeh) |
+| Rosario Barbagallo | [@Saroth85](https://github.com/Saroth85) |
+| Leonardo Silvani | [@leonardosilvani-ops](https://github.com/leonardosilvani-ops) |
+| Marcelo Kaihara | [@mkaihara](https://github.com/mkaihara) |
+| Eugène Wirtz | |
 
 ## Licence
 
