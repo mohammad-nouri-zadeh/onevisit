@@ -9,3 +9,17 @@ data/opendata/ds1702-*.csv
 data/opendata/ds1511-*.csv
 data/opendata/ds1512-*.csv
 data/opendata/ds74-*.csv
+
+# Stack Docker e strumenti di sviluppo
+.env.local
+.env.prod
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+backups/
+test-results/
+playwright-report/
+docs/video/*.mp4

@@ -1,0 +1,21 @@
+[project]
+name = "onevisit-agent"
+version = "0.1.0"
+description = "Agente Claude: prompt, strumenti, validazione delle risposte (storia C3)."
+requires-python = ">=3.13"
+license = "EUPL-1.2"
+dependencies = [
+    "anthropic>=0.40",
+    "pydantic>=2.9",
+    "onevisit-knowledge",
+]
+
+[tool.uv.sources]
+onevisit-knowledge = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/onevisit_agent"]

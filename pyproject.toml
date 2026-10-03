@@ -1,0 +1,97 @@
+[project]
+name = "onevisit"
+version = "0.1.0"
+description = "OneVisit: un appuntamento, una pratica chiusa. Workspace root."
+requires-python = ">=3.13"
+license = "EUPL-1.2"
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["apps/*", "libs/*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6.0",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "httpx>=0.27",
+    "types-pyyaml>=6.0",
+]
+e2e = [
+    "playwright>=1.49",
+    "pytest-playwright>=0.6",
+]
+
+# ---------------- ruff ----------------
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+# onevisit/ e data/tools/ sono il livello dati del team (area di Mohammad), fuori dal workspace uv.
+extend-exclude = ["**/migrations/versions/*.py", "onevisit/", "data/tools/"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "B",        # bugbear
+    "UP",       # pyupgrade
+    "SIM",      # semplificazioni
+    "N",        # naming
+    "RUF",      # regole ruff
+    "S",        # sicurezza (bandit)
+    "T20",      # niente print nel codice applicativo
+]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "assistant_web", "dashboard", "gateway",
+    "onevisit_agent", "onevisit_analytics", "onevisit_channels", "onevisit_cli",
+    "onevisit_db", "onevisit_knowledge", "onevisit_privacy",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S101", "S105", "S106"]
+"libs/onevisit_cli/**" = ["T20"]
+
+# ---------------- mypy ----------------
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unreachable = true
+pretty = true
+plugins = ["pydantic.mypy"]
+explicit_package_bases = true
+mypy_path = [
+    "apps/assistant_web/src", "apps/dashboard/src", "apps/gateway/src",
+    "libs/onevisit_agent/src", "libs/onevisit_knowledge/src", "libs/onevisit_db/src",
+    "libs/onevisit_channels/src", "libs/onevisit_privacy/src",
+    "libs/onevisit_analytics/src", "libs/onevisit_cli/src",
+]
+
+[[tool.mypy.overrides]]
+module = ["procrastinate.*", "phonenumbers.*", "twilio.*", "markdownify.*"]
+ignore_missing_imports = true
+
+# ---------------- pytest ----------------
+[tool.pytest.ini_options]
+testpaths = ["apps", "libs"]
+addopts = "-ra --strict-markers --import-mode=importlib"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "db: richiede PostgreSQL (DATABASE_URL_TEST impostata)",
+    "llm: chiama la vera API di Claude (ANTHROPIC_API_KEY impostata); esclusi dal run standard",
+    "e2e: test end-to-end con Playwright sullo stack avviato",
+]
+
+[tool.coverage.run]
+source = ["apps", "libs"]
+omit = ["**/tests/**", "**/migrations/**"]
+
+[tool.coverage.report]
+skip_empty = true

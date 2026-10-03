@@ -1,0 +1,20 @@
+[project]
+name = "onevisit-channels"
+version = "0.1.0"
+description = "Interfaccia dei canali e adattatori web, email, SMS; modelli dei messaggi (C5-C7)."
+requires-python = ">=3.13"
+license = "EUPL-1.2"
+dependencies = [
+    "pydantic>=2.9",
+    "jinja2>=3.1",
+    "aiosmtplib>=3.0",
+    "phonenumbers>=8.13",
+    "twilio>=9.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/onevisit_channels"]

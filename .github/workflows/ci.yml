@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ricerca di segreti nel codice
+        run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:latest detect --source=/repo --no-git -v
+
+      - name: Prepara .env per la CI
+        run: cp .env.example .env
+
+      - name: Batteria di test nel container
+        run: docker compose --profile test run --rm --build test
+
+      - name: Valutazione veloce dell'agente
+        if: env.ANTHROPIC_API_KEY != ''
+        run: docker compose --profile test run --rm -e ANTHROPIC_API_KEY test uv run onevisit eval --quick
+
+      - name: Build dell'immagine di produzione
+        run: docker build --target runtime -t onevisit:ci .

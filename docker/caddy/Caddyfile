@@ -1,0 +1,19 @@
+# Reverse proxy di produzione con HTTPS automatico (Let's Encrypt).
+# I domini vengono da .env: ASSISTANT_DOMAIN, DASHBOARD_DOMAIN, GATEWAY_DOMAIN, ACME_EMAIL.
+{
+    email {$ACME_EMAIL}
+}
+
+{$ASSISTANT_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy assistant_web:8000
+}
+
+{$DASHBOARD_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy dashboard:8000
+}
+
+{$GATEWAY_DOMAIN} {
+    reverse_proxy gateway:8000
+}

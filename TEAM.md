@@ -12,10 +12,11 @@ Edit files in your own area. For anything outside it, make the smallest change y
 |---|---|---|
 | Data and sources | `data/` | @mohammad-nouri-zadeh |
 | Data contract (functions and tool definitions) | `onevisit/kb.py`, `onevisit/tools.py` | @mohammad-nouri-zadeh; change only after telling the team |
-| Agent (system prompt and loop) | TODO, e.g. `agent/` | TODO |
-| Interface (chat UI) | TODO, e.g. `web/` | TODO |
-| Panel for City staff | TODO, e.g. `panel/` | TODO |
-| README, pitch, demo video | `README.md`, `docs/` | TODO |
+| Agent (system prompt, loop, validator) | `libs/onevisit_agent/`, `libs/onevisit_privacy/` | @Saroth85 |
+| Interface (chat UI), channels, gateway | `apps/assistant_web/`, `apps/gateway/`, `libs/onevisit_channels/` | @Saroth85 |
+| Panel for City staff, analytics | `apps/dashboard/`, `libs/onevisit_analytics/` | @Saroth85 |
+| Kit infrastructure: Docker, DB, CLI, knowledge loader | `Makefile`, `compose*.yaml`, `Dockerfile`, `pyproject.toml`, `libs/onevisit_db/`, `libs/onevisit_cli/`, `libs/onevisit_knowledge/` | @Saroth85 |
+| README, pitch, demo video | `README.md`, `docs/` | @Saroth85 (take over by writing your handle here) |
 
 Owners: replace TODO with your handle and folder in your first push.
 
@@ -34,6 +35,8 @@ The agent reads City facts only through `onevisit/tools.py` (`TOOLS` and `run_to
 
 Changing a tool's name, its inputs or a field it returns breaks the other side. Note it in the log in the same push.
 
+**Since 13:20 (the kit):** `libs/onevisit_knowledge` reads the same files directly (`data/services/*.json`, `data/sources.csv`, `data/pages/*.md`, `data/offices.json`, `data/enti.json`, `data/context/*.csv`) and applies the same rule: only `"status": "verified"` facts reach the citizen. **These file formats are the contract**: changing a field name breaks the agent, so note it in the log. `onevisit/kb.py` and `onevisit/tools.py` stay as they are for anyone still using them.
+
 ## Decisions
 
 Record a decision here when the team makes it, so every session follows it.
@@ -41,14 +44,15 @@ Record a decision here when the team makes it, so every session follows it.
 | Decision | Value | Decided by, when |
 |---|---|---|
 | Track | TODO (01 or 03) | |
-| Runtime model | TODO | |
-| Stack for agent and UI | TODO | |
-| Demo case | TODO | |
+| Runtime model | `claude-sonnet-5-5` for conversation and analysis, `claude-haiku-4-5-20251001` for short tasks (PII removal, classification) | @Saroth85, 13:20 |
+| Stack for agent and UI | The OneVisit kit: Python 3.13, uv workspace (`apps/`, `libs/`), FastAPI + Jinja2 + HTMX, PostgreSQL 17 with `pii`/`core`/`analytics` schemas, Docker Compose, `make` targets. Spec: `docs/backlog.md`; plan: `docs/implementation-plan.md`; status: `docs/progress.md` | @Saroth85, 13:20 |
+| Demo case | Daniel (non-EU, writes in English, registry enrolment) and Giulia (lost ID card, leaves in a month); personas in `docs/backlog.md` | @Saroth85, 13:20 |
 
 ## Log
 
 Newest at the top. One line per push that others depend on: time, handle, what changed.
 
+- 13:20 · @Saroth85 · **Added the OneVisit kit** (Docker/uv monorepo: `apps/assistant_web`, `apps/dashboard`, `apps/gateway`, `libs/onevisit_*`, `Makefile`, `compose*.yaml`, `docs/backlog.md` = spec, `docs/progress.md` = status). Nothing deleted: `onevisit/`, `data/` and `requirements.txt` unchanged. Start with `make env && make up` (or `uv sync --all-packages` without Docker). M0 checks green: 11 tests, ruff, mypy strict. ruff skips `onevisit/` and `data/tools/`.
 - 12:32 · @mohammad-nouri-zadeh · City statistics in `data/context/` (surveys, arrivals, foreign residents) and `kb.context_tables()` for the panel. Summary: `data/context/README.md`.
 - 12:26 · @mohammad-nouri-zadeh · Added TEAM.md (this file) and a pointer to it at the top of CLAUDE.md.
 - 12:23 · @mohammad-nouri-zadeh · Repo created: data layer, `onevisit/kb.py`, `onevisit/tools.py`, validator, README draft.

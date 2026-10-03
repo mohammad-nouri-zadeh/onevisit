@@ -1,0 +1,22 @@
+[project]
+name = "onevisit-analytics"
+version = "0.1.0"
+description = "Lacune, metriche, confronto prima e dopo (C10, C11)."
+requires-python = ">=3.13"
+license = "EUPL-1.2"
+dependencies = [
+    "anthropic>=0.40",
+    "pydantic>=2.9",
+    "sqlalchemy>=2.0",
+    "onevisit-db",
+]
+
+[tool.uv.sources]
+onevisit-db = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/onevisit_analytics"]

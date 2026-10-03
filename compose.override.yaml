@@ -1,0 +1,72 @@
+# Aggiunte per lo sviluppo, caricate automaticamente da `docker compose`.
+# Il codice e' montato nel container: le applicazioni si ricaricano a ogni modifica.
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # interfaccia web: http://localhost:8025
+      - "1025:1025"   # SMTP
+
+  assistant_web:
+    volumes: [".:/app"]
+    ports: ["8000:8000"]
+    command: ["uvicorn", "assistant_web.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "apps", "--reload-dir", "libs"]
+
+  dashboard:
+    volumes: [".:/app"]
+    ports: ["8001:8000"]
+    command: ["uvicorn", "dashboard.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "apps", "--reload-dir", "libs"]
+
+  gateway:
+    volumes: [".:/app"]
+    ports: ["8002:8000"]
+    command: ["uvicorn", "gateway.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "apps", "--reload-dir", "libs"]
+
+  worker_notifications:
+    volumes: [".:/app"]
+
+  worker_analysis:
+    volumes: [".:/app"]
+
+  tools:
+    volumes: [".:/app"]
+
+  # Batteria di test: `make test`. Usa un database dedicato (onevisit_test).
+  test:
+    build:
+      context: .
+      target: test
+    image: onevisit:test
+    env_file: .env
+    environment:
+      DATABASE_URL_TEST: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/onevisit_test
+      COVERAGE_MIN: ${COVERAGE_MIN:-70}
+    volumes: [".:/app"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles: ["test"]
+
+  # Test end-to-end con Playwright sul percorso demo: `make e2e`.
+  e2e:
+    build:
+      context: .
+      target: e2e
+    image: onevisit:e2e
+    env_file: .env
+    environment:
+      E2E_ASSISTANT_URL: http://assistant_web:8000
+      E2E_DASHBOARD_URL: http://dashboard:8000
+      E2E_MAILPIT_URL: http://mailpit:8025
+    volumes: [".:/app"]
+    depends_on:
+      assistant_web:
+        condition: service_healthy
+      dashboard:
+        condition: service_healthy
+    profiles: ["e2e"]

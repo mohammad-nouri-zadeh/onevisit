@@ -1,0 +1,49 @@
+# Produzione su un server Linux con Docker:
+#   docker compose -f compose.yaml -f compose.prod.yaml up -d
+# Solo Caddy espone porte (80 e 443) e ottiene i certificati TLS in automatico.
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  postgres:
+    logging: *logging
+  migrate:
+    logging: *logging
+  assistant_web:
+    logging: *logging
+  dashboard:
+    logging: *logging
+  gateway:
+    logging: *logging
+  worker_notifications:
+    logging: *logging
+  worker_analysis:
+    logging: *logging
+
+  caddy:
+    image: caddy:2-alpine
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      assistant_web:
+        condition: service_healthy
+      dashboard:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  caddy_data:
+  caddy_config:

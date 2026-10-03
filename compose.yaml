@@ -1,0 +1,112 @@
+# Stack di base, valido in sviluppo e in produzione.
+# Sviluppo:   docker compose up            (aggiunge compose.override.yaml)
+# Produzione: docker compose -f compose.yaml -f compose.prod.yaml up -d
+
+x-app: &app
+  build:
+    context: .
+    target: runtime
+  image: ${ONEVISIT_IMAGE:-onevisit:latest}
+  env_file: .env
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+  restart: unless-stopped
+
+x-healthcheck: &http-healthcheck
+  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
+  interval: 15s
+  timeout: 5s
+  retries: 5
+  start_period: 20s
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # Applica le migrazioni e termina. Gli altri servizi partono solo dopo.
+  migrate:
+    build:
+      context: .
+      target: runtime
+    image: ${ONEVISIT_IMAGE:-onevisit:latest}
+    env_file: .env
+    environment:
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: ["alembic", "-c", "libs/onevisit_db/alembic.ini", "upgrade", "head"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  assistant_web:
+    <<: *app
+    environment:
+      ONEVISIT_SERVICE_NAME: assistant_web
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://app_assistant:${APP_ASSISTANT_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: ["uvicorn", "assistant_web.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]
+    healthcheck: *http-healthcheck
+
+  dashboard:
+    <<: *app
+    environment:
+      ONEVISIT_SERVICE_NAME: dashboard
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://app_dashboard:${APP_DASHBOARD_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: ["uvicorn", "dashboard.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]
+    healthcheck: *http-healthcheck
+
+  gateway:
+    <<: *app
+    environment:
+      ONEVISIT_SERVICE_NAME: gateway
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://app_assistant:${APP_ASSISTANT_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: ["uvicorn", "gateway.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]
+    healthcheck: *http-healthcheck
+
+  # Due worker con privilegi diversi: chi invia i messaggi legge i contatti,
+  # chi analizza gli esiti non li vede mai (storie C8 e C10).
+  # Profilo "workers": la storia C8 lo rimuove dopo aver applicato lo schema di
+  # Procrastinate e concesso i permessi. Fino ad allora `make up` non li avvia.
+  worker_notifications:
+    <<: *app
+    profiles: ["workers"]
+    environment:
+      ONEVISIT_SERVICE_NAME: worker_notifications
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://app_notifier:${APP_NOTIFIER_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: ["procrastinate", "--app=gateway.worker.app", "worker", "--queues=notifications"]
+
+  worker_analysis:
+    <<: *app
+    profiles: ["workers"]
+    environment:
+      ONEVISIT_SERVICE_NAME: worker_analysis
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://app_analysis:${APP_ANALYSIS_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command: ["procrastinate", "--app=gateway.worker.app", "worker", "--queues=analysis"]
+
+  # Comandi amministrativi con l'utente proprietario: `make seed-demo`, `make eval`, ...
+  tools:
+    build:
+      context: .
+      target: runtime
+    image: ${ONEVISIT_IMAGE:-onevisit:latest}
+    env_file: .env
+    environment:
+      ONEVISIT_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    profiles: ["tools"]
+    command: ["onevisit", "--help"]
+
+volumes:
+  postgres_data:

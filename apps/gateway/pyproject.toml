@@ -1,0 +1,31 @@
+[project]
+name = "gateway"
+version = "0.1.0"
+description = "Webhook SMS, link di risposta e worker dello scheduler."
+requires-python = ">=3.13"
+license = "EUPL-1.2"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic-settings>=2.6",
+    "procrastinate>=2.0",
+    "onevisit-agent",
+    "onevisit-analytics",
+    "onevisit-channels",
+    "onevisit-db",
+    "onevisit-privacy",
+]
+
+[tool.uv.sources]
+onevisit-agent = { workspace = true }
+onevisit-analytics = { workspace = true }
+onevisit-channels = { workspace = true }
+onevisit-db = { workspace = true }
+onevisit-privacy = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gateway"]

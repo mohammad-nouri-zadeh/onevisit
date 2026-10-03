@@ -1,0 +1,27 @@
+[project]
+name = "dashboard"
+version = "0.1.0"
+description = "Pannello del Comune, separato dall'assistente."
+requires-python = ">=3.13"
+license = "EUPL-1.2"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "jinja2>=3.1",
+    "pydantic-settings>=2.6",
+    "itsdangerous>=2.2",
+    "authlib>=1.3",
+    "onevisit-db",
+    "onevisit-analytics",
+]
+
+[tool.uv.sources]
+onevisit-db = { workspace = true }
+onevisit-analytics = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dashboard"]
