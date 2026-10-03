@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OneVisit film</title>
+<link rel="stylesheet" href="fonts-local.css">
+<style>
+:root {
+  --paper: #EDEEF0; --sheet: #FFFFFF; --ink: #111214; --graphite: #4A4D55; --pewter: #6E727C; --silver: #C6C8CE; --mist: #E4E5E9;
+  --sans: "Titillium Web", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+.scene { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; padding: 120px 160px; display: flex; flex-direction: column; justify-content: center; }
+.scene.on { opacity: 1; }
+.kick { font-size: 26px; color: var(--pewter); letter-spacing: .01em; }
+.title { font-size: 150px; font-weight: 700; letter-spacing: -0.03em; line-height: .95; }
+.sub { font-size: 46px; color: var(--graphite); margin-top: 22px; max-width: 26ch; line-height: 1.2; }
+.rule { height: 2px; background: var(--ink); margin: 48px 0 26px; width: 100%; }
+.meta { font-family: var(--mono); font-size: 22px; color: var(--pewter); }
+
+/* numbers */
+.fact { position: absolute; left: 160px; right: 160px; top: 50%; transform: translateY(-50%); opacity: 0; transition: opacity .6s ease; }
+.fact.on { opacity: 1; }
+.big { font-size: 210px; font-weight: 700; letter-spacing: -0.04em; line-height: .9; font-variant-numeric: tabular-nums; }
+.say { font-size: 50px; line-height: 1.18; max-width: 30ch; margin-top: 26px; }
+.src { font-family: var(--mono); font-size: 22px; color: var(--pewter); margin-top: 22px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--ink); }
+.pair > div { padding: 30px 40px 0 0; }
+.pair > div + div { border-left: 1px solid var(--silver); padding-left: 40px; }
+.pair .big { font-size: 170px; }
+.pair .say { font-size: 40px; }
+.muted { color: var(--pewter); }
+
+/* demo */
+.demo { padding: 0 120px; flex-direction: row; align-items: center; gap: 110px; }
+.cap { flex: 1; min-width: 0; }
+.cap .step { font-family: var(--mono); font-size: 22px; color: var(--pewter); margin-bottom: 18px; }
+.cap h2 { margin: 0; font-size: 72px; line-height: 1.04; letter-spacing: -0.025em; transition: opacity .35s ease; }
+.cap p { font-size: 36px; color: var(--graphite); line-height: 1.3; margin: 26px 0 0; max-width: 30ch; transition: opacity .35s ease; }
+.fade { opacity: 0 !important; }
+.phoneframe { width: 440px; height: 940px; flex: none; position: relative; }
+.phoneframe iframe { width: 420px; height: 900px; border: 0; transform: scale(1.04); transform-origin: top left; background: transparent; }
+.label { position: absolute; bottom: 48px; left: 120px; font-family: var(--mono); font-size: 20px; color: var(--pewter); border: 1px dashed var(--silver); border-radius: 999px; padding: 6px 18px; }
+
+/* staff */
+.staff { padding: 70px 120px 60px; justify-content: flex-start; gap: 26px; }
+.staff .cap h2 { font-size: 60px; }
+.staff .cap p { font-size: 32px; margin-top: 12px; max-width: none; }
+.staffframe { width: 1680px; height: 760px; overflow: hidden; border-top: 2px solid var(--ink); }
+.staffframe iframe { width: 1240px; height: 640px; border: 0; transform: scale(1.355); transform-origin: top left; }
+
+/* diagram */
+.flow { display: grid; grid-template-columns: 1fr 70px 1.25fr 70px 1.2fr; align-items: stretch; margin-top: 50px; }
+.node { border: 2px solid var(--ink); border-radius: 26px; padding: 30px 32px; background: var(--sheet); display: grid; gap: 10px; align-content: start; }
+.node.dark { background: var(--ink); color: #fff; }
+.node.dark .muted { color: #B7B9C0; }
+.node h3 { margin: 0; font-size: 44px; letter-spacing: -0.02em; }
+.node p { margin: 0; font-size: 28px; line-height: 1.3; }
+.node .mono { font-family: var(--mono); font-size: 22px; }
+.arrow { display: grid; place-items: center; font-size: 46px; color: var(--ink); }
+.loop { margin-top: 34px; border-top: 1px solid var(--silver); padding-top: 26px; font-size: 32px; color: var(--graphite); }
+.loop b { color: var(--ink); }
+
+.close .quote { font-size: 78px; font-weight: 700; line-height: 1.06; letter-spacing: -0.025em; max-width: 24ch; }
+.close .en { font-size: 38px; color: var(--graphite); margin-top: 24px; max-width: 40ch; }
+</style>
+</head>
+<body>
+
+<!-- 1 title -->
+<section class="scene" id="s-title">
+  <div class="kick">Claude Impact Lab Milano · 3 October 2026</div>
+  <div class="title">OneVisit</div>
+  <div class="sub">Get it right at your first registry appointment.</div>
+</section>
+
+<!-- 2 problem -->
+<section class="scene" id="s-problem">
+  <div class="fact" id="f1">
+    <div class="big">19,755</div>
+    <div class="say">people registered in Milan arriving from abroad in 2024.</div>
+    <div class="src">City of Milan open data · ds1959</div>
+  </div>
+  <div class="fact" id="f2">
+    <div class="say" style="margin:0 0 34px;font-size:44px;max-width:none">The City asked users of its online residence service: <i>did it help?</i></div>
+    <div class="pair">
+      <div><div class="big">42.1%</div><div class="say">of foreign citizens: little or not at all.</div></div>
+      <div><div class="big muted">28.2%</div><div class="say muted">of Italian citizens.</div></div>
+    </div>
+    <div class="src">City of Milan open data · ds1702 · 2022 survey · 10,194 answers</div>
+  </div>
+  <div class="fact" id="f3">
+    <div class="big" style="font-size:150px;letter-spacing:-0.03em;line-height:1">Something missing at the desk means booking again.</div>
+    <div class="say">A wasted trip for the citizen. A wasted slot for the City.</div>
+  </div>
+</section>
+
+<!-- 3 demo -->
+<section class="scene demo" id="s-demo">
+  <span class="label">Prototype · example conversation</span>
+  <div class="cap">
+    <div class="step" id="d-step">The citizen app</div>
+    <h2 id="d-h">Tell it your situation, in your language.</h2>
+    <p id="d-p">Italian, English, Arabic, Chinese, Spanish: the largest communities in Milan.</p>
+  </div>
+  <div class="phoneframe"><iframe id="phone" src="proto.html" title="Citizen app"></iframe></div>
+</section>
+
+<!-- 4 staff -->
+<section class="scene staff" id="s-staff">
+  <span class="label">Reports are simulated · statistics are real</span>
+  <div class="cap">
+    <h2 id="st-h">The City sees where its pages fail.</h2>
+    <p id="st-p">Real problems in its own data, and reports grouped by cause.</p>
+  </div>
+  <div class="staffframe"><iframe id="staffv" src="proto.html#staff" title="City staff panel"></iframe></div>
+</section>
+
+<!-- 5 where Claude works -->
+<section class="scene" id="s-claude">
+  <div class="kick">Where Claude works, every time someone uses it</div>
+  <div class="flow">
+    <div class="node"><h3>Citizen</h3><p>Describes the situation in any language.</p><p class="muted">No name, no tax code, no documents.</p></div>
+    <div class="arrow">→</div>
+    <div class="node dark"><h3>Claude</h3><p>Understands the case, asks only what changes the answer, builds the checklist, finds the office.</p><p class="muted">Never states a rule it can't source.</p></div>
+    <div class="arrow">→</div>
+    <div class="node"><h3>City sources</h3><p>Open data and official pages, quoted word for word, with the date checked.</p><p class="mono muted">ds549 · comune.milano.it</p></div>
+  </div>
+  <div class="loop"><b>After the appointment:</b> Claude classifies the report and drafts the page fix. <b>A City officer approves it.</b></div>
+</section>
+
+<!-- 6 close -->
+<section class="scene close" id="s-close">
+  <div class="kick">Day one</div>
+  <div class="sub" style="max-width:34ch;margin-top:10px">The City already has the pages, the open data and the welcome emails for new residents. OneVisit runs on top of them.</div>
+  <div class="rule"></div>
+  <div class="quote" lang="it">Il Comune non deve chiedersi dove sbaglia: glielo dicono gli appuntamenti.</div>
+  <div class="en">The City doesn't have to guess where it goes wrong. The appointments tell it.</div>
+  <div class="meta" style="margin-top:44px">github.com/mohammad-nouri-zadeh/onevisit · open source, MIT · donated to the Comune di Milano</div>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+const wait = ms => new Promise(r => setTimeout(r, ms));
+function scene(id) { document.querySelectorAll(".scene").forEach(s => s.classList.toggle("on", s.id === id)); }
+function fact(id) { document.querySelectorAll(".fact").forEach(f => f.classList.toggle("on", f.id === id)); }
+async function cap(step, h, p) {
+  [$("d-h"), $("d-p")].forEach(e => e.classList.add("fade"));
+  await wait(350);
+  if (step) $("d-step").textContent = step;
+  $("d-h").textContent = h; $("d-p").textContent = p;
+  [$("d-h"), $("d-p")].forEach(e => e.classList.remove("fade"));
+}
+function prep(frame, css) {
+  const d = frame.contentDocument; const st = d.createElement("style"); st.textContent = css; d.head.appendChild(st);
+  return d;
+}
+function click(d, sel, text) {
+  const els = [...d.querySelectorAll(sel)];
+  const el = text ? els.find(e => e.textContent.trim() === text) : els[0];
+  el && el.click();
+}
+function hl(d, sel, on) { d.querySelectorAll(sel).forEach(e => { e.style.transition = "box-shadow .3s, background .3s"; e.style.boxShadow = on ? "0 0 0 2px #111214" : ""; e.style.borderRadius = on ? "8px" : ""; }); }
+
+async function run() {
+  const P = prep($("phone"), ".top,.about,.foot{display:none!important}.wrap{padding:0!important}body{background:transparent!important}.stage{display:block!important}.phone{min-height:880px!important;border-radius:44px!important}");
+  const S = prep($("staffv"), ".top,.foot{display:none!important}.wrap{padding:18px 0 0!important;max-width:none!important}body{background:#EDEEF0!important}");
+  try { P.defaultView.localStorage.setItem("ov-lang", "en"); } catch (e) {}
+  const sel = P.getElementById("lang");
+  const setLang = v => { sel.value = v; sel.dispatchEvent(new Event("change")); };
+  setLang("en");
+
+  scene("s-title");                        await wait(6500);
+  scene("s-problem"); fact("f1");          await wait(6500);
+  fact("f2");                              await wait(8500);
+  fact("f3");                              await wait(5500);
+
+  scene("s-demo");                         await wait(2600);
+  setLang("ar");                           await wait(2400);
+  setLang("zh");                           await wait(1800);
+  setLang("en");                           await wait(1200);
+  click(P, ".btn[data-go='1']");
+  await cap("The citizen app", "Claude understands the case and asks only what changes the answer.", "It looks up the service, the checklist and the nearest offices through tools built on City data.");
+  await wait(5500);
+  hl(P, ".msg.ai", true);
+  await cap(null, "When there's no verified source, it says so.", "No guessing about rules. That is the difference from a general chatbot.");
+  await wait(5000); hl(P, ".msg.ai", false);
+  click(P, ".opt", "Lost");
+  await cap(null, "Every requirement shows its source and the date it was checked.", "Confirmed items come from official City sources. The rest stays marked as unknown.");
+  hl(P, ".item.ok .src", true); await wait(4200); hl(P, ".item.ok .src", false);
+  hl(P, ".item.todo .src", true); await wait(3200); hl(P, ".item.todo .src", false);
+  click(P, ".btn[data-go='3']");
+  await cap(null, "The nearest registry office, from the City's open data.", "Hours, booking without SPID, and a reminder three days before. No email needed.");
+  await wait(6800);
+  click(P, ".btn[data-go='4']");
+  await cap(null, "After the appointment: one question.", "Claude keeps the type of problem, never the person's own words.");
+  await wait(6000);
+
+  scene("s-staff");                        await wait(5200);
+  S.defaultView.scrollTo({ top: 360, behavior: "smooth" });
+  $("st-h").textContent = "Claude drafts the fix. A City officer approves it.";
+  $("st-p").textContent = "Reports reach the office only when five people hit the same problem.";
+  await wait(4300);
+  click(S, "#approve");                    await wait(4000);
+
+  scene("s-claude");                       await wait(14500);
+  scene("s-close");                        await wait(11000);
+  window.__done = true;
+}
+window.__start = () => { run(); };
+</script>
+</body>
+</html>
