@@ -49,6 +49,7 @@ Record a decision here when the team makes it, so every session follows it.
 
 Newest at the top. One line per push that others depend on: time, handle, what changed.
 
+- 14:46 · @mohammad-nouri-zadeh · Final demo video `video/onevisit-final.mp4` (2:02, voiceover + B&W AI-generated cold open, labelled), built by `video/build_final.py` on branch `momo/streamlit-demo`.
 - 12:32 · @mohammad-nouri-zadeh · City statistics in `data/context/` (surveys, arrivals, foreign residents) and `kb.context_tables()` for the panel. Summary: `data/context/README.md`.
 - 12:26 · @mohammad-nouri-zadeh · Added TEAM.md (this file) and a pointer to it at the top of CLAUDE.md.
 - 12:23 · @mohammad-nouri-zadeh · Repo created: data layer, `onevisit/kb.py`, `onevisit/tools.py`, validator, README draft.
