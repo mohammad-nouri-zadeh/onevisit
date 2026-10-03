@@ -1,6 +1,6 @@
 # Voiceover script (read it yourself)
 
-`onevisit-final.mp4` (2:02) has music and sound effects but no voice. When you lay your voice over it, turn the soundtrack down by about 10 dB. The same film is cut into six clips in `clips/`, at scene changes, so you can record one clip at a time and join them. Times are when to start each line, counted from the start of that clip (in brackets: the time in the full video). The lines were timed at a calm pace of about 150 words a minute. If you run long, slow the clip down slightly or trim a word or two. The numbers must stay as written.
+`onevisit-final.mp4` (2:02) is already narrated with an AI voice reading this script. Use these timings only if you want to re-record it yourself. The same film is cut into six clips in `clips/`, at scene changes, so you can record one clip at a time and join them. Times are when to start each line, counted from the start of that clip (in brackets: the time in the full video). The lines were timed at a calm pace of about 150 words a minute. If you run long, slow the clip down slightly or trim a word or two. The numbers must stay as written.
 
 ## 1-hook.mp4 (19.5 s)
 
