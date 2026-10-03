@@ -49,6 +49,7 @@ Record a decision here when the team makes it, so every session follows it.
 
 Newest at the top. One line per push that others depend on: time, handle, what changed.
 
+- 16:20 · @mohammad-nouri-zadeh · `docs/slides/onevisit-pitch.pptx` replaced with the team's Italian pitch deck (8 slides); old PDF and preview removed.
 - 16:05 · @mohammad-nouri-zadeh · Pitch slides in `docs/slides/` (PowerPoint with speaker notes, PDF), linked at the top of the README.
 - 14:46 · @mohammad-nouri-zadeh · **Working product on `main`**: Streamlit app (`app/`), agent loop (`onevisit/agent.py`), reports and drafts (`onevisit/outcomes.py`), design prototype, final video. Tested end to end with real Claude (Sonnet 5.5). README completed.
 - 15:19 · @mohammad-nouri-zadeh · Final demo video `video/onevisit-final.mp4` (2:02): AI male voiceover + ducked music + sound effects (`video/mix_voice.py`).

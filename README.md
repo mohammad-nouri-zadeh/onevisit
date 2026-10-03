@@ -1,8 +1,6 @@
 # OneVisit
 
-**Pitch slides:** [PowerPoint](docs/slides/onevisit-pitch.pptx) · [PDF](docs/slides/onevisit-pitch.pdf) (7 slides; speaker notes in the PowerPoint)
-
-[![OneVisit pitch, first slide](docs/slides/cover.png)](docs/slides/onevisit-pitch.pdf)
+**Pitch slides:** [PowerPoint](docs/slides/onevisit-pitch.pptx) (8 slides, in Italian, with speaker notes)
 
 > Claude Impact Lab Milano · 3 October 2026 · Track **01 · Welcome journey for people arriving in Milan** (team: change here and in the submission form if you pick 03)
 
