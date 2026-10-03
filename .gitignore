@@ -10,3 +10,8 @@ data/opendata/ds1511-*.csv
 data/opendata/ds1512-*.csv
 data/opendata/ds74-*.csv
 runtime/
+
+# demo video recorder output (raw recordings)
+video/rec/
+video/rec2/
+video/timing*.txt
