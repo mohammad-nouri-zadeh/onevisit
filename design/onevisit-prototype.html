@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}</style></head><body style="margin:0">
+<title>OneVisit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: phone prototype + plain provenance notes; staff panel as a ruled ledger. Monochrome: ink, graphite, silver, paper */
+:root {
+  --paper: #EDEEF0;        /* page ground, cool silver */
+  --sheet: #FFFFFF;        /* surfaces */
+  --ink: #111214;          /* text, primary buttons */
+  --graphite: #4A4D55;     /* secondary text */
+  --pewter: #6E727C;       /* tertiary text */
+  --silver: #C6C8CE;       /* rules, outlines */
+  --mist: #E4E5E9;         /* fills, inactive */
+  --frost: rgba(255, 255, 255, .72);
+  --frost-edge: rgba(255, 255, 255, .9);
+  --on-ink: #FFFFFF;
+  --sans: "Titillium Web", "Titillium Sans Pro", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 14px; --r-lg: 22px; --r-phone: 44px; --pill: 999px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0C0C0E; --sheet: #17181B; --ink: #F2F2F3; --graphite: #B7B9C0; --pewter: #8B8E97;
+    --silver: #3A3C42; --mist: #24252A; --frost: rgba(28, 29, 33, .72); --frost-edge: rgba(255, 255, 255, .1); --on-ink: #0C0C0E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0C0C0E; --sheet: #17181B; --ink: #F2F2F3; --graphite: #B7B9C0; --pewter: #8B8E97;
+  --silver: #3A3C42; --mist: #24252A; --frost: rgba(28, 29, 33, .72); --frost-edge: rgba(255, 255, 255, .1); --on-ink: #0C0C0E;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.45; }
+.wrap { padding: 28px 16px 48px; max-width: 1080px; margin: 0 auto; display: grid; gap: 24px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 700; letter-spacing: -0.015em; }
+p { margin: 0; }
+button, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+a { color: var(--ink); }
+.muted { color: var(--pewter); }
+
+.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--silver); padding-bottom: 18px; }
+.top h1 { font-size: 2rem; }
+.top p { color: var(--graphite); max-width: 60ch; }
+.seg { display: inline-flex; background: var(--mist); border-radius: var(--pill); padding: 3px; }
+.seg button { border: 0; background: transparent; color: var(--graphite); padding: 7px 16px; border-radius: var(--pill); font-weight: 600; }
+.seg button[aria-selected="true"] { background: var(--sheet); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .14); }
+
+/* citizen */
+.stage { display: grid; grid-template-columns: minmax(0, 390px) minmax(0, 1fr); gap: 40px; align-items: start; }
+.phone { background: var(--sheet); border: 1px solid var(--silver); border-radius: var(--r-phone); overflow: hidden; min-height: 740px; display: flex; flex-direction: column; position: relative; padding-bottom: 72px; }
+.bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 16px 16px 12px; border-bottom: 1px solid var(--mist);
+       background: var(--frost); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); }
+.back { width: 32px; height: 32px; border-radius: 50%; border: 0; background: var(--mist); font-size: 1.2rem; line-height: 1; display: grid; place-items: center; padding: 0 0 2px; flex: none; }
+.bar .titles { flex: 1; min-width: 0; }
+.bar .t { font-weight: 700; font-size: 1.05rem; }
+.bar .s { color: var(--pewter); font-size: .8rem; }
+.lang { position: relative; flex: none; }
+.lang select { appearance: none; -webkit-appearance: none; border: 1px solid var(--silver); background: var(--sheet); border-radius: var(--pill); padding: 6px 30px 6px 12px; font-weight: 600; font-size: .88rem; max-width: 140px; }
+.lang::after { content: ""; position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; border-right: 1.5px solid var(--graphite); border-bottom: 1.5px solid var(--graphite); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+
+.screen { padding: 22px 20px 20px; display: grid; gap: 16px; align-content: start; flex: 1; }
+.screen[hidden], .stage[hidden] { display: none !important; }
+.kicker { font-size: .85rem; color: var(--pewter); }
+.hero h2 { font-size: 2.1rem; line-height: 1.08; }
+.lead { color: var(--graphite); }
+.btn { border: 0; background: var(--ink); color: var(--on-ink); border-radius: var(--pill); padding: 14px 20px; font-weight: 700; width: 100%; font-size: 1rem; text-align: center; text-decoration: none; display: block; }
+.btn.line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.note { font-size: .82rem; color: var(--pewter); }
+.example { font-size: .78rem; color: var(--pewter); border: 1px dashed var(--silver); border-radius: var(--pill); padding: 2px 10px; justify-self: start; }
+
+.msgs { display: grid; gap: 10px; }
+.msg { max-width: 86%; padding: 10px 14px; border-radius: 20px; font-size: .96rem; }
+.msg.me { justify-self: end; background: var(--ink); color: var(--on-ink); border-bottom-right-radius: 6px; }
+.msg.ai { justify-self: start; background: var(--mist); border-bottom-left-radius: 6px; }
+.cite { font-family: var(--mono); font-size: .74rem; border-bottom: 1px solid currentColor; }
+.checked { justify-self: start; font-size: .78rem; color: var(--pewter); }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.opt { border: 1.5px solid var(--ink); background: transparent; border-radius: var(--pill); padding: 6px 16px; font-weight: 600; }
+
+.count { display: flex; align-items: baseline; gap: 8px; }
+.count b { font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.ticks { display: flex; gap: 4px; margin-top: 6px; }
+.ticks i { flex: 1; height: 6px; border-radius: 3px; background: var(--mist); }
+.ticks i.on { background: var(--ink); }
+.list { display: grid; border-top: 1px solid var(--silver); }
+.item { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--mist); }
+.mark { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .75rem; font-weight: 700; margin-top: 1px; }
+.item.ok .mark { background: var(--ink); color: var(--on-ink); }
+.item.todo .mark { border: 1.5px dashed var(--pewter); color: var(--pewter); }
+.item .what { font-weight: 600; }
+.item.todo .what { color: var(--graphite); font-weight: 400; }
+.src { display: block; margin-top: 3px; font-family: var(--mono); font-size: .72rem; color: var(--pewter); }
+
+.office { border: 1px solid var(--silver); border-radius: var(--r-lg); padding: 16px; display: grid; gap: 6px; }
+.big { font-size: 1.2rem; font-weight: 700; }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; font-size: .92rem; margin: 6px 0 0; }
+.facts dt { color: var(--pewter); }
+.facts dd { margin: 0; }
+.settings { border: 1px solid var(--silver); border-radius: var(--r-lg); }
+.toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+.toggle + .toggle { border-top: 1px solid var(--mist); }
+.switch { width: 51px; height: 31px; border-radius: var(--pill); background: var(--silver); border: 0; position: relative; flex: none; }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .3); transition: transform .2s; }
+.switch[aria-checked="true"] { background: var(--ink); }
+.switch[aria-checked="true"]::after { transform: translateX(20px); }
+
+.choices { display: grid; border: 1px solid var(--silver); border-radius: var(--r-lg); overflow: hidden; }
+.choice { text-align: start; border: 0; background: var(--sheet); padding: 13px 16px; font-weight: 600; display: flex; justify-content: space-between; gap: 10px; }
+.choice + .choice { border-top: 1px solid var(--mist); }
+.choice[aria-pressed="true"]::after { content: "✓"; }
+.field { border: 1px solid var(--silver); border-radius: var(--r); padding: 11px 13px; color: var(--graphite); font-size: .95rem; }
+.done { border-top: 1px solid var(--silver); padding-top: 12px; font-size: .92rem; }
+
+.tabbar { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 2px; padding: 4px; border-radius: var(--pill); z-index: 3;
+          background: var(--frost); border: 1px solid var(--frost-edge); box-shadow: 0 4px 18px rgba(0, 0, 0, .12);
+          -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); }
+.tabbar button { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--graphite); border-radius: var(--pill); padding: 7px 2px; font-size: .74rem; font-weight: 600; }
+.tabbar button[aria-current="step"] { background: var(--ink); color: var(--on-ink); }
+
+.about { display: grid; gap: 14px; max-width: 52ch; padding-top: 6px; }
+.about h3 { font-size: 1.15rem; }
+.about p { color: var(--graphite); }
+.about dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; margin: 0; font-size: .92rem; border-top: 1px solid var(--silver); padding-top: 12px; }
+.about dt { font-family: var(--mono); font-size: .8rem; }
+.about dd { margin: 0; color: var(--graphite); }
+
+/* staff */
+.panel { display: grid; gap: 28px; }
+.panel[hidden] { display: none !important; }
+.panel h2 { font-size: 1.6rem; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--silver); }
+.stat { padding: 16px 18px 16px 0; display: grid; gap: 4px; align-content: start; }
+.stat + .stat { border-left: 1px solid var(--silver); padding-left: 18px; }
+.stat .n { font-size: 2.4rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.stat .l { color: var(--graphite); font-size: .92rem; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px; align-items: start; }
+.sec { display: grid; gap: 10px; }
+.sec h3 { font-size: 1.05rem; padding-bottom: 8px; border-bottom: 1px solid var(--ink); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; }
+.sec h3 small { font-weight: 400; font-size: .8rem; color: var(--pewter); }
+.row { display: grid; gap: 3px; padding: 10px 0; border-bottom: 1px solid var(--mist); }
+.row .where { font-weight: 700; }
+.row .what { color: var(--graphite); font-size: .92rem; }
+.rep { display: grid; grid-template-columns: 3ch minmax(0, 1fr) auto; gap: 4px 14px; padding: 12px 0; border-bottom: 1px solid var(--mist); align-items: baseline; }
+.rep .n { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rep .kind { font-weight: 700; }
+.rep .desc { grid-column: 2 / -1; color: var(--graphite); font-size: .9rem; }
+.state { font-size: .78rem; font-weight: 600; white-space: nowrap; }
+.state.low { color: var(--pewter); }
+.draft { grid-column: 2 / -1; border: 1px solid var(--silver); border-radius: var(--r); padding: 14px; display: grid; gap: 8px; font-size: .92rem; margin-top: 6px; background: var(--sheet); }
+.draft .who { font-size: .8rem; color: var(--pewter); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions .btn { width: auto; padding: 8px 18px; font-size: .9rem; }
+.foot { color: var(--pewter); font-size: .8rem; border-top: 1px solid var(--silver); padding-top: 14px; }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { :root { --frost: var(--sheet); } }
+@media (max-width: 860px) {
+  .stage, .cols { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .stat + .stat { border-left: 0; padding-left: 0; border-top: 1px solid var(--silver); }
+  .phone { min-height: 0; border-radius: var(--r-lg); }
+}
+@media (prefers-reduced-motion: reduce) { .switch::after { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>OneVisit</h1>
+      <p>Prototype for the Claude Impact Lab Milano: the citizen app and the panel for City staff.</p>
+    </div>
+    <div class="seg" role="tablist" aria-label="View">
+      <button role="tab" id="tab-cit" aria-selected="true" aria-controls="view-cit">Citizen app</button>
+      <button role="tab" id="tab-staff" aria-selected="false" aria-controls="view-staff">City staff</button>
+    </div>
+  </header>
+
+  <!-- CITIZEN -->
+  <section id="view-cit" class="stage" role="tabpanel" aria-labelledby="tab-cit">
+    <div class="phone">
+      <div class="bar">
+        <button class="back" id="back" aria-label="Back">‹</button>
+        <div class="titles"><div class="t" id="bar-t">OneVisit</div><div class="s" id="bar-s">Registry office · Milan</div></div>
+        <label class="lang">
+          <select id="lang" aria-label="Language">
+            <option value="en" selected>English</option>
+            <option value="it">Italiano</option>
+            <option value="ar">العربية</option>
+            <option value="zh">中文</option>
+            <option value="es">Español</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- 1 welcome -->
+      <div class="screen hero" data-step="0">
+        <span class="kicker" data-i18n="kicker">Anagrafe, Comune di Milano</span>
+        <h2 data-i18n="h">Get it right at your first appointment.</h2>
+        <p class="lead" data-i18n="lead">Tell us your situation in your language. We check every requirement against official City sources and show where each one comes from.</p>
+        <button class="btn" data-go="1" data-i18n="start">Start</button>
+        <p class="note" data-i18n="note">We never ask for your name, tax code or documents. Prototype, not an official City of Milan service.</p>
+      </div>
+
+      <!-- 2 chat -->
+      <div class="screen" data-step="1" hidden dir="ltr" lang="en">
+        <span class="example">Example conversation</span>
+        <div class="msgs">
+          <div class="msg me">Hi, I lost my Italian ID card and I travel next month. I'm Egyptian and I live in Isola.</div>
+          <div class="checked">Claude looked up the service, your checklist and nearby offices.</div>
+          <div class="msg ai">I can help you prepare for a new electronic ID card (<i>carta d'identità elettronica</i>). Registry desks see people only by appointment, booked online <span class="cite">ds549</span>.<br><br>I don't have a verified source yet on whether this card is valid for travel abroad for non-EU citizens. Please check comune.milano.it before you plan your trip.<br><br>Was the card lost or stolen?</div>
+          <div class="opts"><button class="opt" data-pick>Lost</button><button class="opt" data-pick>Stolen</button></div>
+        </div>
+        <button class="btn" data-go="2">See my checklist</button>
+      </div>
+
+      <!-- 3 checklist -->
+      <div class="screen" data-step="2" hidden dir="ltr" lang="en">
+        <span class="example">Example data</span>
+        <div>
+          <div class="count"><b>2 of 6</b><span class="muted">confirmed by an official source</span></div>
+          <div class="ticks" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="list">
+          <div class="item ok"><span class="mark">✓</span><div><div class="what">Book online: desks see people only by appointment</div><span class="src">ds549 · checked 3 Oct 2026</span></div></div>
+          <div class="item ok"><span class="mark">✓</span><div><div class="what">You can book without SPID, with no registration</div><span class="src">ds549 · checked 3 Oct 2026</span></div></div>
+          <div class="item todo"><span class="mark">?</span><div><div class="what">Photo requirements</div><span class="src">no verified source yet</span></div></div>
+          <div class="item todo"><span class="mark">?</span><div><div class="what">Police report for a lost card (denuncia)</div><span class="src">no verified source yet</span></div></div>
+          <div class="item todo"><span class="mark">?</span><div><div class="what">Valid for travel abroad for non-EU citizens?</div><span class="src">no verified source yet</span></div></div>
+          <div class="item todo"><span class="mark">?</span><div><div class="what">Cost and how to pay</div><span class="src">no verified source yet</span></div></div>
+        </div>
+        <p class="note">Where there is no verified source, check comune.milano.it. The officer at the desk makes the final check.</p>
+        <button class="btn" data-go="3">Where do I go?</button>
+      </div>
+
+      <!-- 4 office -->
+      <div class="screen" data-step="3" hidden dir="ltr" lang="en">
+        <div class="office">
+          <span class="kicker">Nearest registry office</span>
+          <div class="big">Largo De Benedetti 1</div>
+          <dl class="facts">
+            <dt>Area</dt><dd>Municipio 9, Isola</dd>
+            <dt>Hours</dt><dd lang="it">Orario su appuntamento: dal lunedi al venerdi dalle 8:30 alle 15:30</dd>
+            <dt>Booking</dt><dd>Also without SPID</dd>
+            <dt>Infoline</dt><dd>020202</dd>
+          </dl>
+          <span class="src">ds549 · City open data · checked 3 Oct 2026</span>
+        </div>
+        <a class="btn line" href="https://www.comune.milano.it" target="_blank" rel="noopener">Book on comune.milano.it</a>
+        <div class="settings">
+          <div class="toggle"><div><b>Remind me 3 days before</b><div class="note">A calendar reminder. No email needed.</div></div><button class="switch" role="switch" aria-checked="true" aria-label="Remind me 3 days before"></button></div>
+          <div class="toggle"><div><b>Ask me how it went</b><div class="note">One question, the day after.</div></div><button class="switch" role="switch" aria-checked="true" aria-label="Ask me how it went"></button></div>
+        </div>
+        <button class="btn" data-go="4">After the appointment</button>
+      </div>
+
+      <!-- 5 after -->
+      <div class="screen" data-step="4" hidden dir="ltr" lang="en">
+        <span class="example">Example</span>
+        <div class="big">How did your appointment go?</div>
+        <div class="choices" role="group" aria-label="Outcome">
+          <button class="choice" aria-pressed="false">All fine, it's done</button>
+          <button class="choice" aria-pressed="true">Something was missing</button>
+          <button class="choice" aria-pressed="false">Something else</button>
+        </div>
+        <div class="field">They asked for a translation of a document from abroad.</div>
+        <p class="done"><b>Thank you.</b> Recorded as: page incomplete. Your own words were not stored.</p>
+        <p class="note">When five people report the same problem, the City office receives it with a draft fix.</p>
+        <button class="btn line" data-switch="staff">See what the City sees</button>
+      </div>
+
+      <nav class="tabbar" aria-label="Screens">
+        <button data-go="0">Start</button><button data-go="1">Chat</button><button data-go="2">Checklist</button><button data-go="3">Office</button><button data-go="4">After</button>
+      </nav>
+    </div>
+
+    <div class="about">
+      <h3>Where the facts come from</h3>
+      <p>The assistant states a requirement only when it can quote the official source and the date it was checked. Everything else is shown as unknown.</p>
+      <dl>
+        <dt>ds549</dt><dd>Sedi dei servizi anagrafici: 13 registry offices, hours, booking rules. City open data, retrieved 3 Oct 2026.</dd>
+        <dt>ds1702</dt><dd>2022 survey of the online residence service, 10,194 answers.</dd>
+        <dt>ds1959</dt><dd>Registrations by previous residence, 2020 to 2024.</dd>
+        <dt>ds74</dt><dd>Foreign residents by citizenship, 2025. Used to choose the languages.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- STAFF -->
+  <section id="view-staff" class="panel" role="tabpanel" aria-labelledby="tab-staff" hidden lang="it">
+    <div class="sec" style="gap:6px">
+      <span class="kicker">Pannello per il Comune, prototipo</span>
+      <h2>Cosa dicono gli appuntamenti</h2>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">19.755</div><div class="l">persone iscritte all'anagrafe arrivando dall'estero nel 2024</div><span class="src">ds1959</span></div>
+      <div class="stat"><div class="n">42,1%</div><div class="l">dei cittadini stranieri dice che il servizio online per la residenza li ha aiutati poco o per niente</div><span class="src">ds1702 · 2022 · 1.612 risposte</span></div>
+      <div class="stat"><div class="n">28,2%</div><div class="l">la stessa risposta tra i cittadini italiani</div><span class="src">ds1702 · 2022 · 8.582 risposte</span></div>
+    </div>
+
+    <div class="cols">
+      <div class="sec">
+        <h3>Problemi nei dati del Comune <small>trovati oggi, ds549</small></h3>
+        <div class="row"><span class="where">Via Passerini 5</span><span class="what">Gli orari dicono ancora «lunedì 5 gennaio 2026: CHIUSO». Mancano Municipio e telefono.</span></div>
+        <div class="row"><span class="where">Via Larga 12</span><span class="what">Ingresso indicato come provvisorio, da Via Pecorari 3: da verificare.</span></div>
+      </div>
+
+      <div class="sec">
+        <h3>Segnalazioni dopo gli appuntamenti <small>dati simulati</small></h3>
+        <div class="rep">
+          <span class="n">9</span><span class="kind">Pagina incompleta</span><span class="state">All'ufficio</span>
+          <span class="desc">Iscrizione anagrafica, cittadini extra-UE: un documento rilasciato all'estero non accettato senza traduzione.</span>
+          <div class="draft" id="draft">
+            <span class="who">Bozza di Claude, da approvare</span>
+            <p>La pagina non dice se i documenti rilasciati all'estero vanno tradotti. Testo proposto: «I documenti rilasciati all'estero vanno presentati con [traduzione o legalizzazione: da confermare].»</p>
+            <p class="note">Da confermare con l'ufficio: quali documenti e quale forma di traduzione.</p>
+            <div class="actions"><button class="btn" id="approve">Approva</button><button class="btn line">Modifica</button></div>
+          </div>
+        </div>
+        <div class="rep">
+          <span class="n">6</span><span class="kind">Nessuna pagina per il caso</span><span class="state">All'ufficio</span>
+          <span class="desc">Chi ha solo la ricevuta della richiesta di permesso di soggiorno.</span>
+        </div>
+        <div class="rep">
+          <span class="n">3</span><span class="kind">Ufficio sbagliato</span><span class="state low">Sotto soglia (5)</span>
+          <span class="desc">Visibile solo alla redazione, senza sede né date.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Prototype built at the Claude Impact Lab Milano, 3 October 2026. Not an official City of Milan service. Statistics and offices from dati.comune.milano.it (CC BY). The conversation, checklist answers and reports are examples.</p>
+</div>
+
+<script>
+(() => {
+  const T = {
+    en: { dir: "ltr", kicker: "Anagrafe, Comune di Milano", h: "Get it right at your first appointment.",
+          lead: "Tell us your situation in your language. We check every requirement against official City sources and show where each one comes from.",
+          start: "Start", note: "We never ask for your name, tax code or documents. Prototype, not an official City of Milan service.", sub: "Registry office · Milan" },
+    it: { dir: "ltr", kicker: "Anagrafe, Comune di Milano", h: "La pratica chiusa al primo appuntamento.",
+          lead: "Raccontaci la tua situazione nella tua lingua. Controlliamo ogni requisito sulle fonti ufficiali del Comune e ti mostriamo da dove viene.",
+          start: "Inizia", note: "Non chiediamo mai nome, codice fiscale o documenti. Prototipo, non è un servizio ufficiale del Comune di Milano.", sub: "Anagrafe · Milano" },
+    ar: { dir: "rtl", kicker: "Anagrafe، بلدية ميلانو", h: "أنجز معاملتك من الموعد الأول.",
+          lead: "أخبرنا بوضعك بلغتك. نتحقق من كل شرط في المصادر الرسمية لبلدية ميلانو ونُظهر لك مصدر كل معلومة.",
+          start: "ابدأ", note: "لا نطلب أبدًا اسمك أو رمزك الضريبي أو وثائقك. نموذج أولي، وليس خدمة رسمية من بلدية ميلانو.", sub: "مكتب السجل المدني · ميلانو" },
+    zh: { dir: "ltr", kicker: "Anagrafe，米兰市政府", h: "第一次预约就把事情办好。",
+          lead: "用你的语言告诉我们你的情况。我们根据米兰市政府的官方来源核对每一项要求，并告诉你每一项的出处。",
+          start: "开始", note: "我们从不询问你的姓名、税号或证件。这是原型，不是米兰市政府的官方服务。", sub: "户籍登记处 · 米兰" },
+    es: { dir: "ltr", kicker: "Anagrafe, Ayuntamiento de Milán", h: "Resuélvelo en tu primera cita.",
+          lead: "Cuéntanos tu situación en tu idioma. Comprobamos cada requisito con las fuentes oficiales del Ayuntamiento y te mostramos de dónde viene cada uno.",
+          start: "Empezar", note: "Nunca te pedimos tu nombre, tu código fiscal ni tus documentos. Prototipo, no es un servicio oficial del Ayuntamiento de Milán.", sub: "Anagrafe · Milán" },
+  };
+  const screens = [...document.querySelectorAll(".screen")];
+  const tabs = [...document.querySelectorAll(".tabbar button")];
+  const titles = ["OneVisit", "Your case", "Checklist", "Where to go", "After the appointment"];
+  let current = 0, lang = "en";
+  try { lang = localStorage.getItem("ov-lang") || "en"; } catch (e) {}
+
+  function applyLang(l) {
+    const t = T[l] || T.en; lang = T[l] ? l : "en";
+    const welcome = screens[0];
+    welcome.setAttribute("dir", t.dir); welcome.setAttribute("lang", lang);
+    welcome.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t[el.dataset.i18n]; });
+    document.getElementById("lang").value = lang;
+    if (current === 0) document.getElementById("bar-s").textContent = t.sub;
+    try { localStorage.setItem("ov-lang", lang); } catch (e) {}
+  }
+  function show(i) {
+    current = i;
+    screens.forEach((s, k) => { s.hidden = k !== i; });
+    tabs.forEach((b, k) => { if (k === i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+    document.getElementById("bar-t").textContent = titles[i];
+    document.getElementById("bar-s").textContent = i === 0 ? (T[lang] || T.en).sub : "Answers from official sources";
+    document.getElementById("back").style.visibility = i === 0 ? "hidden" : "visible";
+  }
+  document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => show(+b.dataset.go)));
+  document.getElementById("back").addEventListener("click", () => show(Math.max(0, current - 1)));
+  document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => show(2)));
+  document.getElementById("lang").addEventListener("change", e => applyLang(e.target.value));
+
+  const choices = document.querySelectorAll(".choice");
+  choices.forEach(b => b.addEventListener("click", () => choices.forEach(x => x.setAttribute("aria-pressed", x === b))));
+  document.querySelectorAll(".switch").forEach(s => s.addEventListener("click", () => s.setAttribute("aria-checked", s.getAttribute("aria-checked") !== "true")));
+
+  const tabCit = document.getElementById("tab-cit"), tabStaff = document.getElementById("tab-staff");
+  function view(which) {
+    const staff = which === "staff";
+    tabCit.setAttribute("aria-selected", !staff); tabStaff.setAttribute("aria-selected", staff);
+    document.getElementById("view-cit").hidden = staff; document.getElementById("view-staff").hidden = !staff;
+  }
+  tabCit.addEventListener("click", () => view("cit"));
+  tabStaff.addEventListener("click", () => view("staff"));
+  document.querySelectorAll("[data-switch]").forEach(b => b.addEventListener("click", () => { view("staff"); window.scrollTo(0, 0); }));
+  document.getElementById("approve").addEventListener("click", () => {
+    document.getElementById("draft").innerHTML = '<p><b>Approvata da un funzionario.</b> La correzione va alla redazione; la checklist si aggiorna quando la pagina cambia.</p>';
+  });
+  if (location.hash === "#staff") view("staff");
+  show(0); applyLang(lang);
+})();
+</script>
+
+</body></html>
