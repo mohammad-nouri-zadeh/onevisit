@@ -18,6 +18,7 @@ from zoneinfo import ZoneInfo
 from gateway.personal_links import LinkBuilder
 from gateway.store import ContactTarget, DueNotification, NotifierStore
 from onevisit_channels import ChannelSendError, EmailSender, RenderedMessage, SmsProvider
+from onevisit_privacy import DecryptionError
 
 logger = logging.getLogger(__name__)
 
@@ -169,7 +170,14 @@ async def _deliver(
         encrypted = target.phone_enc if channel == "sms" else target.email_enc
         if encrypted is None:
             continue
-        address = ctx.cipher.decrypt(encrypted)
+        try:
+            address = ctx.cipher.decrypt(encrypted)
+        except DecryptionError:
+            # Contatto cifrato con un'altra chiave (per esempio dopo una rotazione): si prova
+            # il canale successivo e, se nessuno funziona, la notifica risulta "failed".
+            # Una notifica illeggibile non deve fermare l'invio di tutte le altre.
+            logger.warning("notifica %s: contatto non decifrabile sul canale %s", row.id, channel)
+            continue
         message = ctx.renderer(
             row.kind,
             language=target.language,

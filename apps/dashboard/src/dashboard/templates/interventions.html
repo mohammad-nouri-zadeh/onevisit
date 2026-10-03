@@ -2,25 +2,37 @@
 {% from "_macros.html" import info, pct, num %}
 {% block title %}Interventi{% endblock %}
 {% block content %}
-<h1>Interventi {{ info("effect") }}</h1>
+<div class="top">
+  <div>
+    <span class="kicker">Prima e dopo ogni correzione approvata</span>
+    <h1><span class="info-wrap">Interventi {{ info("effect") }}</span></h1>
+  </div>
+</div>
 {% set chart = {"labels": [], "series": [{"label": "prima", "data": []}, {"label": "dopo", "data": []}]} %}
 {% for e in effects %}
   {% set _ = chart.labels.append(e.service_id ~ " · " ~ (e.requirement_id or "")) %}
   {% set _ = chart.series[0].data.append(none if e.rate_before is none else (e.rate_before * 100)|round(1)) %}
   {% set _ = chart.series[1].data.append(none if e.rate_after is none else (e.rate_after * 100)|round(1)) %}
 {% endfor %}
-<canvas data-chart="effects-data" data-type="bar" data-max="100" role="img" aria-label="Grafico prima e dopo; i dati sono nella tabella seguente"></canvas>
+<section class="sec" aria-labelledby="h-effects">
+<h2 id="h-effects">Tasso di chiusura al primo appuntamento <small>prima · dopo</small></h2>
+<div class="chart">
+  <canvas data-chart="effects-data" data-type="bar" data-max="100" role="img" aria-label="Grafico prima e dopo; i dati sono nella tabella seguente"></canvas>
+</div>
 <script type="application/json" id="effects-data">{{ chart|tojson }}</script>
+<div class="table-scroll">
 <table>
   <caption>Tasso di chiusura al primo appuntamento nelle settimane prima e dopo ogni correzione</caption>
-  <thead><tr><th scope="col">Servizio</th><th scope="col">Requisito</th><th scope="col">Approvata il</th><th scope="col">Finestra</th><th scope="col">Prima</th><th scope="col">Casi prima</th><th scope="col">Dopo</th><th scope="col">Casi dopo</th></tr></thead>
+  <thead><tr><th scope="col">Servizio</th><th scope="col">Requisito</th><th scope="col">Approvata il</th><th scope="col">Finestra</th><th scope="col" class="num">Prima</th><th scope="col" class="num">Casi prima</th><th scope="col" class="num">Dopo</th><th scope="col" class="num">Casi dopo</th></tr></thead>
   <tbody>
   {% for e in effects %}
-    <tr><td>{{ e.service_id }}</td><td>{{ e.requirement_id or "—" }}</td><td>{{ e.approved_at.date().isoformat() }}</td><td>{{ e.window_weeks }} settimane</td>
-        <td>{{ pct(e.rate_before) }}</td><td>{{ num(e.cases_before) }}</td><td>{{ pct(e.rate_after) }}</td><td>{{ num(e.cases_after) }}</td></tr>
+    <tr><td class="mono">{{ e.service_id }}</td><td class="mono">{{ e.requirement_id or "—" }}</td><td class="mono">{{ e.approved_at.date().isoformat() }}</td><td>{{ e.window_weeks }} settimane</td>
+        <td class="num">{{ pct(e.rate_before) }}</td><td class="num">{{ num(e.cases_before) }}</td><td class="num"><strong>{{ pct(e.rate_after) }}</strong></td><td class="num">{{ num(e.cases_after) }}</td></tr>
   {% else %}
     <tr><td colspan="8">Nessun intervento approvato.</td></tr>
   {% endfor %}
   </tbody>
 </table>
+</div>
+</section>
 {% endblock %}

@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ t.outcome_title }}</h1>
-<form method="post" action="/o/{{ token }}" class="card">
-  <fieldset>
-    <legend>{{ t.outcome_title }}</legend>
-    <button type="submit" name="outcome" value="ok">{{ t.outcome_ok }}</button>
-    <button type="submit" name="outcome" value="missing">{{ t.outcome_missing }}</button>
-    <button type="submit" name="outcome" value="other">{{ t.outcome_other }}</button>
+<div class="top">
+  <h1>{{ t.outcome_title }}</h1>
+</div>
+<form method="post" action="/o/{{ token }}" class="form">
+  <fieldset class="plain">
+    <legend class="sr">{{ t.outcome_title }}</legend>
+    <div class="choices outcome-choices">
+      <button type="submit" name="outcome" value="ok" class="choice">{{ t.outcome_ok }}<span aria-hidden="true">›</span></button>
+      <button type="submit" name="outcome" value="missing" class="choice">{{ t.outcome_missing }}<span aria-hidden="true">›</span></button>
+      <button type="submit" name="outcome" value="other" class="choice">{{ t.outcome_other }}<span aria-hidden="true">›</span></button>
+    </div>
   </fieldset>
+  <div class="card">
   {% if items %}
   <label for="missing_id">{{ t.outcome_pick }}</label>
   <select id="missing_id" name="missing_id">
@@ -17,11 +22,13 @@
   {% endif %}
   <label for="missing_text">{{ t.outcome_text }}</label>
   <textarea id="missing_text" name="missing_text" rows="2"></textarea>
-  <fieldset>
+  <fieldset class="plain">
     <legend>{{ t.outcome_closed }}</legend>
-    <label><input type="radio" name="closed_in_time" value="yes"> {{ t.yes }}</label>
-    <label><input type="radio" name="closed_in_time" value="no"> {{ t.no }}</label>
-    <label><input type="radio" name="closed_in_time" value="" checked> {{ t.dont_know }}</label>
+    <div class="choices">
+      <label class="choice"><input type="radio" name="closed_in_time" value="yes"> {{ t.yes }}</label>
+      <label class="choice"><input type="radio" name="closed_in_time" value="no"> {{ t.no }}</label>
+      <label class="choice"><input type="radio" name="closed_in_time" value="" checked> {{ t.dont_know }}</label>
+    </div>
   </fieldset>
   <label for="rating">{{ t.outcome_rating }}</label>
   <select id="rating" name="rating">
@@ -30,5 +37,6 @@
   </select>
   <label for="suggestion">{{ t.outcome_suggestion }}</label>
   <textarea id="suggestion" name="suggestion" rows="2"></textarea>
+  </div>
 </form>
 {% endblock %}

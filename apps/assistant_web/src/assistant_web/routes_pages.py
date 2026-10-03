@@ -14,7 +14,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from assistant_web.i18n import ui_language
 from assistant_web.runtime import Runtime
-from assistant_web.web import TEMPLATES, context, runtime
+from assistant_web.web import TEMPLATES, context, explicit_language, runtime
 from onevisit_channels import PURPOSE_CHECKLIST, PURPOSE_CONSENTS, PURPOSE_OUTCOME, LinkError
 from onevisit_db.errors import DbError
 from onevisit_knowledge import Checklist
@@ -59,6 +59,11 @@ def _load_case(rt: Runtime, case_id: UUID) -> tuple[str, Checklist]:
     return ui_language(case.language), rt.catalog().checklist(case.service_id, answers)
 
 
+def _page_language(request: Request, stored: str) -> str:
+    """Lingua scelta dal menu, altrimenti quella salvata sul caso o sul contatto."""
+    return explicit_language(request) or stored
+
+
 def _items_view(rt: Runtime, checklist: Checklist, language: str) -> list[dict[str, Any]]:
     """Righe della checklist: nome ufficiale, spiegazione nella lingua, fonte, data."""
     rows: list[dict[str, Any]] = []
@@ -88,6 +93,7 @@ async def checklist_page(request: Request, token: str) -> Response:
         language, checklist = _load_case(rt, UUID(str(data["case_id"])))
     except (_PageError, SQLAlchemyError, ValueError):
         return _error(request)
+    language = _page_language(request, language)
     items = _items_view(rt, checklist, language)
     have = {str(v) for v in form.getlist("have")} if form is not None else set()
     missing = [i for i in items if i["id"] not in have] if form is not None else None
@@ -107,6 +113,7 @@ def outcome_form(request: Request, token: str) -> Response:
         language, checklist = _load_case(rt, UUID(str(data["case_id"])))
     except (_PageError, SQLAlchemyError, ValueError):
         return _error(request)
+    language = _page_language(request, language)
     items = _items_view(rt, checklist, language)
     return TEMPLATES.TemplateResponse(
         request, "outcome.html", context(language, items=items, token=token, done=False)
@@ -144,6 +151,7 @@ def outcome_submit(
         language, checklist = _load_case(rt, case_id)
     except (_PageError, SQLAlchemyError, ValueError):
         return _error(request)
+    language = _page_language(request, language)
     known_ids = {item.id for item in checklist.items}
     requirement_id = missing_id if missing_id in known_ids else None
     cause: str | None = None
@@ -181,7 +189,7 @@ def consents_form(request: Request, token: str) -> Response:
         return _error(request)
     if not data["contact_id"]:
         return _error(request)
-    language = _contact_language(rt, UUID(str(data["contact_id"])))
+    language = _page_language(request, _contact_language(rt, UUID(str(data["contact_id"]))))
     return TEMPLATES.TemplateResponse(request, "consents.html", context(language, token=token))
 
 
@@ -209,7 +217,7 @@ def consents_submit(
     if not data["contact_id"] or not rt.db_enabled:
         return _error(request)
     contact_id = UUID(str(data["contact_id"]))
-    language = _contact_language(rt, contact_id)
+    language = _page_language(request, _contact_language(rt, contact_id))
     try:
         with rt.db() as s:
             if action == "delete":

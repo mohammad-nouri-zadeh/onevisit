@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ t.consents_title }}</h1>
-<p>{{ t.consents_intro }}</p>
+<div class="top">
+  <h1>{{ t.consents_title }}</h1>
+  <p>{{ t.consents_intro }}</p>
+</div>
 <form method="post" action="/consents/{{ token }}" class="card">
-  <button type="submit" name="action" value="revoke">{{ t.consents_revoke }}</button>
-  <button type="submit" name="action" value="delete" class="danger">{{ t.consents_delete }}</button>
+  <div class="actions">
+    <button type="submit" name="action" value="revoke" class="btn line">{{ t.consents_revoke }}</button>
+    <button type="submit" name="action" value="delete" class="btn danger">{{ t.consents_delete }}</button>
+  </div>
 </form>
 {% endblock %}

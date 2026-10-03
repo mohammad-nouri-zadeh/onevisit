@@ -3,13 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <title>{% block title %}{{ t.title }}{% endblock %}</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+  {% for sheet in ui_stylesheets %}<link rel="stylesheet" href="{{ ui_asset(sheet) }}">
+  {% endfor %}<link rel="stylesheet" href="/static/style.css">
+  <script src="{{ ui_asset(ui_htmx) }}" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">{{ t.label_message }}</a>
-  <header class="top"><strong>OneVisit</strong> · Comune di Milano</header>
-  <main id="main">{% block content %}{% endblock %}</main>
+  <header class="bar">
+    <div class="titles">
+      <div class="t"><a href="/">OneVisit</a></div>
+      <div class="s">{{ t.brand_sub }}</div>
+    </div>
+    {% block langswitch %}
+    <form class="lang-form" method="get">
+      <label class="lang">
+        <span class="sr-only">{{ t.language }}</span>
+        <select name="lang" onchange="this.form.submit()">
+          <option value="it" lang="it" {% if lang == 'it' %}selected{% endif %}>Italiano</option>
+          <option value="en" lang="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+        </select>
+      </label>
+      <noscript><button type="submit" class="btn small line">{{ t.lang_apply }}</button></noscript>
+    </form>
+    {% endblock %}
+  </header>
+  <main id="main" class="wrap">{% block content %}{% endblock %}</main>
 </body>
 </html>

@@ -1,13 +1,13 @@
-{% if user_text %}<div class="msg user"><span class="who">{{ t.you }}</span><p>{{ user_text }}</p></div>{% endif %}
+{% if user_text %}<div class="msg me"><span class="who">{{ t.you }}</span><p>{{ user_text }}</p></div>{% endif %}
 {% for reply in replies %}
-<div class="msg assistant"><span class="who">{{ t.assistant }}</span>{{ reply }}</div>
+<div class="msg ai"><span class="who">{{ t.assistant }}</span>{{ reply }}</div>
 {% endfor %}
 {% if quick_replies %}
-<div class="quick" role="group" aria-label="{{ t.quick_replies }}">
+<div class="opts" role="group" aria-label="{{ t.quick_replies }}">
   {% for q in quick_replies %}
   <form hx-post="/chat" hx-target="#messages" hx-swap="beforeend" method="post" action="/chat">
     <input type="hidden" name="message" value="{{ q }}">
-    <button type="submit">{{ q }}</button>
+    <button type="submit" class="opt">{{ q }}</button>
   </form>
   {% endfor %}
 </div>

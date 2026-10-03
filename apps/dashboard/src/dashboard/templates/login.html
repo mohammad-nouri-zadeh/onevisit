@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Accesso dimostrativo{% endblock %}
 {% block content %}
-<h1>Accesso dimostrativo</h1>
-<p class="box">Questo è un <strong>accesso dimostrativo</strong> per l'hackathon: si sceglie un ruolo, senza password e senza nome. In produzione l'accesso avverrà con il sistema di autenticazione del Comune (OIDC), non implementato oggi.</p>
-<form method="post" action="/login">
-  <fieldset>
-    <legend>Scegli il ruolo</legend>
-    {% for r in roles %}
-    <label><input type="radio" name="role" value="{{ r }}" {% if loop.first %}checked{% endif %}> {{ r }}</label>
-    {% endfor %}
-  </fieldset>
-  <p><button type="submit">Entra</button></p>
-</form>
+<section class="card login" aria-labelledby="h-login">
+  <span class="kicker">Pannello del Comune</span>
+  <h1 id="h-login">Accesso dimostrativo</h1>
+  <p class="callout">Questo è un <strong>accesso dimostrativo</strong> per l'hackathon: si sceglie un ruolo, senza password e senza nome. In produzione l'accesso avverrà con il sistema di autenticazione del Comune (OIDC), non implementato oggi.</p>
+  <form class="form" method="post" action="/login">
+    <fieldset class="choices">
+      <legend class="choice-legend">Scegli il ruolo</legend>
+      {% for r in roles %}
+      <label class="choice"><input type="radio" name="role" value="{{ r }}" {% if loop.first %}checked{% endif %}> {{ r }}</label>
+      {% endfor %}
+    </fieldset>
+    <button class="btn block" type="submit">Entra</button>
+  </form>
+</section>
 {% endblock %}

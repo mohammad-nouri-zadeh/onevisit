@@ -43,12 +43,17 @@ def _inline(text: str, lookup: SourceLookup, labels: dict[str, str]) -> str:
         source = lookup(match.group(1))
         if source is None or not source.url:
             return str(escape(f"[{labels['source']}: {match.group(1)}]"))
+        source_id = match.group(1)
         detail = f"{source.title}"
         if source.verified_on:
             detail += f" ({labels['verified_on']} {source.verified_on})"
+        # Testo breve e monospaziato (fonte + id); titolo e data nel nome accessibile e
+        # nel title, che contengono il testo visibile (WCAG 2.5.3).
+        name = f"{labels['source']} {source_id}: {detail}"
         return (
-            f'<a class="cite" href="{escape(source.url)}" rel="noopener" target="_blank">'
-            f"[{escape(labels['source'])}: {escape(detail)}]</a>"
+            f'<a class="cite" href="{escape(source.url)}" rel="noopener" target="_blank"'
+            f' title="{escape(name)}" aria-label="{escape(name)}">'
+            f"{escape(labels['source'])} {escape(source_id)}</a>"
         )
 
     return _CITATION_RE.sub(citation, html)

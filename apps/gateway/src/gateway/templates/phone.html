@@ -1,42 +1,33 @@
-<!doctype html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="{{ refresh_s }}">
-<title>OneVisit · Telefono demo</title>
-<style>
-  body { font-family: system-ui, Arial, sans-serif; background: #e8eaed; margin: 0; padding: 1rem; display: flex; justify-content: center; }
-  .phone { width: 22rem; max-width: 100%; background: #111; border-radius: 2.2rem; padding: 1rem .7rem; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
-  .screen { background: #f6f6f6; border-radius: 1.6rem; min-height: 36rem; padding: .8rem; display: flex; flex-direction: column; }
-  header { text-align: center; font-weight: 600; padding: .3rem 0 .7rem; border-bottom: 1px solid #ddd; margin-bottom: .6rem; }
-  header small { display: block; font-weight: 400; color: #666; }
-  .thread { flex: 1; overflow-y: auto; display: flex; flex-direction: column-reverse; gap: .5rem; }
-  .bubble { background: #fff; border-radius: 1rem 1rem 1rem .2rem; padding: .55rem .75rem; max-width: 88%; white-space: pre-wrap; word-break: break-word; font-size: .92rem; box-shadow: 0 1px 2px rgba(0,0,0,.1); }
-  .meta { font-size: .72rem; color: #777; margin-top: .2rem; }
-  form { display: flex; gap: .35rem; flex-wrap: wrap; justify-content: center; margin-top: .7rem; }
-  button { border: 0; border-radius: 1rem; padding: .45rem .8rem; background: #0b5394; color: #fff; font-size: .9rem; cursor: pointer; }
-  button:focus { outline: 3px solid #f1c232; }
-  .empty { color: #666; text-align: center; margin-top: 2rem; }
-</style>
-</head>
-<body>
-<div class="phone" role="region" aria-label="Telefono demo">
+{% extends "base.html" %}
+{% block head %}<meta http-equiv="refresh" content="{{ refresh_s }}">{% endblock %}
+{% block title %}{% if lang == "it" %}OneVisit · Telefono demo{% else %}OneVisit · Demo phone{% endif %}{% endblock %}
+{% block body_class %}demo{% endblock %}
+{% block content %}
+<div class="phone sms-phone" role="region" aria-label="{% if lang == "it" %}Telefono demo{% else %}Demo phone{% endif %}">
+  <div class="bar">
+    <span class="back" aria-hidden="true">‹</span>
+    <div class="titles">
+      <div class="t">OneVisit</div>
+      <div class="s">{% if lang == "it" %}Messaggi · SMS finti, solo per la demo{% else %}Messages · Fake SMS, demo only{% endif %}</div>
+    </div>
+    <span class="avatar" aria-hidden="true">OV</span>
+  </div>
   <div class="screen">
-    <header>OneVisit<small>SMS finti, solo per la demo</small></header>
     <div class="thread" aria-live="polite">
       {% for m in messages %}
-      <div class="bubble">{{ m.body }}<div class="meta">{{ m.at }} · {{ m.to }}</div></div>
+      <div class="sms">
+        <div class="msg ai">{{ m.body|urlize }}</div>
+        <div class="checked"><time>{{ m.at }}</time> · <span class="mono">{{ m.to }}</span></div>
+      </div>
       {% else %}
-      <p class="empty">Nessun SMS ancora.</p>
+      <p class="notice">{% if lang == "it" %}Nessun SMS ancora.{% else %}No SMS yet.{% endif %}</p>
       {% endfor %}
     </div>
     {% if messages %}
-    <form method="post" action="/demo/phone/reply" aria-label="Rispondi">
-      {% for r in replies %}<button type="submit" name="body" value="{{ r }}">{{ r }}</button>{% endfor %}
+    <form class="opts replies" method="post" action="/demo/phone/reply" aria-label="{% if lang == "it" %}Rispondi{% else %}Reply{% endif %}">
+      {% for r in replies %}<button class="opt" type="submit" name="body" value="{{ r }}">{{ r }}</button>{% endfor %}
     </form>
     {% endif %}
   </div>
 </div>
-</body>
-</html>
+{% endblock %}

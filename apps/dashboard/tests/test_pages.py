@@ -188,3 +188,42 @@ def test_approve_form_asks_for_citizen_requirement_not_page_draft(
 
     assert "Requisito per il cittadino" in text
     assert '<textarea id="text_it" name="text_it" required></textarea>' in text
+
+
+def test_base_template_uses_local_design_system_only() -> None:
+    base = (SRC / "dashboard" / "templates" / "base.html").read_text(encoding="utf-8")
+
+    assert "/ui/fonts.css" in base
+    assert "/ui/onevisit.css" in base
+    assert "/ui/vendor/htmx.min.js" in base
+    assert "/ui/vendor/chart.umd.min.js" in base
+    for third_party in ("unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis"):
+        assert third_party not in base
+
+
+def test_design_system_assets_are_served() -> None:
+    client = TestClient(create_app(Settings(session_secret="s")))
+
+    for path in (
+        "/ui/onevisit.css",
+        "/ui/fonts.css",
+        "/ui/vendor/chart.umd.min.js",
+        "/ui/vendor/htmx.min.js",
+    ):
+        assert client.get(path).status_code == 200, path
+
+
+def test_rendered_pages_call_no_third_party_hosts(client_as: Callable[[str], TestClient]) -> None:
+    client = client_as("direzione")
+
+    for path in ("/", "/gaps", "/office", "/interventions", "/summary", "/context", "/settings"):
+        text = client.get(path).text
+        for third_party in ("unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis"):
+            assert third_party not in text, (path, third_party)
+
+
+def test_current_section_is_marked_in_navigation(client_as: Callable[[str], TestClient]) -> None:
+    text = client_as("redazione").get("/gaps").text
+
+    assert '<a href="/gaps" aria-current="page">Lacune</a>' in text
+    assert '<a href="/" aria-current="page">' not in text

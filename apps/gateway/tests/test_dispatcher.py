@@ -6,6 +6,7 @@ from uuid import uuid4
 from gateway.dispatcher import DispatchContext, RetryPolicy, Senders, dispatch_due
 from gateway.personal_links import LinkBuilder
 from onevisit_channels import FakeEmailSender, FakeSmsProvider, render_notification
+from onevisit_privacy import DecryptionError
 
 from .conftest import EMAIL, PHONE, FakeCipher, FakeStore, Row, make_target
 
@@ -135,3 +136,36 @@ async def test_unconfirmed_email_is_not_used(
 
     assert fake_store.marks[row.id] == "cancelled"
     assert email.attempts == 0
+
+
+class _CipherWithForeignKey(FakeCipher):
+    """Come FakeCipher, ma un contatto cifrato con un'altra chiave non si decifra."""
+
+    def decrypt(self, token: bytes) -> str:
+        if token.startswith(b"other-key:"):
+            raise DecryptionError("chiave errata")
+        return super().decrypt(token)
+
+
+async def test_undecryptable_contact_fails_without_stopping_the_batch(
+    fake_store: FakeStore, links: LinkBuilder, no_wait_retry: RetryPolicy
+) -> None:
+    fake_store.target = make_target(phone_enc=b"other-key:xyz", email_enc=None)
+    first = Row(uuid4(), fake_store.case_id, "reminder", "sms")
+    second = Row(uuid4(), fake_store.case_id, "followup", "sms")
+    fake_store.due.extend([first, second])
+    sms, email = FakeSmsProvider(), FakeEmailSender()
+    ctx = _ctx(sms, email, links, no_wait_retry)
+    ctx = DispatchContext(
+        senders=ctx.senders,
+        renderer=ctx.renderer,
+        links=ctx.links,
+        cipher=_CipherWithForeignKey(),
+        retry=ctx.retry,
+    )
+
+    report = await dispatch_due(fake_store, now=datetime.now(UTC), ctx=ctx)
+
+    assert fake_store.marks == {first.id: "failed", second.id: "failed"}
+    assert report.failed == 2
+    assert sms.attempts == 0

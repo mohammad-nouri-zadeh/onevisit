@@ -1,39 +1,42 @@
-<!doctype html>
-<html lang="{{ lang }}">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OneVisit</title>
-<style>
-  body { font-family: system-ui, Arial, sans-serif; color: #1a1a1a; background: #fff; max-width: 34rem; margin: 0 auto; padding: 1.5rem 1rem; line-height: 1.5; }
-  a.button { display: inline-block; padding: .7rem 1.1rem; background: #0b5394; color: #fff; text-decoration: none; border-radius: .3rem; }
-  a.button:focus { outline: 3px solid #f1c232; }
-  small { color: #555; }
-</style>
-</head>
-<body>
-<main>
+{% extends "base.html" %}
+{% block content %}
+<div class="wrap thanks-wrap">
+  <span class="kicker">OneVisit · {% if lang == "it" %}Comune di Milano{% else %}City of Milan{% endif %}</span>
+  <div class="card thanks">
 {% if lang == "it" %}
   {% if ok %}
-  <h1>Grazie, risposta registrata</h1>
-  <p>La tua risposta aiuta il Comune a migliorare le informazioni per tutti.</p>
-  {% if details_url %}<p><a class="button" href="{{ details_url }}">Racconta di più</a></p>{% endif %}
+    <span class="seal" aria-hidden="true">✓</span>
+    <h1>Grazie, risposta registrata</h1>
+    <p class="lead">La tua risposta aiuta il Comune a migliorare le informazioni per tutti.</p>
+    <div class="actions">
+      {% if details_url %}<a class="btn" href="{{ details_url }}">Racconta di più</a>{% endif %}
+      {% if chat_url %}<a class="btn line" href="{{ chat_url }}">Torna alla chat</a>{% endif %}
+    </div>
   {% else %}
-  <h1>Link non valido o scaduto</h1>
-  <p>Questo link non funziona più. Puoi rispondere dall'ultimo messaggio ricevuto.</p>
+    <span class="seal off" aria-hidden="true">!</span>
+    <h1>Link non valido o scaduto</h1>
+    <p class="lead">Questo link non funziona più. Puoi rispondere dall'ultimo messaggio ricevuto.</p>
+    {% if chat_url %}<div class="actions"><a class="btn line" href="{{ chat_url }}">Torna alla chat</a></div>{% endif %}
   {% endif %}
-  <p><small>OneVisit è un assistente basato su intelligenza artificiale. Le decisioni sulla pratica le prende l'operatore allo sportello.</small></p>
+  </div>
+  <p class="note">OneVisit è un assistente basato su intelligenza artificiale. Le decisioni sulla pratica le prende l'operatore allo sportello.</p>
 {% else %}
   {% if ok %}
-  <h1>Thank you, answer recorded</h1>
-  <p>Your answer helps the City improve its information for everyone.</p>
-  {% if details_url %}<p><a class="button" href="{{ details_url }}">Tell us more</a></p>{% endif %}
+    <span class="seal" aria-hidden="true">✓</span>
+    <h1>Thank you, answer recorded</h1>
+    <p class="lead">Your answer helps the City improve its information for everyone.</p>
+    <div class="actions">
+      {% if details_url %}<a class="btn" href="{{ details_url }}">Tell us more</a>{% endif %}
+      {% if chat_url %}<a class="btn line" href="{{ chat_url }}">Back to the chat</a>{% endif %}
+    </div>
   {% else %}
-  <h1>Invalid or expired link</h1>
-  <p>This link no longer works. You can answer from the latest message you received.</p>
+    <span class="seal off" aria-hidden="true">!</span>
+    <h1>Invalid or expired link</h1>
+    <p class="lead">This link no longer works. You can answer from the latest message you received.</p>
+    {% if chat_url %}<div class="actions"><a class="btn line" href="{{ chat_url }}">Back to the chat</a></div>{% endif %}
   {% endif %}
-  <p><small>OneVisit is an assistant based on artificial intelligence. Decisions on your case are made by the desk officer.</small></p>
+  </div>
+  <p class="note">OneVisit is an assistant based on artificial intelligence. Decisions on your case are made by the desk officer.</p>
 {% endif %}
-</main>
-</body>
-</html>
+</div>
+{% endblock %}

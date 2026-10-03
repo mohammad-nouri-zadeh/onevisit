@@ -15,7 +15,7 @@ from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse, Response
 from sqlalchemy.exc import SQLAlchemyError
 
-from assistant_web.i18n import browser_language, messages, ui_language
+from assistant_web.i18n import messages, ui_language
 from assistant_web.render import render_markdown
 from assistant_web.runtime import Runtime
 from assistant_web.sessions import ChatSession
@@ -23,6 +23,7 @@ from assistant_web.web import (
     COOKIE_NAME,
     TEMPLATES,
     context,
+    request_language,
     runtime,
     session_id_from_cookie,
     signed_session_cookie,
@@ -41,8 +42,8 @@ ICS_DURATION_MIN = 30
 
 @router.get("/", response_class=HTMLResponse)
 def index(request: Request) -> Response:
-    """Pagina della chat con il benvenuto nella lingua del browser."""
-    language = browser_language(request.headers.get("accept-language"))
+    """Pagina della chat con il benvenuto nella lingua scelta o del browser."""
+    language = request_language(request)
     return TEMPLATES.TemplateResponse(request, "index.html", context(language))
 
 
@@ -204,7 +205,7 @@ def _record_appointment_week(rt: Runtime, chat: ChatSession, result: TurnResult)
 def chat(request: Request, message: Annotated[str, Form()] = "") -> Response:
     """Un turno di conversazione (HTMX): restituisce i nuovi messaggi da accodare."""
     rt = runtime(request)
-    language = browser_language(request.headers.get("accept-language"))
+    language = request_language(request)
     session_id, chat_session = rt.sessions.get(session_id_from_cookie(request))
     text = message.strip()[: rt.settings.max_message_chars]
     redacted = redact(text).text

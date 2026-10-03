@@ -47,15 +47,17 @@ Built today:
 - **Tools for the agent** (`onevisit/tools.py`): list services, get the deciding questions, get the checklist for this case, find offices, cite a source.
 - **The OneVisit kit** (`apps/`, `libs/`): a uv monorepo with the citizen web chat (`apps/assistant_web`), the City panel (`apps/dashboard`), the channel gateway with SMS webhook, reply links, a fake phone for the demo and the reminder loop (`apps/gateway`), and libraries for the knowledge catalog, the Claude agent and reply validator, the privacy pipeline, the database (schemas `pii`/`core`/`analytics` with separate roles), channels and analytics. Status per story: [docs/progress.md](docs/progress.md).
 
-Screenshots from the running apps, with synthetic demo data only (`onevisit seed-demo`, 400 invented cases):
+Screenshots from the running apps, with synthetic demo data only (`onevisit seed-demo`, 400 invented cases). Design system: [docs/design-system.md](docs/design-system.md), from the team's prototype.
 
-| Citizen web chat (browser in English) | City panel: overview, k = 5 |
+| Web chat on a phone (browser in English) | The reminder SMS on the demo phone | The personal checklist it links to |
+|---|---|---|
+| ![Web chat welcome](docs/screenshots/chat-welcome-en-mobile.png) | ![Demo phone with the SMS](docs/screenshots/demo-phone.png) | ![Checklist with sources](docs/screenshots/checklist-mobile.png) |
+
+| City panel: overview, k = 5 | City panel: gaps, below-threshold groups apart |
 |---|---|
-| ![Web chat welcome in English](docs/screenshots/chat-welcome-en.png) | ![Panel overview](docs/screenshots/panel-overview.png) |
-| **Panel: a gap with three correction drafts** | **Panel: City context from open data** |
-| ![Gap detail](docs/screenshots/panel-gap-detail.png) | ![City context](docs/screenshots/panel-context.png) |
+| ![Panel overview](docs/screenshots/panel-overview.png) | ![Gaps](docs/screenshots/panel-gaps.png) |
 
-More: [gaps list](docs/screenshots/panel-gaps.png), [interventions before/after](docs/screenshots/panel-interventions.png), [demo phone for SMS](docs/screenshots/demo-phone.png).
+More: [a gap with its three correction drafts](docs/screenshots/panel-gap-detail.png), [interventions before/after](docs/screenshots/panel-interventions.png), [City context from open data](docs/screenshots/panel-context.png), [demo login](docs/screenshots/panel-login.png), [chat on desktop](docs/screenshots/chat-welcome-en-desktop.png).
 
 ## Quick start
 

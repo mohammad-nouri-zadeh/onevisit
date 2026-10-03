@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ lang|default('it') }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block head %}{% endblock %}
+<title>{% block title %}OneVisit{% endblock %}</title>
+{% for href in ui_stylesheets %}<link rel="stylesheet" href="{{ href }}">
+{% endfor %}<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<a class="skip" href="#main">{% if lang|default('it') == "it" %}Vai al contenuto{% else %}Skip to content{% endif %}</a>
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session, sessionmaker
 
+import onevisit_ui
 from dashboard.auth import RoleSigner
 from dashboard.config import Settings, get_settings
 from dashboard.routes import router
@@ -41,6 +42,7 @@ def create_app(
     app.state.panel_data = None
     app.state.claude_client = claude_client
     app.state.templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
+    app.mount(onevisit_ui.MOUNT_PATH, StaticFiles(directory=onevisit_ui.STATIC_DIR), name="ui")
     app.mount("/static", StaticFiles(directory=str(PACKAGE_DIR / "static")), name="static")
 
     @app.get("/health", tags=["operations"])

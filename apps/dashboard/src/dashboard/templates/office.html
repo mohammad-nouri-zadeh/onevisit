@@ -2,22 +2,29 @@
 {% from "_macros.html" import recipient_label %}
 {% block title %}Segnalazioni ufficio{% endblock %}
 {% block content %}
-<h1>Segnalazioni ufficio</h1>
-<p class="note">Solo lacune che superano la soglia ({{ k }} casi in {{ window }} settimane, configurabile). Aggregate per procedura: mai date od orari dei singoli appuntamenti, mai riferimenti ai dipendenti. Nell'hackathon le segnalazioni compaiono qui; dopo arriveranno anche all'email istituzionale dell'ufficio.</p>
+<div class="top">
+  <div>
+    <span class="kicker">Per gli uffici titolari</span>
+    <h1>Segnalazioni ufficio</h1>
+  </div>
+  <p class="note">Solo lacune che superano la soglia ({{ k }} casi in {{ window }} settimane, configurabile). Aggregate per procedura: mai date od orari dei singoli appuntamenti, mai riferimenti ai dipendenti. Nell'hackathon le segnalazioni compaiono qui; dopo arriveranno anche all'email istituzionale dell'ufficio.</p>
+</div>
 {% for service, rows in grouped.items() %}
-<section class="box">
-  <h2>{{ service }}</h2>
+<section class="sec box">
+  <h2><span class="mono">{{ service }}</span> <small>{{ rows|length }} segnalazioni</small></h2>
+  <div class="table-scroll">
   <table>
-    <thead><tr><th scope="col">Causa</th><th scope="col">Casi</th><th scope="col">Pagina</th><th scope="col">Destinatario</th><th scope="col">Bozza</th></tr></thead>
+    <thead><tr><th scope="col">Causa</th><th scope="col" class="num">Casi</th><th scope="col">Pagina</th><th scope="col">Destinatario</th><th scope="col">Bozza</th></tr></thead>
     <tbody>
     {% for g in rows %}
-      <tr><td>{{ g.cause }}</td><td>{{ g.case_count }}</td><td>{{ g.source_id or "non indicata" }}</td><td>{{ recipient_label(g) }}</td>
+      <tr><td>{{ g.cause }}</td><td class="num"><strong>{{ g.case_count }}</strong></td><td class="mono">{{ g.source_id or "non indicata" }}</td><td>{{ recipient_label(g) }}</td>
           <td><a href="/gaps/{{ g.id }}">{{ g.title }}</a></td></tr>
     {% endfor %}
     </tbody>
   </table>
+  </div>
 </section>
 {% else %}
-<p>Nessuna segnalazione sopra soglia.</p>
+<p class="notice">Nessuna segnalazione sopra soglia.</p>
 {% endfor %}
 {% endblock %}

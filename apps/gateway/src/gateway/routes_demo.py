@@ -8,7 +8,7 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from gateway.routes_sms import process_inbound
-from gateway.web import TEMPLATES, get_deps
+from gateway.web import TEMPLATES, get_deps, page_language
 
 router = APIRouter(tags=["demo"])
 
@@ -36,7 +36,12 @@ def demo_phone(request: Request) -> HTMLResponse:
     return TEMPLATES.TemplateResponse(
         request,
         "phone.html",
-        {"messages": messages, "replies": DEMO_REPLIES, "refresh_s": REFRESH_S},
+        {
+            "lang": page_language(request),
+            "messages": messages,
+            "replies": DEMO_REPLIES,
+            "refresh_s": REFRESH_S,
+        },
     )
 
 

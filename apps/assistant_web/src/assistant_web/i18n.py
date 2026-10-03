@@ -10,6 +10,9 @@ from pathlib import Path
 MESSAGES_DIR = Path(__file__).parent / "templates" / "messages"
 SUPPORTED = ("it", "en")
 DEFAULT_LANGUAGE = "it"
+# Cookie con la lingua scelta dal menu (``?lang=it|en``): prevale su Accept-Language.
+LANG_COOKIE = "ov_lang"
+LANG_COOKIE_MAX_AGE_S = 60 * 60 * 24 * 180
 
 
 @cache
@@ -37,3 +40,11 @@ def browser_language(accept_language: str | None) -> str:
         if tag in SUPPORTED:
             return tag
     return DEFAULT_LANGUAGE
+
+
+def chosen_language(query: str | None, cookie: str | None) -> str | None:
+    """Lingua scelta esplicitamente: ``?lang=`` della richiesta, poi il cookie; o ``None``."""
+    for value in (query, cookie):
+        if value and value.strip().lower() in SUPPORTED:
+            return value.strip().lower()
+    return None

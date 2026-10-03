@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Sintesi settimanale{% endblock %}
 {% block content %}
-<h1>Sintesi settimanale</h1>
-<p class="note">{% if by_claude %}Scritta da Claude{% else %}Testo generato da regola (nessuna chiave API configurata){% endif %} usando solo i dati delle viste aggregate. Massimo 200 parole. Rimanda alle tabelle di Panoramica, Lacune e Interventi.</p>
-<div class="box" aria-live="polite"><p>{{ text }}</p></div>
+<div class="top">
+  <div>
+    <span class="kicker">Per la direzione</span>
+    <h1>Sintesi settimanale</h1>
+  </div>
+  <p class="note">{% if by_claude %}Scritta da Claude{% else %}Testo generato da regola (nessuna chiave API configurata){% endif %} usando solo i dati delle viste aggregate. Massimo 200 parole. Rimanda alle tabelle di Panoramica, Lacune e Interventi.</p>
+</div>
+<div class="card box" aria-live="polite"><p class="summary-text">{{ text }}</p></div>
 {% endblock %}

@@ -6,6 +6,7 @@ connessioni ne' carica il catalogo all'import.
 """
 
 import logging
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -14,8 +15,10 @@ from fastapi import FastAPI, Request
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 
+import onevisit_ui
 from assistant_web import routes_chat, routes_contact, routes_pages
 from assistant_web.config import Settings, get_settings
+from assistant_web.i18n import LANG_COOKIE, LANG_COOKIE_MAX_AGE_S, chosen_language
 from assistant_web.runtime import CatalogLoader, Runtime, SessionFactory
 from assistant_web.web import TEMPLATES, context
 from onevisit_agent import ClaudeClient
@@ -47,7 +50,22 @@ def create_app(
         feedback_client=feedback_client,
     )
     logging.getLogger("assistant_web").addFilter(PiiLogFilter())
+    app.mount(onevisit_ui.MOUNT_PATH, StaticFiles(directory=onevisit_ui.STATIC_DIR), name="ui")
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+    @app.middleware("http")
+    async def remember_language(
+        request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
+        """Ricorda nel cookie la lingua scelta dal menu (``?lang=it|en``)."""
+        response = await call_next(request)
+        chosen = chosen_language(request.query_params.get("lang"), None)
+        if chosen:
+            response.set_cookie(
+                LANG_COOKIE, chosen, max_age=LANG_COOKIE_MAX_AGE_S, samesite="lax", httponly=True
+            )
+        return response
+
     app.include_router(routes_chat.router)
     app.include_router(routes_contact.router)
     app.include_router(routes_pages.router)

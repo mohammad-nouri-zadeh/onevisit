@@ -24,6 +24,8 @@ def reply_link(request: Request, token: str, choice: str = "") -> HTMLResponse:
     """Registra l'esito scelto nell'email e mostra una pagina di ringraziamento."""
     deps = get_deps(request)
     lang = page_language(request)
+    # Link "torna alla chat": la pagina iniziale dell'assistente web.
+    chat_url = deps.settings.assistant_base_url
     max_age = deps.settings.link_max_age_days * SECONDS_PER_DAY
     try:
         payload = deps.signer.verify(token, PURPOSE_REPLY, max_age_s=max_age)
@@ -32,7 +34,7 @@ def reply_link(request: Request, token: str, choice: str = "") -> HTMLResponse:
         return TEMPLATES.TemplateResponse(
             request,
             "thanks.html",
-            {"lang": lang, "ok": False, "details_url": None},
+            {"lang": lang, "ok": False, "details_url": None, "chat_url": chat_url},
             status_code=400,
         )
     outcome = OUTCOME_FOR_REPLY.get(choice)
@@ -40,7 +42,7 @@ def reply_link(request: Request, token: str, choice: str = "") -> HTMLResponse:
         return TEMPLATES.TemplateResponse(
             request,
             "thanks.html",
-            {"lang": lang, "ok": False, "details_url": None},
+            {"lang": lang, "ok": False, "details_url": None, "chat_url": chat_url},
             status_code=400,
         )
     case_id = UUID(str(payload["case_id"]))
@@ -54,5 +56,7 @@ def reply_link(request: Request, token: str, choice: str = "") -> HTMLResponse:
     details = deps.links.outcome(case_id, UUID(contact)) if contact else None
     logger.info("esito registrato da link email per il caso %s", case_id)
     return TEMPLATES.TemplateResponse(
-        request, "thanks.html", {"lang": lang, "ok": True, "details_url": details}
+        request,
+        "thanks.html",
+        {"lang": lang, "ok": True, "details_url": details, "chat_url": chat_url},
     )

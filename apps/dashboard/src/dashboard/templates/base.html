@@ -4,33 +4,49 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Pannello{% endblock %} · OneVisit · Comune di Milano</title>
+  <link rel="stylesheet" href="/ui/fonts.css">
+  <link rel="stylesheet" href="/ui/onevisit.css">
   <link rel="stylesheet" href="/static/style.css">
-  <script src="https://unpkg.com/htmx.org@2.0.3" defer></script>
+  <script src="/ui/vendor/htmx.min.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#contenuto">Vai al contenuto</a>
-<header>
-  <strong>OneVisit · Pannello del Comune</strong>
+{% macro nav_link(href, label) -%}
+{%- set path = request.url.path -%}
+{%- if path == href %}<a href="{{ href }}" aria-current="page">{{ label }}</a>
+{%- elif href != "/" and path.startswith(href ~ "/") %}<a href="{{ href }}" aria-current="true">{{ label }}</a>
+{%- else %}<a href="{{ href }}">{{ label }}</a>{% endif -%}
+{%- endmacro %}
+<header class="panel-head">
+  <div class="bar">
+    <div class="titles">
+      <div class="t"><strong>OneVisit · Pannello del Comune</strong></div>
+      <div class="s">Comune di Milano · solo dati aggregati</div>
+    </div>
+    {% if role %}
+    <span class="badge dashed demo-badge">Accesso dimostrativo: {{ role }}</span>
+    <form class="logout" method="post" action="/logout"><button class="btn line small secondary" type="submit">Esci</button></form>
+    {% endif %}
+  </div>
   {% if role %}
-  <span class="demo-badge">Accesso dimostrativo: {{ role }}</span>
-  <nav aria-label="Sezioni del pannello">
-    <ul>
-      <li><a href="/">Panoramica</a></li>
-      <li><a href="/gaps">Lacune</a></li>
-      <li><a href="/office">Segnalazioni ufficio</a></li>
-      <li><a href="/interventions">Interventi</a></li>
-      <li><a href="/summary">Sintesi settimanale</a></li>
-      <li><a href="/context">Contesto città</a></li>
-      {% if role == "direzione" %}<li><a href="/settings">Impostazioni</a></li>{% endif %}
-      <li><form method="post" action="/logout"><button class="secondary" type="submit">Esci</button></form></li>
+  <nav class="panel-nav" aria-label="Sezioni del pannello">
+    <ul class="nav">
+      <li>{{ nav_link("/", "Panoramica") }}</li>
+      <li>{{ nav_link("/gaps", "Lacune") }}</li>
+      <li>{{ nav_link("/office", "Segnalazioni ufficio") }}</li>
+      <li>{{ nav_link("/interventions", "Interventi") }}</li>
+      <li>{{ nav_link("/summary", "Sintesi settimanale") }}</li>
+      <li>{{ nav_link("/context", "Contesto città") }}</li>
+      {% if role == "direzione" %}<li>{{ nav_link("/settings", "Impostazioni") }}</li>{% endif %}
     </ul>
   </nav>
   {% endif %}
 </header>
-<main id="contenuto">
+<main id="contenuto" class="wrap wide">
 {% block content %}{% endblock %}
+<p class="foot">OneVisit · prototipo del Claude Impact Lab Milano, 3 ottobre 2026. Non è un servizio ufficiale del Comune di Milano.</p>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="/ui/vendor/chart.umd.min.js"></script>
 <script src="/static/charts.js"></script>
 </body>
 </html>

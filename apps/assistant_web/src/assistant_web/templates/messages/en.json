@@ -68,5 +68,10 @@
   "consents_delete": "Delete my contact",
   "consents_revoked": "Consents revoked. You will not receive any more messages.",
   "consents_deleted": "Contact deleted.",
-  "lang_name": "English"
+  "lang_name": "English",
+  "brand_sub": "Registry office · Milan",
+  "language": "Language",
+  "lang_apply": "Apply",
+  "checklist_count": "{have} of {total}",
+  "checklist_count_label": "documents ready"
 }

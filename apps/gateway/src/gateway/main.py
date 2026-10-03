@@ -11,11 +11,14 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
+import onevisit_ui
 from gateway import routes_demo, routes_replies, routes_sms
 from gateway.config import Settings, get_settings
 from gateway.deps import GatewayDeps, build_deps
 from gateway.scheduler import run_loop
+from gateway.web import STATIC_DIR
 
 
 def create_app(settings: Settings | None = None, deps: GatewayDeps | None = None) -> FastAPI:
@@ -45,6 +48,9 @@ def create_app(settings: Settings | None = None, deps: GatewayDeps | None = None
         """Controllo di salute usato da Docker e dal reverse proxy."""
         return {"status": "ok", "service": settings.service_name}
 
+    # Design system condiviso (CSS, font, script locali) e regole proprie del gateway.
+    app.mount(onevisit_ui.MOUNT_PATH, StaticFiles(directory=onevisit_ui.STATIC_DIR), name="ui")
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(routes_sms.router)
     app.include_router(routes_replies.router)
     app.include_router(routes_demo.router)

@@ -1,50 +1,81 @@
 {% extends "base.html" %}
-{% from "_macros.html" import recipient_label %}
+{% from "_macros.html" import recipient_label, status_badge %}
 {% block title %}Dettaglio lacuna{% endblock %}
 {% block content %}
 <p><a href="/gaps">← Tutte le lacune</a></p>
-<h1>{{ gap.title }}</h1>
-{% if request.query_params.get("approvata") %}<p class="box status-corretta" role="status">Correzione approvata: l'assistente la usa dalla prossima conversazione, con fonte «correzione approvata».</p>{% endif %}
-<dl>
-  <dt>Causa</dt><dd>{{ gap.cause }}</dd>
-  <dt>Servizio</dt><dd>{{ gap.service_id }}</dd>
-  <dt>Pagina</dt><dd>{{ gap.source_id or "non indicata" }}</dd>
-  <dt>Destinatario</dt><dd>{{ recipient_label(gap) }}</dd>
-  <dt>Stato</dt><dd><span class="status-{{ gap.status }}">{{ gap.status }}</span>{% if gap.archived_reason %} · motivo: {{ gap.archived_reason }}{% endif %}</dd>
-  <dt>Casi</dt><dd>{% if gap.case_count >= k %}{{ gap.case_count }}{% else %}<span class="insufficient">dati insufficienti</span>{% endif %}</dd>
-</dl>
+<div class="top">
+  <div>
+    <span class="kicker">Lacuna · {{ gap.cause }}</span>
+    <h1>{{ gap.title }}</h1>
+  </div>
+  {{ status_badge(gap.status) }}
+</div>
+{% if request.query_params.get("approvata") %}<p class="notice ok status-corretta" role="status">Correzione approvata: l'assistente la usa dalla prossima conversazione, con fonte «correzione approvata».</p>{% endif %}
 
-<h2>Riassunto</h2>
-<p>{{ gap.summary or "Riassunto non ancora disponibile." }}</p>
-<h2>Esempi generalizzati</h2>
-<p class="note">Mai il testo originale dei cittadini: solo procedura e requisito.</p>
-<ul>{% for e in gap.examples %}<li>{{ e }}</li>{% else %}<li>Nessun esempio.</li>{% endfor %}</ul>
+<div class="cols">
+  <section class="sec" aria-labelledby="h-facts">
+    <h2 id="h-facts">Scheda</h2>
+    <dl class="facts wide-facts">
+      <dt>Causa</dt><dd>{{ gap.cause }}</dd>
+      <dt>Servizio</dt><dd class="mono">{{ gap.service_id }}</dd>
+      <dt>Pagina</dt><dd class="mono">{{ gap.source_id or "non indicata" }}</dd>
+      <dt>Destinatario</dt><dd>{{ recipient_label(gap) }}</dd>
+      <dt>Stato</dt><dd><span class="status-{{ gap.status }}">{{ gap.status }}</span>{% if gap.archived_reason %} · motivo: {{ gap.archived_reason }}{% endif %}</dd>
+      <dt>Casi</dt><dd>{% if gap.case_count >= k %}<span class="big">{{ gap.case_count }}</span>{% else %}<span class="insufficient">dati insufficienti</span>{% endif %}</dd>
+    </dl>
+  </section>
 
-<h2>Bozza di correzione</h2>
+  <section class="sec" aria-labelledby="h-summary">
+    <h2 id="h-summary">Riassunto</h2>
+    <p>{{ gap.summary or "Riassunto non ancora disponibile." }}</p>
+    <h2>Esempi generalizzati</h2>
+    <p class="note">Mai il testo originale dei cittadini: solo procedura e requisito.</p>
+    <ul class="list examples">{% for e in gap.examples %}<li class="row">{{ e }}</li>{% else %}<li class="row">Nessun esempio.</li>{% endfor %}</ul>
+  </section>
+</div>
+
+<section class="sec" aria-labelledby="h-drafts">
+<h2 id="h-drafts">Bozza di correzione</h2>
 {% set drafts = [("text_it", "Italiano", gap.draft_it), ("text_easy_it", "Italiano facile", gap.draft_easy_it), ("text_en", "Inglese", gap.draft_en)] %}
 {% if can_edit and gap.status in ("nuova", "in-revisione") %}
+<div class="drafts">
 {% for name, label, value in drafts %}
-<h3>Bozza per la pagina · {{ label }}</h3>
-<p>{{ value or "Bozza non ancora disponibile." }}</p>
+<div class="draft">
+  <span class="who">Bozza di Claude, da approvare</span>
+  <h3>Bozza per la pagina · {{ label }}</h3>
+  <p>{{ value or "Bozza non ancora disponibile." }}</p>
+</div>
 {% endfor %}
-<form method="post" action="/gaps/{{ gap.id }}/approve">
+</div>
+</section>
+
+<div class="cols decide">
+<form class="card form" method="post" action="/gaps/{{ gap.id }}/approve">
+  <h2 class="h-form">Approva il requisito</h2>
   <p class="note">Il testo approvato compare nella checklist del cittadino come requisito: scrivi solo il requisito (per esempio «Traduzione e legalizzazione dei documenti esteri»), non le istruzioni per modificare la pagina.</p>
   {% for name, label, value in drafts %}
   <label for="{{ name }}">Requisito per il cittadino · {{ label }}</label>
   <textarea id="{{ name }}" name="{{ name }}" {% if name == "text_it" %}required{% endif %}></textarea>
   {% endfor %}
-  <p><button type="submit">Approva la correzione</button></p>
+  <div class="actions"><button class="btn" type="submit">Approva la correzione</button></div>
 </form>
-<form method="post" action="/gaps/{{ gap.id }}/archive" class="box">
+<form method="post" action="/gaps/{{ gap.id }}/archive" class="card form box">
+  <h2 class="h-form">Archivia la lacuna</h2>
   <label for="reason">Motivo dell'archiviazione</label>
   <input id="reason" name="reason" required maxlength="200">
-  <p><button class="secondary" type="submit">Archivia</button></p>
+  <div class="actions"><button class="btn line secondary" type="submit">Archivia</button></div>
 </form>
+</div>
 {% else %}
+  <div class="drafts">
   {% for name, label, value in drafts %}
+  <div class="draft">
   <h3>{{ label }}</h3>
   <p>{{ value or "Bozza non ancora disponibile (la lacuna è sotto soglia o già chiusa)." }}</p>
+  </div>
   {% endfor %}
+  </div>
   {% if not can_edit %}<p class="note">Solo il ruolo redazione può approvare o archiviare.</p>{% endif %}
+</section>
 {% endif %}
 {% endblock %}

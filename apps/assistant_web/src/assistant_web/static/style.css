@@ -1,36 +1,38 @@
-/* Stile minimo, contrasto AA (testo #1a1a1a su #fff, link #0b4f8a). */
-:root { --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b4f8a; --soft: #eef3f8; --err: #a1001a; }
-* { box-sizing: border-box; }
-body { margin: 0; font: 1rem/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
-.top { padding: .75rem 1rem; background: var(--accent); color: #fff; }
-main { max-width: 46rem; margin: 0 auto; padding: 1rem; }
-a { color: var(--accent); }
-.skip { position: absolute; left: -999px; }
-.skip:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 2; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-.disclosure { font-size: .9rem; color: var(--muted); border-left: 4px solid var(--accent); padding-left: .75rem; }
-.messages { display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0; }
-.msg { padding: .75rem 1rem; border-radius: .5rem; max-width: 100%; }
-.msg p { margin: .25rem 0; }
-.msg.user { background: var(--soft); align-self: flex-end; }
-.msg.assistant { border: 1px solid #c9d3de; }
-.who { display: block; font-size: .8rem; font-weight: 600; color: var(--muted); }
-.cite { font-size: .85rem; }
-.quick { display: flex; flex-wrap: wrap; gap: .5rem; }
-.quick form { margin: 0; }
-.chat-form, .card form { display: flex; flex-direction: column; gap: .5rem; }
-textarea, input[type=email], input[type=tel], select { font: inherit; padding: .5rem; border: 1px solid #6b6b6b; border-radius: .25rem; }
-button { font: inherit; padding: .5rem 1rem; border: 0; border-radius: .25rem; background: var(--accent); color: #fff; cursor: pointer; }
-button.danger { background: var(--err); }
-.quick button { background: var(--soft); color: var(--accent); border: 1px solid var(--accent); }
-:focus-visible { outline: 3px solid #f2a900; outline-offset: 2px; }
-fieldset { border: 1px solid #c9d3de; border-radius: .25rem; }
-fieldset label { display: block; }
-.card { border: 1px solid #c9d3de; border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
-.error { color: var(--err); font-weight: 600; }
-.checklist { list-style: none; padding: 0; }
-.checklist li { padding: .5rem 0; border-bottom: 1px solid #e3e3e3; }
-.checklist small { display: block; color: var(--muted); }
-.explained { display: block; }
-.final { font-weight: 600; }
-.informativa div { white-space: pre-line; font-size: .9rem; }
+/* assistant_web: poche regole proprie sopra il design system (/ui/onevisit.css). */
+
+/* Menu della lingua nella barra. */
+.lang-form { display: flex; align-items: center; gap: 6px; margin: 0; }
+
+/* Composer: area di testo e pulsante sulla stessa riga. */
+.compose-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+.composer textarea { border-radius: var(--r-lg); }
+
+/* Le risposte rapide si allineano alle bolle dell'assistente. */
+.msgs > .opts { justify-self: start; }
+.msg .cite { color: inherit; }
+
+/* Fieldset senza cornice quando contiene già un gruppo .choices. */
+fieldset.plain { border: 0; padding: 0; background: none; gap: 6px; }
+fieldset.plain > legend { padding: 0 0 6px; }
+.choices label.choice { justify-content: flex-start; align-items: center; font-weight: 400; }
+.choices .choice:has(:checked) { background: var(--mist); font-weight: 600; }
+.choices .choice:focus-within { outline: 2px solid var(--ink); outline-offset: -2px; }
+.choices button.choice:hover { background: var(--mist); }
+.outcome-choices .choice { font-size: 1.1rem; padding: 18px 20px; align-items: center; }
+.field-group { display: grid; gap: 6px; }
+.informativa .notice { white-space: pre-line; margin-top: 8px; }
+.links { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+
+/* Checklist: la casella e' il segno tondo del prototipo. */
+.tally { display: grid; gap: 2px; }
+.item input.mark { appearance: none; -webkit-appearance: none; margin: 1px 0 0; cursor: pointer;
+  border: 1.5px dashed var(--pewter); background: transparent; }
+.item input.mark:checked { border: 0; background: var(--ink); }
+.item input.mark:checked::after { content: "✓"; color: var(--on-ink); font-size: .75rem; font-weight: 700; }
+.item label.what { display: grid; gap: 2px; cursor: pointer; }
+.item:has(.mark:checked) label.what { color: var(--ink); font-weight: 600; }
+.item .official strong { font-weight: inherit; }
+.item .explained { font-weight: 400; color: var(--graphite); font-size: .92rem; }
+.item .src a { color: inherit; }
+.result .list { border-top: 0; }
+.result .item:last-child { border-bottom: 0; }

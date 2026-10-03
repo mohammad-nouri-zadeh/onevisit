@@ -1,0 +1,42 @@
+/*
+ * Regole proprie del gateway, sopra il design system (/ui/onevisit.css).
+ * Telefono demo (/demo/phone) e pagina di ringraziamento dei link di risposta.
+ */
+
+/* Telefono demo: cornice centrata, conversazione che scorre dentro lo schermo. */
+body.demo { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; }
+.sms-phone { width: 100%; max-width: 390px; height: min(780px, calc(100dvh - 48px)); min-height: 520px;
+             box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 18px 48px rgba(0, 0, 0, .10); }
+.sms-phone .bar { padding: 18px 16px 12px; }
+.sms-phone .bar .titles { text-align: center; }
+.sms-phone .back { color: var(--graphite); }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--on-ink); display: grid; place-items: center;
+          font-size: .7rem; font-weight: 700; letter-spacing: .04em; flex: none; }
+.sms-phone .screen { display: flex; flex-direction: column; gap: 12px; min-height: 0; padding: 16px; }
+/* I messaggi arrivano dal piu' recente: column-reverse lo mette in basso, come in un telefono. */
+.thread { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column-reverse; gap: 14px; }
+.sms { display: grid; gap: 4px; justify-items: start; }
+.sms .msg { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.4; }
+.sms .msg a { font-weight: 600; text-decoration-thickness: 1.5px; overflow-wrap: anywhere; }
+.sms .checked { padding-left: 6px; font-variant-numeric: tabular-nums; }
+.thread > .notice { margin: auto 0; text-align: center; color: var(--graphite); }
+.replies { justify-content: center; border-top: 1px solid var(--mist); padding-top: 12px; }
+.replies .opt { min-height: 40px; min-width: 48px; }
+
+/* Ringraziamento. */
+.thanks-wrap { max-width: 36rem; padding-top: clamp(24px, 10vh, 96px); }
+.thanks-wrap > .kicker { padding: 0 8px; font-weight: 600; }
+.thanks { padding: 28px 24px; gap: 12px; justify-items: start; }
+.thanks h1 { font-size: 1.75rem; margin: 0; }
+.seal { width: 56px; height: 56px; border-radius: 50%; background: var(--ink); color: var(--on-ink); display: grid; place-items: center;
+        font-size: 1.6rem; font-weight: 700; line-height: 1; }
+.seal.off { background: transparent; color: var(--graphite); border: 1.5px dashed var(--pewter); }
+.thanks .actions { margin-top: 6px; }
+.wrap > .note { padding: 0 8px; }
+
+@media (max-width: 480px) {
+  body.demo { padding: 0; place-items: stretch; }
+  .sms-phone { max-width: none; height: 100vh; height: 100dvh; min-height: 0; border-radius: 0; border: 0; box-shadow: none; }
+  .thanks .actions .btn { display: block; width: 100%; }
+  .thanks .actions { display: grid; width: 100%; }
+}

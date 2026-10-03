@@ -27,8 +27,13 @@
 {%- endmacro %}
 
 {% macro recipient_label(gap) -%}
-{% if gap.recipient == "ente-nazionale" %}<span class="national">fonte non comunale</span> · {{ gap.owner_ente or "ente nazionale" }}
+{% if gap.recipient == "ente-nazionale" %}<span class="badge dashed national">fonte non comunale</span> · {{ gap.owner_ente or "ente nazionale" }}
 {% elif gap.recipient == "assistente" %}migliorare l'assistente
 {% elif gap.recipient == "ufficio" %}ufficio titolare
 {% else %}redazione{% endif %}
+{%- endmacro %}
+
+{% macro status_badge(status) -%}
+{%- set kind = {"nuova": "ink", "in-revisione": "", "corretta": "line", "archiviata": "line"} -%}
+<span class="badge {{ kind.get(status, 'line') }} status-{{ status }}">{{ status }}</span>
 {%- endmacro %}

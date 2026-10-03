@@ -1,39 +1,66 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ t.checklist_title }}</h1>
+<div class="top">
+  <h1>{{ t.checklist_title }}</h1>
+</div>
 {% if not items %}
-<p>{{ t.checklist_empty }}</p>
+<p class="notice">{{ t.checklist_empty }}</p>
 {% else %}
-<p>{{ t.checklist_intro }}</p>
-<form method="post" action="/c/{{ token }}">
-  <ul class="checklist">
+{% set ready = items | selectattr('id', 'in', have) | list | length %}
+<div class="tally">
+  <div class="count"><b data-count>{{ t.checklist_count.format(have=ready, total=items | length) }}</b><span class="muted">{{ t.checklist_count_label }}</span></div>
+  <div class="ticks" aria-hidden="true">{% for item in items %}<i{% if item.id in have %} class="on"{% endif %}></i>{% endfor %}</div>
+</div>
+<p class="lead">{{ t.checklist_intro }}</p>
+<form method="post" action="/c/{{ token }}" class="form" id="checklist-form">
+  <ul class="list checklist">
   {% for item in items %}
-    <li>
-      <input type="checkbox" id="have-{{ item.id }}" name="have" value="{{ item.id }}" {% if item.id in have %}checked{% endif %}>
-      <label for="have-{{ item.id }}">
-        <span class="official"><span class="sr">{{ t.official_name }}: </span><strong lang="it">{{ item.official }}</strong></span>
-        {% if item.explained != item.official %}<span class="explained">{{ item.explained }}</span>{% endif %}
-      </label>
-      <small>{% if item.source_url %}<a href="{{ item.source_url }}" rel="noopener" target="_blank">{{ t.source }}: {{ item.source_title }}</a>{% else %}{{ t.source }}: {{ item.source_title }}{% endif %}{% if item.verified_at %} · {{ t.verified_on }} {{ item.verified_at }}{% endif %}</small>
+    <li class="item {{ 'ok' if item.id in have else 'todo' }}">
+      <input type="checkbox" class="mark" id="have-{{ item.id }}" name="have" value="{{ item.id }}" {% if item.id in have %}checked{% endif %}>
+      <div>
+        <label for="have-{{ item.id }}" class="what">
+          <span class="official"><span class="sr">{{ t.official_name }}: </span><strong lang="it">{{ item.official }}</strong></span>
+          {% if item.explained != item.official %}<span class="explained">{{ item.explained }}</span>{% endif %}
+        </label>
+        <small class="src">{% if item.source_url %}<a href="{{ item.source_url }}" rel="noopener" target="_blank">{{ t.source }}: {{ item.source_title }}</a>{% else %}{{ t.source }}: {{ item.source_title }}{% endif %}{% if item.verified_at %} · {{ t.verified_on }} {{ item.verified_at }}{% endif %}</small>
+      </div>
     </li>
   {% endfor %}
   </ul>
-  <button type="submit">{{ t.checklist_submit }}</button>
+  <div class="actions"><button type="submit" class="btn">{{ t.checklist_submit }}</button></div>
 </form>
 {% if missing is not none %}
-<section class="card" aria-live="polite">
+<section class="card result" aria-live="polite">
   {% if missing %}
   <h2>{{ t.checklist_missing }}</h2>
-  <ul>
+  <ul class="list">
     {% for item in missing %}
-    <li><strong lang="it">{{ item.official }}</strong> — {{ t.checklist_lead_time.format(days=item.lead_time_days) if item.lead_time_days else t.checklist_todo }}</li>
+    <li class="item todo"><span class="mark" aria-hidden="true">?</span><div><strong lang="it" class="what">{{ item.official }}</strong> <span class="src">{{ t.checklist_lead_time.format(days=item.lead_time_days) if item.lead_time_days else t.checklist_todo }}</span></div></li>
     {% endfor %}
   </ul>
   {% else %}
-  <p class="final">{{ t.checklist_all_present }}</p>
+  <p class="done final">{{ t.checklist_all_present }}</p>
   {% endif %}
-  <p>{{ t.checklist_human }}</p>
+  <p class="callout">{{ t.checklist_human }}</p>
 </section>
 {% endif %}
+<script>
+(function () {
+  var form = document.getElementById("checklist-form");
+  if (!form) return;
+  var fmt = {{ t.checklist_count | tojson }};
+  form.addEventListener("change", function () {
+    var boxes = form.querySelectorAll("input[name=have]"), n = 0;
+    var ticks = document.querySelectorAll(".tally .ticks i");
+    boxes.forEach(function (box, i) {
+      if (box.checked) n++;
+      box.closest(".item").className = "item " + (box.checked ? "ok" : "todo");
+      if (ticks[i]) ticks[i].className = box.checked ? "on" : "";
+    });
+    document.querySelector("[data-count]").textContent =
+      fmt.replace("{have}", n).replace("{total}", boxes.length);
+  });
+})();
+</script>
 {% endif %}
 {% endblock %}

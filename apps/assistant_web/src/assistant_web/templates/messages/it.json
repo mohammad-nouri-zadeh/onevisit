@@ -68,5 +68,10 @@
   "consents_delete": "Cancella il mio contatto",
   "consents_revoked": "Consensi revocati. Non riceverai altri messaggi.",
   "consents_deleted": "Contatto cancellato.",
-  "lang_name": "Italiano"
+  "lang_name": "Italiano",
+  "brand_sub": "Anagrafe · Comune di Milano",
+  "language": "Lingua",
+  "lang_apply": "Applica",
+  "checklist_count": "{have} di {total}",
+  "checklist_count_label": "documenti pronti"
 }

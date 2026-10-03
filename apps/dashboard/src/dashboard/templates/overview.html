@@ -2,81 +2,135 @@
 {% from "_macros.html" import info, pct, num, cell %}
 {% block title %}Panoramica{% endblock %}
 {% block content %}
-<h1>Panoramica</h1>
-<p class="note">Solo dati aggregati. Nessuna cella mostra meno di {{ k }} casi: al loro posto compare «dati insufficienti».</p>
+<div class="top">
+  <div>
+    <span class="kicker">Cosa dicono gli appuntamenti</span>
+    <h1>Panoramica</h1>
+  </div>
+  <p class="note">Solo dati aggregati. Nessuna cella mostra meno di {{ k }} casi: al loro posto compare «dati insufficienti».</p>
+</div>
 
-<section aria-labelledby="h-service">
-  <h2 id="h-service">Pratiche chiuse al primo appuntamento, per servizio {{ info("first_visit_rate") }}</h2>
-  <table>
-    <thead><tr><th scope="col">Servizio</th><th scope="col">Tasso</th></tr></thead>
-    <tbody>
-    {% for service, c in by_service.items() %}
-      <tr><th scope="row">{{ service }}</th><td>{{ cell(c) }}</td></tr>
-    {% else %}
-      <tr><td colspan="2"><span class="insufficient">dati insufficienti</span></td></tr>
-    {% endfor %}
-    </tbody>
-  </table>
+{% set ns = namespace(cases=0, closed=0, open_gaps=0, visits=0, visits_known=false, cost=0, cost_known=false) %}
+{% for r in weekly %}{% set ns.cases = ns.cases + r.cases %}{% set ns.closed = ns.closed + r.closed_first_visit %}{% endfor %}
+{% for c in causes %}{% set ns.open_gaps = ns.open_gaps + c.open_gaps %}{% endfor %}
+{% for a in avoided %}
+  {% if a.avoided_visits is not none %}{% set ns.visits = ns.visits + a.avoided_visits %}{% set ns.visits_known = true %}{% endif %}
+  {% if a.avoided_cost_eur is not none %}{% set ns.cost = ns.cost + a.avoided_cost_eur %}{% set ns.cost_known = true %}{% endif %}
+{% endfor %}
+<section class="stats" aria-label="Numeri principali">
+  <div class="stat">
+    <div class="n">{% if ns.cases %}{{ "%.0f"|format(ns.closed / ns.cases * 100) }}%{% else %}<span class="insufficient">dati insufficienti</span>{% endif %}</div>
+    <div class="l">pratiche chiuse al primo appuntamento, tutti i servizi</div>
+    <span class="src">settimane sopra soglia · n={{ ns.cases }}</span>
+  </div>
+  <div class="stat">
+    <div class="n">{{ ns.open_gaps }}</div>
+    <div class="l">lacune aperte (nuove o in revisione)</div>
+    <span class="src">analytics.gaps_by_cause</span>
+  </div>
+  <div class="stat">
+    <div class="n">{% if ns.visits_known %}{{ "%.0f"|format(ns.visits) }}{% else %}<span class="insufficient">dati insufficienti</span>{% endif %}</div>
+    <div class="l">visite a vuoto evitate dalle correzioni (stima)</div>
+    <span class="src">{{ avoided|length }} servizi con correzioni</span>
+  </div>
+  <div class="stat">
+    <div class="n">{% if ns.cost_known %}{{ "%.0f"|format(ns.cost) }} €{% else %}<span class="insufficient">dati insufficienti</span>{% endif %}</div>
+    <div class="l">costo di sportello evitato (stima)</div>
+    <span class="src">{{ "%.2f"|format(cost_per_slot) }} € per slot</span>
+  </div>
 </section>
 
-<section aria-labelledby="h-weekly">
-  <h2 id="h-weekly">Andamento settimanale {{ info("weekly") }}</h2>
-  <canvas data-chart="weekly-data" data-type="line" data-max="100" role="img" aria-label="Grafico del tasso settimanale; i dati sono nella tabella seguente"></canvas>
+<div class="cols">
+  <section class="sec" aria-labelledby="h-service">
+    <h2 id="h-service"><span class="info-wrap">Pratiche chiuse al primo appuntamento, per servizio {{ info("first_visit_rate") }}</span></h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th scope="col">Servizio</th><th scope="col" class="num">Tasso</th></tr></thead>
+      <tbody>
+      {% for service, c in by_service.items() %}
+        <tr><th scope="row" class="mono">{{ service }}</th><td class="num">{{ cell(c) }}</td></tr>
+      {% else %}
+        <tr><td colspan="2"><span class="insufficient">dati insufficienti</span></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-causes">
+    <h2 id="h-causes"><span class="info-wrap">Lacune per causa {{ info("gaps_by_cause") }}</span></h2>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th scope="col">Causa</th><th scope="col" class="num">Lacune</th><th scope="col" class="num">Aperte</th><th scope="col" class="num">Casi</th></tr></thead>
+      <tbody>
+      {% for c in causes %}
+        <tr><td>{{ c.cause }}</td><td class="num">{{ c.gaps }}</td><td class="num">{{ c.open_gaps }}</td><td class="num">{{ num(c.cases) }}</td></tr>
+      {% else %}
+        <tr><td colspan="4">Nessuna lacuna.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </section>
+</div>
+
+<section class="sec" aria-labelledby="h-weekly">
+  <h2 id="h-weekly"><span class="info-wrap">Andamento settimanale {{ info("weekly") }}</span></h2>
+  <div class="chart">
+    <canvas data-chart="weekly-data" data-type="line" data-max="100" role="img" aria-label="Grafico del tasso settimanale; i dati sono nella tabella seguente"></canvas>
+  </div>
   <script type="application/json" id="weekly-data">{{ weekly_chart|tojson }}</script>
-  <table>
-    <caption>Tabella equivalente al grafico</caption>
-    <thead><tr><th scope="col">Servizio</th><th scope="col">Settimana</th><th scope="col">Casi</th><th scope="col">Tasso</th></tr></thead>
-    <tbody>
-    {% for r in weekly %}
-      <tr><td>{{ r.service_id }}</td><td>{{ r.week.isoformat() }}</td><td>{{ r.cases }}</td><td>{{ pct(r.rate) }}</td></tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  <details>
+    <summary>Tabella equivalente al grafico</summary>
+    <div class="table-scroll">
+    <table>
+      <caption>Tabella equivalente al grafico</caption>
+      <thead><tr><th scope="col">Servizio</th><th scope="col">Settimana</th><th scope="col" class="num">Casi</th><th scope="col" class="num">Tasso</th></tr></thead>
+      <tbody>
+      {% for r in weekly %}
+        <tr><td class="mono">{{ r.service_id }}</td><td class="mono">{{ r.week.isoformat() }}</td><td class="num">{{ r.cases }}</td><td class="num">{{ pct(r.rate) }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </details>
 </section>
 
+<div class="cols even">
 {% for title, key, m in [("per lingua", "by_language", by_language), ("per categoria", "by_category", by_category)] %}
-<section>
-  <h2>Pratiche chiuse al primo appuntamento, {{ title }} {{ info(key) }}</h2>
+<section class="sec">
+  <h2><span class="info-wrap">Pratiche chiuse al primo appuntamento, {{ title }} {{ info(key) }}</span></h2>
+  <div class="table-scroll">
   <table>
-    <thead><tr><th scope="col">Servizio</th>{% for col in m.columns %}<th scope="col">{{ col }}</th>{% endfor %}</tr></thead>
+    <thead><tr><th scope="col">Servizio</th>{% for col in m.columns %}<th scope="col" class="num">{{ col }}</th>{% endfor %}</tr></thead>
     <tbody>
     {% for service, cols in m.rows.items() %}
-      <tr><th scope="row">{{ service }}</th>{% for col in m.columns %}<td>{{ cell(cols[col]) }}</td>{% endfor %}</tr>
+      <tr><th scope="row" class="mono">{{ service }}</th>{% for col in m.columns %}<td class="num">{{ cell(cols[col]) }}</td>{% endfor %}</tr>
     {% else %}
       <tr><td><span class="insufficient">dati insufficienti</span></td></tr>
     {% endfor %}
     </tbody>
   </table>
+  </div>
 </section>
 {% endfor %}
+</div>
 
-<section aria-labelledby="h-causes">
-  <h2 id="h-causes">Lacune per causa {{ info("gaps_by_cause") }}</h2>
+<section class="sec" aria-labelledby="h-avoided">
+  <h2 id="h-avoided"><span class="info-wrap">Appuntamenti a vuoto evitati e costo (stima) {{ info("avoided") }}</span></h2>
+  <p class="callout"><strong>Stima.</strong> Formula: visite evitate = Σ max(tasso dopo − tasso prima, 0) × casi dopo; costo stimato = visite evitate × costo per slot. Costo per slot usato: <strong>{{ "%.2f"|format(cost_per_slot) }} €</strong> (modificabile dalla direzione in Impostazioni).</p>
+  <div class="table-scroll">
   <table>
-    <thead><tr><th scope="col">Causa</th><th scope="col">Lacune</th><th scope="col">Aperte</th><th scope="col">Casi</th></tr></thead>
-    <tbody>
-    {% for c in causes %}
-      <tr><td>{{ c.cause }}</td><td>{{ c.gaps }}</td><td>{{ c.open_gaps }}</td><td>{{ num(c.cases) }}</td></tr>
-    {% else %}
-      <tr><td colspan="4">Nessuna lacuna.</td></tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</section>
-
-<section aria-labelledby="h-avoided">
-  <h2 id="h-avoided">Appuntamenti a vuoto evitati e costo (stima) {{ info("avoided") }}</h2>
-  <p><strong>Stima.</strong> Formula: visite evitate = Σ max(tasso dopo − tasso prima, 0) × casi dopo; costo stimato = visite evitate × costo per slot. Costo per slot usato: <strong>{{ "%.2f"|format(cost_per_slot) }} €</strong> (modificabile dalla direzione in Impostazioni).</p>
-  <table>
-    <thead><tr><th scope="col">Servizio</th><th scope="col">Correzioni</th><th scope="col">Visite evitate (stima)</th><th scope="col">Costo evitato (stima)</th></tr></thead>
+    <thead><tr><th scope="col">Servizio</th><th scope="col" class="num">Correzioni</th><th scope="col" class="num">Visite evitate (stima)</th><th scope="col" class="num">Costo evitato (stima)</th></tr></thead>
     <tbody>
     {% for a in avoided %}
-      <tr><td>{{ a.service_id }}</td><td>{{ a.interventions }}</td><td>{{ num(a.avoided_visits) }}</td>
-          <td>{% if a.avoided_cost_eur is none %}<span class="insufficient">dati insufficienti</span>{% else %}{{ "%.2f"|format(a.avoided_cost_eur) }} €{% endif %}</td></tr>
+      <tr><td class="mono">{{ a.service_id }}</td><td class="num">{{ a.interventions }}</td><td class="num">{{ num(a.avoided_visits) }}</td>
+          <td class="num">{% if a.avoided_cost_eur is none %}<span class="insufficient">dati insufficienti</span>{% else %}{{ "%.2f"|format(a.avoided_cost_eur) }} €{% endif %}</td></tr>
     {% else %}
       <tr><td colspan="4">Nessuna correzione approvata.</td></tr>
     {% endfor %}
     </tbody>
   </table>
+  </div>
 </section>
 {% endblock %}

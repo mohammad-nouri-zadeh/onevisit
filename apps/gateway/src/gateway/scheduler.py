@@ -71,6 +71,10 @@ async def run_loop(deps: GatewayDeps, stop: asyncio.Event) -> None:
             await run_once(deps)
         except (SQLAlchemyError, ChannelError, ImportError) as exc:
             logger.warning("ciclo di invio: giro fallito (%s)", type(exc).__name__)
+        except Exception as exc:  # ultima difesa: un errore inatteso non deve fermare i promemoria
+            logger.error(
+                "ciclo di invio: errore inatteso (%s), riprovo al prossimo giro", type(exc).__name__
+            )
         try:
             await asyncio.wait_for(stop.wait(), timeout=interval)
         except TimeoutError:
