@@ -50,6 +50,7 @@ Record a decision here when the team makes it, so every session follows it.
 Newest at the top. One line per push that others depend on: time, handle, what changed.
 
 - 14:46 · @mohammad-nouri-zadeh · **Working product on `main`**: Streamlit app (`app/`), agent loop (`onevisit/agent.py`), reports and drafts (`onevisit/outcomes.py`), design prototype, final video. Tested end to end with real Claude (Sonnet 5.5). README completed.
+- 15:08 · @mohammad-nouri-zadeh · Demo video now silent (we record our own voice): script with timings in `video/VOICEOVER.md`, six clips of 15–28 s in `video/clips/`.
 - 15:03 · @mohammad-nouri-zadeh · Demo video re-cut in motion: `video/film2.html` (camera zooms, typing, cursor, animated numbers) replaces the slide-style scenes in `video/onevisit-final.mp4` (2:02).
 - 14:46 · @mohammad-nouri-zadeh · Final demo video `video/onevisit-final.mp4` (2:02, voiceover + B&W AI-generated cold open, labelled), built by `video/build_final.py` on branch `momo/streamlit-demo`.
 - 12:32 · @mohammad-nouri-zadeh · City statistics in `data/context/` (surveys, arrivals, foreign residents) and `kb.context_tables()` for the panel. Summary: `data/context/README.md`.
