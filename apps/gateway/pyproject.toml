@@ -9,6 +9,7 @@ dependencies = [
     "uvicorn[standard]>=0.32",
     "pydantic-settings>=2.6",
     "python-multipart>=0.0.12",
+    "onevisit-ui",
     "procrastinate>=2.0",
     "onevisit-agent",
     "onevisit-analytics",
@@ -18,6 +19,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
+onevisit-ui = { workspace = true }
 onevisit-agent = { workspace = true }
 onevisit-analytics = { workspace = true }
 onevisit-channels = { workspace = true }

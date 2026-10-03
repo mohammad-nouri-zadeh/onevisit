@@ -10,6 +10,7 @@ dependencies = [
     "jinja2>=3.1",
     "pydantic-settings>=2.6",
     "python-multipart>=0.0.12",
+    "onevisit-ui",
     "itsdangerous>=2.2",
     "onevisit-agent",
     "onevisit-channels",
@@ -19,6 +20,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
+onevisit-ui = { workspace = true }
 onevisit-agent = { workspace = true }
 onevisit-channels = { workspace = true }
 onevisit-db = { workspace = true }

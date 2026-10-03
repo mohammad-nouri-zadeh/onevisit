@@ -19,6 +19,7 @@ members = [
     "onevisit-db",
     "onevisit-knowledge",
     "onevisit-privacy",
+    "onevisit-ui",
 ]
 
 [[package]]
@@ -229,6 +230,7 @@ dependencies = [
     { name = "onevisit-db" },
     { name = "onevisit-knowledge" },
     { name = "onevisit-privacy" },
+    { name = "onevisit-ui" },
     { name = "pydantic-settings" },
     { name = "python-multipart" },
     { name = "uvicorn", extra = ["standard"] },
@@ -244,6 +246,7 @@ requires-dist = [
     { name = "onevisit-db", editable = "libs/onevisit_db" },
     { name = "onevisit-knowledge", editable = "libs/onevisit_knowledge" },
     { name = "onevisit-privacy", editable = "libs/onevisit_privacy" },
+    { name = "onevisit-ui", editable = "libs/onevisit_ui" },
     { name = "pydantic-settings", specifier = ">=2.6" },
     { name = "python-multipart", specifier = ">=0.0.12" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.32" },
@@ -733,6 +736,7 @@ dependencies = [
     { name = "jinja2" },
     { name = "onevisit-analytics" },
     { name = "onevisit-db" },
+    { name = "onevisit-ui" },
     { name = "pydantic-settings" },
     { name = "python-multipart" },
     { name = "uvicorn", extra = ["standard"] },
@@ -746,6 +750,7 @@ requires-dist = [
     { name = "jinja2", specifier = ">=3.1" },
     { name = "onevisit-analytics", editable = "libs/onevisit_analytics" },
     { name = "onevisit-db", editable = "libs/onevisit_db" },
+    { name = "onevisit-ui", editable = "libs/onevisit_ui" },
     { name = "pydantic-settings", specifier = ">=2.6" },
     { name = "python-multipart", specifier = ">=0.0.12" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.32" },
@@ -861,6 +866,7 @@ dependencies = [
     { name = "onevisit-channels" },
     { name = "onevisit-db" },
     { name = "onevisit-privacy" },
+    { name = "onevisit-ui" },
     { name = "procrastinate" },
     { name = "pydantic-settings" },
     { name = "python-multipart" },
@@ -875,6 +881,7 @@ requires-dist = [
     { name = "onevisit-channels", editable = "libs/onevisit_channels" },
     { name = "onevisit-db", editable = "libs/onevisit_db" },
     { name = "onevisit-privacy", editable = "libs/onevisit_privacy" },
+    { name = "onevisit-ui", editable = "libs/onevisit_ui" },
     { name = "procrastinate", specifier = ">=2.0" },
     { name = "pydantic-settings", specifier = ">=2.6" },
     { name = "python-multipart", specifier = ">=0.0.12" },
@@ -1740,6 +1747,11 @@ requires-dist = [
     { name = "cryptography", specifier = ">=43" },
     { name = "pydantic", specifier = ">=2.9" },
 ]
+
+[[package]]
+name = "onevisit-ui"
+version = "0.1.0"
+source = { editable = "libs/onevisit_ui" }
 
 [[package]]
 name = "opentelemetry-api"
