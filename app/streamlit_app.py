@@ -56,6 +56,11 @@ state.setdefault("service_id", None)
 state.setdefault("drafts", {})
 state.setdefault("approved", set())
 
+if not os.getenv("ANTHROPIC_API_KEY"):  # Streamlit Community Cloud: key stored in the app's Secrets
+    try:
+        os.environ["ANTHROPIC_API_KEY"] = st.secrets["ANTHROPIC_API_KEY"]
+    except Exception:
+        pass
 has_key = bool(os.getenv("ANTHROPIC_API_KEY"))
 
 with st.sidebar:
