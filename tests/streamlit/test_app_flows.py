@@ -58,8 +58,11 @@ def test_typed_message_in_demo_builds_the_case_and_follows_the_language(no_key, 
         "cittadinanza": "extra-ue",
     }
     assert at.session_state["offices"][0]["address"] == "via Baldinucci 76"
+    assert "leído por palabras clave; en directo lo lee Claude" in _md(at)
+    # "vivo en Bovisa" says where, not where the person is registered: residence is asked first
+    _answer_all(at, ("Residente en Milán",))
+    assert at.session_state["answers"]["residenza"] == "milano"
     md = _md(at)
-    assert "leído por palabras clave; en directo lo lee Claude" in md
     assert "Traducción de Claude" in md and "Qué llevar a la ventanilla" in md
 
 
@@ -138,7 +141,13 @@ def test_live_turn_then_claude_orders_the_next_actions(monkeypatch, no_network):
             tool(
                 "get_checklist",
                 service_id="carta-identita",
-                answers={"motivo": "rinnovo", "eta": "adulto", "cittadinanza": "extra-ue"},
+                answers={
+                    "motivo": "rinnovo",
+                    "eta": "adulto",
+                    "cittadinanza": "extra-ue",
+                    "residenza": "milano",
+                    "presenza": "sportello",
+                },
             ),
             text(
                 "Your checklist is ready, each item with its source [cie]. "
@@ -181,7 +190,7 @@ def test_when_claude_cannot_be_reached_the_session_continues_in_demo(monkeypatch
     assert at.session_state["live_off"] == "down"
     assert (
         at.session_state["chat"][-1]["demo"] is True
-        and at.session_state["checklist"]["requirements"]
+        and at.session_state["checklist"]["service_id"] == "carta-identita"
     )
     assert "Claude non è raggiungibile" in _md(at)
     assert "error" not in at.session_state["chat"][-1]["text"].lower()

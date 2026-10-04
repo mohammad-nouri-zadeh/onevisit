@@ -1,0 +1,11 @@
+id: cie-cambio-indirizzo-en
+quick: false
+messages:
+  - "I already have the electronic ID card and I just moved to another flat in Milan. Do I need to change my ID card?"
+expect:
+  service: carta-identita
+  variant: gia-cie
+  language: en
+  requirements_include: [cambio-indirizzo]
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale, your name]

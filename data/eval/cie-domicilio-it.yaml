@@ -1,0 +1,11 @@
+id: cie-domicilio-it
+quick: false
+messages:
+  - "Mia madre è allettata in casa e la sua carta d'identità è scaduta. Non può venire allo sportello ed è residente a Milano: come facciamo?"
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: it
+  requirements_include: [domicilio-servizio, domicilio-certificato, domicilio-form]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

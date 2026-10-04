@@ -193,15 +193,22 @@ def test_real_data_loads_and_hides_todo() -> None:
 
     ids = {s.id for s in catalog.services()}
     assert {"carta-identita", "iscrizione-anagrafica-extra-ue"} <= ids
-    answers = {"motivo": "rinnovo", "eta": "adulto", "cittadinanza": "extra-ue"}
+    answers = {
+        "residenza": "milano",
+        "motivo": "rinnovo",
+        "eta": "adulto",
+        "cittadinanza": "extra-ue",
+        "presenza": "sportello",
+    }
     checklist = catalog.checklist("carta-identita", answers)
     assert all(i.source_id in catalog.source_ids() for i in checklist.items)
     item_ids = {i.id for i in checklist.items}
     # Verificato con citazione dalla pagina del Comune: compare nella checklist.
     assert "documento-precedente" in item_ids
     # Ancora "todo" (le fonti non lo dicono): nascosto, elencato tra i non verificati.
-    assert "espatrio-adulti-non-italiani" in checklist.not_yet_verified
-    assert "espatrio-adulti-non-italiani" not in item_ids
+    not_resident = catalog.checklist("carta-identita", {**answers, "residenza": "non-residente"})
+    assert "residenza-in-corso" in not_resident.not_yet_verified
+    assert "residenza-in-corso" not in {i.id for i in not_resident.items}
     assert catalog.office("ds549-01") is not None
 
 

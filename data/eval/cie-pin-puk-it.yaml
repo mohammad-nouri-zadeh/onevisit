@@ -1,0 +1,11 @@
+id: cie-pin-puk-it
+quick: false
+messages:
+  - "Ho perso il PIN e il PUK della mia carta d'identità elettronica: come li recupero?"
+expect:
+  service: carta-identita
+  variant: pin-puk
+  language: it
+  requirements_include: [puk-recupero-app, pin-nuovo-con-puk]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

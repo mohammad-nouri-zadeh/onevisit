@@ -1,11 +1,11 @@
 id: cie-smarrimento-it
 quick: true
 messages:
-  - "ho perso la carta d'identità e tra un mese parto"
+  - "ho perso la carta d'identità e tra un mese parto. Sono residente a Milano"
 expect:
   service: carta-identita
   variant: smarrimento-furto
   language: it
-  requirements_include: [su-appuntamento, denuncia, senza-appuntamento-smarrimento]
+  requirements_include: [denuncia, blocco-carta, denuncia-online-smarrimento]
   forbidden_phrases: [idoneo, in regola, garantito]
   must_not_ask: [codice fiscale, nome, indirizzo]

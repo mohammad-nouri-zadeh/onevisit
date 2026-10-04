@@ -8,6 +8,9 @@ from fakes import FakeClient, text, tool
 
 from onevisit import agent
 
+# A lost card, Milan resident, at the desk: the checklist has the booking rule, from dataset ds549.
+LOST_IN_MILAN = {"residenza": "milano", "motivo": "smarrimento-furto", "presenza": "sportello"}
+
 
 def _alternates(messages: list) -> bool:
     roles = [m["role"] for m in messages]
@@ -17,11 +20,7 @@ def _alternates(messages: list) -> bool:
 def test_clean_answer_passes_first_time():
     client = FakeClient(
         [
-            tool(
-                "get_checklist",
-                service_id="carta-identita",
-                answers={"motivo": "smarrimento-furto"},
-            ),
+            tool("get_checklist", service_id="carta-identita", answers=LOST_IN_MILAN),
             text("These are the items the sources list [ds549]. The desk officer decides."),
         ]
     )
@@ -36,7 +35,7 @@ def test_clean_answer_passes_first_time():
 def test_blocked_answer_is_regenerated_with_the_reasons():
     client = FakeClient(
         [
-            tool("get_checklist", service_id="carta-identita", answers={}),
+            tool("get_checklist", service_id="carta-identita", answers=LOST_IN_MILAN),
             text("Good news: you are eligible [ds549]."),
             text("These are the items the sources list [ds549]; the officer at the desk decides."),
         ]

@@ -121,6 +121,26 @@ def main() -> int:
         for req in svc.get("requirements", []):
             if req.get("form_section") and req["form_section"] not in section_ids:
                 errors.append(f"{path.name} requirement '{req.get('id')}': unknown form_section '{req['form_section']}'")
+        # Routes attached to an answer (stop, home service, booking links of their own): every link is
+        # on the saved page of its source (or is that source's URL), every service named exists.
+        service_ids = {p.stem for p in (DATA / "services").glob("*.json")}
+        for q in questions.values():
+            for option, route in (q.get("option_routes") or {}).items():
+                where = f"{path.name} question '{q['id']}' route '{option}'"
+                if option not in q.get("options", []):
+                    errors.append(f"{where}: not an option of the question")
+                for other in route.get("services", []):
+                    if other.get("id") not in service_ids:
+                        errors.append(f"{where}: unknown service '{other.get('id')}'")
+                    for oq, allowed in (other.get("when") or {}).items():
+                        if oq not in questions or not set(allowed) <= set(questions[oq].get("options", [])):
+                            errors.append(f"{where}: service condition '{oq}' {allowed} is not a question's options")
+                for link in route.get("links", []):
+                    sid, url = link.get("source_id"), link.get("url", "")
+                    if sid not in sources:
+                        errors.append(f"{where}: unknown source_id '{sid}'")
+                    elif url != sources[sid]["url"] and norm(url) not in snapshots.get(sid, ""):
+                        errors.append(f"{where}: link {url} is not in the saved source '{sid}'")
 
     # enti.json: every source exists; a verified role with a quote is checked like a requirement.
     enti_path = DATA / "enti.json"

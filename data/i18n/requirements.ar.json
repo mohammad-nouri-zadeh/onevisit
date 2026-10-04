@@ -128,21 +128,57 @@
    "it": "Accertamento",
    "text": "التحقق"
   },
+  "carta-identita:req:accettazione-obbligatoria:text": {
+   "it": "Il check-in è obbligatorio: senza, non ti chiamano allo sportello. Si può fare solo nella fascia di tempo scritta nella mail di conferma (un margine prima e dopo l'orario).",
+   "text": "تسجيل الحضور إلزامي: بدونه لا يُنادى عليك إلى الشباك. ولا يمكنك القيام به إلا ضمن الفترة الزمنية المذكورة في رسالة التأكيد (هامش قبل موعدك وبعده)."
+  },
   "carta-identita:req:accettazione:text": {
-   "it": "Il giorno dell'appuntamento fai l'accettazione: online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
-   "text": "في يوم الموعد سجّل وصولك: عبر الإنترنت بالرمز الموجود في رسالة التأكيد، أو في المكتب بإظهار رمز QR من الرسالة أو رمزك الضريبي أو بطاقتك الإلكترونية (CIE)."
+   "it": "Il giorno dell'appuntamento fai l'accettazione (check-in): online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
+   "text": "في يوم الموعد سجّل حضورك (check-in): عبر الإنترنت بالرمز الموجود في رسالة التأكيد، أو في المكتب بإظهار رمز QR من الرسالة أو رمزك الضريبي (codice fiscale) أو بطاقتك CIE."
+  },
+  "carta-identita:req:aire-consegna:text": {
+   "it": "Se sei iscritto all'AIRE, la carta può arrivare al tuo domicilio in Italia (da dire allo sportello), al tuo indirizzo all'estero oppure al tuo Consolato.",
+   "text": "إذا كنت مسجّلًا في AIRE، يمكن إرسال البطاقة إلى عنوانك في إيطاليا (أخبر الشباك)، أو إلى عنوانك في الخارج، أو إلى قنصليتك."
+  },
+  "carta-identita:req:aire-prenotazione:text": {
+   "it": "Se sei iscritto all'AIRE di Milano, per il rinnovo prenoti l'appuntamento dal pulsante «Prenota appuntamento» in cima alla pagina del Comune.",
+   "text": "إذا كنت مسجّلًا في AIRE ميلانو، فللتجديد تحجز الموعد من زر «Prenota appuntamento» أعلى صفحة البلدية."
+  },
+  "carta-identita:req:aire-qualsiasi-comune:text": {
+   "it": "Secondo una circolare del Ministero dell'Interno (maggio 2026), chi è iscritto all'AIRE può chiedere la CIE in qualsiasi Comune italiano.",
+   "text": "وفق تعميم لوزارة الداخلية (مايو 2026)، يمكن للمسجّلين في AIRE طلب البطاقة CIE في أي بلدية إيطالية."
   },
   "carta-identita:req:altro-documento:short": {
    "it": "Un altro documento d'identità con foto",
    "text": "وثيقة هوية أخرى بصورة"
   },
   "carta-identita:req:altro-documento:text": {
-   "it": "Prima carta: porta un altro documento d'identità in corso di validità con foto, per esempio il passaporto o la patente.",
-   "text": "البطاقة الأولى: أحضر وثيقة هوية أخرى بصورة وغير منتهية الصلاحية، مثل جواز السفر أو رخصة القيادة."
+   "it": "Prima carta: porta un altro documento d'identità con foto non scaduto, per esempio il passaporto o la patente.",
+   "text": "البطاقة الأولى: أحضر وثيقة هوية أخرى بصورة غير منتهية الصلاحية، مثل جواز السفر أو رخصة القيادة."
+  },
+  "carta-identita:req:attiva-credenziali:text": {
+   "it": "Se allo sportello hai lasciato cellulare ed e-mail, puoi attivare le credenziali CIE per i servizi online anche prima che la carta arrivi: servono il codice fiscale, il numero della carta e alcune cifre della prima metà del PUK scritte sulla ricevuta.",
+   "text": "إذا تركت هاتفك المحمول وبريدك الإلكتروني في الشباك، يمكنك تفعيل بيانات دخول CIE للخدمات الإلكترونية حتى قبل وصول البطاقة: تحتاج إلى رمزك الضريبي ورقم البطاقة وبعض أرقام النصف الأول من PUK المطبوع على الإيصال."
+  },
+  "carta-identita:req:avvisi-scadenza:text": {
+   "it": "Nel Fascicolo del Cittadino puoi attivare gli avvisi via e-mail prima della scadenza della carta (sezione Consensi).",
+   "text": "في Fascicolo del Cittadino (المنطقة الشخصية في موقع البلدية) يمكنك تفعيل تنبيهات بالبريد الإلكتروني قبل انتهاء البطاقة (قسم Consensi)."
+  },
+  "carta-identita:req:avviso-spedizione:text": {
+   "it": "Puoi ricevere via e-mail l'avviso di spedizione e seguire la spedizione sul sito di Poste Italiane.",
+   "text": "يمكنك تلقي إشعار الإرسال بالبريد الإلكتروني ومتابعة التسليم على موقع Poste Italiane (البريد الإيطالي)."
+  },
+  "carta-identita:req:blocco-carta:text": {
+   "it": "Carta elettronica persa o rubata: chiedi il blocco al numero 800098558 del Ministero dell'Interno (dal lunedì al venerdì 8-18, sabato 8-14), con nome, codice fiscale, numero della carta se lo hai, gli estremi della denuncia e la città dove l'hai fatta. Il numero vale per le carte emesse dopo il 4 luglio 2016; per una carta emessa prima, dopo la denuncia vai al Comune che l'ha rilasciata.",
+   "text": "بطاقة إلكترونية مفقودة أو مسروقة: اطلب إيقافها على رقم وزارة الداخلية 800098558 (من الاثنين إلى الجمعة 8-18، والسبت 8-14)، مع اسمك ورمزك الضريبي ورقم البطاقة إن كان لديك وبيانات البلاغ (denuncia) والمدينة التي قدّمته فيها. يعمل هذا الرقم للبطاقات الصادرة بعد 4 يوليو 2016؛ أما البطاقة الصادرة قبل ذلك فاذهب بعد البلاغ إلى البلدية التي أصدرتها."
   },
   "carta-identita:req:cambio-indirizzo:text": {
-   "it": "Non serve rifare la carta d'identità quando cambi indirizzo o residenza.",
-   "text": "لا تحتاج إلى بطاقة هوية جديدة عندما تغيّر عنوانك أو مكان إقامتك."
+   "it": "Non serve rifare né modificare la carta d'identità quando cambi indirizzo, residenza o stato civile.",
+   "text": "لا حاجة إلى إعادة إصدار بطاقة الهوية أو تعديلها عند تغيير العنوان أو الإقامة أو الحالة المدنية."
+  },
+  "carta-identita:req:carta-cartacea-contratti:text": {
+   "it": "Per un contratto firmato prima del 3 agosto 2026 in cui ti hanno identificato con la carta cartacea, puoi continuare a usarla per quel contratto fino alla sua scadenza naturale.",
+   "text": "بالنسبة لعقد وُقّع قبل 3 أغسطس 2026 وتم التعرّف عليك فيه بالبطاقة الورقية، يمكنك الاستمرار في استخدامها لذلك العقد حتى تاريخ انتهائها الطبيعي."
   },
   "carta-identita:req:carta-cartacea-espatrio:text": {
    "it": "Dopo il 3 agosto 2026 la carta cartacea non si può più usare in nessun caso per andare all'estero.",
@@ -152,9 +188,21 @@
    "it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
    "text": "بطاقات الهوية الورقية انتهت في 3 أغسطس 2026: إذا كانت لا تزال لديك البطاقة الورقية فأنت تحتاج إلى البطاقة الإلكترونية (CIE)."
   },
+  "carta-identita:req:carta-cartacea-usi-residui:text": {
+   "it": "Fino al 31 gennaio 2027, purché la carta cartacea non scada prima di quella data, si può ancora usare in Italia per alcuni servizi (per esempio sanità, pensione, posta, banca) e con la Pubblica Amministrazione.",
+   "text": "حتى 31 يناير 2027، بشرط ألا تنتهي صلاحية البطاقة الورقية قبل هذا التاريخ، يمكن استخدامها في إيطاليا لبعض الخدمات (مثل الصحة والمعاش والبريد والبنك) ولدى المكاتب العامة."
+  },
   "carta-identita:req:carta-provvisoria:text": {
    "it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
    "text": "حتى ديسمبر 2027، ولحالات الاستعجال الحقيقية والموثّقة فقط، يمكن الحصول على بطاقة هوية مؤقتة، فقط في المقر الرئيسي في Via Larga 12 (المدخل من Via Pecorari 3)، مع إثبات أنك حجزت مسبقًا موعد البطاقة الإلكترونية (CIE)."
+  },
+  "carta-identita:req:chip-difettoso:text": {
+   "it": "Se il Ministero autorizza il rifacimento ti manda una mail: con quell'autorizzazione vai senza appuntamento in una qualsiasi sede anagrafica e la nuova carta non costa nulla.",
+   "text": "إذا وافقت الوزارة على بطاقة جديدة فإنها ترسل لك رسالة بريد إلكتروني: بهذه الموافقة اذهب بدون موعد إلى أي مكتب للسجل المدني، والبطاقة الجديدة مجانية."
+  },
+  "carta-identita:req:chip-segnalazione:text": {
+   "it": "Chip che non funziona: prima segnala il difetto all'assistenza del Ministero dell'Interno, cie.cittadini@interno.it oppure 06 4298 5699.",
+   "text": "شريحة لا تعمل: أبلغ أولًا عن العيب لخدمة المساعدة في وزارة الداخلية، cie.cittadini@interno.it أو 06 4298 5699."
   },
   "carta-identita:req:codice-fiscale:short": {
    "it": "Tessera sanitaria o codice fiscale",
@@ -164,6 +212,22 @@
    "it": "Porta la tessera sanitaria o il codice fiscale.",
    "text": "أحضر البطاقة الصحية (tessera sanitaria) أو الرمز الضريبي (codice fiscale)."
   },
+  "carta-identita:req:consegna-indirizzo:text": {
+   "it": "La carta viene spedita al tuo domicilio oppure a un altro indirizzo che indichi allo sportello.",
+   "text": "تُرسَل البطاقة بالبريد إلى منزلك أو إلى عنوان آخر تذكره في الشباك."
+  },
+  "carta-identita:req:consegnata-al-mittente:text": {
+   "it": "Se su poste.it la spedizione risulta «Consegnata al mittente», vai alla sede del Comune dove hai fatto la richiesta.",
+   "text": "إذا ظهر على poste.it «Consegnata al mittente» (أُعيدت إلى المرسِل)، اذهب إلى مكتب البلدية الذي قدّمت فيه الطلب."
+  },
+  "carta-identita:req:contatti-aggiornare:text": {
+   "it": "Per cambiare l'e-mail o il cellulare collegati alla carta: appuntamento in una sede anagrafica, di persona e con la carta.",
+   "text": "لتغيير البريد الإلكتروني أو الهاتف المحمول المرتبطين بالبطاقة: موعد في مكتب للسجل المدني، بالحضور شخصيًا ومعك البطاقة."
+  },
+  "carta-identita:req:contatti:text": {
+   "it": "Se quando chiedi la carta lasci un indirizzo e-mail e/o un numero di cellulare, in caso di perdita del codice PUK potrai recuperarlo dall'app CieID.",
+   "text": "إذا تركت عند طلب البطاقة بريدًا إلكترونيًا و/أو رقم هاتف محمول، يمكنك عند فقدان رمز PUK استعادته من تطبيق CieID."
+  },
   "carta-identita:req:costo:short": {
    "it": "22,20 euro (contanti o bancomat)",
    "text": "22,20 يورو (نقدًا أو ببطاقة الخصم)"
@@ -171,6 +235,22 @@
   "carta-identita:req:costo:text": {
    "it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
    "text": "التكلفة: 22,20 يورو، نقدًا أو ببطاقة الخصم، في يوم الموعد."
+  },
+  "carta-identita:req:credenziali-scadute-90-giorni:text": {
+   "it": "Se la carta è già scaduta, le credenziali CIE per i servizi online funzionano ancora per 90 giorni, ma smettono di funzionare prima se nel frattempo rinnovi la carta e ricevi i nuovi codici.",
+   "text": "إذا انتهت صلاحية البطاقة، تبقى بيانات دخول CIE للخدمات الإلكترونية تعمل 90 يومًا إضافية، لكنها تتوقف قبل ذلك إذا جدّدت البطاقة في الأثناء وتسلّمت الرموز الجديدة."
+  },
+  "carta-identita:req:delega-ritiro:text": {
+   "it": "Se la carta può riceverla un'altra persona, allo sportello indica nome e cognome del delegato al ritiro; per i minori di 14 anni il delegato è obbligatorio.",
+   "text": "إذا كان يمكن لشخص آخر استلام البطاقة، اذكر في الشباك اسم المفوَّض ولقبه؛ وللأطفال دون 14 عامًا التفويض إلزامي."
+  },
+  "carta-identita:req:denuncia-online-smarrimento:text": {
+   "it": "Se la carta è persa (non rubata), puoi segnalare lo smarrimento online sul portale «Denunce online» della Polizia di Stato, senza andare in un ufficio di Polizia: il verbale arriva entro 96 ore nella tua area personale e serve per chiedere il nuovo documento.",
+   "text": "إذا فُقدت البطاقة (لا إذا سُرقت)، يمكنك الإبلاغ عن الفقدان عبر الإنترنت على بوابة «Denunce online» التابعة لـ Polizia di Stato (شرطة الدولة)، دون الذهاب إلى مركز شرطة: يصل البلاغ خلال 96 ساعة إلى منطقتك الشخصية، وهو ما تستخدمه لطلب الوثيقة الجديدة."
+  },
+  "carta-identita:req:denuncia-online-spid:text": {
+   "it": "Al portale «Denunce online» si accede con SPID o CIE: se non hai SPID e la carta persa era la tua unica CIE, fai la denuncia alle forze dell'ordine.",
+   "text": "يتم الدخول إلى بوابة «Denunce online» عبر SPID أو CIE: إذا لم يكن لديك SPID وكانت البطاقة المفقودة هي بطاقتك الإلكترونية الوحيدة، قدّم البلاغ لدى الشرطة."
   },
   "carta-identita:req:denuncia:short": {
    "it": "La denuncia di furto o smarrimento",
@@ -180,25 +260,149 @@
    "it": "Carta persa o rubata: porta la denuncia fatta alle forze dell'ordine (autorità di Pubblica Sicurezza).",
    "text": "بطاقة مفقودة أو مسروقة: أحضر البلاغ (denuncia) المقدَّم إلى سلطات الأمن العام."
   },
+  "carta-identita:req:dichiarazione-genitori-espatrio:text": {
+   "it": "Se hai figli minorenni, allo sportello dichiari di non trovarti in nessuna delle condizioni che impediscono il rilascio di un documento per l'espatrio.",
+   "text": "إذا كان لديك أبناء دون 18 عامًا، تصرّح في الشباك بأنه لا تنطبق عليك أي من الحالات التي تمنع إصدار وثيقة سفر."
+  },
   "carta-identita:req:documento-precedente:short": {
    "it": "La carta scaduta o rovinata",
    "text": "البطاقة المنتهية أو التالفة"
   },
   "carta-identita:req:documento-precedente:text": {
-   "it": "Rinnovo: consegna la carta scaduta o rovinata.",
-   "text": "التجديد: سلّم البطاقة المنتهية أو التالفة."
+   "it": "Consegna la carta vecchia, scaduta o rovinata.",
+   "text": "سلّم البطاقة القديمة، المنتهية أو التالفة."
+  },
+  "carta-identita:req:domiciliati-altri-casi:text": {
+   "it": "Da verificare: le fonti salvate parlano solo del rinnovo per chi abita a Milano ed è residente fuori dalla Lombardia; per una prima carta, una carta persa o rubata o un chip guasto non dicono se si può fare a Milano. Chiedi all'anagrafe prima di prenotare.",
+   "text": "يحتاج إلى تحقّق: المصادر المحفوظة تتحدث فقط عن التجديد لمن يسكن في ميلانو ومسجّل كمقيم خارج لومبارديا؛ أما أول بطاقة أو بطاقة مفقودة أو مسروقة أو شريحة معطّلة فلا تقول إن كان ذلك ممكنًا في ميلانو. اسأل السجل المدني قبل حجز الموعد."
+  },
+  "carta-identita:req:domiciliati-documenti:short": {
+   "it": "Prova dell'impedimento ad andare nel tuo Comune",
+   "text": "ما يثبت أنك لا تستطيع الذهاب إلى بلديتك"
+  },
+  "carta-identita:req:domiciliati-documenti:text": {
+   "it": "Porta i documenti che dimostrano perché non puoi andare nel tuo Comune di residenza.",
+   "text": "أحضر أوراقًا تبيّن لماذا لا تستطيع الذهاب إلى البلدية التي أنت مقيم فيها."
+  },
+  "carta-identita:req:domiciliati-motivi:text": {
+   "it": "Se abiti a Milano ma sei residente in un Comune fuori dalla Lombardia, puoi rinnovare la carta a Milano solo per motivi gravi e documentati che ti impediscono di andare nel tuo Comune: vanno documentati sia il domicilio a Milano sia l'impedimento.",
+   "text": "إذا كنت تسكن في ميلانو لكنك مقيم في بلدية خارج لومبارديا، يمكنك تجديد البطاقة في ميلانو فقط لأسباب خطيرة وموثّقة تمنعك من الذهاب إلى بلديتك: يجب توثيق سكنك في ميلانو والسبب معًا."
+  },
+  "carta-identita:req:domicilio-capacita:text": {
+   "it": "La persona deve essere in grado di intendere e di volere: se non lo è e non c'è un tutore, l'ufficiale d'anagrafe non può fare il servizio.",
+   "text": "يجب أن يكون الشخص قادرًا على الفهم واتخاذ القرار: إذا لم يكن كذلك ولا يوجد وصي، لا يستطيع موظف السجل المدني تقديم الخدمة."
+  },
+  "carta-identita:req:domicilio-certificato:short": {
+   "it": "Certificato medico (non può muoversi)",
+   "text": "شهادة طبية (لا يستطيع الحركة)"
+  },
+  "carta-identita:req:domicilio-certificato:text": {
+   "it": "Da allegare: un certificato medico che attesta che la persona non può muoversi in modo permanente.",
+   "text": "يُرفق: شهادة طبية تفيد بأن الشخص لا يستطيع الحركة بشكل دائم."
+  },
+  "carta-identita:req:domicilio-dati:text": {
+   "it": "Nel modulo indica il Municipio dove si trova la persona e il numero di telefono di chi l'operatore deve chiamare per fissare l'appuntamento a domicilio.",
+   "text": "في النموذج اذكر الـ Municipio (الدائرة البلدية) الذي يوجد فيه الشخص ورقم هاتف من يجب أن يتصل به الموظف لترتيب الزيارة المنزلية."
+  },
+  "carta-identita:req:domicilio-delega:short": {
+   "it": "Delega o atto di nomina (se chiede un'altra persona)",
+   "text": "تفويض أو قرار تعيين (إذا قدّم الطلب شخص آخر)"
+  },
+  "carta-identita:req:domicilio-delega:text": {
+   "it": "Se la domanda la fa un'altra persona che non è il genitore: allega la delega o l'atto di nomina (tutore o amministratore di sostegno).",
+   "text": "إذا قدّم الطلب شخص غير أحد الوالدين: أرفق التفويض أو قرار التعيين (الوصي أو المدير الداعم)."
+  },
+  "carta-identita:req:domicilio-documento:short": {
+   "it": "Documento d'identità della persona",
+   "text": "وثيقة هوية الشخص"
+  },
+  "carta-identita:req:domicilio-documento:text": {
+   "it": "Da allegare: un documento d'identità della persona a cui è intestata la carta.",
+   "text": "يُرفق: وثيقة هوية الشخص الذي تُطلب له البطاقة."
+  },
+  "carta-identita:req:domicilio-form:text": {
+   "it": "Il servizio a domicilio si chiede con il modulo online del Comune, entrando con SPID o CIE; può compilarlo anche un'altra persona (genitore di un minorenne, tutore, amministratore di sostegno o un delegato).",
+   "text": "تُطلب الخدمة في المنزل عبر نموذج البلدية الإلكتروني، بالدخول بـ SPID أو CIE؛ ويمكن أن يملأه شخص آخر أيضًا (أحد والدي القاصر، أو الوصي، أو المدير الداعم، أو مفوَّض)."
+  },
+  "carta-identita:req:domicilio-pagamento:short": {
+   "it": "Pagamento a casa (contanti, bancomat o carta)",
+   "text": "الدفع في المنزل (نقدًا أو ببطاقة خصم أو ائتمان)"
+  },
+  "carta-identita:req:domicilio-pagamento:text": {
+   "it": "L'uscita a domicilio è gratuita: si paga solo il servizio o il documento richiesto, con l'importo che l'operatore comunica al telefono, a casa, in contanti, bancomat o carta di credito.",
+   "text": "الزيارة المنزلية مجانية: تدفع فقط ثمن الخدمة أو الوثيقة المطلوبة، المبلغ الذي يخبرك به الموظف عبر الهاتف، في المنزل، نقدًا أو ببطاقة خصم أو ائتمان."
+  },
+  "carta-identita:req:domicilio-ricontatto:text": {
+   "it": "Dopo la domanda ti richiama un operatore del Comune da un numero che inizia con 02.884, non prima di 15 giorni lavorativi.",
+   "text": "بعد الطلب يعاود موظف البلدية الاتصال من رقم يبدأ بـ 02.884، ليس قبل 15 يوم عمل."
+  },
+  "carta-identita:req:domicilio-sede:text": {
+   "it": "Prima di compilare il modulo, guarda la mappa delle sedi anagrafiche e scegli l'ufficio a cui mandare la richiesta.",
+   "text": "قبل ملء النموذج، انظر إلى خريطة مكاتب السجل المدني واختر المكتب الذي ترسل إليه الطلب."
+  },
+  "carta-identita:req:domicilio-servizio:text": {
+   "it": "Se la persona non può andare in anagrafe per gravi motivi di salute (ricoverata in ospedale o in RSA, oppure a letto a casa), c'è il servizio anagrafico a domicilio: un operatore del Comune va da lei.",
+   "text": "إذا لم يستطع الشخص الذهاب إلى مكتب السجل المدني لأسباب صحية خطيرة (في المستشفى أو في دار رعاية، أو طريح الفراش في المنزل)، توجد خدمة السجل المدني في المنزل: يأتي موظف من البلدية إليه."
+  },
+  "carta-identita:req:domicilio-urgenza:text": {
+   "it": "Se il servizio a domicilio è urgente: dopo aver inviato la domanda, segnala l'urgenza dalla sezione «Hai ancora bisogno di aiuto?» del centro di supporto del Comune, con il numero della pratica.",
+   "text": "إذا كانت الخدمة في المنزل مستعجلة: بعد إرسال الطلب، أبلغ عن الاستعجال من قسم «Hai ancora bisogno di aiuto?» في مركز الدعم التابع للبلدية، مع رقم الطلب."
+  },
+  "carta-identita:req:donazione-modifica:text": {
+   "it": "Se hai dato l'assenso alla donazione, puoi cambiare idea in qualsiasi momento: per cancellare il sì si manda il modulo del Comune (pagina «Esprimi la tua volontà sulla donazione di organi»).",
+   "text": "إذا وافقت على التبرّع، يمكنك تغيير رأيك في أي وقت: لإلغاء الموافقة يُرسل نموذج البلدية (صفحة «Esprimi la tua volontà sulla donazione di organi»)."
+  },
+  "carta-identita:req:donazione-organi:text": {
+   "it": "Allo sportello, se lo desideri, puoi dire sì o no alla donazione di organi e tessuti.",
+   "text": "في الشباك، إذا أردت، يمكنك أن تقول نعم أو لا للتبرع بالأعضاء والأنسجة."
+  },
+  "carta-identita:req:donazione-sit:text": {
+   "it": "La scelta sulla donazione viene registrata nel Sistema Informativo Trapianti e non è scritta sulla carta.",
+   "text": "يُسجَّل اختيارك بشأن التبرع في نظام المعلومات الوطني لزراعة الأعضاء، ولا يُكتب على البطاقة."
   },
   "carta-identita:req:espatrio-adulti-non-italiani:text": {
-   "it": "Da verificare: le fonti salvate non dicono se la carta d'identità di un adulto non italiano vale per andare all'estero. Rimanda alla pagina ufficiale o allo sportello.",
-   "text": "للتحقق: المصادر المحفوظة لا تذكر إن كانت بطاقة هوية البالغ غير الإيطالي تصلح للسفر إلى الخارج. راجع الصفحة الرسمية أو الشباك."
+   "it": "Se non hai la cittadinanza italiana, la carta è un documento d'identità ma non un documento per viaggiare all'estero: lo è solo per i cittadini italiani.",
+   "text": "إذا لم تكن مواطنًا إيطاليًا، فالبطاقة وثيقة هوية لكنها ليست وثيقة للسفر إلى الخارج: هي كذلك فقط للمواطنين الإيطاليين."
+  },
+  "carta-identita:req:espatrio-italiani:text": {
+   "it": "Per i cittadini italiani la carta vale anche per viaggiare nei Paesi UE e in quelli che la accettano al posto del passaporto (Islanda, Norvegia, Svizzera, Liechtenstein).",
+   "text": "بالنسبة إلى المواطنين الإيطاليين، البطاقة هي أيضًا وثيقة سفر في دول الاتحاد الأوروبي وفي الدول التي تقبلها بدلًا من جواز السفر (آيسلندا، النرويج، سويسرا، ليختنشتاين)."
+  },
+  "carta-identita:req:firma-cie-sign:text": {
+   "it": "Con l'app CieSign la carta serve anche per la firma elettronica avanzata.",
+   "text": "بتطبيق CieSign يمكن استخدام البطاقة أيضًا للتوقيع الإلكتروني المتقدّم."
+  },
+  "carta-identita:req:foto-bambini:text": {
+   "it": "Per i bambini le regole della foto sono le stesse, con più flessibilità: devono comunque essere da soli nella foto e con gli occhi aperti.",
+   "text": "للأطفال قواعد الصورة نفسها، مع مرونة أكبر: يجب أن يكونوا وحدهم في الصورة، وعيونهم مفتوحة."
+  },
+  "carta-identita:req:foto-copricapo:text": {
+   "it": "Copricapo: le regole del Ministero dell'Interno lo ammettono solo per motivi religiosi, culturali o medici, con il volto ben visibile. La pagina del Comune di Milano chiede invece la foto a capo scoperto: decide l'operatore allo sportello.",
+   "text": "غطاء الرأس: تسمح به قواعد وزارة الداخلية فقط لأسباب دينية أو ثقافية أو طبية، مع ظهور الوجه بوضوح. أما صفحة بلدية ميلانو فتطلب صورة مكشوفة الرأس: القرار لموظف الشباك."
   },
   "carta-identita:req:foto-formato-passaporto:text": {
    "it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
    "text": "يجب أن تكون الصورة بالمقاس نفسه المستخدم لجواز السفر."
   },
+  "carta-identita:req:foto-misure:text": {
+   "it": "Misure della foto: 45 mm di altezza e 35 mm di larghezza. In primo piano viso e spalle, con il viso che occupa il 70-80% della foto, su sfondo chiaro e uniforme.",
+   "text": "مقاس الصورة: 45 مم ارتفاعًا و35 مم عرضًا. الوجه والكتفان في المقدمة، والوجه يملأ 70-80% من الصورة، على خلفية فاتحة وموحّدة."
+  },
   "carta-identita:req:foto-niente-usb:text": {
-   "it": "La foto va portata stampata: non si accettano foto su chiavetta USB.",
-   "text": "أحضر الصورة مطبوعة: لا تُقبل الصور المحفوظة على ذاكرة USB."
+   "it": "Il Comune di Milano accetta solo fototessere stampate su carta: niente foto su chiavetta USB.",
+   "text": "بلدية ميلانو تقبل فقط صور الهوية المطبوعة على ورق: لا صور على ذاكرة USB."
+  },
+  "carta-identita:req:foto-posa:text": {
+   "it": "Nella foto: espressione neutra e bocca chiusa, niente sorrisi né occhi chiusi, sguardo dritto verso l'obiettivo; niente cappelli, occhiali da sole o accessori che coprono il viso; occhiali da vista solo se non fanno riflessi e non nascondono gli occhi.",
+   "text": "في الصورة: تعبير محايد، الفم مغلق، بلا ابتسامة، العينان مفتوحتان، والنظر مباشرة إلى الكاميرا؛ بلا قبعات أو نظارات شمسية أو إكسسوارات تغطي الوجه؛ النظارات الطبية فقط إذا لم تسبب انعكاسًا ولم تُخفِ العينين."
+  },
+  "carta-identita:req:foto-prima-del-check-in:text": {
+   "it": "Alcune sedi anagrafiche hanno una cabina per le fototessere: se la usi, fai la foto prima del check-in, così non ti chiamano allo sportello quando non hai ancora la foto.",
+   "text": "في بعض مكاتب السجل المدني توجد كابينة تصوير: إذا استخدمتها، التقط الصورة قبل تسجيل الحضور، حتى لا يُنادى عليك إلى الشباك من دونها."
+  },
+  "carta-identita:req:foto-recente:text": {
+   "it": "La foto deve essere recente: non più vecchia di sei mesi.",
+   "text": "يجب أن تكون الصورة حديثة: لا يزيد عمرها على ستة أشهر."
   },
   "carta-identita:req:fototessera:short": {
    "it": "Una fototessera recente, stampata",
@@ -208,17 +412,53 @@
    "it": "Porta una fototessera recente, a colori, su sfondo chiaro, a capo scoperto, secondo i parametri del Ministero dell'Interno.",
    "text": "أحضر صورة شخصية حديثة ملوّنة، بخلفية فاتحة ورأس مكشوف، وفق معايير وزارة الداخلية."
   },
+  "carta-identita:req:giacenza-documento:text": {
+   "it": "Per ritirarla all'ufficio postale porta un documento d'identità non scaduto; se ne hai solo uno scaduto, porta anche una sua fotocopia su cui dichiari che i dati non sono cambiati.",
+   "text": "لاستلامها من مكتب البريد أحضر وثيقة هوية غير منتهية الصلاحية؛ وإذا كانت لديك وثيقة منتهية فقط، أحضر معها صورة عنها تصرّح عليها بأن البيانات لم تتغير."
+  },
+  "carta-identita:req:impronte-dita:text": {
+   "it": "Vai con le dita pulite: patine o pellicole sulle dita possono alterare le impronte.",
+   "text": "تعال بأصابع نظيفة: أي طبقة أو مادة على أطراف الأصابع قد تُفسد البصمات."
+  },
+  "carta-identita:req:impronte-privacy:text": {
+   "it": "Le due impronte vengono scritte in modo sicuro solo dentro la carta e non vengono conservate da nessun'altra parte.",
+   "text": "تُسجَّل البصمتان بطريقة آمنة داخل البطاقة فقط ولا تُحفظان في أي مكان آخر."
+  },
   "carta-identita:req:impronte:text": {
-   "it": "Allo sportello ti prendono le impronte digitali.",
-   "text": "عند الشباك تؤخذ بصمات أصابعك."
+   "it": "L'operatore del Comune ti prende le impronte digitali.",
+   "text": "يأخذ موظف البلدية بصمات أصابعك."
+  },
+  "carta-identita:req:indirizzo-consegna:short": {
+   "it": "Indirizzo completo per la spedizione",
+   "text": "عنوان التسليم الكامل"
+  },
+  "carta-identita:req:indirizzo-consegna:text": {
+   "it": "Prepara l'indirizzo completo dove spedire la carta: via, numero civico, CAP, città, provincia e, se ci sono, scala e interno.",
+   "text": "جهّز عنوان التسليم الكامل: الشارع، الرقم، الرمز البريدي، المدينة، المقاطعة، وإن وُجد رقم الدرج ورقم الشقة."
+  },
+  "carta-identita:req:mancata-consegna:text": {
+   "it": "Se non sei in casa ti lasciano un avviso: entro 5 giorni lavorativi puoi chiedere un secondo tentativo; dopo, la carta resta 30 giorni all'ufficio postale più vicino.",
+   "text": "إذا لم تكن في المنزل تتلقى إشعارًا: خلال 5 أيام عمل يمكنك طلب محاولة تسليم ثانية؛ وبعدها تنتظر البطاقة 30 يومًا في أقرب مكتب بريد."
+  },
+  "carta-identita:req:minori-accompagno-questura:text": {
+   "it": "La dichiarazione di accompagnamento si chiede in Questura o in un commissariato, con anticipo: la Polizia di Frontiera non la rilascia.",
+   "text": "يُطلب إقرار المرافقة من Questura أو من مركز شرطة، قبل السفر بوقت كافٍ: شرطة الحدود لا تُصدره."
+  },
+  "carta-identita:req:minori-credenziali:text": {
+   "it": "Online, con la carta un minorenne tra 5 e 18 anni può accedere solo ai servizi delle scuole; sotto i 5 anni nessun accesso.",
+   "text": "عبر الإنترنت، يستطيع القاصر من 5 إلى 18 عامًا استخدام البطاقة للدخول إلى الخدمات المدرسية فقط؛ ودون 5 سنوات لا دخول."
+  },
+  "carta-identita:req:minori-documento-personale:text": {
+   "it": "Un minorenne italiano che viaggia deve avere un suo documento: non può essere iscritto sul passaporto dei genitori.",
+   "text": "يجب أن يكون للقاصر الإيطالي الذي يسافر وثيقة خاصة به: لا يمكن إدراجه في جواز سفر أحد والديه."
   },
   "carta-identita:req:minori-espatrio:short": {
    "it": "Assenso dell'altro genitore per l'espatrio",
    "text": "موافقة الوالد الآخر على السفر"
   },
   "carta-identita:req:minori-espatrio:text": {
-   "it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori; se uno non può venire, servono la copia del suo documento e la sua dichiarazione di assenso sul modulo del Comune.",
-   "text": "القاصرون الإيطاليون: لبطاقة تُستخدم للسفر إلى الخارج يلزم حضور الوالدين معًا؛ وإذا تعذّر حضور أحدهما فتلزم نسخة من وثيقته وإقرار موافقته على نموذج البلدية."
+   "it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori. Se uno non può venire, la carta vale per l'espatrio solo se porti anche la copia del suo documento d'identità e la sua dichiarazione di assenso firmata sul modulo del Comune («Dichiarazione assenso minore», sulla pagina della carta d'identità).",
+   "text": "القاصرون الإيطاليون: لبطاقة صالحة للسفر إلى الخارج يلزم حضور الوالدين. إذا تعذّر حضور أحدهما، فلا تصلح البطاقة للسفر إلا إذا أحضرت أيضًا نسخة من وثيقة هويته وإقرار موافقته الموقّع على نموذج البلدية («Dichiarazione assenso minore» في صفحة بطاقة الهوية)."
   },
   "carta-identita:req:minori-extra-ue:short": {
    "it": "Permesso di soggiorno del minore",
@@ -227,6 +467,22 @@
   "carta-identita:req:minori-extra-ue:text": {
    "it": "Minorenni extra UE: serve un permesso di soggiorno del minore in corso di validità, oppure il minore deve essere iscritto nel permesso di soggiorno di un genitore.",
    "text": "القاصرون من خارج الاتحاد الأوروبي: يلزم تصريح إقامة للقاصر غير منتهي الصلاحية، أو أن يكون القاصر مسجّلًا في تصريح إقامة أحد الوالدين."
+  },
+  "carta-identita:req:minori-impronte-firma:text": {
+   "it": "Dai 12 anni compiuti al minore prendono due impronte digitali e il minore firma la carta.",
+   "text": "ابتداءً من سن 12 تؤخذ بصمتا إصبعين ويوقّع القاصر على البطاقة."
+  },
+  "carta-identita:req:minori-neonati-attesa:text": {
+   "it": "Neonato: aspetta 30 giorni lavorativi dalla nascita e controlla nel Fascicolo del Cittadino che la nascita sia registrata, poi prenota.",
+   "text": "مولود جديد: انتظر 30 يوم عمل بعد الولادة وتحقّق في Fascicolo del Cittadino (المنطقة الشخصية في موقع البلدية) من تسجيل الولادة، ثم احجز."
+  },
+  "carta-identita:req:minori-neonati:text": {
+   "it": "Per la prima carta di un neonato servono entrambi i genitori oppure un altro adulto maggiorenne.",
+   "text": "لإصدار البطاقة الأولى لمولود جديد يجب حضور الوالدين معًا، أو شخص بالغ آخر."
+  },
+  "carta-identita:req:minori-nomi-genitori:text": {
+   "it": "Sotto i 14 anni si può chiedere di scrivere sul retro della carta i nomi dei genitori (o di chi ne fa le veci).",
+   "text": "دون سن 14 يمكنك أن تطلب طباعة أسماء الوالدين (أو الوصي) على ظهر البطاقة."
   },
   "carta-identita:req:minori-non-italiani-espatrio:text": {
    "it": "Minorenni non italiani (anche UE): la carta rilasciata non vale per l'espatrio.",
@@ -244,6 +500,18 @@
    "it": "Il minorenne a cui è intestata la carta deve essere sempre presente.",
    "text": "يجب أن يكون القاصر صاحب البطاقة حاضرًا دائمًا."
   },
+  "carta-identita:req:minori-secondo-documento-urgente:text": {
+   "it": "Solo per urgenze motivate e documentate: il giorno del tuo appuntamento puoi chiedere anche la carta per un minorenne della stessa famiglia anagrafica di chi ha prenotato.",
+   "text": "فقط لحالات الاستعجال المبرَّرة والموثّقة: في يوم موعدك يمكنك أيضًا طلب بطاقة لقاصر من الأسرة المسجّلة نفسها التي ينتمي إليها من حجز الموعد."
+  },
+  "carta-identita:req:minori-sotto-14-viaggio:text": {
+   "it": "Sotto i 14 anni il minore va all'estero con la carta solo se accompagnato da un genitore (o da chi ne fa le veci), oppure affidato a una persona, un ente o una compagnia di trasporto con una dichiarazione che li nomina, firmata da chi può dare l'assenso e convalidata dalla Questura o dal Consolato.",
+   "text": "دون سن 14 لا يستطيع الطفل السفر إلى الخارج بالبطاقة إلا مع أحد والديه (أو الوصي)، أو مع شخص أو جهة أو شركة نقل يُعهَد إليها به بموجب إقرار يذكرها، يوقّعه من له حق الموافقة وتصادق عليه Questura (مديرية الشرطة) أو قنصلية."
+  },
+  "carta-identita:req:minori-un-genitore-documenti:text": {
+   "it": "Se viene un solo genitore, come documento del minore si possono mostrare anche il permesso di soggiorno o il certificato di identità in corso di validità e con foto, oppure la vecchia carta scaduta, se permettono di riconoscerlo: decide l'operatore.",
+   "text": "إذا حضر أحد الوالدين فقط، يمكن أن يُعرض كوثيقة للقاصر أيضًا تصريح الإقامة أو شهادة الهوية غير منتهية الصلاحية ومع صورة، أو البطاقة القديمة المنتهية، إذا كانت تسمح بالتعرّف عليه: القرار للموظف."
+  },
   "carta-identita:req:minori-un-genitore:short": {
    "it": "Se viene un solo genitore: testimone o documento",
    "text": "إذا حضر أحد الوالدين فقط: شاهد أو وثيقة"
@@ -251,6 +519,14 @@
   "carta-identita:req:minori-un-genitore:text": {
    "it": "Se viene un solo genitore: serve un altro adulto con un documento d'identità come testimone, oppure un altro documento d'identità del minore con foto (passaporto o certificato di identità).",
    "text": "إذا حضر أحد الوالدين فقط: يلزم شخص بالغ آخر يحمل وثيقة هوية كشاهد، أو وثيقة هوية أخرى للقاصر بصورة (جواز سفر أو شهادة هوية)."
+  },
+  "carta-identita:req:minori-unico-genitore:text": {
+   "it": "Se in anagrafe risulta un solo genitore, non serve nessun assenso.",
+   "text": "إذا كان أحد الوالدين فقط مسجّلًا في السجل المدني، فلا حاجة إلى أي موافقة."
+  },
+  "carta-identita:req:minori-viaggi:text": {
+   "it": "Con una carta valida per l'espatrio il minore italiano può viaggiare nei Paesi UE, in Islanda, Norvegia, Svizzera e Liechtenstein.",
+   "text": "ببطاقة صالحة للسفر، يمكن للقاصر الإيطالي السفر إلى دول الاتحاد الأوروبي وآيسلندا والنرويج وسويسرا وليختنشتاين."
   },
   "carta-identita:req:minori:short": {
    "it": "Entrambi i genitori, con il minore",
@@ -260,29 +536,185 @@
    "it": "Minorenni: il giorno dell'appuntamento vengono entrambi i genitori insieme al ragazzo o alla ragazza.",
    "text": "القاصرون: في يوم الموعد يحضر الوالدان معًا مع الطفل أو الطفلة."
   },
+  "carta-identita:req:notaio-rovinata:text": {
+   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
+   "text": "تحتاجها لعقد أمام كاتب العدل (notaio) أو لموعد قانوني وليس لديك وثيقة أخرى: اذهب إلى مكتب السجل المدني بدون موعد خلال الأيام الـ15 السابقة للموعد."
+  },
+  "carta-identita:req:notaio-smarrimento:text": {
+   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
+   "text": "تحتاجها لعقد أمام كاتب العدل (notaio) أو لموعد قانوني وليس لديك وثيقة أخرى: اذهب إلى مكتب السجل المدني بدون موعد خلال الأيام الـ15 السابقة للموعد."
+  },
+  "carta-identita:req:nuovi-cittadini:text": {
+   "it": "Se sei appena diventato cittadino italiano (dopo il giuramento), puoi chiedere la nuova carta anche se quella da straniero scade tra più di 180 giorni; prima di prenotare controlla che in anagrafe la cittadinanza risulti aggiornata.",
+   "text": "إذا حصلت للتو على الجنسية الإيطالية (بعد أداء اليمين)، يمكنك طلب البطاقة الجديدة حتى لو كانت بطاقتك كأجنبي تنتهي بعد أكثر من 180 يومًا؛ وقبل الحجز تأكّد من أن السجل المدني يُظهر جنسيتك الجديدة."
+  },
+  "carta-identita:req:permesso-in-rinnovo:short": {
+   "it": "Ricevuta del rinnovo del permesso (se scaduto)",
+   "text": "إيصال تجديد التصريح (إذا انتهت صلاحيته)"
+  },
+  "carta-identita:req:permesso-in-rinnovo:text": {
+   "it": "Se il permesso di soggiorno è scaduto e hai chiesto il rinnovo, basta la ricevuta del rinnovo oppure la prenotazione fatta sull'app della Questura (prenotafacile).",
+   "text": "إذا انتهت صلاحية تصريح إقامتك (permesso di soggiorno) وقدّمت طلب تجديده، يكفي إيصال التجديد أو الحجز الذي أجريته في تطبيق Questura (مديرية الشرطة) (prenotafacile)."
+  },
+  "carta-identita:req:pin-nuovo-con-puk:text": {
+   "it": "Se dimentichi il PIN, ne imposti uno nuovo con il PUK: dall'app CieID sullo smartphone o dal Software CIE sul computer.",
+   "text": "إذا نسيت PIN، تضع رمزًا جديدًا باستخدام PUK: في تطبيق CieID على الهاتف الذكي أو ببرنامج CIE (Software CIE) على الحاسوب."
+  },
+  "carta-identita:req:pin-puk-domicilio:text": {
+   "it": "Se per gravi motivi di salute non puoi andare in una sede anagrafica, il duplicato di PIN e PUK si chiede con il servizio a domicilio: modulo online, con il documento d'identità della persona e il certificato medico che attesta che non può muoversi in modo permanente (e la delega o l'atto di nomina se la domanda la fa un'altra persona che non è il genitore).",
+   "text": "إذا منعتك أسباب صحية خطيرة من الذهاب إلى مكتب السجل المدني، يُطلب بديل PIN وPUK عبر الخدمة المنزلية: استمارة إلكترونية، مع وثيقة هوية الشخص وشهادة طبية تثبت أنه لا يستطيع الحركة بشكل دائم (والتفويض أو قرار التعيين إذا قدّم الطلب شخص آخر غير أحد الوالدين)."
+  },
+  "carta-identita:req:pin-puk-non-funzionano:text": {
+   "it": "Se PIN e PUK non ti fanno entrare nei servizi online, puoi chiedere una nuova carta con l'autorizzazione del Ministero dell'Interno: scrivi a cie.cittadini@interno.it con il numero della carta e i tuoi dati.",
+   "text": "إذا لم يسمح لك PIN وPUK بالدخول إلى الخدمات الإلكترونية، يمكنك طلب بطاقة جديدة بموافقة وزارة الداخلية: اكتب إلى cie.cittadini@interno.it مع رقم البطاقة وبياناتك."
+  },
+  "carta-identita:req:pin-puk-seconda-meta:text": {
+   "it": "La seconda metà del PIN e del PUK è nella lettera dentro la busta con la carta: unisci le due metà e conserva i codici.",
+   "text": "النصف الثاني من رمزي PIN وPUK موجود في الرسالة داخل الظرف مع البطاقة: اجمع النصفين واحتفظ بالرمزين."
+  },
+  "carta-identita:req:pin-puk-smarriti:text": {
+   "it": "PIN e PUK persi (carte emesse dal 3 agosto 2017): puoi chiederne il duplicato in qualsiasi sede anagrafica, con appuntamento, andando di persona con la carta.",
+   "text": "فقدان رمزي PIN وPUK (البطاقات الصادرة منذ 3 أغسطس 2017): يمكنك طلب نسخة بديلة في أي مكتب للسجل المدني، بموعد، بالحضور شخصيًا مع البطاقة."
+  },
+  "carta-identita:req:prenotazione-famiglia:text": {
+   "it": "Se entri con SPID o CIE puoi prenotare insieme fino a cinque appuntamenti per persone della tua famiglia anagrafica.",
+   "text": "إذا دخلت بـ SPID أو CIE يمكنك حجز ما يصل إلى خمسة مواعيد دفعة واحدة لأفراد أسرتك المسجّلين في السجل المدني (famiglia anagrafica)."
+  },
+  "carta-identita:req:prenotazione-portale-comune:text": {
+   "it": "A Milano si prenota solo con il sistema del Comune: Milano non usa il sistema di prenotazione del sito nazionale della carta d'identità.",
+   "text": "في ميلانو يتم الحجز فقط عبر نظام البلدية: ميلانو لا تستخدم نظام الحجز في الموقع الوطني لبطاقة الهوية."
+  },
   "carta-identita:req:prenotazione-senza-spid:text": {
-   "it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
-   "text": "في معظم المكاتب يمكنك الحجز أيضًا بدون SPID (الهوية الرقمية) وبدون تسجيل."
+   "it": "Per prenotare l'appuntamento della carta d'identità non serve lo SPID: si prenota dalla pagina del servizio del Comune.",
+   "text": "لا تحتاج إلى SPID (الهوية الرقمية) لحجز موعد بطاقة الهوية: تحجز من صفحة الخدمة على موقع البلدية."
+  },
+  "carta-identita:req:prima-la-residenza:text": {
+   "it": "La carta d'identità si chiede dopo l'iscrizione all'anagrafe come residente a Milano: se sei appena arrivato, prima chiedi la residenza.",
+   "text": "تُطلب بطاقة الهوية بعد تسجيلك في السجل المدني كمقيم في ميلانو: إذا وصلت للتو، اطلب الإقامة (residenza) أولًا."
+  },
+  "carta-identita:req:primo-permesso-in-attesa:text": {
+   "it": "Da verificare: le fonti salvate non dicono se basta la ricevuta della prima domanda di permesso di soggiorno (permesso non ancora rilasciato). Le fonti parlano della ricevuta solo per un permesso scaduto in rinnovo: chiedi all'anagrafe prima di prenotare.",
+   "text": "يحتاج إلى تحقّق: المصادر المحفوظة لا تقول إن كان يكفي إيصال الطلب الأول لتصريح الإقامة (التصريح لم يصدر بعد). المصادر تذكر الإيصال فقط لتصريح منتهٍ قيد التجديد: اسأل السجل المدني قبل حجز الموعد."
+  },
+  "carta-identita:req:protezione-internazionale:text": {
+   "it": "Se hai chiesto protezione internazionale (asilo), la carta dura 3 anni, anche dopo i 70 anni.",
+   "text": "إذا كنت قد طلبت الحماية الدولية (اللجوء)، فمدة البطاقة 3 سنوات، حتى بعد سن السبعين."
+  },
+  "carta-identita:req:provvisoria-costo:text": {
+   "it": "La carta provvisoria costa 5,42 euro.",
+   "text": "تكلفة البطاقة المؤقتة 5.42 يورو."
+  },
+  "carta-identita:req:provvisoria-dichiarazione-viaggio:text": {
+   "it": "Se chiedi la carta provvisoria per un viaggio all'estero, nel modulo dichiari di non avere un passaporto per l'espatrio in corso di validità.",
+   "text": "إذا طلبت البطاقة المؤقتة لسفر إلى الخارج، تصرّح في النموذج بأنه ليس لديك جواز سفر للخروج من البلاد غير منتهي الصلاحية."
+  },
+  "carta-identita:req:provvisoria-estero:text": {
+   "it": "Con la carta provvisoria gli altri Paesi UE potrebbero non farti entrare: controlla prima le regole del Paese dove vai.",
+   "text": "قد ترفض دول أخرى في الاتحاد الأوروبي الدخول بالبطاقة المؤقتة: تحقّق أولًا من قواعد البلد الذي تذهب إليه."
+  },
+  "carta-identita:req:provvisoria-foto-modulo:text": {
+   "it": "Per la carta provvisoria porta il modulo di richiesta del Comune compilato e due fototessere a colori su sfondo chiaro, recenti e a capo scoperto.",
+   "text": "للبطاقة المؤقتة أحضر نموذج الطلب الخاص بالبلدية مملوءًا وصورتين حديثتين ملونتين بمقاس جواز السفر على خلفية فاتحة، والرأس مكشوف."
+  },
+  "carta-identita:req:provvisoria-restituzione:text": {
+   "it": "La carta provvisoria va restituita al Comune quando fai la richiesta della CIE.",
+   "text": "يجب إعادة البطاقة المؤقتة إلى البلدية عند تقديم طلب البطاقة الإلكترونية CIE."
+  },
+  "carta-identita:req:provvisoria-validita:text": {
+   "it": "La carta provvisoria si può avere una sola volta, non si rinnova e dura sei mesi.",
+   "text": "لا تُصدَر البطاقة المؤقتة إلا مرة واحدة، ولا يمكن تجديدها، ومدتها ستة أشهر."
+  },
+  "carta-identita:req:puk-recupero-app:text": {
+   "it": "Se hai perso il PUK e quando hai chiesto la carta avevi lasciato e-mail o cellulare, lo recuperi con l'app CieID: per sicurezza, l'SMS o la e-mail per completare la procedura e vedere il PUK arriva 48 ore dopo la richiesta.",
+   "text": "إذا فقدت رمز PUK وكنت قد تركت بريدًا إلكترونيًا أو رقم هاتف عند طلب البطاقة، تستعيده عبر تطبيق CieID: لأسباب أمنية تصل الرسالة النصية أو البريد لإكمال الإجراء ورؤية PUK بعد 48 ساعة من الطلب."
+  },
+  "carta-identita:req:raccomandata-mani-proprie:text": {
+   "it": "Arriva con una raccomandata da consegnare «a mani proprie».",
+   "text": "تصل بالبريد المسجّل (raccomandata) مع التسليم إلى المرسَل إليه شخصيًا."
+  },
+  "carta-identita:req:residenti-lombardia:text": {
+   "it": "Se sei residente in un altro Comune della Lombardia, la carta si chiede al tuo Comune di residenza, anche se è urgente.",
+   "text": "إذا كنت مقيمًا في بلدية أخرى في لومبارديا، تطلبها من بلديتك، حتى لو كان الأمر مستعجلًا."
+  },
+  "carta-identita:req:residenza-in-corso:text": {
+   "it": "Da verificare: le fonti salvate non dicono se puoi chiedere la carta mentre la domanda di residenza è ancora in verifica. Chiedi all'anagrafe prima di prenotare.",
+   "text": "يحتاج إلى تحقق: المصادر المحفوظة لا تقول هل يمكنك طلب البطاقة بينما طلب الإقامة لا يزال قيد التحقق. اسأل مكتب السجل المدني قبل الحجز."
+  },
+  "carta-identita:req:residenza-non-permesso:text": {
+   "it": "Attenzione: iscriversi all'anagrafe del Comune (residenza) non è la stessa cosa che avere il permesso di soggiorno.",
+   "text": "انتبه: التسجيل كمقيم لدى البلدية (residenza) ليس هو نفسه الحصول على تصريح الإقامة (permesso di soggiorno)."
+  },
+  "carta-identita:req:rettifica-dati:text": {
+   "it": "Se i dati del tuo passaporto o del permesso di soggiorno sono cambiati, per correggerli in anagrafe c'è un servizio a parte del Comune: la rettifica dei dati anagrafici.",
+   "text": "إذا تغيّرت البيانات في جواز سفرك أو تصريح إقامتك، توجد خدمة منفصلة في البلدية لتصحيحها في السجل المدني: تصحيح البيانات المدنية (rettifica dei dati anagrafici)."
+  },
+  "carta-identita:req:ricevuta-documento:text": {
+   "it": "Finché la carta non arriva, la ricevuta della richiesta vale come documento di riconoscimento.",
+   "text": "إلى أن تصل البطاقة، يُستخدم إيصال الطلب كوثيقة هوية."
+  },
+  "carta-identita:req:ricevuta-solo-italia:text": {
+   "it": "La ricevuta vale solo per spostarsi in Italia: non serve per andare all'estero.",
+   "text": "الإيصال يصلح فقط للتنقل داخل إيطاليا: لا للسفر إلى الخارج."
+  },
+  "carta-identita:req:ricevuta-viaggi-italia:text": {
+   "it": "Per viaggiare in Italia puoi usare la ricevuta della CIE, senza aspettare che arrivi la carta.",
+   "text": "للسفر داخل إيطاليا يمكنك استخدام إيصال CIE، دون انتظار وصول البطاقة."
   },
   "carta-identita:req:rinnovo-180-giorni:text": {
-   "it": "Puoi chiedere la nuova carta già da 180 giorni prima della scadenza di quella che hai.",
-   "text": "يمكنك طلب البطاقة الجديدة ابتداءً من 180 يومًا قبل انتهاء البطاقة التي لديك."
+   "it": "Una carta elettronica si rinnova solo negli ultimi 180 giorni prima della scadenza, salvo urgenze.",
+   "text": "لا يمكن تجديد البطاقة الإلكترونية إلا في آخر 180 يومًا قبل انتهاء صلاحيتها، إلا في حالة الاستعجال."
+  },
+  "carta-identita:req:rinnovo-cie-vecchie:text": {
+   "it": "Se la tua carta elettronica è stata rilasciata prima del 3 agosto 2017, puoi sostituirla quando vuoi con una di nuova generazione.",
+   "text": "إذا صدرت بطاقتك الإلكترونية قبل 3 أغسطس 2017، يمكنك استبدالها ببطاقة من الجيل الجديد في أي وقت."
+  },
+  "carta-identita:req:rinnovo-senza-pin-puk:text": {
+   "it": "Secondo un articolo del centro di supporto del Comune (novembre 2025), se la tua carta elettronica non ha PIN e PUK e scade tra più di 180 giorni, puoi andare senza appuntamento in una sede anagrafica, dove ti fissano una data per la nuova carta. La pagina del Comune (ottobre 2026) non elenca questo caso tra le eccezioni all'appuntamento: verifica con l'anagrafe.",
+   "text": "وفق مقال من مركز الدعم في البلدية (نوفمبر 2025)، إذا كانت بطاقتك الإلكترونية بلا PIN وPUK وتنتهي بعد أكثر من 180 يومًا، يمكنك الذهاب دون موعد إلى مكتب للسجل المدني حيث يحدّدون لك تاريخًا للبطاقة الجديدة. صفحة البلدية (أكتوبر 2026) لا تذكر هذه الحالة ضمن الاستثناءات من الموعد: تحقّق مع السجل المدني."
+  },
+  "carta-identita:req:riprogrammare:text": {
+   "it": "Se non puoi andare, puoi spostare l'appuntamento (anche dalla pagina del check-in online) fino all'orario fissato.",
+   "text": "إذا لم تستطع الحضور، يمكنك تغيير موعد الحجز (أيضًا من صفحة تسجيل الحضور الإلكتروني) حتى ساعة الموعد المحجوز."
+  },
+  "carta-identita:req:senza-appuntamento-deterioramento:text": {
+   "it": "Carta rovinata: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
+   "text": "بطاقة تالفة: هذه إحدى الحالات الاستثنائية التي يمكنك فيها الذهاب إلى مكتب السجل المدني بدون موعد."
   },
   "carta-identita:req:senza-appuntamento-orario:text": {
-   "it": "Le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00.",
-   "text": "تُعالَج الاستثناءات بدون موعد فقط من الساعة 8:30 إلى 15:00."
+   "it": "La pagina della carta d'identità dice che le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00. La pagina delle sedi anagrafiche dice invece che i ticket per urgenze si danno fino a mezz'ora prima della chiusura: le fonti non sono allineate.",
+   "text": "صفحة بطاقة الهوية تقول إن الاستثناءات بدون موعد تُعالَج فقط من 8:30 إلى 15:00. أما صفحة مكاتب السجل المدني فتقول إن أرقام الحالات العاجلة تُعطى حتى نصف ساعة قبل الإغلاق: المصادر غير متفقة."
   },
   "carta-identita:req:senza-appuntamento-smarrimento:text": {
    "it": "Carta persa o rubata, con la denuncia e senza un altro documento di riconoscimento: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
    "text": "بطاقة مفقودة أو مسروقة، مع البلاغ وبدون وثيقة تعريف أخرى: هذه من الاستثناءات التي يمكنك فيها الذهاب إلى مكتب السجل المدني بدون موعد."
   },
   "carta-identita:req:senza-appuntamento-ticket:text": {
-   "it": "Senza appuntamento si entra con un ticket e i ticket del giorno sono limitati: vai presto.",
-   "text": "بدون موعد تدخل برقم انتظار (ticket)، وأرقام اليوم محدودة: اذهب مبكرًا."
+   "it": "Senza appuntamento si entra solo finché ci sono ticket disponibili: superato il limite massimo, potresti non essere servito.",
+   "text": "بدون موعد يكون الدخول فقط ما دامت أرقام الانتظار (ticket) متاحة: بعد بلوغ الحد الأقصى قد لا تتم خدمتك."
+  },
+  "carta-identita:req:servizi-online:text": {
+   "it": "Con la carta e i suoi codici PIN e PUK entri nei servizi online delle Pubbliche Amministrazioni abilitate, fino al livello di sicurezza più alto (tre livelli).",
+   "text": "بالبطاقة ورمزي PIN وPUK يمكنك الدخول إلى الخدمات الإلكترونية للمكاتب العامة التي تقبلها، حتى أعلى مستوى أمان (ثلاثة مستويات)."
+  },
+  "carta-identita:req:smarrimento-estero-etd:text": {
+   "it": "Se sei cittadino italiano e ti rubano o perdi la carta mentre sei all'estero, e non hai modo né tempo di chiedere un nuovo documento, rivolgiti al Consolato o all'Ambasciata d'Italia e chiedi un documento provvisorio di viaggio (E.T.D. – Emergency Travel Document).",
+   "text": "إذا كنت مواطنًا إيطاليًا وسُرقت بطاقتك أو فقدتها وأنت في الخارج، ولم يكن لديك سبيل أو وقت لطلب وثيقة جديدة، فتوجّه إلى القنصلية أو السفارة الإيطالية واطلب وثيقة سفر مؤقتة (E.T.D. – Emergency Travel Document)."
+  },
+  "carta-identita:req:smarrimento-estero:text": {
+   "it": "Persa o rubata all'estero: si può presentare la denuncia fatta al Consolato o all'Ambasciata d'Italia; quella fatta alla polizia straniera va presentata anche in Italia e poi consegnata al Comune.",
+   "text": "فُقدت أو سُرقت في الخارج: يمكن تقديم البلاغ المقدَّم لدى القنصلية أو السفارة الإيطالية؛ أما البلاغ المقدَّم لدى الشرطة الأجنبية فيجب تقديمه أيضًا في إيطاليا ثم تسليمه إلى البلدية."
+  },
+  "carta-identita:req:solo-residenti:text": {
+   "it": "Il centro di supporto del Comune scrive che il servizio della carta d'identità è solo per chi è residente a Milano oppure abita a Milano ed è residente fuori dalla Lombardia.",
+   "text": "يذكر مركز الدعم في البلدية أن خدمة بطاقة الهوية مخصّصة فقط للمقيمين المسجّلين في ميلانو، أو لمن يسكن في ميلانو ومسجّل كمقيم خارج لومبارديا."
+  },
+  "carta-identita:req:spedizione-assistenza:text": {
+   "it": "Se la spedizione resta a lungo «In spedizione», contatta l'assistenza del Ministero dell'Interno: cie.cittadini@interno.it o 06 4298 5699, dal lunedì al venerdì 9-16 e il sabato 9-13.",
+   "text": "إذا بقي التسليم طويلًا على حالة «In spedizione» (قيد الإرسال)، اتصل بمكتب المساعدة في وزارة الداخلية: cie.cittadini@interno.it أو 06 4298 5699، من الاثنين إلى الجمعة 9-16 والسبت 9-13."
   },
   "carta-identita:req:spedizione-citofono:text": {
-   "it": "Arriva per raccomandata: metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
-   "text": "تصل بالبريد المسجّل: ضع اسم الشخص الذي سيستلمها على الجرس والإنتركم وصندوق البريد."
+   "it": "Metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
+   "text": "ضع اسم الشخص الذي سيستلمها على الجرس والإنترفون وصندوق البريد."
   },
   "carta-identita:req:stranieri:short": {
    "it": "Permesso o carta di soggiorno",
@@ -293,12 +725,12 @@
    "text": "مواطنو الدول من خارج الاتحاد الأوروبي: أحضروا أيضًا تصريح الإقامة (permesso di soggiorno) أو بطاقة الإقامة غير منتهية الصلاحية."
   },
   "carta-identita:req:su-appuntamento:text": {
-   "it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
-   "text": "شبابيك السجل المدني تستقبل فقط بموعد يُحجز عبر الإنترنت."
+   "it": "Gli sportelli anagrafici ricevono su appuntamento prenotato online; per le urgenze si entra con un ticket.",
+   "text": "شبابيك السجل المدني تستقبل بموعد يُحجز عبر الإنترنت؛ وللحالات العاجلة يكون الدخول برقم انتظار (ticket)."
   },
   "carta-identita:req:tempi-consegna:text": {
-   "it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta (conta almeno una settimana).",
-   "text": "لا تُستلَم البطاقة عند الشباك: يطبعها معهد سك العملة الحكومي وتُرسَل خلال 6 أيام عمل من الطلب (احسب أسبوعًا على الأقل)."
+   "it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta.",
+   "text": "لا تُستلم البطاقة من الشباك: تطبعها دار الطباعة الحكومية (Poligrafico dello Stato) وتُرسل خلال 6 أيام عمل من تاريخ الطلب."
   },
   "carta-identita:req:testimoni-prima:short": {
    "it": "Due testimoni (se non hai altri documenti)",
@@ -308,21 +740,73 @@
    "it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
    "text": "البطاقة الأولى بدون أي وثيقة هوية أخرى: يجب أن تحضر إلى البلدية مع شاهدَين."
   },
+  "carta-identita:req:testimoni-smarrimento:short": {
+   "it": "Due testimoni (se non hai altri documenti)",
+   "text": "شاهدان (إذا لم تكن لديك وثيقة أخرى)"
+  },
+  "carta-identita:req:testimoni-smarrimento:text": {
+   "it": "Se non hai più la carta e non hai un altro documento d'identità non scaduto, servono due testimoni maggiorenni con un documento d'identità valido.",
+   "text": "إذا لم تعد البطاقة معك ولم تكن لديك وثيقة هوية أخرى غير منتهية الصلاحية، تحتاج إلى شاهدين بالغين معهما وثيقة هوية سارية."
+  },
   "carta-identita:req:testimoni:short": {
    "it": "Due testimoni (se non puoi essere riconosciuto)",
    "text": "شاهدان (إذا تعذّر التعرّف عليك)"
   },
   "carta-identita:req:testimoni:text": {
-   "it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità in corso di validità, servono due testimoni maggiorenni con un documento d'identità.",
-   "text": "إذا كانت البطاقة القديمة لا تسمح بالتعرّف عليك ولم تكن لديك وثيقة هوية أخرى غير منتهية، فيلزم شاهدان بالغان مع وثيقة هوية."
+   "it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità non scaduto, servono due testimoni maggiorenni con un documento d'identità.",
+   "text": "إذا كانت البطاقة القديمة لا تكفي للتعرّف عليك ولم تكن لديك وثيقة هوية أخرى غير منتهية الصلاحية، تحتاج إلى شاهدين بالغين معهما وثيقة هوية."
+  },
+  "carta-identita:req:tracciamento:text": {
+   "it": "Per seguire la spedizione su poste.it usa «cerca spedizioni» con il numero di raccomandata che trovi nel riepilogo che ti dà l'operatore.",
+   "text": "لمتابعة التسليم على poste.it استخدم «cerca spedizioni» (البحث عن الشحنات) برقم البريد المسجّل الموجود في الملخص الذي يعطيك إياه الموظف."
   },
   "carta-identita:req:urgenza-non-scadenza:text": {
-   "it": "Essersi accorti tardi che la carta è scaduta non conta come urgenza.",
-   "text": "الانتباه متأخرًا إلى انتهاء البطاقة لا يُعدّ حالة عاجلة."
+   "it": "Per la carta provvisoria non conta come urgenza essersi accorti tardi che la carta è scaduta (o di non averla).",
+   "text": "بالنسبة للبطاقة المؤقتة، الانتباه متأخرًا إلى أن البطاقة انتهت صلاحيتها (أو أنها ليست معك) لا يُعدّ حالة عاجلة."
+  },
+  "carta-identita:req:urgenza-qualsiasi-sede:text": {
+   "it": "Con un'urgenza documentata (per esempio un ricovero in ospedale) e senza un altro documento di riconoscimento, puoi andare in qualsiasi sede anagrafica.",
+   "text": "مع حالة استعجال موثّقة (مثل دخول المستشفى) وعدم وجود وثيقة هوية أخرى، يمكنك الذهاب إلى أي مكتب للسجل المدني."
   },
   "carta-identita:req:urgenza:text": {
-   "it": "Urgenza documentata (per esempio un viaggio) e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
-   "text": "حالة عاجلة موثّقة (مثل سفر) ولا توجد وثيقة أخرى مفيدة: توجّه إلى مكتب السجل المدني خلال الأيام الخمسة عشر التي تسبق الحدث مع أوراق تثبت الاستعجال؛ وسيُحدَّد لك موعد لإصدار البطاقة."
+   "it": "Urgenza documentata e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
+   "text": "حالة عاجلة موثّقة ولا توجد وثيقة أخرى مفيدة: توجّه إلى مكتب للسجل المدني خلال 15 يومًا قبل الحدث مع الأوراق التي تثبت الحالة العاجلة؛ سيحدّدون لك تاريخًا لإصدار البطاقة."
+  },
+  "carta-identita:req:validita-70-anni:text": {
+   "it": "Se hai 70 anni o più, la carta rilasciata dal 30 luglio 2026 non scade; per entrare nei servizi online della Pubblica Amministrazione vale invece 10 anni. Non vale per chi ha chiesto asilo (la carta resta di 3 anni) né per chi per un problema temporaneo non può dare le impronte (resta di 1 anno).",
+   "text": "إذا كان عمرك 70 عامًا أو أكثر، فالبطاقة الصادرة ابتداءً من 30 يوليو 2026 لا تنتهي؛ أما للدخول إلى الخدمات العامة عبر الإنترنت فتدوم 10 سنوات. لا ينطبق هذا على طالبي اللجوء (تبقى البطاقة 3 سنوات) ولا على من لا يستطيع مؤقتًا إعطاء البصمات (تبقى 1 سنة)."
+  },
+  "carta-identita:req:validita-adulti:text": {
+   "it": "Per gli adulti la carta dura circa 10 anni (9 anni più i giorni fino al compleanno); i casi particolari (70 anni e oltre, richiesta di asilo, impronte non rilevabili) sono nelle voci qui sotto.",
+   "text": "للبالغين تدوم البطاقة نحو 10 سنوات (9 سنوات زائد الأيام حتى عيد ميلادك)؛ الحالات الخاصة (70 عامًا فأكثر، طلب اللجوء، تعذّر أخذ البصمات) في البنود أدناه."
+  },
+  "carta-identita:req:validita-minori:text": {
+   "it": "Durata della carta di un minorenne: 3 anni fino ai 3 anni di età, 5 anni dai 3 ai 18 anni.",
+   "text": "مدة بطاقة القاصر: 3 سنوات حتى سن 3 أعوام، و5 سنوات من 3 إلى 18 عامًا."
+  },
+  "carta-identita:req:validita-senza-impronte:text": {
+   "it": "Se per un problema temporaneo non è possibile prendere le impronte, la carta dura 1 anno.",
+   "text": "إذا تعذّر أخذ البصمات بسبب مشكلة مؤقتة، تدوم البطاقة 1 سنة (سنة واحدة)."
+  },
+  "carta-identita:req:viaggio-15-giorni-rovinata:text": {
+   "it": "Carta rovinata, viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza con la prova della data di partenza e la carta danneggiata.",
+   "text": "بطاقة تالفة وسفر قريب ولا يوجد جواز سفر غير منتهي الصلاحية: توجّه إلى السجل المدني خلال 15 يومًا قبل المغادرة مع إثبات تاريخ المغادرة والبطاقة التالفة."
+  },
+  "carta-identita:req:viaggio-15-giorni:text": {
+   "it": "Viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza, portando anche la prova della data di partenza.",
+   "text": "سفر قريب ولا يوجد جواز سفر غير منتهي الصلاحية: توجّه إلى السجل المدني خلال 15 يومًا قبل المغادرة، مع إثبات تاريخ المغادرة أيضًا."
+  },
+  "carta-identita:req:viaggio-5-giorni:text": {
+   "it": "Se chiedi la carta per urgenza nei 5 giorni prima di un viaggio in Europa, il Comune non può assicurare che arrivi subito.",
+   "text": "إذا قدّمت الطلب مستعجلًا خلال الأيام الـ5 السابقة لسفر داخل أوروبا، لا تستطيع البلدية أن تعِد بوصول البطاقة فورًا."
+  },
+  "carta-identita:step:1:route:1:text": {
+   "it": "Senza appuntamento solo per urgenza documentata, carta persa o rubata (con denuncia e senza altro documento) o carta rovinata: vai direttamente a una sede anagrafica, finché ci sono ticket.",
+   "text": "بدون موعد فقط لحالة استعجال موثّقة، أو لبطاقة مفقودة أو مسروقة (مع البلاغ ودون وثيقة أخرى)، أو لبطاقة تالفة: اذهب مباشرة إلى مكتب للسجل المدني، ما دامت أرقام الانتظار متوفرة."
+  },
+  "carta-identita:step:1:route:2:text": {
+   "it": "Se la persona non può muoversi per gravi motivi di salute: si chiede il servizio a domicilio con il modulo online, anche da parte di un genitore, tutore, amministratore di sostegno o delegato.",
+   "text": "إذا لم يستطع الشخص الحركة لأسباب صحية خطيرة: تُطلب الخدمة في المنزل عبر النموذج الإلكتروني، ويمكن أن يطلبها أيضًا أحد الوالدين أو الوصي أو المدير الداعم أو مفوَّض."
   },
   "carta-identita:step:1:text": {
    "it": "Prenota online l'appuntamento allo sportello anagrafico, scegliendo sede, giorno e ora.",
@@ -333,20 +817,36 @@
    "text": "الحجز"
   },
   "carta-identita:step:2:text": {
-   "it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
-   "text": "عند الشباك، في النهاية، تراجع بياناتك وتوقّع نموذج الملخّص."
+   "it": "Il giorno dell'appuntamento fai il check-in: senza check-in non ti chiamano allo sportello.",
+   "text": "في يوم الموعد سجّل حضورك (check-in): بدون تسجيل الحضور لا يُنادى عليك إلى الشباك."
   },
   "carta-identita:step:2:title": {
-   "it": "Allo sportello",
-   "text": "عند الشباك"
+   "it": "Check-in",
+   "text": "تسجيل الحضور"
   },
   "carta-identita:step:3:text": {
-   "it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
-   "text": "تصل البطاقة إلى البيت بالبريد المسجّل خلال 6 أيام عمل."
+   "it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
+   "text": "في الشباك، في النهاية، تراجع بياناتك وتوقّع نموذج الملخص."
   },
   "carta-identita:step:3:title": {
+   "it": "Allo sportello",
+   "text": "في الشباك"
+  },
+  "carta-identita:step:4:text": {
+   "it": "Ti danno una ricevuta di carta: conservala, contiene la prima metà del PIN e del PUK.",
+   "text": "يعطونك إيصالًا ورقيًا: احتفظ به، ففيه النصف الأول من رمزي PIN وPUK."
+  },
+  "carta-identita:step:4:title": {
+   "it": "Ricevuta",
+   "text": "الإيصال"
+  },
+  "carta-identita:step:5:text": {
+   "it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
+   "text": "تصل البطاقة بالبريد المسجّل خلال 6 أيام عمل."
+  },
+  "carta-identita:step:5:title": {
    "it": "Consegna",
-   "text": "الاستلام"
+   "text": "التسليم"
   },
   "iscrizione-anagrafica-extra-ue:housing:affitto-erp:label": {
    "it": "Per chi ha un contratto di locazione · Se l'immobile è di Edilizia Residenziale Pubblica",

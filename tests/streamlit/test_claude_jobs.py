@@ -138,7 +138,10 @@ def test_demo_reads_a_typed_message_with_keywords(message, service, answers):
     state, reply = demo.start_text(message, "it")
     assert state["service_id"] == service and state["answers"] == answers
     assert reply["routing"] == "keywords" and reply["check"]["ok"]
-    assert state["checklist"]["requirements"]
+    if service == "carta-identita":  # where the person is resident decides everything: asked first
+        assert state["pending"] == "residenza" and "residenza" in state["checklist"]["still_to_ask"]
+    else:
+        assert state["checklist"]["requirements"]
 
 
 def test_demo_asks_which_procedure_when_the_words_say_nothing():
@@ -174,7 +177,7 @@ def test_evaluation_runner_scores_a_scenario_with_a_fake_claude():
             tool(
                 "get_checklist",
                 service_id="carta-identita",
-                answers={"motivo": "smarrimento-furto", "eta": "adulto"},
+                answers={"residenza": "milano", "motivo": "smarrimento-furto", "eta": "adulto"},
             ),
             text(
                 "Senza appuntamento, con la denuncia, puoi andare a una sede anagrafica [cie]. "
@@ -197,6 +200,7 @@ def test_evaluation_runner_counts_a_blocked_reply_and_its_regeneration():
                 "get_checklist",
                 service_id="carta-identita",
                 answers={
+                    "residenza": "milano",
                     "motivo": "smarrimento-furto",
                     "eta": "adulto",
                     "cittadinanza": "italiana",

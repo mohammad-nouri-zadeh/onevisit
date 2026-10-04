@@ -31,7 +31,16 @@
       "online_anpr": "La dichiarazione si invia online, sul [sito dell'Anagrafe Nazionale]({url}) {cite}.",
       "which_residence": "Per la residenza le pratiche sono due e cambiano tutto: arrivi dall'estero, oppure da un altro Comune italiano (o cambi indirizzo dentro Milano)? Scegli qui sotto.",
       "dossier_anpr": "Scarica il dossier: ti aiuta a tenere a portata di mano dati e documenti per la dichiarazione online. La verifica finale spetta all'anagrafe del Comune.",
-      "other_language": "Ti rispondo in inglese: questa replica scrive italiano, inglese, arabo, spagnolo e cinese. La versione dal vivo, con Claude, risponde in {language}."
+      "other_language": "Ti rispondo in inglese: questa replica scrive italiano, inglese, arabo, spagnolo e cinese. La versione dal vivo, con Claude, risponde in {language}.",
+      "need_answers": "Prima di fare la lista mi servono un paio di risposte: ognuna cambia i documenti da portare{cites}.",
+      "stop": "In questo caso la carta d'identità non si chiede a Milano: le voci della checklist dicono perché e dove andare{cites}. Per questo non ti do il link di prenotazione né il dossier per lo sportello.",
+      "stop_services": "Se vivi a Milano, prima viene la residenza; OneVisit ti aiuta anche con questa pratica: {services}.",
+      "route_links": "I link che ti servono: {links}.",
+      "dossier_home": "Scarica il dossier: ti aiuta a preparare gli allegati del modulo online e i documenti per l'operatore che verrà a casa. La verifica finale spetta all'operatore dell'anagrafe.",
+      "dossier_info": "Per questa domanda non serve un appuntamento: le risposte sono nella checklist qui sotto, ognuna con la sua fonte.",
+      "dossier_walkin": "Scarica il dossier per lo sportello e portalo con te. La verifica finale spetta all'operatore allo sportello.",
+      "urgent_intro_if": "Visto che hai fretta, prima le strade più rapide che le fonti indicano se {assumed} (te lo chiedo subito dopo):",
+      "and_join": " e "
     },
     "en": {
       "opening": "I'll help you prepare: **{service}**. I read the service record and its official sources.",
@@ -63,7 +72,16 @@
       "online_anpr": "You send the declaration online, on the [National Registry (ANPR) website]({url}) {cite}.",
       "which_residence": "For residence there are two different procedures: are you arriving from abroad, or from another Italian municipality (or changing address within Milan)? Choose below.",
       "dossier_anpr": "Download the dossier: it helps you keep the details and documents for the online declaration at hand. The final check is up to the City's registry office.",
-      "other_language": "I'm answering in English: this demo replay writes Italian, English, Arabic, Spanish and Chinese. The live version, with Claude, answers in {language}."
+      "other_language": "I'm answering in English: this demo replay writes Italian, English, Arabic, Spanish and Chinese. The live version, with Claude, answers in {language}.",
+      "need_answers": "Before I make the list I need a couple of answers: each one changes the documents to bring{cites}.",
+      "stop": "In this case the ID card is not issued in Milan: the checklist items say why and where to go{cites}. So I'm not giving you the booking link or the desk dossier.",
+      "stop_services": "If you live in Milan, residence comes first; OneVisit also helps with that procedure: {services}.",
+      "route_links": "The links you need: {links}.",
+      "dossier_home": "Download the dossier: it helps you prepare the attachments for the online form and the documents for the officer who comes to the home. The registry officer makes the final check.",
+      "dossier_info": "You don't need an appointment for this question: the answers are in the checklist below, each with its source.",
+      "dossier_walkin": "Download the desk dossier and take it with you. The desk officer makes the final check.",
+      "urgent_intro_if": "Since you're in a hurry, first the fastest routes the sources give if {assumed} (I'll ask you right after):",
+      "and_join": " and "
     },
     "ar": {
       "opening": "سأساعدك في التحضير لـ: **{service}**. قرأتُ بطاقة الخدمة ومصادرها الرسمية.",
@@ -94,7 +112,16 @@
       "form_guide": "تحت القائمة تجد أيضًا أين يوضع كل ملف في الطلب الإلكتروني، قسمًا بقسم، كما في صفحة النماذج (Modulistica) في البلدية {cite}.",
       "online_anpr": "يُرسَل الإقرار عبر الإنترنت، على [موقع السجل الوطني (ANPR)]({url}) {cite}.",
       "which_residence": "للإقامة معاملتان مختلفتان: هل تصل من الخارج، أم من بلدية إيطالية أخرى (أو تغيّر عنوانك داخل ميلانو)؟ اختر أدناه.",
-      "dossier_anpr": "نزّل الملف: يساعدك على إبقاء البيانات والوثائق اللازمة للإقرار الإلكتروني في متناول يدك. التحقق النهائي من اختصاص مكتب السجل المدني في البلدية."
+      "dossier_anpr": "نزّل الملف: يساعدك على إبقاء البيانات والوثائق اللازمة للإقرار الإلكتروني في متناول يدك. التحقق النهائي من اختصاص مكتب السجل المدني في البلدية.",
+      "need_answers": "قبل إعداد القائمة أحتاج إلى بعض الإجابات: كل إجابة تغيّر الوثائق التي يجب إحضارها{cites}.",
+      "stop": "في هذه الحالة لا تُطلب بطاقة الهوية في ميلانو: بنود القائمة توضّح السبب وإلى أين تذهب{cites}. لذلك لن أعطيك رابط الحجز ولا ملف الشباك.",
+      "stop_services": "إذا كنت تعيش في ميلانو، فالإقامة تأتي أولًا؛ يساعدك OneVisit أيضًا في هذا الإجراء: {services}.",
+      "route_links": "الروابط التي تحتاجها: {links}.",
+      "dossier_home": "نزّل الملف: يساعدك على تجهيز مرفقات الاستمارة الإلكترونية والوثائق للموظف الذي سيأتي إلى المنزل. القرار النهائي لموظف السجل المدني.",
+      "dossier_info": "لا تحتاج إلى موعد لهذا السؤال: الإجابات في القائمة أدناه، كل منها مع مصدره.",
+      "dossier_walkin": "نزّل ملف الشباك وخذه معك. القرار النهائي لموظف الشباك.",
+      "urgent_intro_if": "بما أنك مستعجل، إليك أولًا أسرع الطرق التي تذكرها المصادر، على افتراض {assumed} (سأسألك عن ذلك بعد قليل):",
+      "and_join": " و"
     },
     "es": {
       "opening": "Te ayudo a preparar: **{service}**. He leído la ficha del servicio y sus fuentes oficiales.",
@@ -125,7 +152,16 @@
       "form_guide": "Debajo de la lista también verás dónde va cada archivo en la solicitud online, sección por sección, como en la página Modulistica del Ayuntamiento {cite}.",
       "online_anpr": "La declaración se envía online, en la [web del Registro Nacional (ANPR)]({url}) {cite}.",
       "which_residence": "Para la residencia hay dos trámites distintos: ¿llegas del extranjero, o de otro municipio italiano (o cambias de dirección dentro de Milán)? Elige abajo.",
-      "dossier_anpr": "Descarga el dossier: te ayuda a tener a mano los datos y documentos para la declaración online. La comprobación final corresponde al registro civil del Ayuntamiento."
+      "dossier_anpr": "Descarga el dossier: te ayuda a tener a mano los datos y documentos para la declaración online. La comprobación final corresponde al registro civil del Ayuntamiento.",
+      "need_answers": "Antes de hacer la lista necesito un par de respuestas: cada una cambia los documentos que hay que llevar{cites}.",
+      "stop": "En este caso la carta de identidad no se pide en Milán: los puntos de la lista dicen por qué y adónde ir{cites}. Por eso no te doy el enlace de citas ni el dossier para la ventanilla.",
+      "stop_services": "Si vives en Milán, primero va la residencia; OneVisit también te ayuda con ese trámite: {services}.",
+      "route_links": "Los enlaces que necesitas: {links}.",
+      "dossier_home": "Descarga el dossier: te ayuda a preparar los adjuntos del formulario en línea y los documentos para el funcionario que irá a casa. La comprobación final la hace el funcionario del registro.",
+      "dossier_info": "Para esta pregunta no hace falta cita: las respuestas están en la lista de abajo, cada una con su fuente.",
+      "dossier_walkin": "Descarga el dossier para la ventanilla y llévalo contigo. La comprobación final la hace el funcionario de la ventanilla.",
+      "urgent_intro_if": "Como tienes prisa, primero las vías más rápidas que indican las fuentes si {assumed} (te lo pregunto justo después):",
+      "and_join": " y "
     },
     "zh": {
       "opening": "我来帮你准备：**{service}**。我已阅读该服务的资料及其官方来源。",
@@ -156,7 +192,16 @@
       "form_guide": "清单下方还列出了每个文件在在线申请中应放在哪个部分，与市政府“Modulistica”页面的分节一致 {cite}。",
       "online_anpr": "申报需在线提交，通过[全国户籍登记处（ANPR）网站]({url}) {cite}。",
       "which_residence": "居住登记有两种不同的手续：你是从国外来，还是从意大利其他市镇来（或在米兰市内换地址）？请在下面选择。",
-      "dossier_anpr": "下载材料单：帮你把在线申报所需的信息和文件准备在手边。最终审核由市政府户籍处负责。"
+      "dossier_anpr": "下载材料单：帮你把在线申报所需的信息和文件准备在手边。最终审核由市政府户籍处负责。",
+      "need_answers": "在列出清单之前，我需要你回答几个问题：每个回答都会改变需要携带的材料{cites}。",
+      "stop": "这种情况下不能在米兰申请身份证：清单中的条目说明了原因和应去哪里办理{cites}。因此我不提供预约链接，也不提供窗口材料单。",
+      "stop_services": "如果你住在米兰，需要先办理居住登记；OneVisit 也能帮你办理这项手续：{services}。",
+      "route_links": "你需要的链接：{links}。",
+      "dossier_home": "下载材料单：它帮你准备在线表格的附件，以及上门工作人员需要的材料。最终由户籍工作人员审核。",
+      "dossier_info": "这个问题不需要预约：答案都在下面的清单中，每条都注明了来源。",
+      "dossier_walkin": "下载窗口材料单并随身携带。最终由窗口工作人员审核。",
+      "urgent_intro_if": "既然你很急，先看来源中最快的办法，前提是{assumed}（我稍后会向你确认）：",
+      "and_join": "、"
     }
   },
   "service_titles": {
@@ -177,10 +222,15 @@
     }
   },
   "questions": {
+    "carta-identita.residenza": {
+      "ar": "أين الإقامة المسجّلة (residenza) للشخص: في ميلانو، أم في بلدية أخرى (داخل لومبارديا أو خارجها)، أم في الخارج مع التسجيل في AIRE، أم لم يسجّل إقامته في إيطاليا بعد؟",
+      "es": "¿Dónde tiene la persona su residencia empadronada: en Milán, en otro municipio (en Lombardía o fuera), en el extranjero con inscripción en el AIRE, o todavía no en Italia?",
+      "zh": "此人的户籍登记（residenza）在哪里：在米兰，在其他市镇（伦巴第大区内或外），在国外并已在 AIRE 登记，还是尚未在意大利登记？"
+    },
     "carta-identita.motivo": {
-      "ar": "هل هذه أول بطاقة هوية لك، أم تجديد (منتهية أو تالفة أو ما زالت ورقية)، أم أن البطاقة القديمة فُقدت أو سُرقت؟",
-      "es": "¿Es tu primera carta de identidad, una renovación (caducada, estropeada o todavía de papel), o la anterior se perdió o te la robaron?",
-      "zh": "这是你的第一张身份证、续办（过期、损坏或仍是纸质的），还是旧证丢失或被盗？"
+      "ar": "ماذا تحتاج؟ أول بطاقة هوية؛ تجديد (منتهية أو قاربت على الانتهاء أو ما زالت ورقية)؛ بطاقة تالفة؛ بطاقة سليمة لكن شريحتها لا تعمل؛ بطاقة مفقودة أو مسروقة؛ رمز PIN أو PUK مفقود (أو تغيير بيانات الاتصال المرتبطة بالبطاقة)؛ أم لديك البطاقة الإلكترونية بالفعل ولديك سؤال (تغيير العنوان، الشحن)؟",
+      "es": "¿Qué necesitas? La primera carta de identidad; una renovación (caducada, a punto de caducar o todavía de papel); una carta estropeada; una carta en buen estado cuyo chip no funciona; una carta perdida o robada; PIN o PUK perdidos (o cambiar los datos de contacto de la carta); ¿o ya tienes la CIE y tienes una pregunta (cambio de dirección, envío)?",
+      "zh": "你需要办理什么？首次办理身份证；续办（已过期、即将过期或仍是纸质的）；证件损坏；证件完好但芯片失灵；证件丢失或被盗；PIN 或 PUK 丢失（或需更改证件关联的联系方式）；还是你已经有电子身份证，有问题想问（更改地址、邮寄）？"
     },
     "carta-identita.eta": {
       "ar": "هل البطاقة لشخص بالغ أم لقاصر؟",
@@ -191,6 +241,11 @@
       "ar": "ما جنسية الشخص: إيطالية، أم من بلد آخر في الاتحاد الأوروبي، أم من بلد خارج الاتحاد الأوروبي؟",
       "es": "¿Qué ciudadanía tiene la persona: italiana, de otro país de la UE o de un país de fuera de la UE?",
       "zh": "此人的国籍是：意大利、其他欧盟国家，还是非欧盟国家？"
+    },
+    "carta-identita.presenza": {
+      "ar": "هل يستطيع الشخص الحضور بنفسه إلى الشباك؟ أجب بلا فقط إذا كان لا يستطيع الحركة لأسباب صحية خطيرة (في المستشفى أو في دار رعاية، أو طريح الفراش).",
+      "es": "¿Puede la persona ir en persona a la ventanilla? Responde que no solo si no puede moverse por motivos graves de salud (ingresada en un hospital o en una residencia, o en cama).",
+      "zh": "此人能亲自去窗口吗？只有在因严重健康原因无法行动时（住院、住在护理机构或卧床不起）才回答“不能”。"
     },
     "iscrizione-anagrafica-extra-ue.permesso": {
       "ar": "ما وضعك مع تصريح الإقامة (permesso di soggiorno)؟ لديك تصريح ساري المفعول؛ أو انتهى وطلبت تجديده؛ أو تنتظر أول تصريح للعمل؛ أو تنتظر أول تصريح للمّ الشمل العائلي؛ أو لم تطلبه بعد؛ أو حالة أخرى.",
@@ -243,12 +298,40 @@
       "es": "Renovación",
       "zh": "续办"
     },
+    "deteriorata": {
+      "it": "Carta rovinata",
+      "en": "Damaged card",
+      "ar": "بطاقة تالفة",
+      "es": "Carta estropeada",
+      "zh": "证件损坏"
+    },
+    "chip": {
+      "it": "Chip guasto (carta integra)",
+      "en": "Chip not working (card intact)",
+      "ar": "الشريحة لا تعمل (البطاقة سليمة)",
+      "es": "Chip averiado (carta intacta)",
+      "zh": "芯片失灵（证件完好）"
+    },
     "smarrimento-furto": {
       "it": "Persa o rubata",
       "en": "Lost or stolen",
       "ar": "مفقودة أو مسروقة",
       "es": "Perdida o robada",
       "zh": "丢失或被盗"
+    },
+    "pin-puk": {
+      "it": "PIN o PUK persi, contatti",
+      "en": "Lost PIN or PUK, contact details",
+      "ar": "فقدان رمز PIN أو PUK، بيانات الاتصال",
+      "es": "PIN o PUK perdidos, datos de contacto",
+      "zh": "PIN 或 PUK 丢失、联系方式"
+    },
+    "gia-cie": {
+      "it": "Ho già la CIE: una domanda",
+      "en": "I already have the CIE: a question",
+      "ar": "لدي البطاقة الإلكترونية بالفعل: سؤال",
+      "es": "Ya tengo la CIE: una pregunta",
+      "zh": "已有电子身份证：咨询"
     },
     "adulto": {
       "it": "Adulto",
@@ -284,6 +367,55 @@
       "ar": "من خارج الاتحاد الأوروبي",
       "es": "Fuera de la UE",
       "zh": "非欧盟"
+    },
+    "milano": {
+      "it": "Residente a Milano",
+      "en": "Resident in Milan",
+      "ar": "مقيم في ميلانو",
+      "es": "Residente en Milán",
+      "zh": "户籍在米兰"
+    },
+    "domicilio-milano": {
+      "it": "Abita a Milano, residente fuori Lombardia",
+      "en": "Lives in Milan, resident outside Lombardy",
+      "ar": "يسكن في ميلانو ومقيم خارج لومبارديا",
+      "es": "Vive en Milán, residente fuera de Lombardía",
+      "zh": "住在米兰，户籍在伦巴第大区以外"
+    },
+    "altro-comune-lombardia": {
+      "it": "Residente in un altro Comune lombardo",
+      "en": "Resident in another comune in Lombardy",
+      "ar": "مقيم في بلدية أخرى في لومبارديا",
+      "es": "Residente en otro municipio de Lombardía",
+      "zh": "户籍在伦巴第大区其他市镇"
+    },
+    "aire": {
+      "it": "Italiano iscritto all'AIRE (vive all'estero)",
+      "en": "Italian registered with AIRE (lives abroad)",
+      "ar": "إيطالي مسجّل في AIRE (يعيش في الخارج)",
+      "es": "Italiano inscrito en el AIRE (vive en el extranjero)",
+      "zh": "在 AIRE 登记的意大利公民（居住在国外）"
+    },
+    "non-residente": {
+      "it": "Non ancora residente in Italia",
+      "en": "Not yet resident in Italy",
+      "ar": "لم يسجّل إقامته في إيطاليا بعد",
+      "es": "Aún sin residencia en Italia",
+      "zh": "尚未在意大利登记居住"
+    },
+    "sportello": {
+      "it": "Sì, viene allo sportello",
+      "en": "Yes, comes to the desk",
+      "ar": "نعم، يحضر إلى الشباك",
+      "es": "Sí, va a la ventanilla",
+      "zh": "能，亲自去窗口"
+    },
+    "domicilio-salute": {
+      "it": "No, gravi motivi di salute",
+      "en": "No, serious health reasons",
+      "ar": "لا، لأسباب صحية خطيرة",
+      "es": "No, por motivos graves de salud",
+      "zh": "不能，因严重健康原因"
     },
     "permesso": {
       "it": "Ho il permesso valido",
@@ -427,5 +559,54 @@
       "es": "Después",
       "zh": "之后"
     }
+  },
+  "links": {
+    "pin-puk-booking": {
+      "it": "Prenota il duplicato di PIN e PUK",
+      "en": "Book the PIN and PUK duplicate",
+      "ar": "احجز موعدًا لنسخة جديدة من PIN وPUK",
+      "es": "Pide cita para el duplicado de PIN y PUK",
+      "zh": "预约补办 PIN 和 PUK"
+    },
+    "contacts-booking": {
+      "it": "Prenota la modifica dei contatti",
+      "en": "Book a change of contact details",
+      "ar": "احجز موعدًا لتغيير بيانات الاتصال",
+      "es": "Pide cita para cambiar los datos de contacto",
+      "zh": "预约更改联系方式"
+    },
+    "home-form": {
+      "it": "Modulo online del servizio anagrafico a domicilio",
+      "en": "Online form for the registry home service",
+      "ar": "الاستمارة الإلكترونية لخدمة السجل المدني في المنزل",
+      "es": "Formulario en línea del servicio del registro a domicilio",
+      "zh": "户籍上门服务在线表格"
+    }
+  },
+  "urgent_assume": {
+    "carta-identita": [
+      {
+        "question": "residenza",
+        "option": "milano",
+        "label": {
+          "it": "sei residente a Milano",
+          "en": "you are a Milan resident",
+          "ar": "أنك مقيم مسجّل في ميلانو",
+          "es": "estás empadronado en Milán",
+          "zh": "你的户籍在米兰"
+        }
+      },
+      {
+        "question": "presenza",
+        "option": "sportello",
+        "label": {
+          "it": "puoi andare di persona allo sportello",
+          "en": "you can go to the desk in person",
+          "ar": "أنك تستطيع الذهاب إلى الشباك بنفسك",
+          "es": "puedes ir en persona a la ventanilla",
+          "zh": "你能亲自去窗口"
+        }
+      }
+    ]
   }
 }

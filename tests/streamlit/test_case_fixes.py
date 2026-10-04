@@ -68,10 +68,13 @@ def test_lost_card_and_travelling_opens_with_the_walk_in_exception_and_the_tempo
         "motivo": "smarrimento-furto",
         "eta": "adulto",
     }  # adult from a first-person message
-    assert state["urgent"] and state["pending"] == "cittadinanza"
+    # residence comes first; the urgent routes come as a condition (Milan resident, at the desk)
+    assert state["urgent"] and state["pending"] == "residenza"
     text = reply["text"]
-    reqs = {r["id"]: r for r in state["checklist"]["requirements"]}
+    usual = {**state["answers"], "residenza": "milano", "presenza": "sportello"}
+    reqs = {r["id"]: r for r in kb.checklist("carta-identita", usual)["requirements"]}
     walk_in, temporary = reqs["senza-appuntamento-smarrimento"], reqs["carta-provvisoria"]
+    assert "se sei residente a Milano e puoi andare di persona allo sportello" in text
     assert (
         text.index(walk_in["text_it"])
         < text.index(temporary["text_it"])

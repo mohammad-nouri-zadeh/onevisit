@@ -59,16 +59,21 @@ def test_typed_message_in_demo_is_signed_by_the_demo_too(no_key, no_network):
     ]  # citizenship, not the residence-permit options
 
 
+LOST_IN_MILAN = {"residenza": "milano", "motivo": "smarrimento-furto"}
+
+
 def test_a_live_reply_keeps_claudes_name(monkeypatch, no_network):
     import anthropic
     from fakes import FakeClient, text, tool
+
+    from onevisit import kb
 
     fake = FakeClient(
         [
             tool(
                 "get_checklist",
                 service_id="carta-identita",
-                answers={"motivo": "smarrimento-furto"},
+                answers=LOST_IN_MILAN,
             ),
             text(
                 "Here is your checklist from the official sources [cie]. "
@@ -82,9 +87,12 @@ def test_a_live_reply_keeps_claudes_name(monkeypatch, no_network):
     at = _app(lang="en")
     at.button(key="ex-cie-isola").click().run()
     md = _md(at)
+    # as many sources as the checklist tool returned for this case
+    read = len(kb.checklist("carta-identita", LOST_IN_MILAN)["sources"])
+    assert read > 1
     assert (
         "OneVisit · Claude" in md
-        and "Claude read 4 sources" in md
+        and f"Claude read {read} sources" in md
         and "OneVisit · replay" not in md
     )
     assert "What Claude checked" in [e.label for e in at.expander]

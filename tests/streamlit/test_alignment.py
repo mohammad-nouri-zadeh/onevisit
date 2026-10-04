@@ -112,9 +112,19 @@ def test_service_links_are_backed_by_a_saved_source(service_id):
     assert agent.official_page(service_id) == links["official_url"]["url"]
 
 
+# A first card for a non-EU adult: whether a first-permit receipt is enough is not in the sources.
+CIE_OPEN = {
+    "motivo": "prima",
+    "eta": "adulto",
+    "cittadinanza": "extra-ue",
+    "residenza": "milano",
+    "presenza": "sportello",
+}
+
+
 def test_open_items_say_what_is_unknown_and_where_to_check():
-    answers = {"motivo": "rinnovo", "eta": "adulto", "cittadinanza": "extra-ue"}
-    cl = kb.checklist("carta-identita", answers)
+    cl = kb.checklist("carta-identita", CIE_OPEN)
+    assert not cl["still_to_ask"]
     assert cl["not_yet_verified"]
     items = kb.open_items("carta-identita", cl["not_yet_verified"])
     assert [i["id"] for i in items] == cl["not_yet_verified"]
@@ -137,9 +147,7 @@ def test_dossier_groups_by_category_and_prints_the_links_with_their_source():
     assert f"[{online['source_id']}]" in text and "MOD_DDR_ESTERO" in text
     assert "Prenotazione / Booking" not in text  # online procedure: no desk booking
 
-    cie = dossier.build_pdf(
-        "carta-identita", {"motivo": "rinnovo", "eta": "adulto", "cittadinanza": "extra-ue"}
-    )
+    cie = dossier.build_pdf("carta-identita", CIE_OPEN)
     cie_text = re.sub(
         r"\s+", " ", " ".join(p.extract_text() for p in pypdf.PdfReader(io.BytesIO(cie)).pages)
     )

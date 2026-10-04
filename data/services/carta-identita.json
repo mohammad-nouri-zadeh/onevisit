@@ -5,26 +5,153 @@
     "en": "Electronic identity card (CIE)"
   },
   "ente": "comune-milano",
-  "summary_it": "Si chiede allo sportello anagrafico su appuntamento prenotato online. Vale come documento di identità e, per chi ha cittadinanza italiana, anche per l'espatrio nei Paesi UE. Costa 22,20 euro e non si ritira allo sportello: arriva per raccomandata entro 6 giorni lavorativi.",
-  "summary_en": "You apply at a registry desk with an appointment booked online. It is an identity document and, for Italian citizens, also a travel document in EU countries. It costs EUR 22.20 and is not handed over at the desk: it arrives by registered mail within 6 working days.",
+  "summary_it": "A Milano la carta d'identità elettronica si chiede allo sportello anagrafico su appuntamento prenotato online, se sei residente a Milano o iscritto all'AIRE di Milano; chi abita a Milano ed è residente fuori dalla Lombardia può rinnovarla a Milano con gravi motivi documentati. Chi è residente in un altro Comune lombardo la chiede al proprio Comune. Vale come documento di identità e, per chi ha cittadinanza italiana, anche per viaggiare nei Paesi UE. Costa 22,20 euro e non si ritira allo sportello: arriva per raccomandata entro 6 giorni lavorativi. Senza appuntamento solo per urgenze, furto o smarrimento senza altri documenti o carta rovinata; a domicilio per chi non può muoversi per gravi motivi di salute. PIN e PUK persi e cambio dei contatti hanno una prenotazione a parte.",
+  "summary_en": "In Milan you apply for the electronic ID card at a registry desk with an appointment booked online, if you are a Milan resident or registered with Milan's AIRE; people who live in Milan and are resident outside Lombardy can renew it in Milan for serious documented reasons. People resident in another comune in Lombardy apply to their own comune. It is an identity document and, for Italian citizens, also a travel document in EU countries. It costs EUR 22.20 and is not handed over at the desk: it arrives by registered mail within 6 working days. Without an appointment only for urgencies, a lost or stolen card with no other document, or a damaged card; at home for people who cannot move for serious health reasons. Lost PIN and PUK and a change of contact details have their own booking.",
   "official_url": "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita",
   "booking_url": "https://servizicrm.comune.milano.it/spec/appuntamenti/anagrafecie",
   "source_ids": [
     "cie",
     "cie-ministero",
     "prenotazione",
-    "ds549"
+    "ds549",
+    "cie-domicilio-modulo",
+    "cie-domicilio-salute",
+    "cie-donazione-organi",
+    "cie-faq-00302",
+    "cie-faq-00303",
+    "cie-faq-00304",
+    "cie-faq-00306",
+    "cie-faq-00307",
+    "cie-faq-00308",
+    "cie-faq-00310",
+    "cie-faq-00353",
+    "cie-faq-00354",
+    "cie-faq-00355",
+    "cie-faq-00392",
+    "cie-faq-00393",
+    "cie-faq-00405",
+    "cie-faq-00407",
+    "cie-faq-00409",
+    "cie-faq-00413",
+    "cie-faq-00470",
+    "cie-faq-00471",
+    "cie-faq-00472",
+    "cie-faq-00542",
+    "cie-faq-00564",
+    "cie-faq-00578",
+    "cie-faq-00580",
+    "cie-faq-03767",
+    "cie-faq-03783",
+    "cie-faq-03790",
+    "cie-faq-04023",
+    "cie-faq-04024",
+    "cie-faq-04028",
+    "cie-faq-04180",
+    "cie-faq-04349",
+    "cie-ministero-attiva",
+    "cie-ministero-credenziali",
+    "cie-ministero-faq",
+    "cie-ministero-foto",
+    "cie-ministero-furto-smarrimento",
+    "cie-ministero-impronte",
+    "cie-ministero-minori",
+    "cie-ministero-pin-puk",
+    "cie-ministero-recupero-puk",
+    "cie-ministero-ricevuta",
+    "cie-ministero-spedizione",
+    "cie-provvisoria-modulo",
+    "circ-dait-004-2017",
+    "circ-dait-054-2026",
+    "circ-dait-060-2026",
+    "circ-dait-081-2023",
+    "pds-denunce-online",
+    "pds-espatrio-minori",
+    "rettifica-dati-stranieri",
+    "yesmilano-id-card",
+    "yesmilano-work-registering-resident",
+    "cie-faq-00414",
+    "cie-faq-00418",
+    "cie-faq-00517",
+    "cie-faq-00518",
+    "cie-faq-04366",
+    "cie-ministero-viaggiare"
   ],
   "deciding_questions": [
     {
+      "id": "residenza",
+      "ask_it": "Dove ha la residenza anagrafica la persona: a Milano, in un altro Comune (in Lombardia o fuori), all'estero con l'iscrizione all'AIRE, oppure non ancora in Italia?",
+      "ask_en": "Where is the person registered as resident: in Milan, in another comune (in Lombardy or outside it), abroad with AIRE registration, or not yet in Italy?",
+      "options": [
+        "milano",
+        "domicilio-milano",
+        "altro-comune-lombardia",
+        "aire",
+        "non-residente"
+      ],
+      "option_routes": {
+        "altro-comune-lombardia": {
+          "route": "stop",
+          "services": [
+            {
+              "id": "cambio-residenza"
+            }
+          ]
+        },
+        "non-residente": {
+          "route": "stop",
+          "services": [
+            {
+              "id": "iscrizione-anagrafica-extra-ue",
+              "when": {
+                "cittadinanza": [
+                  "extra-ue"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "motivo",
-      "ask_it": "È la tua prima carta d'identità, un rinnovo (scaduta, rovinata o ancora cartacea), o quella vecchia è stata persa o rubata?",
-      "ask_en": "Is this your first ID card, a renewal (expired, damaged or still the paper one), or was the old one lost or stolen?",
+      "ask_it": "Di cosa hai bisogno? La prima carta d'identità; un rinnovo (scaduta, in scadenza o ancora cartacea); una carta rovinata; una carta integra ma con il chip che non funziona; una carta persa o rubata; PIN o PUK persi (o i contatti della carta da cambiare); oppure hai già la CIE e hai una domanda (cambio di indirizzo, spedizione)?",
+      "ask_en": "What do you need? A first ID card; a renewal (expired, expiring or still the paper one); a damaged card; a card in good condition whose chip doesn't work; a lost or stolen card; a lost PIN or PUK (or the card's contact details to change); or you already have the CIE and have a question (change of address, delivery)?",
       "options": [
         "prima",
         "rinnovo",
-        "smarrimento-furto"
-      ]
+        "deteriorata",
+        "chip",
+        "smarrimento-furto",
+        "pin-puk",
+        "gia-cie"
+      ],
+      "option_routes": {
+        "pin-puk": {
+          "route": "desk",
+          "links": [
+            {
+              "id": "pin-puk-booking",
+              "source_id": "cie",
+              "url": "https://servizicrm.comune.milano.it/spec/carta-di-identita/richiesta-duplicato-pin-puk",
+              "label_it": "Prenota il duplicato di PIN e PUK",
+              "label_en": "Book the PIN and PUK duplicate"
+            },
+            {
+              "id": "contacts-booking",
+              "source_id": "cie",
+              "url": "https://servizicrm.comune.milano.it/spec/carta-di-identita/modifica-contatti-appuntamento-sportello",
+              "label_it": "Prenota la modifica dei contatti",
+              "label_en": "Book a change of contact details"
+            }
+          ]
+        },
+        "chip": {
+          "route": "walk-in"
+        },
+        "gia-cie": {
+          "route": "info"
+        }
+      }
     },
     {
       "id": "eta",
@@ -46,33 +173,265 @@
       ]
     },
     {
-      "id": "scadenza",
-      "ask_it": "Ti serve entro una data precisa (per esempio un viaggio)?",
-      "ask_en": "Do you need it by a specific date (for example a trip)?",
-      "kind": "date"
+      "id": "presenza",
+      "ask_it": "La persona può venire di persona allo sportello? Rispondi di no solo se non può muoversi per gravi motivi di salute (ricoverata in ospedale o in RSA, oppure costretta a letto).",
+      "ask_en": "Can the person come to the desk in person? Answer no only if they cannot move for serious health reasons (in hospital or a care home, or bedridden).",
+      "options": [
+        "sportello",
+        "domicilio-salute"
+      ],
+      "option_routes": {
+        "domicilio-salute": {
+          "route": "home",
+          "links": [
+            {
+              "id": "home-form",
+              "source_id": "cie-domicilio-modulo",
+              "url": "https://formshd3.comune.milano.it/rwe2/module_preview.jsp?MODULE_TAG=SERVIZIO_ANAGRAFICO_DOMICILIO",
+              "label_it": "Modulo online del servizio anagrafico a domicilio",
+              "label_en": "Online form for the registry home service"
+            }
+          ]
+        }
+      }
     }
   ],
   "requirements": [
     {
       "id": "su-appuntamento",
       "category": "how",
-      "text_it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
-      "text_en": "Registry desks only see people with an appointment, booked online.",
-      "when": {},
+      "text_it": "Gli sportelli anagrafici ricevono su appuntamento prenotato online; per le urgenze si entra con un ticket.",
+      "text_en": "Registry desks see people with an appointment booked online; for urgent cases you get in with a ticket.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
       "source_id": "ds549",
-      "quote": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online.",
-      "verified_at": "2026-10-03",
+      "quote": "Tutti i servizi di sportello sono accessibili esclusivamente su appuntamento prenotando online. I ticket relativi alle urgenze sono erogati fino a mezz'ora precedente la chiusura della sede.",
+      "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
       "id": "prenotazione-senza-spid",
       "category": "how",
-      "text_it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
-      "text_en": "At most offices you can book without SPID, with no registration.",
-      "when": {},
-      "source_id": "ds549",
-      "quote": "La prenotazione è accessibile sia con un'utenza SPID che senza necessità di registrazione.",
-      "verified_at": "2026-10-03",
+      "text_it": "Per prenotare l'appuntamento della carta d'identità non serve lo SPID: si prenota dalla pagina del servizio del Comune.",
+      "text_en": "You don't need SPID to book the ID card appointment: you book on the City's service page.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00578",
+      "quote": "tramite la pagina servizio dedicata, non è necessaria l'autenticazione con Spid.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "prenotazione-portale-comune",
+      "category": "how",
+      "text_it": "A Milano si prenota solo con il sistema del Comune: Milano non usa il sistema di prenotazione del sito nazionale della carta d'identità.",
+      "text_en": "In Milan you book only through the City's system: Milan does not use the booking system of the national ID card website.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-03767",
+      "quote": "Alcuni Comuni sul territorio nazionale, tra cui Milano, hanno scelto di non aderire al sistema di prenotazione offerto dal sito nazionale",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "prenotazione-famiglia",
+      "category": "how",
+      "text_it": "Se entri con SPID o CIE puoi prenotare insieme fino a cinque appuntamenti per persone della tua famiglia anagrafica.",
+      "text_en": "If you log in with SPID or CIE you can book up to five appointments at once for members of your registered household.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Accedendo con spid/cie  è possibile prenotare simultaneamente fino a un massimo di cinque appuntamenti per componenti del proprio nucleo familiare.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-prenotazione",
+      "category": "how",
+      "text_it": "Quando prenoti, inserisci i dati della persona a cui è intestata la carta, anche se è minorenne.",
+      "text_en": "When you book, enter the details of the person the card is for, even if it is a minor.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "inserendo, in fase di prenotazione, i dati della persona intestataria del documento, anche se minore.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "riprogrammare",
+      "category": "how",
+      "text_it": "Se non puoi andare, puoi spostare l'appuntamento (anche dalla pagina del check-in online) fino all'orario fissato.",
+      "text_en": "If you can't go, you can reschedule the appointment (also from the online check-in page) up to the booked time.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-03790",
+      "quote": "Gli appuntamenti possono essere riprogrammati, anche dalla pagina di check-in online, entro l'orario fissato per l'appuntamento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "accettazione",
+      "category": "how",
+      "text_it": "Il giorno dell'appuntamento fai l'accettazione (check-in): online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
+      "text_en": "On the day, check in: online with the code in the confirmation email, or at the office by showing the QR code from the email, your tax code or your CIE.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "prenotazione",
+      "quote": "online, cliccando sul codice che riceverai nella mail di conferma della prenotazione; - in sede, rivolgendoti al personale del Comune e mostrando il QR code inserito nella mail di conferma della prenotazione oppure il tuo codice fiscale oppure la tua CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "accettazione-obbligatoria",
+      "category": "how",
+      "text_it": "Il check-in è obbligatorio: senza, non ti chiamano allo sportello. Si può fare solo nella fascia di tempo scritta nella mail di conferma (un margine prima e dopo l'orario).",
+      "text_en": "Check-in is compulsory: without it you are not called to the desk. You can only do it within the time window written in the confirmation email (a margin before and after your time).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-03783",
+      "quote": "Il check-in è obbligatorio per essere chiamati allo sportello. È possibile effettuare il check-in solo entro l’intervallo di tempo indicato nella e-mail di conferma, nella quale è specificato il margine consentito prima e dopo l’orario prenotato.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "foto-prima-del-check-in",
+      "category": "how",
+      "text_it": "Alcune sedi anagrafiche hanno una cabina per le fototessere: se la usi, fai la foto prima del check-in, così non ti chiamano allo sportello quando non hai ancora la foto.",
+      "text_en": "Some registry offices have a photo booth: if you use it, take the photo before checking in, so you are not called to the desk without it.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00307",
+      "quote": "Alcune sedi dell’anagrafe dispongono di una [cabina dedicata](https://www.comune.milano.it/documents/d/guest/ubicazioni-cabine-presso-le-sedi-anagrafiche?download=true) allo scatto di fototessere digitali validate. Si invita a fare la fotografia prima di procedere al check-in, per non rischiare di essere chiamati allo sportello non ancora in possesso della stessa.",
+      "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
@@ -80,7 +439,20 @@
       "category": "prepare",
       "text_it": "Porta la tessera sanitaria o il codice fiscale.",
       "text_en": "Bring your health card (tessera sanitaria) or your tax code (codice fiscale).",
-      "when": {},
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
       "source_id": "cie",
       "quote": "Tessera sanitaria (Carta Nazionale dei Servizi) o codice fiscale",
       "verified_at": "2026-10-04",
@@ -93,7 +465,20 @@
       "category": "prepare",
       "text_it": "Porta una fototessera recente, a colori, su sfondo chiaro, a capo scoperto, secondo i parametri del Ministero dell'Interno.",
       "text_en": "Bring a recent colour passport-style photo, light background, head uncovered, meeting the Ministry of the Interior's standards.",
-      "when": {},
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
       "source_id": "cie",
       "quote": "Una fototessera a colori su sfondo chiaro, recente e con il capo scoperto, compatibile con i parametri stabiliti dal Ministero dell’Interno.",
       "verified_at": "2026-10-04",
@@ -106,31 +491,266 @@
       "category": "prepare",
       "text_it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
       "text_en": "The photo must be in the same format used for passports.",
-      "when": {},
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
       "source_id": "cie-ministero",
       "quote": "La fototessera dovrà essere nello stesso formato utilizzato per il passaporto.",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
-      "id": "foto-niente-usb",
+      "id": "foto-misure",
       "category": "prepare",
-      "text_it": "La foto va portata stampata: non si accettano foto su chiavetta USB.",
-      "text_en": "Bring the photo printed: photos on a USB stick are not accepted.",
-      "when": {},
-      "source_id": "cie",
-      "quote": "Per motivi di sicurezza non sono ammesse foto memorizzate su supporti USB.",
+      "text_it": "Misure della foto: 45 mm di altezza e 35 mm di larghezza. In primo piano viso e spalle, con il viso che occupa il 70-80% della foto, su sfondo chiaro e uniforme.",
+      "text_en": "Photo size: 45 mm high and 35 mm wide. Face and shoulders in the foreground, the face filling 70-80% of the photo, on a light, even background.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00308",
+      "quote": "Dimensioni: Altezza 45mm, larghezza 35mm. - In primo piano il volto e le spalle. Il viso deve occupare il 70-80% della foto, con uno sfondo chiaro e uniforme.",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
+      "id": "foto-recente",
+      "category": "prepare",
+      "text_it": "La foto deve essere recente: non più vecchia di sei mesi.",
+      "text_en": "The photo must be recent: no older than six months.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00308",
+      "quote": "devono essere recenti (non più vecchie di sei mesi)",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "foto-posa",
+      "category": "prepare",
+      "text_it": "Nella foto: espressione neutra e bocca chiusa, niente sorrisi né occhi chiusi, sguardo dritto verso l'obiettivo; niente cappelli, occhiali da sole o accessori che coprono il viso; occhiali da vista solo se non fanno riflessi e non nascondono gli occhi.",
+      "text_en": "In the photo: neutral expression, mouth closed, no smile, eyes open, looking straight at the camera; no hats, sunglasses or accessories covering the face; prescription glasses only if they cause no glare and don't hide the eyes.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00308",
+      "quote": "Espressione neutra e bocca chiusa: niente sorrisi, niente occhi chiusi. Lo sguardo va dritto verso l’obiettivo. - No cappelli, occhiali da sole o accessori che coprono il viso. - Gli occhiali da vista sono ammessi solo se non creano riflessi e non nascondono gli occhi.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "foto-copricapo",
+      "category": "prepare",
+      "text_it": "Copricapo: le regole del Ministero dell'Interno lo ammettono solo per motivi religiosi, culturali o medici, con il volto ben visibile. La pagina del Comune di Milano chiede invece la foto a capo scoperto: decide l'operatore allo sportello.",
+      "text_en": "Head covering: the Ministry of the Interior's rules allow it only for religious, cultural or medical reasons, with the face clearly visible. The City of Milan's page asks instead for a photo with the head uncovered: the desk officer decides.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-ministero-foto",
+      "quote": "Non sono ammessi copricapo a meno di motivi religiosi, culturali o medici. In ogni caso il volto deve essere mostrato chiaramente.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "foto-bambini",
+      "category": "prepare",
+      "text_it": "Per i bambini le regole della foto sono le stesse, con più flessibilità: devono comunque essere da soli nella foto e con gli occhi aperti.",
+      "text_en": "For children the photo rules are the same, with more flexibility: they must still be alone in the photo, with eyes open.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie-faq-00308",
+      "quote": "Per i bambini vale lo stesso, ma con più flessibilità. Devono comunque essere da soli nella foto e con gli occhi aperti.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "foto-niente-usb",
+      "category": "prepare",
+      "text_it": "Il Comune di Milano accetta solo fototessere stampate su carta: niente foto su chiavetta USB.",
+      "text_en": "The City of Milan accepts only printed passport photos: no photos on a USB stick.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00414",
+      "quote": "Posso portare le foto per la Carta di Identità Elettronica (CIE) su chiavetta? No, non è possibile: il Comune di Milano accetta solo fototessere cartacee.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "costo",
+      "category": "prepare",
+      "text_it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
+      "text_en": "Cost: EUR 22.20, cash or debit card, on the day of the appointment.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "€ 22,20 da versare in contanti o bancomat il giorno dell’appuntamento.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "22,20 euro (contanti o bancomat)",
+      "short_en": "EUR 22.20 (cash or debit card)"
+    },
+    {
+      "id": "contatti",
+      "category": "how",
+      "text_it": "Se quando chiedi la carta lasci un indirizzo e-mail e/o un numero di cellulare, in caso di perdita del codice PUK potrai recuperarlo dall'app CieID.",
+      "text_en": "If you leave an email address and/or a mobile number when you apply, you can recover the PUK code in the CieID app if you ever lose it.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "le persone che hanno fornito i propri contatti (e-mail e/o numero di cellulare) in fase di richiesta della CIE, possono recuperare il codice PUK direttamente dall’app CieID.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "indirizzo-consegna",
+      "category": "prepare",
+      "text_it": "Prepara l'indirizzo completo dove spedire la carta: via, numero civico, CAP, città, provincia e, se ci sono, scala e interno.",
+      "text_en": "Have the full delivery address ready: street, number, postcode, city, province and, if any, staircase and flat number.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "fornire un indirizzo completo che contenga almeno le informazioni di via, civico, CAP, città, provincia. Se disponibili, vanno indicati anche scala e interno",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Indirizzo completo per la spedizione",
+      "short_en": "Full delivery address"
+    },
+    {
       "id": "altro-documento",
       "category": "prepare",
-      "text_it": "Prima carta: porta un altro documento d'identità in corso di validità con foto, per esempio il passaporto o la patente.",
-      "text_en": "First card: bring another identity document with a photo that has not expired, for example your passport or driving licence.",
+      "text_it": "Prima carta: porta un altro documento d'identità con foto non scaduto, per esempio il passaporto o la patente.",
+      "text_en": "First card: bring another photo identity document that has not expired, for example your passport or driving licence.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "prima"
+        ],
+        "eta": [
+          "adulto"
         ]
       },
       "source_id": "cie",
@@ -146,8 +766,16 @@
       "text_it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
       "text_en": "First card and no other identity document: you must come with two witnesses.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "prima"
+        ],
+        "eta": [
+          "adulto"
         ]
       },
       "source_id": "cie-ministero",
@@ -160,11 +788,17 @@
     {
       "id": "documento-precedente",
       "category": "prepare",
-      "text_it": "Rinnovo: consegna la carta scaduta o rovinata.",
-      "text_en": "Renewal: hand in the expired or damaged card.",
+      "text_it": "Consegna la carta vecchia, scaduta o rovinata.",
+      "text_en": "Hand in the old card, expired or damaged.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
-          "rinnovo"
+          "rinnovo",
+          "deteriorata"
         ]
       },
       "source_id": "cie",
@@ -175,17 +809,140 @@
       "short_en": "The expired or damaged card"
     },
     {
+      "id": "testimoni",
+      "category": "prepare",
+      "text_it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità non scaduto, servono due testimoni maggiorenni con un documento d'identità.",
+      "text_en": "If the old card cannot identify you and you have no other identity document that has not expired, you need two adult witnesses with an identity document.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Se il vecchio documento non consente l'identificazione e non si dispone di altro documento d'identità in corso di validità - occorre anche la presenza di due testimoni maggiorenni muniti di valido documento d'identità",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Due testimoni (se non puoi essere riconosciuto)",
+      "short_en": "Two witnesses (if you cannot be identified)"
+    },
+    {
+      "id": "testimoni-smarrimento",
+      "category": "prepare",
+      "text_it": "Se non hai più la carta e non hai un altro documento d'identità non scaduto, servono due testimoni maggiorenni con un documento d'identità valido.",
+      "text_en": "If you no longer have the card and have no other identity document that has not expired, you need two adult witnesses with a valid identity document.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Se il vecchio documento non consente l'identificazione e non si dispone di altro documento d'identità in corso di validità - occorre anche la presenza di due testimoni maggiorenni muniti di valido documento d'identità",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Due testimoni (se non hai altri documenti)",
+      "short_en": "Two witnesses (if you have no other document)"
+    },
+    {
       "id": "rinnovo-180-giorni",
       "category": "how",
-      "text_it": "Puoi chiedere la nuova carta già da 180 giorni prima della scadenza di quella che hai.",
-      "text_en": "You can apply for the new card from 180 days before your current one expires.",
+      "text_it": "Una carta elettronica si rinnova solo negli ultimi 180 giorni prima della scadenza, salvo urgenze.",
+      "text_en": "An electronic card can be renewed only in the last 180 days before it expires, unless it is urgent.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "rinnovo"
         ]
       },
-      "source_id": "cie-ministero",
-      "quote": "La Carta di Identità Elettronica può essere richiesta presso il proprio Comune di residenza o dimora a partire da centottanta giorni prima della scadenza della propria carta d’identità",
+      "source_id": "cie-faq-00405",
+      "quote": "A meno di motivi di urgenza, la Carta di Identità Elettronica può essere rinnovata solamente entro 180 giorni dalla scadenza.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "rinnovo-cie-vecchie",
+      "category": "how",
+      "text_it": "Se la tua carta elettronica è stata rilasciata prima del 3 agosto 2017, puoi sostituirla quando vuoi con una di nuova generazione.",
+      "text_en": "If your electronic card was issued before 3 August 2017, you can replace it with a new-generation card at any time.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie-faq-00405",
+      "quote": "In caso di Carta di Identità Elettronica rilasciata prima del 03/08/2017, è sempre facoltà del cittadino sostituire la carta con una di nuova generazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "rinnovo-senza-pin-puk",
+      "category": "how",
+      "text_it": "Secondo un articolo del centro di supporto del Comune (novembre 2025), se la tua carta elettronica non ha PIN e PUK e scade tra più di 180 giorni, puoi andare senza appuntamento in una sede anagrafica, dove ti fissano una data per la nuova carta. La pagina del Comune (ottobre 2026) non elenca questo caso tra le eccezioni all'appuntamento: verifica con l'anagrafe.",
+      "text_en": "According to a City support article (November 2025), if your electronic card has no PIN and PUK and expires in more than 180 days, you can go to a registry office without an appointment, where they set a date for the new card. The City's page (October 2026) does not list this case among the exceptions to booking: check with the registry office.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00303",
+      "quote": "Se la scadenza è superiore ai 180 giorni, è possibile presentarsi senza appuntamento nella [sede anagrafica](https://www.comune.milano.it/argomenti/anagrafe/sedi-anagrafiche), dove verrà fissata una data per il rilascio del documento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "nuovi-cittadini",
+      "category": "how",
+      "text_it": "Se sei appena diventato cittadino italiano (dopo il giuramento), puoi chiedere la nuova carta anche se quella da straniero scade tra più di 180 giorni; prima di prenotare controlla che in anagrafe la cittadinanza risulti aggiornata.",
+      "text_en": "If you have just become an Italian citizen (after the oath), you can ask for the new card even if your card as a foreigner expires in more than 180 days; before booking, check that the registry shows your new citizenship.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie-faq-04180",
+      "quote": "anche se la carta d’identità (da straniero) ha una scadenza superiore ai 180 gg. Prima di prenotare l’appuntamento, accertarsi che il dato relativo all’aggiornamento della cittadinanza sia registrato.",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
@@ -195,6 +952,11 @@
       "text_it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
       "text_en": "Paper ID cards expired on 3 August 2026: if you still have a paper one, you need the CIE.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "rinnovo"
         ]
@@ -210,6 +972,11 @@
       "text_it": "Dopo il 3 agosto 2026 la carta cartacea non si può più usare in nessun caso per andare all'estero.",
       "text_en": "After 3 August 2026 the paper card can no longer be used, in any case, to travel abroad.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "rinnovo"
         ]
@@ -220,22 +987,44 @@
       "status": "verified"
     },
     {
-      "id": "testimoni",
-      "category": "prepare",
-      "text_it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità in corso di validità, servono due testimoni maggiorenni con un documento d'identità.",
-      "text_en": "If the old card cannot identify you and you have no other identity document that has not expired, you need two adult witnesses with an identity document.",
+      "id": "carta-cartacea-usi-residui",
+      "category": "how",
+      "text_it": "Fino al 31 gennaio 2027, purché la carta cartacea non scada prima di quella data, si può ancora usare in Italia per alcuni servizi (per esempio sanità, pensione, posta, banca) e con la Pubblica Amministrazione.",
+      "text_en": "Until 31 January 2027, provided the paper card does not expire before that date, it can still be used in Italy for some services (for example health care, pension, post, bank) and with public offices.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
-          "rinnovo",
-          "smarrimento-furto"
+          "rinnovo"
         ]
       },
       "source_id": "cie",
-      "quote": "Se il vecchio documento non consente l'identificazione e non si dispone di altro documento d'identità in corso di validità - occorre anche la presenza di due testimoni maggiorenni muniti di valido documento d'identità",
+      "quote": "per l'esercizio di diritti fondamentali (es: accesso a prestazioni sanitarie, previdenziali e assicurative; ritiro della corrispondenza; notifica di atti giudiziari; ritiro o deposito di denaro presso istituti bancari e istituti che erogano servizi finanziari o postali, compreso il ritiro della pensione), nonché nei rapporti con la Pubblica Amministrazione, fino al 31 gennaio 2027 a condizione che il documento non scada prima di tale data.",
       "verified_at": "2026-10-04",
-      "status": "verified",
-      "short_it": "Due testimoni (se non puoi essere riconosciuto)",
-      "short_en": "Two witnesses (if you cannot be identified)"
+      "status": "verified"
+    },
+    {
+      "id": "carta-cartacea-contratti",
+      "category": "how",
+      "text_it": "Per un contratto firmato prima del 3 agosto 2026 in cui ti hanno identificato con la carta cartacea, puoi continuare a usarla per quel contratto fino alla sua scadenza naturale.",
+      "text_en": "For a contract signed before 3 August 2026 in which you were identified with the paper card, you can keep using it for that contract until the card's natural expiry date.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "nei rapporti contrattuali, pubblici e privati, stipulati prima del 3 agosto 2026, per i quali la carta d'identità in formato cartaceo sia stata utilizzata ai fini della identificazione delle parti contraenti; in tali casi, fino alla data di sua naturale scadenza, il documento cartaceo può ancora essere utilizzato per la prosecuzione del rapporto contrattuale",
+      "verified_at": "2026-10-04",
+      "status": "verified"
     },
     {
       "id": "denuncia",
@@ -243,6 +1032,11 @@
       "text_it": "Carta persa o rubata: porta la denuncia fatta alle forze dell'ordine (autorità di Pubblica Sicurezza).",
       "text_en": "Lost or stolen card: bring the police report (denuncia) you filed with the public security authorities.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "smarrimento-furto"
         ]
@@ -255,13 +1049,125 @@
       "short_en": "The police report (denuncia)"
     },
     {
+      "id": "denuncia-online-smarrimento",
+      "category": "how",
+      "text_it": "Se la carta è persa (non rubata), puoi segnalare lo smarrimento online sul portale «Denunce online» della Polizia di Stato, senza andare in un ufficio di Polizia: il verbale arriva entro 96 ore nella tua area personale e serve per chiedere il nuovo documento.",
+      "text_en": "If the card is lost (not stolen), you can report the loss online on the Polizia di Stato's 'Denunce online' portal, without going to a police office: the report arrives within 96 hours in your personal area and is what you use to ask for the new document.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "pds-denunce-online",
+      "quote": "In questi casi è sufficiente effettuare la segnalazione di smarrimento online, sul portale, senza doversi presentare presso l'ufficio di Polizia per la formalizzazione della stessa. Il verbale protocollato sarà poi disponibile, entro 96 ore dall'invio, all'interno dell’area personale del portale “Denunce Online”. Il documento, scaricato dalla piattaforma, sarà valido per la successiva richiesta di rilascio di una copia, per l’emissione di un nuovo documento o per altre eventuali richieste.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "denuncia-online-spid",
+      "category": "how",
+      "text_it": "Al portale «Denunce online» si accede con SPID o CIE: se non hai SPID e la carta persa era la tua unica CIE, fai la denuncia alle forze dell'ordine.",
+      "text_en": "You log in to the 'Denunce online' portal with SPID or CIE: if you have no SPID and the lost card was your only CIE, report the loss to the police.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "pds-denunce-online",
+      "quote": "Il portale, al quale si accede tramite SPID o CIE, offre ai cittadini un duplice servizio",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "blocco-carta",
+      "category": "how",
+      "text_it": "Carta elettronica persa o rubata: chiedi il blocco al numero 800098558 del Ministero dell'Interno (dal lunedì al venerdì 8-18, sabato 8-14), con nome, codice fiscale, numero della carta se lo hai, gli estremi della denuncia e la città dove l'hai fatta. Il numero vale per le carte emesse dopo il 4 luglio 2016; per una carta emessa prima, dopo la denuncia vai al Comune che l'ha rilasciata.",
+      "text_en": "Electronic card lost or stolen: ask for it to be blocked at the Ministry of the Interior's number 800098558 (Monday to Friday 8-18, Saturday 8-14), with your name, tax code, the card number if you have it, the details of the police report and the city where you made it. The number works for cards issued after 4 July 2016; for a card issued before that, after the report go to the comune that issued it.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-ministero-faq",
+      "quote": "richiedi il blocco della tua CIE contattando il numero [800098558](tel:+39800098558) e fornendo i seguenti dati: - Nome e cognome - Codice fiscale - Numero di serie della CIE, se disponibile - Estremi della denuncia presentata alle forze dell’ordine - Città dove è stata sporta la denuncia Il servizio è attivo dal lunedì al venerdì dalle ore 8:00 alle ore 18:00 e il sabato dalle ore 8:00 alle 14:00 ed è valido per le CIE emesse dopo il 4 luglio 2016. Se hai una CIE emessa prima del 4 luglio 2016 devi recarti presso il Comune di rilascio dopo aver sporto denuncia presso le forze dell’ordine.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "smarrimento-estero",
+      "category": "how",
+      "text_it": "Persa o rubata all'estero: si può presentare la denuncia fatta al Consolato o all'Ambasciata d'Italia; quella fatta alla polizia straniera va presentata anche in Italia e poi consegnata al Comune.",
+      "text_en": "Lost or stolen abroad: you can hand in the report made at the Italian Consulate or Embassy; one made to the foreign police must also be filed in Italy and then handed to the City.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-ministero-furto-smarrimento",
+      "quote": "In questo caso, per richiedere una nuova emissione di una Carta di Identità Elettronica può essere presentata la denuncia fatta presso il Consolato o Ambasciata italiana. La denuncia effettuata presso altri organi stranieri (es. polizia locale, estera) andrà comunque presentata in Italia e successivamente consegnata al proprio Comune.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "smarrimento-estero-etd",
+      "category": "if-urgent",
+      "text_it": "Se sei cittadino italiano e ti rubano o perdi la carta mentre sei all'estero, e non hai modo né tempo di chiedere un nuovo documento, rivolgiti al Consolato o all'Ambasciata d'Italia e chiedi un documento provvisorio di viaggio (E.T.D. – Emergency Travel Document).",
+      "text_en": "If you are an Italian citizen and your card is stolen or lost while you are abroad, and you have no way or time to apply for a new document, go to the Italian Consulate or Embassy and ask for a temporary travel document (E.T.D., Emergency Travel Document).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie-ministero-viaggiare",
+      "quote": "Il cittadino italiano che si trova all’estero in una situazione di emergenza, ad esempio se è stato vittima di furto o ha smarrito la Carta di Identità Elettronica e non ha modo né tempo di richiedere l’emissione di un nuovo documento di viaggio, deve rivolgersi alle rappresentanze diplomatico-consolari italiane, presenti sia in Europa sia nei Paesi extra-europei, e chiedere il [rilascio](https://www.esteri.it/it/servizi-consolari-e-visti/italiani-all-estero/documenti_di_viaggio/etd/) di un documento provvisorio di viaggio, anche chiamato E.T.D. – Emergency Travel Document.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
       "id": "senza-appuntamento-smarrimento",
       "category": "how",
       "text_it": "Carta persa o rubata, con la denuncia e senza un altro documento di riconoscimento: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
       "text_en": "Lost or stolen card, with the police report and no other identity document: this is one of the exceptions where you can go to a registry office without an appointment.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
           "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
         ]
       },
       "source_id": "cie",
@@ -271,28 +1177,70 @@
       "urgent_lead": true
     },
     {
-      "id": "senza-appuntamento-ticket",
+      "id": "senza-appuntamento-deterioramento",
       "category": "how",
-      "text_it": "Senza appuntamento si entra con un ticket e i ticket del giorno sono limitati: vai presto.",
-      "text_en": "Without an appointment you need a ticket and the day's tickets are limited: go early.",
+      "text_it": "Carta rovinata: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
+      "text_en": "Damaged card: this is one of the exceptions where you can go to a registry office without an appointment.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
-          "smarrimento-furto"
+          "deteriorata"
+        ],
+        "presenza": [
+          "sportello"
         ]
       },
       "source_id": "cie",
-      "quote": "Nei casi sopra citati è possibile rivolgersi direttamente alle sedi anagrafiche, fino al limite massimo di ticket erogabili",
+      "quote": "deterioramento. Nei casi sopra citati è possibile rivolgersi direttamente alle sedi anagrafiche",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "senza-appuntamento-ticket",
+      "category": "how",
+      "text_it": "Senza appuntamento si entra solo finché ci sono ticket disponibili: superato il limite massimo, potresti non essere servito.",
+      "text_en": "Without an appointment you get in only while tickets are available: once the maximum is reached, you may not be served.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Nei casi sopra citati è possibile rivolgersi direttamente alle sedi anagrafiche, fino al limite massimo di ticket erogabili, superato il quale il servizio potrebbe non essere garantito.",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
       "id": "senza-appuntamento-orario",
       "category": "how",
-      "text_it": "Le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00.",
-      "text_en": "Walk-in exceptions are handled only from 8:30 to 15:00.",
+      "text_it": "La pagina della carta d'identità dice che le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00. La pagina delle sedi anagrafiche dice invece che i ticket per urgenze si danno fino a mezz'ora prima della chiusura: le fonti non sono allineate.",
+      "text_en": "The ID card page says walk-in exceptions are handled only from 8:30 to 15:00. The registry offices page says instead that tickets for urgent cases are given until half an hour before closing: the sources do not agree.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
         "motivo": [
+          "deteriorata",
           "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
         ]
       },
       "source_id": "cie",
@@ -302,39 +1250,62 @@
       "urgent_lead": true
     },
     {
-      "id": "urgenza",
-      "category": "if-urgent",
-      "text_it": "Urgenza documentata (per esempio un viaggio) e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
-      "text_en": "Documented urgency (for example a trip) and no other usable document: go to a registry office in the 15 days before the event with papers that prove the urgency; they will set a date to issue the card.",
-      "when": {},
-      "source_id": "cie",
-      "quote": "presentarsi nei 15 giorni precedenti la data dell'evento che determina l'urgenza portando documentazione in grado di dimostrarla. Verrà fissata una data per il rilascio del documento",
-      "verified_at": "2026-10-04",
-      "status": "verified",
-      "urgent_lead": true
-    },
-    {
-      "id": "urgenza-non-scadenza",
-      "category": "if-urgent",
-      "text_it": "Essersi accorti tardi che la carta è scaduta non conta come urgenza.",
-      "text_en": "Noticing late that your card has expired does not count as an urgency.",
-      "when": {},
-      "source_id": "cie",
-      "quote": "Non sono considerate situazioni di urgenza la mancata o tardiva verifica della scadenza o possesso del documento d’identità.",
+      "id": "chip-segnalazione",
+      "category": "how",
+      "text_it": "Chip che non funziona: prima segnala il difetto all'assistenza del Ministero dell'Interno, cie.cittadini@interno.it oppure 06 4298 5699.",
+      "text_en": "Chip not working: first report the defect to the Ministry of the Interior's helpdesk, cie.cittadini@interno.it or 06 4298 5699.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "chip"
+        ]
+      },
+      "source_id": "cie-faq-00409",
+      "quote": "Segnalare il difetto di fabbricazione ai seguenti contatti: [cie.cittadini@interno.it](mailto:cie.cittadini@interno.it) oppure [06 4298.5699](tel:0642985699)",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
-      "id": "carta-provvisoria",
-      "category": "if-urgent",
-      "text_it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
-      "text_en": "Until December 2027, only for real and documented urgencies, you can get a temporary ID card, only at the main office in Via Larga 12 (entrance from Via Pecorari 3), showing that you have already booked your CIE appointment.",
-      "when": {},
-      "source_id": "cie",
-      "quote": "Fino a dicembre 2027, può essere rilasciata la carta d'identità provvisoria solo in casi di reale e documentata urgenza segnalati dalla persona richiedente, esclusivamente nella sede centrale di via Larga 12 (ingresso lato via Pecorari, 3). Al momento della richiesta è necessario dimostrare di avere prenotato un appuntamento per il rilascio della carta d’identità elettronica.",
+      "id": "chip-difettoso",
+      "category": "how",
+      "text_it": "Se il Ministero autorizza il rifacimento ti manda una mail: con quell'autorizzazione vai senza appuntamento in una qualsiasi sede anagrafica e la nuova carta non costa nulla.",
+      "text_en": "If the Ministry authorises a new card it sends you an email: with that authorisation go without an appointment to any registry office, and the new card is free.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "chip"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00409",
+      "quote": "Il Ministero, dopo le opportune valutazioni, invierà una mail per autorizzare il Comune al rifacimento della Carta di Identità Elettronica, a costo zero. Presentarsi, senza appuntamento, in una qualsiasi delegazione anagrafica con l’autorizzazione del Ministero.",
       "verified_at": "2026-10-04",
-      "status": "verified",
-      "urgent_lead": true
+      "status": "verified"
+    },
+    {
+      "id": "cambio-indirizzo",
+      "category": "how",
+      "text_it": "Non serve rifare né modificare la carta d'identità quando cambi indirizzo, residenza o stato civile.",
+      "text_en": "You do not need a new ID card, or to change it, when you change address, residence or marital status.",
+      "when": {
+        "motivo": [
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-faq-00518",
+      "quote": "Ho cambiato indirizzo/residenza/stato civile, devo modificare la Carta d'identità? No, non è necessario cambiare tali informazioni sulla Carta d'Identità.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
     },
     {
       "id": "stranieri",
@@ -342,6 +1313,18 @@
       "text_it": "Cittadini extra UE: porta anche il permesso di soggiorno o la carta di soggiorno in corso di validità.",
       "text_en": "Non-EU citizens: also bring your residence permit (permesso di soggiorno) or residence card that has not expired.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "cittadinanza": [
           "extra-ue"
         ]
@@ -354,11 +1337,221 @@
       "short_en": "Residence permit or residence card"
     },
     {
+      "id": "permesso-in-rinnovo",
+      "category": "prepare",
+      "text_it": "Se il permesso di soggiorno è scaduto e hai chiesto il rinnovo, basta la ricevuta del rinnovo oppure la prenotazione fatta sull'app della Questura (prenotafacile).",
+      "text_en": "If your residence permit has expired and you have applied to renew it, the renewal receipt or the booking made in the Questura's app (prenotafacile) is enough.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "extra-ue"
+        ]
+      },
+      "source_id": "cie-faq-00564",
+      "quote": "In caso di permesso di soggiorno scaduto, è sufficiente la ricevuta di rinnovo o la prenotazione sull'app della Questura (prenotafacile).",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Ricevuta del rinnovo del permesso (se scaduto)",
+      "short_en": "Permit renewal receipt (if expired)"
+    },
+    {
+      "id": "primo-permesso-in-attesa",
+      "category": "prepare",
+      "text_it": "Da verificare: le fonti salvate non dicono se basta la ricevuta della prima domanda di permesso di soggiorno (permesso non ancora rilasciato). Le fonti parlano della ricevuta solo per un permesso scaduto in rinnovo: chiedi all'anagrafe prima di prenotare.",
+      "text_en": "To be checked: the saved sources do not say whether the receipt of a first residence permit application (permit not issued yet) is enough. The sources mention a receipt only for an expired permit being renewed: ask the registry office before booking.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima"
+        ],
+        "cittadinanza": [
+          "extra-ue"
+        ]
+      },
+      "source_id": "cie-faq-00393",
+      "quote": "",
+      "verified_at": null,
+      "status": "todo"
+    },
+    {
+      "id": "espatrio-adulti-non-italiani",
+      "category": "how",
+      "text_it": "Se non hai la cittadinanza italiana, la carta è un documento d'identità ma non un documento per viaggiare all'estero: lo è solo per i cittadini italiani.",
+      "text_en": "If you are not an Italian citizen, the card is an identity document but not a document for travelling abroad: it is one only for Italian citizens.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ],
+        "cittadinanza": [
+          "ue",
+          "extra-ue"
+        ]
+      },
+      "source_id": "circ-dait-004-2017",
+      "quote": "anche, per i soli cittadini italiani, un documento di viaggio in tutti i paesi appartenenti all'Unione Europea e in quelli con cui lo Stato italiano ha firmato specifici accordi.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "espatrio-italiani",
+      "category": "how",
+      "text_it": "Per i cittadini italiani la carta vale anche per viaggiare nei Paesi UE e in quelli che la accettano al posto del passaporto (Islanda, Norvegia, Svizzera, Liechtenstein).",
+      "text_en": "For Italian citizens the card is also a travel document in EU countries and in those that accept it instead of a passport (Iceland, Norway, Switzerland, Liechtenstein).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie-faq-00472",
+      "quote": "Vale come documento d’identità e di espatrio nei Paesi dell’UE e in quelli che la accettano al posto del passaporto (Islanda, Norvegia, Svizzera, Liechtenstein).",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "dichiarazione-genitori-espatrio",
+      "category": "how",
+      "text_it": "Se hai figli minorenni, allo sportello dichiari di non trovarti in nessuna delle condizioni che impediscono il rilascio di un documento per l'espatrio.",
+      "text_en": "If you have children under 18, at the desk you declare that none of the conditions that prevent issuing a travel document applies to you.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "circ-dait-081-2023",
+      "quote": "dichiarare di non trovarsi in alcuna delle condizioni che inibiscono il rilascio di un documento valido per l'espatrio",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "rettifica-dati",
+      "category": "how",
+      "text_it": "Se i dati del tuo passaporto o del permesso di soggiorno sono cambiati, per correggerli in anagrafe c'è un servizio a parte del Comune: la rettifica dei dati anagrafici.",
+      "text_en": "If the data in your passport or residence permit have changed, there is a separate City service to correct them in the registry: the correction of registry data (rettifica dei dati anagrafici).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "ue",
+          "extra-ue"
+        ]
+      },
+      "source_id": "rettifica-dati-stranieri",
+      "quote": "una variazione dei dati nei documenti di riconoscimento o nel permesso di soggiorno",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "protezione-internazionale",
+      "category": "after",
+      "text_it": "Se hai chiesto protezione internazionale (asilo), la carta dura 3 anni, anche dopo i 70 anni.",
+      "text_en": "If you have applied for international protection (asylum), the card lasts 3 years, also over 70.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "extra-ue"
+        ]
+      },
+      "source_id": "circ-dait-060-2026",
+      "quote": "ai cittadini richiedenti protezione internazionale, per i quali la durata della CIE resta di tre anni anche per i cittadini ultrasettantenni",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
       "id": "minori",
       "category": "prepare",
       "text_it": "Minorenni: il giorno dell'appuntamento vengono entrambi i genitori insieme al ragazzo o alla ragazza.",
       "text_en": "Minors: on the day of the appointment both parents come together with the child.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "minore"
         ]
@@ -376,6 +1569,18 @@
       "text_it": "Se viene un solo genitore: serve un altro adulto con un documento d'identità come testimone, oppure un altro documento d'identità del minore con foto (passaporto o certificato di identità).",
       "text_en": "If only one parent comes: you need another adult with an identity document as a witness, or another identity document of the child with a photo (passport or identity certificate).",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "minore"
         ]
@@ -388,11 +1593,50 @@
       "short_en": "If only one parent comes: witness or document"
     },
     {
+      "id": "minori-un-genitore-documenti",
+      "category": "prepare",
+      "text_it": "Se viene un solo genitore, come documento del minore si possono mostrare anche il permesso di soggiorno o il certificato di identità in corso di validità e con foto, oppure la vecchia carta scaduta, se permettono di riconoscerlo: decide l'operatore.",
+      "text_en": "If only one parent comes, as the child's document you can also show a residence permit or identity certificate that has not expired and has a photo, or the old expired card, if they make it possible to identify the child: the officer decides.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie-faq-00302",
+      "quote": "deve esibire un altro documento di identità del minore (passaporto o permesso di soggiorno o certificato di identità in corso di validità) munito di fotografia, oppure la vecchia carta scaduta, se tali documenti ne consentono l'identificazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
       "id": "minori-presenza",
       "category": "prepare",
       "text_it": "Il minorenne a cui è intestata la carta deve essere sempre presente.",
       "text_en": "The child the card is for must always be present.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "minore"
         ]
@@ -405,26 +1649,69 @@
       "short_en": "The child present"
     },
     {
-      "id": "minori-prenotazione",
-      "category": "how",
-      "text_it": "Quando prenoti, inserisci i dati della persona a cui è intestata la carta, anche se è minorenne.",
-      "text_en": "When you book, enter the details of the person the card is for, even if it is a minor.",
+      "id": "minori-neonati",
+      "category": "prepare",
+      "text_it": "Per la prima carta di un neonato servono entrambi i genitori oppure un altro adulto maggiorenne.",
+      "text_en": "For a newborn's first card both parents, or another adult, must be present.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima"
+        ],
         "eta": [
           "minore"
         ]
       },
-      "source_id": "cie",
-      "quote": "inserendo, in fase di prenotazione, i dati della persona intestataria del documento, anche se minore.",
+      "source_id": "cie-faq-00302",
+      "quote": "Nel caso di neonati per il rilascio della prima Carta è necessaria la presenza di entrambi i genitori  o di un altro adulto maggiorenne.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-neonati-attesa",
+      "category": "how",
+      "text_it": "Neonato: aspetta 30 giorni lavorativi dalla nascita e controlla nel Fascicolo del Cittadino che la nascita sia registrata, poi prenota.",
+      "text_en": "Newborn: wait 30 working days after the birth and check in the Fascicolo del Cittadino that the birth is registered, then book.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima"
+        ],
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie-faq-00354",
+      "quote": "È necessario attendere 30 giorni lavorativi dalla data di nascita e monitorare la registrazione della nascita nel",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
       "id": "minori-espatrio",
       "category": "prepare",
-      "text_it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori; se uno non può venire, servono la copia del suo documento e la sua dichiarazione di assenso sul modulo del Comune.",
-      "text_en": "Italian minors: a card valid for travel abroad needs both parents; if one cannot come, bring a copy of their ID and their consent declaration on the City's form.",
+      "text_it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori. Se uno non può venire, la carta vale per l'espatrio solo se porti anche la copia del suo documento d'identità e la sua dichiarazione di assenso firmata sul modulo del Comune («Dichiarazione assenso minore», sulla pagina della carta d'identità).",
+      "text_en": "Italian minors: a card valid for travel abroad needs both parents. If one cannot come, the card is valid for travel only if you also bring a copy of their identity document and their consent declaration signed on the City's form ('Dichiarazione assenso minore', on the ID card page).",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "minore"
         ],
@@ -440,11 +1727,230 @@
       "short_en": "Other parent's consent for travel"
     },
     {
+      "id": "minori-unico-genitore",
+      "category": "how",
+      "text_it": "Se in anagrafe risulta un solo genitore, non serve nessun assenso.",
+      "text_en": "If only one parent is recorded in the registry, no consent is needed.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie-faq-00302",
+      "quote": "Nel caso in cui anagraficamente ci sia un solo genitore, non occorre portare alcun assenso.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-viaggi",
+      "category": "how",
+      "text_it": "Con una carta valida per l'espatrio il minore italiano può viaggiare nei Paesi UE, in Islanda, Norvegia, Svizzera e Liechtenstein.",
+      "text_en": "With a card valid for travel, an Italian minor can travel in EU countries, Iceland, Norway, Switzerland and Liechtenstein.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie-faq-00353",
+      "quote": "Sì, con una carta valida all'espatrio e nei paesi dell’UE, in Islanda, Norvegia, Svizzera e Liechtenstein.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-documento-personale",
+      "category": "how",
+      "text_it": "Un minorenne italiano che viaggia deve avere un suo documento: non può essere iscritto sul passaporto dei genitori.",
+      "text_en": "An Italian minor who travels must have their own document: they cannot be listed on a parent's passport.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Le persone minorenni italiane che viaggiano devono avere un documento personale e non possono essere iscritte sul passaporto dei genitori.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-sotto-14-viaggio",
+      "category": "how",
+      "text_it": "Sotto i 14 anni il minore va all'estero con la carta solo se accompagnato da un genitore (o da chi ne fa le veci), oppure affidato a una persona, un ente o una compagnia di trasporto con una dichiarazione che li nomina, firmata da chi può dare l'assenso e convalidata dalla Questura o dal Consolato.",
+      "text_en": "Under 14 the child can travel abroad with the card only with a parent (or guardian), or entrusted to a person, body or transport company with a declaration naming them, signed by whoever can consent and validated by the Questura or a consulate.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Chi ha meno di 14 anni può espatriare con la carta di identità solo accompagnato da uno dei genitori o da chi ne fa le veci oppure se si verificano tutte le condizioni che seguono: - è affidato a una persona, a un ente o a una compagnia di trasporto - è munito di una dichiarazione in cui viene menzionato il nome della persona, dell’ente o della compagnia di trasporto a cui il minore è affidato - la  dichiarazione è stata rilasciata da chi può dare l’assenso o l’autorizzazione - la dichiarazione è convalidata dalla Questura o dalle Autorità consolari.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-accompagno-questura",
+      "category": "how",
+      "text_it": "La dichiarazione di accompagnamento si chiede in Questura o in un commissariato, con anticipo: la Polizia di Frontiera non la rilascia.",
+      "text_en": "The accompanying declaration is requested at the Questura or a police station, well before the trip: border police do not issue it.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "pds-espatrio-minori",
+      "quote": "Gli uffici di Polizia di Frontiera non sono autorizzati al rilascio della dichiarazione di accompagno, pertanto ricordatevi di richiederla in questura o in commissariato con congruo anticipo sul viaggio.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-nomi-genitori",
+      "category": "how",
+      "text_it": "Sotto i 14 anni si può chiedere di scrivere sul retro della carta i nomi dei genitori (o di chi ne fa le veci).",
+      "text_en": "Under 14 you can ask for the parents' (or guardian's) names to be printed on the back of the card.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie-ministero-minori",
+      "quote": "Per i minori di 14 anni è possibile richiedere anche l’indicazione dei nomi dei genitori, o di chi ne fa le veci, sul retro del documento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-impronte-firma",
+      "category": "how",
+      "text_it": "Dai 12 anni compiuti al minore prendono due impronte digitali e il minore firma la carta.",
+      "text_en": "From age 12 two fingerprints are taken and the child signs the card.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie-ministero-minori",
+      "quote": "A partire dai 12 anni compiuti al minore sono rilevate due impronte digitali e dovrà appore la propria firma grafica sul documento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
       "id": "minori-non-italiani-espatrio",
       "category": "how",
       "text_it": "Minorenni non italiani (anche UE): la carta rilasciata non vale per l'espatrio.",
       "text_en": "Non-Italian minors (EU citizens included): the card issued is not valid for travel abroad.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "minore"
         ],
@@ -464,6 +1970,18 @@
       "text_it": "Minorenni extra UE: serve un permesso di soggiorno del minore in corso di validità, oppure il minore deve essere iscritto nel permesso di soggiorno di un genitore.",
       "text_en": "Non-EU minors: the child needs a residence permit that has not expired, or must be listed on a parent's residence permit.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "minore"
         ],
@@ -479,92 +1997,1846 @@
       "short_en": "The child's residence permit"
     },
     {
-      "id": "costo",
-      "category": "prepare",
-      "text_it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
-      "text_en": "Cost: EUR 22.20, cash or debit card, on the day of the appointment.",
-      "when": {},
-      "source_id": "cie",
-      "quote": "€ 22,20 da versare in contanti o bancomat il giorno dell’appuntamento.",
-      "verified_at": "2026-10-04",
-      "status": "verified",
-      "short_it": "22,20 euro (contanti o bancomat)",
-      "short_en": "EUR 22.20 (cash or debit card)"
-    },
-    {
-      "id": "accettazione",
-      "category": "how",
-      "text_it": "Il giorno dell'appuntamento fai l'accettazione: online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
-      "text_en": "On the day, check in: online with the code in the confirmation email, or at the office by showing the QR code from the email, your tax code or your CIE.",
-      "when": {},
-      "source_id": "prenotazione",
-      "quote": "online, cliccando sul codice che riceverai nella mail di conferma della prenotazione; - in sede, rivolgendoti al personale del Comune e mostrando il QR code inserito nella mail di conferma della prenotazione oppure il tuo codice fiscale oppure la tua CIE.",
+      "id": "minori-credenziali",
+      "category": "after",
+      "text_it": "Online, con la carta un minorenne tra 5 e 18 anni può accedere solo ai servizi delle scuole; sotto i 5 anni nessun accesso.",
+      "text_en": "Online, with the card a minor aged 5 to 18 can only access school services; under 5, no access.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie-ministero-attiva",
+      "quote": "Attualmente i minorenni di età compresa tra 5 e 18 anni possono accedere esclusivamente agli istituti scolastici di ogni ordine e grado, comprese le scuole ed accademie militari. Fino al compimento dei 5 anni non è consentito alcun accesso.",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
       "id": "impronte",
       "category": "how",
-      "text_it": "Allo sportello ti prendono le impronte digitali.",
-      "text_en": "At the desk your fingerprints are taken.",
-      "when": {},
+      "text_it": "L'operatore del Comune ti prende le impronte digitali.",
+      "text_en": "The City officer takes your fingerprints.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
       "source_id": "cie-ministero",
       "quote": "procede con l’operatore comunale all’acquisizione delle impronte digitali",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
+      "id": "impronte-dita",
+      "category": "how",
+      "text_it": "Vai con le dita pulite: patine o pellicole sulle dita possono alterare le impronte.",
+      "text_en": "Come with clean fingers: any film or coating on your fingertips can spoil the fingerprints.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie-ministero-impronte",
+      "quote": "le dita non siano ricoperte da patine o pellicole che possano alterare l’impronta;",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "impronte-privacy",
+      "category": "how",
+      "text_it": "Le due impronte vengono scritte in modo sicuro solo dentro la carta e non vengono conservate da nessun'altra parte.",
+      "text_en": "The two fingerprints are written securely only inside the card and are not stored anywhere else.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie-ministero-impronte",
+      "quote": "Le impronte digitali (due) verranno scritte in sicurezza all’interno della CIE e non depositate in nessun altro luogo.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "donazione-organi",
+      "category": "how",
+      "text_it": "Allo sportello, se lo desideri, puoi dire sì o no alla donazione di organi e tessuti.",
+      "text_en": "At the desk, if you wish, you can say yes or no to organ and tissue donation.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie-ministero",
+      "quote": "fornisce, se lo desidera, il consenso o il diniego alla donazione degli organi;",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "donazione-sit",
+      "category": "after",
+      "text_it": "La scelta sulla donazione viene registrata nel Sistema Informativo Trapianti e non è scritta sulla carta.",
+      "text_en": "Your donation choice is recorded in the national transplant information system, not written on the card.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie-faq-00542",
+      "quote": "La volontà espressa viene registrata nel Sistema Informativo Trapianti (SIT) e non trascritta sulla carta d’identità.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "donazione-modifica",
+      "category": "after",
+      "text_it": "Se hai dato l'assenso alla donazione, puoi cambiare idea in qualsiasi momento: per cancellare il sì si manda il modulo del Comune (pagina «Esprimi la tua volontà sulla donazione di organi»).",
+      "text_en": "If you said yes to donation, you can change your mind at any time: to cancel the yes you send the City's form (page 'Esprimi la tua volontà sulla donazione di organi').",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie-donazione-organi",
+      "quote": "Chi ha manifestato il proprio assenso in occasione del primo rilascio o rinnovo della carta d'identità  può modificare in qualsiasi momento la propria decisione. Per cancellare l'assenso espresso in precedenza, scarica il modulo e invialo a uno dei seguenti canali.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
       "id": "tempi-consegna",
       "category": "after",
-      "text_it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta (conta almeno una settimana).",
-      "text_en": "You do not get the card at the desk: it is printed by the State Mint and posted within 6 working days of your application (allow at least a week).",
-      "when": {},
+      "text_it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta.",
+      "text_en": "You do not get the card at the desk: it is printed by the State Mint and posted within 6 working days of your application.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
       "source_id": "cie",
-      "quote": "spedita direttamente al cittadino/cittadina entro 6 giorni lavorativi dalla richiesta.",
+      "quote": "La Carta d'identità elettronica non viene consegnata al momento della richiesta, come avveniva con il documento cartaceo, ma è stampata dall’Istituto Poligrafico Zecca dello Stato e spedita direttamente al cittadino/cittadina entro 6 giorni lavorativi dalla richiesta.",
       "verified_at": "2026-10-04",
-      "lead_time_days": 8,
+      "status": "verified",
+      "lead_time_days": 8
+    },
+    {
+      "id": "consegna-indirizzo",
+      "category": "after",
+      "text_it": "La carta viene spedita al tuo domicilio oppure a un altro indirizzo che indichi allo sportello.",
+      "text_en": "The card is posted to your home or to another address you give at the desk.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "È possibile richiederne la spedizione presso il proprio domicilio oppure indicare un altro domicilio.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "raccomandata-mani-proprie",
+      "category": "after",
+      "text_it": "Arriva con una raccomandata da consegnare «a mani proprie».",
+      "text_en": "It arrives by registered mail for delivery into the addressee's own hands.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-ministero-spedizione",
+      "quote": "La spedizione della CIE all’indirizzo di residenza o ad un altro indirizzo indicato dal cittadino avviene attraverso una raccomandata con consegna “mani proprie”.",
+      "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
       "id": "spedizione-citofono",
       "category": "after",
-      "text_it": "Arriva per raccomandata: metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
-      "text_en": "It comes by registered mail: put the name of the person collecting it on the doorbell, intercom and mailbox.",
-      "when": {},
+      "text_it": "Metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
+      "text_en": "Put the name of the person collecting it on the doorbell, intercom and mailbox.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
       "source_id": "cie",
       "quote": "aggiornare campanello, citofono e una cassetta delle lettere (per l'eventuale avviso di giacenza in caso di assenza) con il nominativo della persona indicata per il ritiro.",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
-      "id": "cambio-indirizzo",
-      "category": "how",
-      "text_it": "Non serve rifare la carta d'identità quando cambi indirizzo o residenza.",
-      "text_en": "You do not need a new ID card when you change address or residence.",
-      "when": {},
+      "id": "delega-ritiro",
+      "category": "after",
+      "text_it": "Se la carta può riceverla un'altra persona, allo sportello indica nome e cognome del delegato al ritiro; per i minori di 14 anni il delegato è obbligatorio.",
+      "text_en": "If someone else may receive the card, give the delegate's name and surname at the desk; for children under 14 a delegate is compulsory.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
       "source_id": "cie",
-      "quote": "Non è necessario rinnovare la carta d’identità in occasione di cambi di indirizzo e di residenza.",
+      "quote": "in caso di delega, specificare nome e cognome della persona che effettuerà il ritiro al posto del titolare (la delega è obbligatoria per documenti rilasciati ai minori di 14 anni)",
       "verified_at": "2026-10-04",
       "status": "verified"
     },
     {
-      "id": "espatrio-adulti-non-italiani",
-      "category": "how",
-      "text_it": "Da verificare: le fonti salvate non dicono se la carta d'identità di un adulto non italiano vale per andare all'estero. Rimanda alla pagina ufficiale o allo sportello.",
-      "text_en": "To be checked: the saved sources do not say whether the ID card of a non-Italian adult is valid for travel abroad. Point to the official page or the desk.",
+      "id": "avviso-spedizione",
+      "category": "after",
+      "text_it": "Puoi ricevere via e-mail l'avviso di spedizione e seguire la spedizione sul sito di Poste Italiane.",
+      "text_en": "You can get the dispatch notice by email and follow the delivery on the Poste Italiane website.",
       "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "È possibile ricevere via e-mail l’avviso di spedizione del documento e monitorare la spedizione sul sito di",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "tracciamento",
+      "category": "after",
+      "text_it": "Per seguire la spedizione su poste.it usa «cerca spedizioni» con il numero di raccomandata che trovi nel riepilogo che ti dà l'operatore.",
+      "text_en": "To follow the delivery on poste.it use 'cerca spedizioni' with the registered-mail number in the summary the officer gives you.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-faq-00471",
+      "quote": "usando la funzione \"cerca spedizioni\" ed inserendo il numero di raccomandata presente nella documentazione di riepilogo consegnato dall'operatore di anagrafe.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "mancata-consegna",
+      "category": "after",
+      "text_it": "Se non sei in casa ti lasciano un avviso: entro 5 giorni lavorativi puoi chiedere un secondo tentativo; dopo, la carta resta 30 giorni all'ufficio postale più vicino.",
+      "text_en": "If you are out you get a notice: within 5 working days you can ask for a second attempt; after that the card waits 30 days at the nearest post office.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-ministero-spedizione",
+      "quote": "Si può chiedere di avere un secondo tentativo entro cinque giorni lavorativi dalla data presente sull’avviso. Oltre quella data la Carta di Identità Elettronica verrà recapitata all’ufficio postale più vicino dove resterà in giacenza per trenta giorni solari.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "giacenza-documento",
+      "category": "after",
+      "text_it": "Per ritirarla all'ufficio postale porta un documento d'identità non scaduto; se ne hai solo uno scaduto, porta anche una sua fotocopia su cui dichiari che i dati non sono cambiati.",
+      "text_en": "To collect it at the post office bring an identity document that has not expired; if you only have an expired one, also bring a photocopy of it on which you declare that the data have not changed.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-ministero-spedizione",
+      "quote": "Dovrà portare con sè un documento d’identità in corso di validità per il riconoscimento. Se ha solo un documento di identità scaduto può presentarlo per il riconoscimento, dichiarando in calce a una fotocopia del documento che i dati contenuti non sono cambiati dalla data del rilascio.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "spedizione-assistenza",
+      "category": "after",
+      "text_it": "Se la spedizione resta a lungo «In spedizione», contatta l'assistenza del Ministero dell'Interno: cie.cittadini@interno.it o 06 4298 5699, dal lunedì al venerdì 9-16 e il sabato 9-13.",
+      "text_en": "If the delivery stays 'In spedizione' for a long time, contact the Ministry of the Interior's helpdesk: cie.cittadini@interno.it or 06 4298 5699, Monday to Friday 9-16 and Saturday 9-13.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-faq-00407",
+      "quote": "all'indirizzo di posta elettronica  [cie.cittadini@interno.it](mailto:cie.cittadini@interno.it) o al numero  06 4298 5699 (costi della telefonata secondo il piano tariffario previsto dal proprio operatore). Il servizio di assistenza è attivo dal lunedì al venerdì dalle ore 9:00 alle ore 16:00 e il sabato dalle ore 9:00 alle ore 13:00.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "consegnata-al-mittente",
+      "category": "after",
+      "text_it": "Se su poste.it la spedizione risulta «Consegnata al mittente», vai alla sede del Comune dove hai fatto la richiesta.",
+      "text_en": "If poste.it shows 'Consegnata al mittente' (returned to sender), go to the City office where you applied.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-faq-00407",
+      "quote": "“Consegnata al mittente”, recarsi nella sede comunale in cui è stata presentata la richiesta.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "ricevuta-documento",
+      "category": "after",
+      "text_it": "Finché la carta non arriva, la ricevuta della richiesta vale come documento di riconoscimento.",
+      "text_en": "Until the card arrives, the application receipt works as an identity document.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-ministero-ricevuta",
+      "quote": "La ricevuta ha valore di documento di riconoscimento fino al giorno precedente la data di avvenuta consegna della Carta di Identità Elettronica.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "ricevuta-solo-italia",
+      "category": "after",
+      "text_it": "La ricevuta vale solo per spostarsi in Italia: non serve per andare all'estero.",
+      "text_en": "The receipt only works for moving around within Italy: not for going abroad.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie-faq-00304",
+      "quote": "No, la ricevuta della Carta di Identità Elettronica (CIE) è valida per gli spostamenti in Italia.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "pin-puk-seconda-meta",
+      "category": "after",
+      "text_it": "La seconda metà del PIN e del PUK è nella lettera dentro la busta con la carta: unisci le due metà e conserva i codici.",
+      "text_en": "The second half of the PIN and PUK is in the letter inside the envelope with the card: join the two halves and keep the codes.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-ministero-pin-puk",
+      "quote": "La seconda metà, necessaria per completarli, è invece fornita al cittadino con la lettera di accompagnamento presente nella busta con cui riceve la CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "attiva-credenziali",
+      "category": "after",
+      "text_it": "Se allo sportello hai lasciato cellulare ed e-mail, puoi attivare le credenziali CIE per i servizi online anche prima che la carta arrivi: servono il codice fiscale, il numero della carta e alcune cifre della prima metà del PUK scritte sulla ricevuta.",
+      "text_en": "If you left your mobile and email at the desk, you can activate your CIE credentials for online services even before the card arrives: you need your tax code, the card number and some digits of the first half of the PUK printed on the receipt.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-ministero-credenziali",
+      "quote": "È sufficiente aver effettuato la richiesta di emissione della CIE e aver fornito i propri contatti (numero di cellulare ed e-mail); puoi attivare le credenziali, anche prima della consegna della CIE, semplicemente: - inserendo il tuo codice fiscale, il numero di serie della CIE e alcune cifre della prima metà del codice PUK (presenti sulla ricevuta che ti è stata rilasciata) e proseguendo con la procedura di attivazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "servizi-online",
+      "category": "after",
+      "text_it": "Con la carta e i suoi codici PIN e PUK entri nei servizi online delle Pubbliche Amministrazioni abilitate, fino al livello di sicurezza più alto (tre livelli).",
+      "text_en": "With the card and its PIN and PUK you can log in to the online services of public offices that accept it, up to the highest security level (three levels).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "La carta di identità elettronica consente l'accesso ai servizi online delle Pubbliche Amministrazioni abilitate grazie ai codici Pin e Puk di cui è fornita e all'autenticazione alle piattaforme fino a tre livelli di sicurezza.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "firma-cie-sign",
+      "category": "after",
+      "text_it": "Con l'app CieSign la carta serve anche per la firma elettronica avanzata.",
+      "text_en": "With the CieSign app the card can also be used for an advanced electronic signature.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Inoltre, la CIE può essere utilizzata tramite l’app CieSign come strumento di firma elettronica avanzata.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "validita-adulti",
+      "category": "after",
+      "text_it": "Per gli adulti la carta dura circa 10 anni (9 anni più i giorni fino al compleanno); i casi particolari (70 anni e oltre, richiesta di asilo, impronte non rilevabili) sono nelle voci qui sotto.",
+      "text_en": "For adults the card lasts about 10 years (9 years plus the days up to your birthday); the special cases (70 and over, asylum application, fingerprints that cannot be taken) are in the items below.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
         "eta": [
           "adulto"
+        ]
+      },
+      "source_id": "cie-faq-00517",
+      "quote": "circa 10 anni per maggiorenni (9 anni e i giorni fino al raggiungimento della data di nascita)",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "validita-70-anni",
+      "category": "after",
+      "text_it": "Se hai 70 anni o più, la carta rilasciata dal 30 luglio 2026 non scade; per entrare nei servizi online della Pubblica Amministrazione vale invece 10 anni. Non vale per chi ha chiesto asilo (la carta resta di 3 anni) né per chi per un problema temporaneo non può dare le impronte (resta di 1 anno).",
+      "text_en": "If you are 70 or over, a card issued from 30 July 2026 does not expire; for logging in to public online services it lasts 10 years. This does not apply to asylum seekers (the card stays at 3 years) or to people who temporarily cannot give fingerprints (it stays at 1 year).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "adulto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Le carte d’identità elettroniche rilasciate dal 30 luglio 2026 a cittadine e cittadini con un’età pari o superiore a 70 anni alla data di emissione hanno durata illimitata. Se usate per accedere ai servizi digitali della Pubblica amministrazione le carte d’identità elettroniche hanno durata di dieci anni. La durata illimitata non vale per gli ultrasettantenni richiedenti asilo e tutti coloro che sono impossibilitati temporaneamente alle impronte. Nel primo caso rimane invariata la scadenza a tre anni, nel secondo caso rimane invariata la scadenza ad un anno.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "validita-minori",
+      "category": "after",
+      "text_it": "Durata della carta di un minorenne: 3 anni fino ai 3 anni di età, 5 anni dai 3 ai 18 anni.",
+      "text_en": "How long a minor's card lasts: 3 years up to age 3, 5 years from 3 to 18.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "3 anni per minori fino 3 anni - 5 anni per la fascia di età dai 3 ai 18 anni",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "validita-senza-impronte",
+      "category": "after",
+      "text_it": "Se per un problema temporaneo non è possibile prendere le impronte, la carta dura 1 anno.",
+      "text_en": "If fingerprints cannot be taken because of a temporary problem, the card lasts 1 year.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Per le persone temporaneamente impossibilitate a farsi rilevare le impronte digitali: - 1 anno.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "avvisi-scadenza",
+      "category": "after",
+      "text_it": "Nel Fascicolo del Cittadino puoi attivare gli avvisi via e-mail prima della scadenza della carta (sezione Consensi).",
+      "text_en": "In the Fascicolo del Cittadino (the City's personal area) you can turn on email reminders before the card expires (Consensi section).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto",
+          "gia-cie"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Attraverso il Fascicolo del Cittadino puoi ricevere nella tua casella e-mail gli avvisi di scadenza della carta d'identità. Puoi attivare le notifiche e-mail nella sezione Consensi.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "credenziali-scadute-90-giorni",
+      "category": "after",
+      "text_it": "Se la carta è già scaduta, le credenziali CIE per i servizi online funzionano ancora per 90 giorni, ma smettono di funzionare prima se nel frattempo rinnovi la carta e ricevi i nuovi codici.",
+      "text_en": "If the card has already expired, its CIE login credentials keep working for 90 more days, but they stop earlier if in the meantime you renew the card and receive the new codes.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie-ministero-faq",
+      "quote": "Se non sei riuscito a rinnovare la tua Carta in tempo prima della scadenza, hai la possibilità di utilizzare le credenziali CIE associate alla Carta scaduta per ulteriori 90 giorni. Le vecchie credenziali saranno automaticamente invalidate quando: - rinnoverai la tua CIE e riceverai i nuovi codici e credenziali - scaduti i 90 giorni ulteriori",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "pin-puk-smarriti",
+      "category": "how",
+      "text_it": "PIN e PUK persi (carte emesse dal 3 agosto 2017): puoi chiederne il duplicato in qualsiasi sede anagrafica, con appuntamento, andando di persona con la carta.",
+      "text_en": "Lost PIN and PUK (cards issued from 3 August 2017): you can ask for duplicates at any registry office, by appointment, going in person with the card.",
+      "when": {
+        "motivo": [
+          "pin-puk"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "In caso di smarrimento dei codici Pin e Puk per le carte d'identità elettroniche emesse dal 3 agosto 2017, è possibile: - richiederne il duplicato presentandosi personalmente - con appuntamento - presso qualsiasi sportello anagrafico, portando con sè fisicamente la CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "pin-nuovo-con-puk",
+      "category": "how",
+      "text_it": "Se dimentichi il PIN, ne imposti uno nuovo con il PUK: dall'app CieID sullo smartphone o dal Software CIE sul computer.",
+      "text_en": "If you forget the PIN, you set a new one with the PUK: in the CieID app on a smartphone or with the CIE Software on a computer.",
+      "when": {
+        "motivo": [
+          "pin-puk"
+        ]
+      },
+      "source_id": "cie-ministero-pin-puk",
+      "quote": "In caso di smarrimento del codice PIN, è possibile impostare uno nuovo PIN utilizzando il codice PUK, da smartphone mediante l’app [CieID](https://www.cartaidentita.interno.gov.it/info-utili/cie-id/) e da PC mediante il [Software CIE](https://www.cartaidentita.interno.gov.it/info-utili/software-cie/).",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "puk-recupero-app",
+      "category": "how",
+      "text_it": "Se hai perso il PUK e quando hai chiesto la carta avevi lasciato e-mail o cellulare, lo recuperi con l'app CieID: per sicurezza, l'SMS o la e-mail per completare la procedura e vedere il PUK arriva 48 ore dopo la richiesta.",
+      "text_en": "If you lost the PUK and left an email or mobile number when you applied for the card, you recover it in the CieID app: for security, the SMS or email to finish and see the PUK arrives 48 hours after the request.",
+      "when": {
+        "motivo": [
+          "pin-puk"
+        ]
+      },
+      "source_id": "cie-ministero-recupero-puk",
+      "quote": "per ragioni di sicurezza, dopo 48 ore dall’inserimento della richiesta di recupero PUK, riceverai una notifica via SMS o e-mail per completare la procedura e visualizzare il PUK.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "pin-puk-non-funzionano",
+      "category": "how",
+      "text_it": "Se PIN e PUK non ti fanno entrare nei servizi online, puoi chiedere una nuova carta con l'autorizzazione del Ministero dell'Interno: scrivi a cie.cittadini@interno.it con il numero della carta e i tuoi dati.",
+      "text_en": "If your PIN and PUK don't let you log in to online services, you can ask for a new card with the Ministry of the Interior's authorisation: write to cie.cittadini@interno.it with the card number and your details.",
+      "when": {
+        "motivo": [
+          "pin-puk"
+        ]
+      },
+      "source_id": "cie-faq-00470",
+      "quote": "È possibile sollecitare l’emissione di una nuova Carta di Identità Elettronica, previa autorizzazione del Ministero dell’interno. Inviare richiesta all’indirizzo e-mail [cie.cittadini@interno.it](mailto:cie.cittadini@interno.it) indicando il numero della Carta di Identità Elettronica e le proprie generalità.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "pin-puk-domicilio",
+      "category": "how",
+      "text_it": "Se per gravi motivi di salute non puoi andare in una sede anagrafica, il duplicato di PIN e PUK si chiede con il servizio a domicilio: modulo online, con il documento d'identità della persona e il certificato medico che attesta che non può muoversi in modo permanente (e la delega o l'atto di nomina se la domanda la fa un'altra persona che non è il genitore).",
+      "text_en": "If serious health reasons stop you going to a registry office, you ask for the PIN and PUK duplicate with the home service: online form, with the person's identity document and a medical certificate stating that they permanently cannot move (and the delegation or appointment deed if someone other than a parent applies).",
+      "when": {
+        "motivo": [
+          "pin-puk"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-faq-04366",
+      "quote": "Nel caso in cui non sia possibile recarsi nella sede anagrafica per motivi di salute, sarà necessario richiedere il servizio a domicilio, compilando l'apposito form online alla [pagina dedicata](https://www.comune.milano.it/servizi/anagrafe/servizi-anagrafici-a-domicilio-per-motivi-di-salute). Nel form è necessario allegare: - il documento d’identità della persona interessata - certificato medico che attesti l’impossibilità di muoversi in modo permanente - in caso di domanda presentata da una terza persona non genitore, delega o atto di nomina (tutore/amministratore di sostegno).",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "contatti-aggiornare",
+      "category": "how",
+      "text_it": "Per cambiare l'e-mail o il cellulare collegati alla carta: appuntamento in una sede anagrafica, di persona e con la carta.",
+      "text_en": "To change the email or mobile linked to the card: an appointment at a registry office, in person and with the card.",
+      "when": {
+        "motivo": [
+          "pin-puk"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "recarsi presso qualsiasi sede anagrafica, con appuntamento e richiedere l’aggiornamento dei dati del contatto. È necessario che allo sportello si presenti la persona interessata portando con sé fisicamente la CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "urgenza",
+      "category": "if-urgent",
+      "text_it": "Urgenza documentata e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
+      "text_en": "Documented urgency and no other usable document: go to a registry office in the 15 days before the event with papers that prove the urgency; they will set a date to issue the card.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "casi di urgenza e in assenza di altro documento di riconoscimento utile in relazione all'urgenza dichiarata - presentarsi nei 15 giorni precedenti la data dell'evento che determina l'urgenza portando documentazione in grado di dimostrarla. Verrà fissata una data per il rilascio del documento",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "urgenza-non-scadenza",
+      "category": "if-urgent",
+      "text_it": "Per la carta provvisoria non conta come urgenza essersi accorti tardi che la carta è scaduta (o di non averla).",
+      "text_en": "For the temporary card, noticing late that your card has expired (or that you don't have it) does not count as an urgency.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Non sono considerate situazioni di urgenza la mancata o tardiva verifica della scadenza o possesso del documento d’identità.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "urgenza-qualsiasi-sede",
+      "category": "if-urgent",
+      "text_it": "Con un'urgenza documentata (per esempio un ricovero in ospedale) e senza un altro documento di riconoscimento, puoi andare in qualsiasi sede anagrafica.",
+      "text_en": "With a documented urgency (for example a hospital stay) and no other identity document, you can go to any registry office.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00306",
+      "quote": "In caso di documentati motivi di urgenza (ad esempio ricovero ospedaliero) e in assenza di un altro documento di riconoscimento, è possibile recarsi presso qualsiasi sede anagrafica.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "viaggio-15-giorni",
+      "category": "if-urgent",
+      "text_it": "Viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza, portando anche la prova della data di partenza.",
+      "text_en": "A trip coming up and no passport that has not expired: go to the registry office in the 15 days before you leave, also bringing proof of the departure date.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
         ],
         "cittadinanza": [
-          "ue",
+          "italiana"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00355",
+      "quote": "In mancanza di un passaporto in corso di validità, è possibile presentarsi presso l’ufficio anagrafico nei 15 giorni precedenti la data del viaggio, muniti della seguente documentazione: - prova della data di partenza;",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "viaggio-15-giorni-rovinata",
+      "category": "if-urgent",
+      "text_it": "Carta rovinata, viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza con la prova della data di partenza e la carta danneggiata.",
+      "text_en": "Damaged card, a trip coming up and no passport that has not expired: go to the registry office in the 15 days before you leave with proof of the departure date and the damaged card.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "deteriorata"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00418",
+      "quote": "In mancanza di un passaporto in corso di validità, è possibile presentarsi presso l’ufficio anagrafico nei 15 giorni precedenti la data del viaggio, muniti della seguente documentazione: - prova della data di partenza;",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "viaggio-5-giorni",
+      "category": "if-urgent",
+      "text_it": "Se chiedi la carta per urgenza nei 5 giorni prima di un viaggio in Europa, il Comune non può assicurare che arrivi subito.",
+      "text_en": "If you apply urgently in the 5 days before a trip within Europe, the City cannot promise the card will arrive straight away.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00306",
+      "quote": "Qualora la richiesta venga effettuata per motivi di urgenza nei 5 giorni antecedenti la partenza per un viaggio in Europa non è possibile garantire l’immediata consegna della Carta d’Identità Elettronica.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "notaio-smarrimento",
+      "category": "if-urgent",
+      "text_it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
+      "text_en": "You need it for a notary deed or a legal appointment and have no other document: go to the registry office without an appointment in the 15 days before the meeting.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00580",
+      "quote": "In assenza di un altro documento valido, presentarsi all’Anagrafe senza appuntamento nei 15 giorni precedenti l’incontro portando:",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "notaio-rovinata",
+      "category": "if-urgent",
+      "text_it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
+      "text_en": "You need it for a notary deed or a legal appointment and have no other document: go to the registry office without an appointment in the 15 days before the meeting.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "deteriorata"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-00310",
+      "quote": "In assenza di un altro documento valido, presentarsi all’anagrafe senza appuntamento nei 15 giorni precedenti l’incontro dal notaio/legale portando:",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "carta-provvisoria",
+      "category": "if-urgent",
+      "text_it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
+      "text_en": "Until December 2027, only for real and documented urgencies, you can get a temporary ID card, only at the main office in Via Larga 12 (entrance from Via Pecorari 3), showing that you have already booked your CIE appointment.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Fino a dicembre 2027, può essere rilasciata la carta d'identità provvisoria solo in casi di reale e documentata urgenza segnalati dalla persona richiedente, esclusivamente nella sede centrale di via Larga 12 (ingresso lato via Pecorari, 3). Al momento della richiesta è necessario dimostrare di avere prenotato un appuntamento per il rilascio della carta d’identità elettronica.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "provvisoria-validita",
+      "category": "if-urgent",
+      "text_it": "La carta provvisoria si può avere una sola volta, non si rinnova e dura sei mesi.",
+      "text_en": "The temporary card can be issued only once, cannot be renewed and lasts six months.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Durata e validità: può essere rilasciata una sola volta, non è rinnovabile e ha validità di sei mesi dalla data di emissione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "provvisoria-estero",
+      "category": "if-urgent",
+      "text_it": "Con la carta provvisoria gli altri Paesi UE potrebbero non farti entrare: controlla prima le regole del Paese dove vai.",
+      "text_en": "Other EU countries may refuse entry with the temporary card: check the rules of the country you are going to first.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Espatrio nei paesi dell'U.E.: l'accettazione del documento ai fini dell'ingresso nel territorio degli altri Stati membri dell'Unione europea, non è garantita.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "provvisoria-foto-modulo",
+      "category": "if-urgent",
+      "text_it": "Per la carta provvisoria porta il modulo di richiesta del Comune compilato e due fototessere a colori su sfondo chiaro, recenti e a capo scoperto.",
+      "text_en": "For the temporary card bring the City's request form filled in and two recent colour passport photos on a light background, head uncovered.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "[Modulo di richiesta](/documents/d/guest/richiesta-carta-provvisoria-1?download=true) - Due fototessere a colori su sfondo chiaro, recente e con il capo scoperto, compatibile con i parametri stabiliti dal Ministero dell’Interno;",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "provvisoria-costo",
+      "category": "if-urgent",
+      "text_it": "La carta provvisoria costa 5,42 euro.",
+      "text_en": "The temporary card costs EUR 5.42.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Costo: euro 5,42",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "provvisoria-restituzione",
+      "category": "if-urgent",
+      "text_it": "La carta provvisoria va restituita al Comune quando fai la richiesta della CIE.",
+      "text_en": "The temporary card must be handed back to the City when you apply for the CIE.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-faq-04349",
+      "quote": "Il documento d’identità provvisorio non è rinnovabile e deve essere restituito al Comune all’atto della richiesta della CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "provvisoria-dichiarazione-viaggio",
+      "category": "if-urgent",
+      "text_it": "Se chiedi la carta provvisoria per un viaggio all'estero, nel modulo dichiari di non avere un passaporto per l'espatrio in corso di validità.",
+      "text_en": "If you ask for the temporary card for a trip abroad, in the form you declare that you have no passport for travel that has not expired.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie-provvisoria-modulo",
+      "quote": "A tal fine dichiara di non essere in possesso di un passaporto valido per l’espatrio in corso di validità;",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "ricevuta-viaggi-italia",
+      "category": "if-urgent",
+      "text_it": "Per viaggiare in Italia puoi usare la ricevuta della CIE, senza aspettare che arrivi la carta.",
+      "text_en": "To travel within Italy you can use the CIE receipt, without waiting for the card to arrive.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00306",
+      "quote": "Per i viaggi in Italia, il cittadino può utilizzare la ricevuta della Carta d'Identità Elettronica (CIE), senza aspettare la consegna della stessa.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-secondo-documento-urgente",
+      "category": "if-urgent",
+      "text_it": "Solo per urgenze motivate e documentate: il giorno del tuo appuntamento puoi chiedere anche la carta per un minorenne della stessa famiglia anagrafica di chi ha prenotato.",
+      "text_en": "Only for justified and documented urgencies: on the day of your appointment you can also ask for a card for a minor in the same registered household as the person who booked.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Solo in caso di urgenza motivata e documentata, il giorno dell'appuntamento è possibile chiedere il contestuale rilascio di ulteriore documento d'identità per persona minorenne, purchè appartenente al medesimo nucleo familiare di chi ha effettuato la prenotazione online.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "solo-residenti",
+      "category": "how",
+      "text_it": "Il centro di supporto del Comune scrive che il servizio della carta d'identità è solo per chi è residente a Milano oppure abita a Milano ed è residente fuori dalla Lombardia.",
+      "text_en": "The City's support centre writes that the ID card service is only for people resident in Milan, or living in Milan and resident outside Lombardy.",
+      "when": {
+        "residenza": [
+          "altro-comune-lombardia",
+          "non-residente"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00302",
+      "quote": "Il servizio è disponibile solo per persone residenti a Milano oppure domiciliate in città ma residenti fuori Regione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "residenti-lombardia",
+      "category": "how",
+      "text_it": "Se sei residente in un altro Comune della Lombardia, la carta si chiede al tuo Comune di residenza, anche se è urgente.",
+      "text_en": "If you are resident in another comune in Lombardy, you apply to your own comune, even if it is urgent.",
+      "when": {
+        "residenza": [
+          "altro-comune-lombardia"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie-faq-00302",
+      "quote": "Per persone non residenti a Milano ma in un altro comune della Lombardia, la carta d'identità anche se in urgenza, dovrà essere richiesta al proprio Comune di residenza.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "prima-la-residenza",
+      "category": "how",
+      "text_it": "La carta d'identità si chiede dopo l'iscrizione all'anagrafe come residente a Milano: se sei appena arrivato, prima chiedi la residenza.",
+      "text_en": "You apply for the ID card after you are registered as a resident in Milan: if you have just arrived, apply for residence first.",
+      "when": {
+        "residenza": [
+          "non-residente"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "yesmilano-id-card",
+      "quote": "Any citizen who is successfully registered as resident in Milano and in Italy, can apply and get an Italian ID card.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "residenza-non-permesso",
+      "category": "how",
+      "text_it": "Attenzione: iscriversi all'anagrafe del Comune (residenza) non è la stessa cosa che avere il permesso di soggiorno.",
+      "text_en": "Note: registering as a resident with the City (residenza) is not the same as getting the residence permit.",
+      "when": {
+        "residenza": [
+          "non-residente"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "cittadinanza": [
           "extra-ue"
+        ]
+      },
+      "source_id": "yesmilano-work-registering-resident",
+      "quote": "N.B. Taking residence in Milano is not the same as obtaining the Residence Permit.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "residenza-in-corso",
+      "category": "how",
+      "text_it": "Da verificare: le fonti salvate non dicono se puoi chiedere la carta mentre la domanda di residenza è ancora in verifica. Chiedi all'anagrafe prima di prenotare.",
+      "text_en": "To be checked: the saved sources do not say whether you can apply for the card while your residence application is still being checked. Ask the registry office before booking.",
+      "when": {
+        "residenza": [
+          "non-residente"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
         ]
       },
       "source_id": "cie",
       "quote": "",
       "verified_at": null,
       "status": "todo"
+    },
+    {
+      "id": "domiciliati-motivi",
+      "category": "how",
+      "text_it": "Se abiti a Milano ma sei residente in un Comune fuori dalla Lombardia, puoi rinnovare la carta a Milano solo per motivi gravi e documentati che ti impediscono di andare nel tuo Comune: vanno documentati sia il domicilio a Milano sia l'impedimento.",
+      "text_en": "If you live in Milan but are resident in a comune outside Lombardy, you can renew the card in Milan only for serious, documented reasons that stop you going to your own comune: both your Milan address and the reason must be documented.",
+      "when": {
+        "residenza": [
+          "domicilio-milano"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Chi ha il domicilio a Milano e la residenza in un Comune situato fuori dalla regione Lombardia può rinnovare la carta d’identità a Milano in caso di gravi e documentati motivi che impediscano di recarsi nel Comune di residenza. Domicilio a Milano e impossibilità di raggiungere il proprio Comune di residenza devono essere documentati.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domiciliati-documenti",
+      "category": "prepare",
+      "text_it": "Porta i documenti che dimostrano perché non puoi andare nel tuo Comune di residenza.",
+      "text_en": "Bring papers that show why you cannot go to the comune where you are resident.",
+      "when": {
+        "residenza": [
+          "domicilio-milano"
+        ],
+        "motivo": [
+          "rinnovo",
+          "deteriorata"
+        ]
+      },
+      "source_id": "cie-faq-00413",
+      "quote": "la documentazione che dimostri l’impedimento a recarsi nel proprio Comune di residenza.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Prova dell'impedimento ad andare nel tuo Comune",
+      "short_en": "Proof you cannot go to your own comune"
+    },
+    {
+      "id": "domiciliati-altri-casi",
+      "category": "how",
+      "text_it": "Da verificare: le fonti salvate parlano solo del rinnovo per chi abita a Milano ed è residente fuori dalla Lombardia; per una prima carta, una carta persa o rubata o un chip guasto non dicono se si può fare a Milano. Chiedi all'anagrafe prima di prenotare.",
+      "text_en": "To be checked: the saved sources only cover renewal for people who live in Milan and are resident outside Lombardy; for a first card, a lost or stolen card or a faulty chip they do not say whether it can be done in Milan. Ask the registry office before booking.",
+      "when": {
+        "residenza": [
+          "domicilio-milano"
+        ],
+        "motivo": [
+          "prima",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "",
+      "status": "todo"
+    },
+    {
+      "id": "aire-prenotazione",
+      "category": "how",
+      "text_it": "Se sei iscritto all'AIRE di Milano, per il rinnovo prenoti l'appuntamento dal pulsante «Prenota appuntamento» in cima alla pagina del Comune.",
+      "text_en": "If you are registered with Milan's AIRE (Italians living abroad), for a renewal you book from the 'Prenota appuntamento' button at the top of the City's page.",
+      "when": {
+        "residenza": [
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "sportello"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Le cittadine e i cittadini iscritti all’Aire di Milano possono prenotare un appuntamento selezionando il pulsante in alto per il rinnovo della carta di identità.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "aire-qualsiasi-comune",
+      "category": "how",
+      "text_it": "Secondo una circolare del Ministero dell'Interno (maggio 2026), chi è iscritto all'AIRE può chiedere la CIE in qualsiasi Comune italiano.",
+      "text_en": "According to a Ministry of the Interior circular (May 2026), people registered with AIRE can apply for the CIE in any Italian comune.",
+      "when": {
+        "residenza": [
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "circ-dait-054-2026",
+      "quote": "di richiedere il rilascio della carta d’identità elettronica (CIE) presso qualsiasi comune italiano",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "aire-consegna",
+      "category": "after",
+      "text_it": "Se sei iscritto all'AIRE, la carta può arrivare al tuo domicilio in Italia (da dire allo sportello), al tuo indirizzo all'estero oppure al tuo Consolato.",
+      "text_en": "If you are registered with AIRE, the card can be sent to your address in Italy (tell the desk), to your address abroad or to your consulate.",
+      "when": {
+        "residenza": [
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "È possibile richiederne la consegna presso il proprio domicilio in Italia (da dichiarare allo sportello), oppure, in alternativa: - all’indirizzo di residenza all’estero AIRE - presso il Consolato di riferimento AIRE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-servizio",
+      "category": "how",
+      "text_it": "Se la persona non può andare in anagrafe per gravi motivi di salute (ricoverata in ospedale o in RSA, oppure a letto a casa), c'è il servizio anagrafico a domicilio: un operatore del Comune va da lei.",
+      "text_en": "If the person cannot go to the registry office for serious health reasons (in hospital or a care home, or bedridden at home), there is the registry home service: a City officer comes to them.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-domicilio-salute",
+      "quote": "I servizi anagrafici a domicilio sono destinati alle persone impossibilitate a recarsi presso gli uffici dell’Anagrafe per gravi motivi di salute. Il servizio è rivolto in particolare a chi è ricoverato in strutture ospedaliere o nelle RSA (Residenze sanitarie assistenziali), nonché alle persone allettate presso la propria abitazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-form",
+      "category": "how",
+      "text_it": "Il servizio a domicilio si chiede con il modulo online del Comune, entrando con SPID o CIE; può compilarlo anche un'altra persona (genitore di un minorenne, tutore, amministratore di sostegno o un delegato).",
+      "text_en": "The home service is requested with the City's online form, logging in with SPID or CIE; someone else can fill it in too (a minor's parent, guardian, support administrator or a delegate).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-faq-00392",
+      "quote": "accedendo con SPID o CIE, anche da una terza persona (genitore di minorenne, tutore, amministratore di sostegno o delegato semplice), allegando:",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-sede",
+      "category": "how",
+      "text_it": "Prima di compilare il modulo, guarda la mappa delle sedi anagrafiche e scegli l'ufficio a cui mandare la richiesta.",
+      "text_en": "Before filling in the form, look at the map of registry offices and pick the office to send the request to.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-domicilio-salute",
+      "quote": "Prima di compilare il form consulta la mappa delle sedi anagrafiche e individua l'ufficio di riferimento a cui inviare la richiesta online.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-dati",
+      "category": "how",
+      "text_it": "Nel modulo indica il Municipio dove si trova la persona e il numero di telefono di chi l'operatore deve chiamare per fissare l'appuntamento a domicilio.",
+      "text_en": "In the form give the Municipio where the person is and the phone number of whoever the officer should call to arrange the home visit.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-faq-04024",
+      "quote": "È necessario indicare il Municipio in cui si trova la persona che deve fare il documento e il numero di telefono della persona che deve essere contattata dall'operatore anagrafico per organizzare l'appuntamento a domicilio.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-certificato",
+      "category": "prepare",
+      "text_it": "Da allegare: un certificato medico che attesta che la persona non può muoversi in modo permanente.",
+      "text_en": "To attach: a medical certificate stating that the person permanently cannot move.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-domicilio-salute",
+      "quote": "certificato medico che attesti l’impossibilità di muoversi in modo permanente",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Certificato medico (non può muoversi)",
+      "short_en": "Medical certificate (cannot move)"
+    },
+    {
+      "id": "domicilio-documento",
+      "category": "prepare",
+      "text_it": "Da allegare: un documento d'identità della persona a cui è intestata la carta.",
+      "text_en": "To attach: an identity document of the person the card is for.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "un documento d’identità della persona intestataria della carta di identità;",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Documento d'identità della persona",
+      "short_en": "The person's identity document"
+    },
+    {
+      "id": "domicilio-delega",
+      "category": "prepare",
+      "text_it": "Se la domanda la fa un'altra persona che non è il genitore: allega la delega o l'atto di nomina (tutore o amministratore di sostegno).",
+      "text_en": "If someone other than a parent applies: attach the delegation or the appointment deed (guardian or support administrator).",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "in caso di domanda presentata da una terza persona non genitore, delega o atto di nomina (tutore/amministratore di sostegno).",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Delega o atto di nomina (se chiede un'altra persona)",
+      "short_en": "Delegation or appointment deed (if someone else applies)"
+    },
+    {
+      "id": "domicilio-capacita",
+      "category": "how",
+      "text_it": "La persona deve essere in grado di intendere e di volere: se non lo è e non c'è un tutore, l'ufficiale d'anagrafe non può fare il servizio.",
+      "text_en": "The person must be able to understand and decide: if not, and there is no guardian, the registry officer cannot provide the service.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-domicilio-modulo",
+      "quote": "Si ricorda che il cittadino interessato al servizio deve essere in grado di intendere e volere. In caso contrario, in assenza anche della figura del Tutore, il giorno del servizio a domicilio, l’Ufficiale di Anagrafe, costatata l’incapacità del cittadino; non potrà comunque erogare il servizio.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-pagamento",
+      "category": "prepare",
+      "text_it": "L'uscita a domicilio è gratuita: si paga solo il servizio o il documento richiesto, con l'importo che l'operatore comunica al telefono, a casa, in contanti, bancomat o carta di credito.",
+      "text_en": "The home visit is free: you pay only for the service or document requested, the amount the officer tells you on the phone, at home, in cash, by debit or credit card.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-faq-04023",
+      "quote": "L'uscita del personale comunale al domicilio dell'interessato è gratuita. Il costo è relativo al al servizio/documento richiesto e sarà comunicato dall'operatore durante il colloquio telefonico per definire l'appuntamento. Il pagamento può essere effettuato a domicilio in contanti o con bancomat/carta di credito.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Pagamento a casa (contanti, bancomat o carta)",
+      "short_en": "Payment at home (cash, debit or credit card)"
+    },
+    {
+      "id": "domicilio-ricontatto",
+      "category": "after",
+      "text_it": "Dopo la domanda ti richiama un operatore del Comune da un numero che inizia con 02.884, non prima di 15 giorni lavorativi.",
+      "text_en": "After the request a City officer calls back from a number starting with 02.884, not before 15 working days.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-domicilio-modulo",
+      "quote": "ATTENZIONE: il ricontatto da parte di un nostro operatore avviene da un numero di telefono che inizia con 02.884. A causa dell’intensificarsi delle richieste, il ricontatto avverrà non prima di 15 giorni lavorativi dall'invio della richiesta.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "domicilio-urgenza",
+      "category": "if-urgent",
+      "text_it": "Se il servizio a domicilio è urgente: dopo aver inviato la domanda, segnala l'urgenza dalla sezione «Hai ancora bisogno di aiuto?» del centro di supporto del Comune, con il numero della pratica.",
+      "text_en": "If the home service is urgent: after sending the request, report the urgency from the 'Hai ancora bisogno di aiuto?' section of the City's support centre, with the request number.",
+      "when": {
+        "residenza": [
+          "milano",
+          "domicilio-milano",
+          "aire"
+        ],
+        "motivo": [
+          "prima",
+          "rinnovo",
+          "deteriorata",
+          "chip",
+          "smarrimento-furto"
+        ],
+        "presenza": [
+          "domicilio-salute"
+        ]
+      },
+      "source_id": "cie-faq-04028",
+      "quote": "Per segnalare l'urgenza, inviare una richiesta dalla sezione \"Hai ancora bisogno di aiuto?\" indicando il numero della pratica online:",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
     }
   ],
   "steps": [
@@ -579,10 +3851,42 @@
       "status": "verified",
       "booking": true,
       "title_it": "Prenotazione",
-      "title_en": "Booking"
+      "title_en": "Booking",
+      "routes": [
+        {
+          "ente": "comune-milano",
+          "text_it": "Senza appuntamento solo per urgenza documentata, carta persa o rubata (con denuncia e senza altro documento) o carta rovinata: vai direttamente a una sede anagrafica, finché ci sono ticket.",
+          "text_en": "Without an appointment only for a documented urgency, a lost or stolen card (with a police report and no other document) or a damaged card: go straight to a registry office, while tickets last.",
+          "source_id": "cie",
+          "quote": "Nei casi sopra citati è possibile rivolgersi direttamente alle sedi anagrafiche, fino al limite massimo di ticket erogabili",
+          "verified_at": "2026-10-04",
+          "status": "verified"
+        },
+        {
+          "ente": "comune-milano",
+          "text_it": "Se la persona non può muoversi per gravi motivi di salute: si chiede il servizio a domicilio con il modulo online, anche da parte di un genitore, tutore, amministratore di sostegno o delegato.",
+          "text_en": "If the person cannot move for serious health reasons: the home service is requested with the online form, also by a parent, guardian, support administrator or delegate.",
+          "source_id": "cie-domicilio-salute",
+          "quote": "La domanda può essere compilata tramite form anche da una terza persona (genitore di minorenne, tutore, amministratore di sostegno o delegato semplice).",
+          "verified_at": "2026-10-04",
+          "status": "verified"
+        }
+      ]
     },
     {
       "order": 2,
+      "ente": "comune-milano",
+      "text_it": "Il giorno dell'appuntamento fai il check-in: senza check-in non ti chiamano allo sportello.",
+      "text_en": "On the day, check in: without check-in you are not called to the desk.",
+      "source_id": "cie-faq-03783",
+      "quote": "Il check-in è obbligatorio per essere chiamati allo sportello.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Check-in",
+      "title_en": "Check-in"
+    },
+    {
+      "order": 3,
       "ente": "comune-milano",
       "text_it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
       "text_en": "At the desk, at the end, you check your details and sign the summary form.",
@@ -594,7 +3898,19 @@
       "title_en": "At the desk"
     },
     {
-      "order": 3,
+      "order": 4,
+      "ente": "comune-milano",
+      "text_it": "Ti danno una ricevuta di carta: conservala, contiene la prima metà del PIN e del PUK.",
+      "text_en": "You are given a paper receipt: keep it, it holds the first half of the PIN and PUK.",
+      "source_id": "cie-ministero-pin-puk",
+      "quote": "La prima metà dei codici PIN e PUK è contenuta nella ricevuta cartacea fornita dall’operatore al termine della richiesta di rilascio della CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Ricevuta",
+      "title_en": "Receipt"
+    },
+    {
+      "order": 5,
       "ente": "comune-milano",
       "text_it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
       "text_en": "The card arrives by registered mail within 6 working days.",
@@ -607,9 +3923,24 @@
     }
   ],
   "unknowns_it": [
-    "La pagina del Comune dice che la carta dei minorenni non italiani non vale per l'espatrio, ma non dice nulla per gli adulti non italiani: se lo chiedono, l'assistente dice che le fonti salvate non lo dicono e rimanda alla pagina ufficiale.",
+    "Fonti non allineate sul copricapo nella foto: la pagina del Comune chiede la foto «con il capo scoperto», mentre le regole del Ministero dell'Interno (a cui la pagina rimanda) lo ammettono per motivi religiosi, culturali o medici con il volto ben visibile. Decide l'operatore allo sportello.",
+    "Fonti non allineate sugli orari senza appuntamento: la pagina della carta d'identità dice che le eccezioni si gestiscono solo dalle 8:30 alle 15:00, la pagina delle sedi anagrafiche e il dataset ds549 dicono che i ticket per urgenze si danno fino a mezz'ora prima della chiusura. Per via Larga il giovedì e il sabato il risultato cambia. La voce «senza-appuntamento-orario» riporta entrambe le fonti.",
+    "Documenti per il viaggio urgente non uguali tra gli articoli del centro di supporto: per la carta persa (KA-00520) e per i minori si chiede solo un altro documento, per la carta rubata (KA-00355) e per gli atti notarili anche «oppure due testimoni»; per la carta rovinata (KA-00418) si chiede anche la copia della denuncia, probabilmente per errore.",
+    "Durata illimitata dai 70 anni: la pagina del Comune dice carte rilasciate «dal» 30 luglio 2026, l'articolo KA-04339 «dopo», l'articolo KA-04338 «prima» per le carte di 10 anni: per una carta rilasciata proprio il 30 luglio non è chiaro. L'allegato tecnico della circolare n. 60/2026 parla di «cittadini italiani ultrasettantenni», mentre la circolare e la pagina del Comune parlano di tutte le persone di 70 anni o più (esclusi i richiedenti protezione internazionale).",
+    "Donazione di organi: il Ministero dice che la scelta si esprime «se lo desidera», l'articolo KA-00542 del Comune dice che i maggiorenni «devono firmare un modulo». Per cancellare l'assenso la pagina del servizio indica l'e-mail Dsc.demograficidirezione@comune.milano.it, l'articolo KA-00551 l'e-mail DSC.ServCittadiniDirezione@comune.milano.it: l'assistente indica la pagina e l'indirizzo postale (via Larga 12), non un'e-mail.",
+    "Servizio a domicilio: la pagina della carta d'identità chiede un certificato di «impossibilità di muoversi», la pagina del servizio, il modulo e gli articoli del centro di supporto «in modo permanente».",
+    "La guida YesMilano dice che la consegna richiede dieci giorni lavorativi; il Comune e il Ministero dicono entro 6 giorni lavorativi: vale il Comune.",
+    "Le fonti non dicono: se si può chiedere la carta mentre la domanda di residenza è ancora in verifica; se basta la ricevuta della prima domanda di permesso di soggiorno; se ai cittadini UE servono documenti in più; se l'anagrafe di Milano accetta chi è iscritto all'AIRE di un altro Comune (la circolare n. 54/2026 lo prevede in qualsiasi Comune, la pagina del Comune parla degli iscritti all'AIRE di Milano); se allo sportello si paga anche con carta di credito; se un duplicato dopo furto o smarrimento costa più di 22,20 euro; come si annulla un appuntamento; quali sedi rilasciano la CIE; il margine esatto per il check-in (è scritto solo nella mail di conferma); se allo sportello c'è aiuto in inglese o in altre lingue; cosa fare se i dati stampati sulla carta sono sbagliati; come si fa la carta allo sportello per un adulto con tutore o amministratore di sostegno; cosa può fare chi ha solo la dichiarazione di dimora temporanea (per esempio uno studente UE); come si fa la carta per una persona senza dimora o detenuta (c'è solo una notizia del Comune del 2023 sul documento IP3 per le persone detenute); se la «priority lane» di via Larga per persone con disabilità e genitori con neonati (notizia del 30 dicembre 2024) è ancora attiva.",
+    "L'elenco delle sedi con cabina per le fototessere (PDF del Comune, gennaio 2022) non è aggiornato: nomina la sede di Boifava, che non è tra le 13 sedi attuali, e non nomina Legioni Romane e Passerini.",
+    "La pagina in inglese della carta d'identità del Comune traduce male la regola dei 70 anni («aged 8 or over 70»): per i fatti si usa solo la pagina in italiano.",
+    "6 giorni lavorativi sono almeno una settimana di calendario: lead_time_days = 8 è una stima prudente del team, non un dato della fonte, e non compare nel testo per il cittadino. Anche i 15 giorni lavorativi per il ricontatto del servizio a domicilio non sono convertiti in giorni di calendario.",
     "Il Ministero indica 16,79 euro più i diritti fissi e di segreteria; il totale a Milano (22,20 euro) è quello della pagina del Comune.",
-    "L'elenco delle sedi con cabina per le fototessere digitali è in un PDF del Comune non ancora salvato tra le fonti.",
-    "6 giorni lavorativi sono almeno una settimana di calendario: lead_time_days = 8 è una stima prudente del team, non un dato della fonte."
+    "Sostituzione della carta senza PIN e PUK senza appuntamento: la dice solo l'articolo KA-00303 (aggiornato il 17/11/2025); la pagina della carta d'identità (02/10/2026) elenca come eccezioni solo urgenza, furto o smarrimento e deterioramento. La voce lo dice e rimanda all'anagrafe.",
+    "Testimoni per la prima carta: il Ministero dice «due testimoni» senza dire chi possono essere; la pagina del Comune chiede testimoni maggiorenni con un documento valido nel caso del vecchio documento che non permette l'identificazione; l'articolo KA-00393 (prima carta per cittadini extra UE) chiede «un altro documento di identità valido» e non parla di testimoni.",
+    "Minori, genitore assente: il modulo «Dichiarazione assenso minore» (solo immagine, non citabile) chiede di allegare una «copia semplice» del documento del genitore assente; le fonti non dicono come firma un genitore che vive all'estero né cosa serve se un genitore nega l'assenso (l'autorizzazione del giudice tutelare compare solo nella pagina della Polizia di Stato sul passaporto).",
+    "Residenza in corso: la pagina del Comune sulla residenza dall'estero dice che «gli effetti giuridici delle iscrizioni anagrafiche hanno inizio dalla data di presentazione della dichiarazione», ma nessuna fonte dice se nel frattempo si può già chiedere la carta d'identità: la voce resta «da verificare».",
+    "Chi abita a Milano ed è residente fuori dalla Lombardia: la pagina del Comune e l'articolo KA-00413 parlano solo del rinnovo, gli articoli KA-00302/00306 dicono in generale che il servizio è aperto ai domiciliati: per prima carta, furto o smarrimento e chip guasto c'è una voce «da verificare».",
+    "Chip guasto: l'articolo KA-00409 dice di segnalare il difetto al Ministero e di presentarsi senza appuntamento con l'autorizzazione; non dice quali documenti portare oltre all'autorizzazione: la checklist mostra quelli generali della carta (foto, codice fiscale).",
+    "Le domande che il catalogo non può ancora saltare: con la logica attuale di get_checklist ogni domanda usata in una condizione resta in still_to_ask finché non ha risposta, anche quando la risposta a un'altra domanda la rende inutile (per esempio l'età per chi ha perso solo il PIN)."
   ]
 }

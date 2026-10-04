@@ -1,0 +1,11 @@
+id: cie-neoarrivato-en
+quick: false
+messages:
+  - "Hi, I arrived in Milan two weeks ago from outside the EU. I have the post office receipt for my first residence permit and I am not registered as a resident yet. Can I get an Italian ID card now?"
+expect:
+  service: carta-identita
+  variant: prima
+  language: en
+  requirements_include: [prima-la-residenza, solo-residenti]
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale, your name, passport number]

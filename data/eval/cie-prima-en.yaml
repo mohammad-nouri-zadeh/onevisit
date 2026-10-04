@@ -1,11 +1,11 @@
 id: cie-prima-en
 quick: true
 messages:
-  - "Hi, I live in Milan and I need my first Italian identity card. I'm an adult."
+  - "Hi, I'm registered as a resident in Milan and I need my first Italian identity card. I'm an adult."
 expect:
   service: carta-identita
   variant: prima
   language: en
-  requirements_include: [su-appuntamento]
+  requirements_include: [fototessera, altro-documento]
   forbidden_phrases: [eligible, guaranteed, compliant]
   must_not_ask: [tax code, codice fiscale, your name, address]

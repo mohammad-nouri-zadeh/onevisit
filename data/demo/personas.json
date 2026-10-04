@@ -71,7 +71,9 @@
         "cittadinanza": "extra-ue",
         "famiglia": "solo",
         "permesso": "permesso",
-        "alloggio": "affitto"
+        "alloggio": "affitto",
+        "residenza": "milano",
+        "presenza": "sportello"
       },
       "urgent": true,
       "featured": true
@@ -148,7 +150,9 @@
       "answers": {
         "motivo": "rinnovo",
         "eta": "adulto",
-        "cittadinanza": "extra-ue"
+        "cittadinanza": "extra-ue",
+        "residenza": "milano",
+        "presenza": "sportello"
       }
     },
     {

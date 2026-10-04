@@ -128,21 +128,57 @@
    "it": "Accertamento",
    "text": "Comprobación"
   },
+  "carta-identita:req:accettazione-obbligatoria:text": {
+   "it": "Il check-in è obbligatorio: senza, non ti chiamano allo sportello. Si può fare solo nella fascia di tempo scritta nella mail di conferma (un margine prima e dopo l'orario).",
+   "text": "El check-in es obligatorio: sin él no te llaman a la ventanilla. Solo puedes hacerlo dentro de la franja horaria indicada en el correo de confirmación (un margen antes y después de tu hora)."
+  },
   "carta-identita:req:accettazione:text": {
-   "it": "Il giorno dell'appuntamento fai l'accettazione: online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
-   "text": "El día de la cita haz el registro de llegada: online con el código del correo de confirmación, o en la oficina mostrando el código QR del correo, tu código fiscal o tu CIE."
+   "it": "Il giorno dell'appuntamento fai l'accettazione (check-in): online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
+   "text": "El día de la cita haz el check-in: online con el código del correo de confirmación, o en la oficina mostrando el código QR del correo, tu código fiscal (codice fiscale) o tu CIE."
+  },
+  "carta-identita:req:aire-consegna:text": {
+   "it": "Se sei iscritto all'AIRE, la carta può arrivare al tuo domicilio in Italia (da dire allo sportello), al tuo indirizzo all'estero oppure al tuo Consolato.",
+   "text": "Si estás inscrito en el AIRE, la carta se puede enviar a tu dirección en Italia (dilo en la ventanilla), a tu dirección en el extranjero o a tu consulado."
+  },
+  "carta-identita:req:aire-prenotazione:text": {
+   "it": "Se sei iscritto all'AIRE di Milano, per il rinnovo prenoti l'appuntamento dal pulsante «Prenota appuntamento» in cima alla pagina del Comune.",
+   "text": "Si estás inscrito en el AIRE de Milán, para la renovación pides cita con el botón «Prenota appuntamento» arriba en la página del Ayuntamiento."
+  },
+  "carta-identita:req:aire-qualsiasi-comune:text": {
+   "it": "Secondo una circolare del Ministero dell'Interno (maggio 2026), chi è iscritto all'AIRE può chiedere la CIE in qualsiasi Comune italiano.",
+   "text": "Según una circular del Ministerio del Interior (mayo de 2026), los inscritos en el AIRE pueden pedir la CIE en cualquier municipio italiano."
   },
   "carta-identita:req:altro-documento:short": {
    "it": "Un altro documento d'identità con foto",
    "text": "Otro documento de identidad con foto"
   },
   "carta-identita:req:altro-documento:text": {
-   "it": "Prima carta: porta un altro documento d'identità in corso di validità con foto, per esempio il passaporto o la patente.",
-   "text": "Primera carta: lleva otro documento de identidad con foto que no esté caducado, por ejemplo el pasaporte o el carné de conducir."
+   "it": "Prima carta: porta un altro documento d'identità con foto non scaduto, per esempio il passaporto o la patente.",
+   "text": "Primera carta: lleva otro documento de identidad con foto sin caducar, por ejemplo el pasaporte o el permiso de conducir."
+  },
+  "carta-identita:req:attiva-credenziali:text": {
+   "it": "Se allo sportello hai lasciato cellulare ed e-mail, puoi attivare le credenziali CIE per i servizi online anche prima che la carta arrivi: servono il codice fiscale, il numero della carta e alcune cifre della prima metà del PUK scritte sulla ricevuta.",
+   "text": "Si dejaste el móvil y el correo en la ventanilla, puedes activar tus credenciales CIE para los servicios online incluso antes de que llegue la carta: necesitas tu código fiscal, el número de la carta y algunas cifras de la primera mitad del PUK impresa en el resguardo."
+  },
+  "carta-identita:req:avvisi-scadenza:text": {
+   "it": "Nel Fascicolo del Cittadino puoi attivare gli avvisi via e-mail prima della scadenza della carta (sezione Consensi).",
+   "text": "En el Fascicolo del Cittadino (el área personal del Ayuntamiento) puedes activar avisos por correo antes de que caduque la carta (sección Consensi)."
+  },
+  "carta-identita:req:avviso-spedizione:text": {
+   "it": "Puoi ricevere via e-mail l'avviso di spedizione e seguire la spedizione sul sito di Poste Italiane.",
+   "text": "Puedes recibir el aviso de envío por correo electrónico y seguir la entrega en la web de Poste Italiane."
+  },
+  "carta-identita:req:blocco-carta:text": {
+   "it": "Carta elettronica persa o rubata: chiedi il blocco al numero 800098558 del Ministero dell'Interno (dal lunedì al venerdì 8-18, sabato 8-14), con nome, codice fiscale, numero della carta se lo hai, gli estremi della denuncia e la città dove l'hai fatta. Il numero vale per le carte emesse dopo il 4 luglio 2016; per una carta emessa prima, dopo la denuncia vai al Comune che l'ha rilasciata.",
+   "text": "Carta electrónica perdida o robada: pide el bloqueo en el número del Ministerio del Interior 800098558 (de lunes a viernes de 8 a 18, sábado de 8 a 14), con tu nombre, tu código fiscal, el número de la carta si lo tienes, los datos de la denuncia y la ciudad donde la presentaste. El número sirve para las cartas emitidas después del 4 de julio de 2016; para una carta emitida antes, después de la denuncia ve al Ayuntamiento que la expidió."
   },
   "carta-identita:req:cambio-indirizzo:text": {
-   "it": "Non serve rifare la carta d'identità quando cambi indirizzo o residenza.",
-   "text": "No hace falta una nueva carta de identidad cuando cambias de dirección o de residencia."
+   "it": "Non serve rifare né modificare la carta d'identità quando cambi indirizzo, residenza o stato civile.",
+   "text": "No hace falta rehacer ni modificar la carta de identidad cuando cambias de dirección, de residencia o de estado civil."
+  },
+  "carta-identita:req:carta-cartacea-contratti:text": {
+   "it": "Per un contratto firmato prima del 3 agosto 2026 in cui ti hanno identificato con la carta cartacea, puoi continuare a usarla per quel contratto fino alla sua scadenza naturale.",
+   "text": "Para un contrato firmado antes del 3 de agosto de 2026 en el que te identificaron con la carta de papel, puedes seguir usándola para ese contrato hasta su fecha natural de caducidad."
   },
   "carta-identita:req:carta-cartacea-espatrio:text": {
    "it": "Dopo il 3 agosto 2026 la carta cartacea non si può più usare in nessun caso per andare all'estero.",
@@ -152,9 +188,21 @@
    "it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
    "text": "Las cartas de identidad de papel caducaron el 3 de agosto de 2026: si todavía tienes la de papel, necesitas la CIE."
   },
+  "carta-identita:req:carta-cartacea-usi-residui:text": {
+   "it": "Fino al 31 gennaio 2027, purché la carta cartacea non scada prima di quella data, si può ancora usare in Italia per alcuni servizi (per esempio sanità, pensione, posta, banca) e con la Pubblica Amministrazione.",
+   "text": "Hasta el 31 de enero de 2027, siempre que la carta de papel no caduque antes de esa fecha, todavía se puede usar en Italia para algunos servicios (por ejemplo sanidad, pensión, correos, banco) y ante las oficinas públicas."
+  },
   "carta-identita:req:carta-provvisoria:text": {
    "it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
    "text": "Hasta diciembre de 2027, solo para urgencias reales y documentadas, se puede obtener una carta de identidad provisional, solo en la sede central de Via Larga 12 (entrada por Via Pecorari 3), demostrando que ya has reservado la cita para la CIE."
+  },
+  "carta-identita:req:chip-difettoso:text": {
+   "it": "Se il Ministero autorizza il rifacimento ti manda una mail: con quell'autorizzazione vai senza appuntamento in una qualsiasi sede anagrafica e la nuova carta non costa nulla.",
+   "text": "Si el Ministerio autoriza una nueva carta te envía un correo: con esa autorización ve sin cita a cualquier oficina del registro, y la nueva carta es gratuita."
+  },
+  "carta-identita:req:chip-segnalazione:text": {
+   "it": "Chip che non funziona: prima segnala il difetto all'assistenza del Ministero dell'Interno, cie.cittadini@interno.it oppure 06 4298 5699.",
+   "text": "Chip que no funciona: primero comunica el defecto a la asistencia del Ministerio del Interior, cie.cittadini@interno.it o 06 4298 5699."
   },
   "carta-identita:req:codice-fiscale:short": {
    "it": "Tessera sanitaria o codice fiscale",
@@ -164,6 +212,22 @@
    "it": "Porta la tessera sanitaria o il codice fiscale.",
    "text": "Lleva la tarjeta sanitaria (tessera sanitaria) o el código fiscal (codice fiscale)."
   },
+  "carta-identita:req:consegna-indirizzo:text": {
+   "it": "La carta viene spedita al tuo domicilio oppure a un altro indirizzo che indichi allo sportello.",
+   "text": "La carta se envía por correo a tu casa o a otra dirección que indiques en la ventanilla."
+  },
+  "carta-identita:req:consegnata-al-mittente:text": {
+   "it": "Se su poste.it la spedizione risulta «Consegnata al mittente», vai alla sede del Comune dove hai fatto la richiesta.",
+   "text": "Si en poste.it aparece «Consegnata al mittente» (devuelta al remitente), ve a la oficina del Ayuntamiento donde hiciste la solicitud."
+  },
+  "carta-identita:req:contatti-aggiornare:text": {
+   "it": "Per cambiare l'e-mail o il cellulare collegati alla carta: appuntamento in una sede anagrafica, di persona e con la carta.",
+   "text": "Para cambiar el correo o el móvil vinculados a la carta: cita en una oficina del registro, en persona y con la carta."
+  },
+  "carta-identita:req:contatti:text": {
+   "it": "Se quando chiedi la carta lasci un indirizzo e-mail e/o un numero di cellulare, in caso di perdita del codice PUK potrai recuperarlo dall'app CieID.",
+   "text": "Si al pedir la carta dejas un correo electrónico y/o un número de móvil, en caso de perder el código PUK podrás recuperarlo con la app CieID."
+  },
   "carta-identita:req:costo:short": {
    "it": "22,20 euro (contanti o bancomat)",
    "text": "22,20 euros (efectivo o tarjeta de débito)"
@@ -171,6 +235,22 @@
   "carta-identita:req:costo:text": {
    "it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
    "text": "Coste: 22,20 euros, en efectivo o con tarjeta de débito, el día de la cita."
+  },
+  "carta-identita:req:credenziali-scadute-90-giorni:text": {
+   "it": "Se la carta è già scaduta, le credenziali CIE per i servizi online funzionano ancora per 90 giorni, ma smettono di funzionare prima se nel frattempo rinnovi la carta e ricevi i nuovi codici.",
+   "text": "Si la carta ya ha caducado, sus credenciales CIE para los servicios online siguen funcionando 90 días más, pero dejan de funcionar antes si mientras tanto renuevas la carta y recibes los nuevos códigos."
+  },
+  "carta-identita:req:delega-ritiro:text": {
+   "it": "Se la carta può riceverla un'altra persona, allo sportello indica nome e cognome del delegato al ritiro; per i minori di 14 anni il delegato è obbligatorio.",
+   "text": "Si otra persona puede recibir la carta, indica en la ventanilla el nombre y apellido de la persona autorizada; para los menores de 14 años la autorización es obligatoria."
+  },
+  "carta-identita:req:denuncia-online-smarrimento:text": {
+   "it": "Se la carta è persa (non rubata), puoi segnalare lo smarrimento online sul portale «Denunce online» della Polizia di Stato, senza andare in un ufficio di Polizia: il verbale arriva entro 96 ore nella tua area personale e serve per chiedere il nuovo documento.",
+   "text": "Si la carta se perdió (no si te la robaron), puedes denunciar la pérdida online en el portal «Denunce online» de la Polizia di Stato (Policía de Estado), sin ir a una comisaría: la denuncia llega en 96 horas a tu área personal y es la que usas para pedir el nuevo documento."
+  },
+  "carta-identita:req:denuncia-online-spid:text": {
+   "it": "Al portale «Denunce online» si accede con SPID o CIE: se non hai SPID e la carta persa era la tua unica CIE, fai la denuncia alle forze dell'ordine.",
+   "text": "Al portal «Denunce online» se entra con SPID o CIE: si no tienes SPID y la carta perdida era tu única CIE, presenta la denuncia ante la policía."
   },
   "carta-identita:req:denuncia:short": {
    "it": "La denuncia di furto o smarrimento",
@@ -180,25 +260,149 @@
    "it": "Carta persa o rubata: porta la denuncia fatta alle forze dell'ordine (autorità di Pubblica Sicurezza).",
    "text": "Carta perdida o robada: lleva la denuncia (denuncia) presentada ante las autoridades de seguridad pública."
   },
+  "carta-identita:req:dichiarazione-genitori-espatrio:text": {
+   "it": "Se hai figli minorenni, allo sportello dichiari di non trovarti in nessuna delle condizioni che impediscono il rilascio di un documento per l'espatrio.",
+   "text": "Si tienes hijos menores de 18 años, en la ventanilla declaras que no te afecta ninguna de las condiciones que impiden expedir un documento de viaje."
+  },
   "carta-identita:req:documento-precedente:short": {
    "it": "La carta scaduta o rovinata",
    "text": "La carta caducada o deteriorada"
   },
   "carta-identita:req:documento-precedente:text": {
-   "it": "Rinnovo: consegna la carta scaduta o rovinata.",
-   "text": "Renovación: entrega la carta caducada o deteriorada."
+   "it": "Consegna la carta vecchia, scaduta o rovinata.",
+   "text": "Entrega la carta anterior, caducada o estropeada."
+  },
+  "carta-identita:req:domiciliati-altri-casi:text": {
+   "it": "Da verificare: le fonti salvate parlano solo del rinnovo per chi abita a Milano ed è residente fuori dalla Lombardia; per una prima carta, una carta persa o rubata o un chip guasto non dicono se si può fare a Milano. Chiedi all'anagrafe prima di prenotare.",
+   "text": "Por comprobar: las fuentes guardadas solo hablan de la renovación para quien vive en Milán y está empadronado fuera de Lombardía; para una primera carta, una carta perdida o robada o un chip averiado no dicen si se puede hacer en Milán. Pregunta en el registro antes de pedir cita."
+  },
+  "carta-identita:req:domiciliati-documenti:short": {
+   "it": "Prova dell'impedimento ad andare nel tuo Comune",
+   "text": "Prueba de que no puedes ir a tu municipio"
+  },
+  "carta-identita:req:domiciliati-documenti:text": {
+   "it": "Porta i documenti che dimostrano perché non puoi andare nel tuo Comune di residenza.",
+   "text": "Lleva papeles que muestren por qué no puedes ir al municipio donde estás empadronado."
+  },
+  "carta-identita:req:domiciliati-motivi:text": {
+   "it": "Se abiti a Milano ma sei residente in un Comune fuori dalla Lombardia, puoi rinnovare la carta a Milano solo per motivi gravi e documentati che ti impediscono di andare nel tuo Comune: vanno documentati sia il domicilio a Milano sia l'impedimento.",
+   "text": "Si vives en Milán pero estás empadronado en un municipio fuera de Lombardía, puedes renovar la carta en Milán solo por motivos graves y documentados que te impidan ir a tu municipio: hay que documentar tanto tu domicilio en Milán como el motivo."
+  },
+  "carta-identita:req:domicilio-capacita:text": {
+   "it": "La persona deve essere in grado di intendere e di volere: se non lo è e non c'è un tutore, l'ufficiale d'anagrafe non può fare il servizio.",
+   "text": "La persona debe ser capaz de entender y decidir: si no lo es y no tiene tutor, el funcionario del registro no puede prestar el servicio."
+  },
+  "carta-identita:req:domicilio-certificato:short": {
+   "it": "Certificato medico (non può muoversi)",
+   "text": "Certificado médico (no puede moverse)"
+  },
+  "carta-identita:req:domicilio-certificato:text": {
+   "it": "Da allegare: un certificato medico che attesta che la persona non può muoversi in modo permanente.",
+   "text": "Hay que adjuntar: un certificado médico que diga que la persona no puede moverse de forma permanente."
+  },
+  "carta-identita:req:domicilio-dati:text": {
+   "it": "Nel modulo indica il Municipio dove si trova la persona e il numero di telefono di chi l'operatore deve chiamare per fissare l'appuntamento a domicilio.",
+   "text": "En el formulario indica el Municipio (distrito) donde está la persona y el número de teléfono de quien debe llamar el funcionario para acordar la visita a domicilio."
+  },
+  "carta-identita:req:domicilio-delega:short": {
+   "it": "Delega o atto di nomina (se chiede un'altra persona)",
+   "text": "Delegación o acto de nombramiento (si la pide otra persona)"
+  },
+  "carta-identita:req:domicilio-delega:text": {
+   "it": "Se la domanda la fa un'altra persona che non è il genitore: allega la delega o l'atto di nomina (tutore o amministratore di sostegno).",
+   "text": "Si la solicitud la hace alguien que no es uno de los padres: adjunta la delegación o el acto de nombramiento (tutor o administrador de apoyo)."
+  },
+  "carta-identita:req:domicilio-documento:short": {
+   "it": "Documento d'identità della persona",
+   "text": "Documento de identidad de la persona"
+  },
+  "carta-identita:req:domicilio-documento:text": {
+   "it": "Da allegare: un documento d'identità della persona a cui è intestata la carta.",
+   "text": "Hay que adjuntar: un documento de identidad de la persona para la que es la carta."
+  },
+  "carta-identita:req:domicilio-form:text": {
+   "it": "Il servizio a domicilio si chiede con il modulo online del Comune, entrando con SPID o CIE; può compilarlo anche un'altra persona (genitore di un minorenne, tutore, amministratore di sostegno o un delegato).",
+   "text": "El servicio a domicilio se pide con el formulario online del Ayuntamiento, entrando con SPID o CIE; también puede rellenarlo otra persona (uno de los padres de un menor, el tutor, el administrador de apoyo o una persona delegada)."
+  },
+  "carta-identita:req:domicilio-pagamento:short": {
+   "it": "Pagamento a casa (contanti, bancomat o carta)",
+   "text": "Pago en casa (efectivo, tarjeta de débito o de crédito)"
+  },
+  "carta-identita:req:domicilio-pagamento:text": {
+   "it": "L'uscita a domicilio è gratuita: si paga solo il servizio o il documento richiesto, con l'importo che l'operatore comunica al telefono, a casa, in contanti, bancomat o carta di credito.",
+   "text": "La visita a domicilio es gratuita: solo pagas el servicio o el documento solicitado, el importe que el funcionario te dice por teléfono, en casa, en efectivo o con tarjeta de débito o de crédito."
+  },
+  "carta-identita:req:domicilio-ricontatto:text": {
+   "it": "Dopo la domanda ti richiama un operatore del Comune da un numero che inizia con 02.884, non prima di 15 giorni lavorativi.",
+   "text": "Después de la solicitud te llama un funcionario del Ayuntamiento desde un número que empieza por 02.884, no antes de 15 días laborables."
+  },
+  "carta-identita:req:domicilio-sede:text": {
+   "it": "Prima di compilare il modulo, guarda la mappa delle sedi anagrafiche e scegli l'ufficio a cui mandare la richiesta.",
+   "text": "Antes de rellenar el formulario, mira el mapa de las oficinas del registro y elige la oficina a la que enviar la solicitud."
+  },
+  "carta-identita:req:domicilio-servizio:text": {
+   "it": "Se la persona non può andare in anagrafe per gravi motivi di salute (ricoverata in ospedale o in RSA, oppure a letto a casa), c'è il servizio anagrafico a domicilio: un operatore del Comune va da lei.",
+   "text": "Si la persona no puede ir a la oficina del registro por motivos graves de salud (ingresada en un hospital o en una residencia, o en cama en casa), existe el servicio del registro a domicilio: un funcionario del Ayuntamiento va donde está."
+  },
+  "carta-identita:req:domicilio-urgenza:text": {
+   "it": "Se il servizio a domicilio è urgente: dopo aver inviato la domanda, segnala l'urgenza dalla sezione «Hai ancora bisogno di aiuto?» del centro di supporto del Comune, con il numero della pratica.",
+   "text": "Si el servicio a domicilio es urgente: después de enviar la solicitud, comunica la urgencia desde la sección «Hai ancora bisogno di aiuto?» del centro de asistencia del Ayuntamiento, con el número de la solicitud."
+  },
+  "carta-identita:req:donazione-modifica:text": {
+   "it": "Se hai dato l'assenso alla donazione, puoi cambiare idea in qualsiasi momento: per cancellare il sì si manda il modulo del Comune (pagina «Esprimi la tua volontà sulla donazione di organi»).",
+   "text": "Si dijiste sí a la donación, puedes cambiar de idea en cualquier momento: para anular el sí se envía el formulario del Ayuntamiento (página «Esprimi la tua volontà sulla donazione di organi»)."
+  },
+  "carta-identita:req:donazione-organi:text": {
+   "it": "Allo sportello, se lo desideri, puoi dire sì o no alla donazione di organi e tessuti.",
+   "text": "En la ventanilla, si quieres, puedes decir sí o no a la donación de órganos y tejidos."
+  },
+  "carta-identita:req:donazione-sit:text": {
+   "it": "La scelta sulla donazione viene registrata nel Sistema Informativo Trapianti e non è scritta sulla carta.",
+   "text": "Tu decisión sobre la donación se registra en el sistema nacional de información sobre trasplantes, no se escribe en la carta."
   },
   "carta-identita:req:espatrio-adulti-non-italiani:text": {
-   "it": "Da verificare: le fonti salvate non dicono se la carta d'identità di un adulto non italiano vale per andare all'estero. Rimanda alla pagina ufficiale o allo sportello.",
-   "text": "Por comprobar: las fuentes guardadas no dicen si la carta de identidad de un adulto no italiano sirve para viajar al extranjero. Consulta la página oficial o la ventanilla."
+   "it": "Se non hai la cittadinanza italiana, la carta è un documento d'identità ma non un documento per viaggiare all'estero: lo è solo per i cittadini italiani.",
+   "text": "Si no tienes la ciudadanía italiana, la carta es un documento de identidad pero no un documento para viajar al extranjero: lo es solo para los ciudadanos italianos."
+  },
+  "carta-identita:req:espatrio-italiani:text": {
+   "it": "Per i cittadini italiani la carta vale anche per viaggiare nei Paesi UE e in quelli che la accettano al posto del passaporto (Islanda, Norvegia, Svizzera, Liechtenstein).",
+   "text": "Para los ciudadanos italianos la carta también es documento de viaje en los países de la UE y en los que la aceptan en lugar del pasaporte (Islandia, Noruega, Suiza, Liechtenstein)."
+  },
+  "carta-identita:req:firma-cie-sign:text": {
+   "it": "Con l'app CieSign la carta serve anche per la firma elettronica avanzata.",
+   "text": "Con la app CieSign la carta también se puede usar para una firma electrónica avanzada."
+  },
+  "carta-identita:req:foto-bambini:text": {
+   "it": "Per i bambini le regole della foto sono le stesse, con più flessibilità: devono comunque essere da soli nella foto e con gli occhi aperti.",
+   "text": "Para los niños las reglas de la foto son las mismas, con más flexibilidad: deben estar solos en la foto, con los ojos abiertos."
+  },
+  "carta-identita:req:foto-copricapo:text": {
+   "it": "Copricapo: le regole del Ministero dell'Interno lo ammettono solo per motivi religiosi, culturali o medici, con il volto ben visibile. La pagina del Comune di Milano chiede invece la foto a capo scoperto: decide l'operatore allo sportello.",
+   "text": "Cubrirse la cabeza: las normas del Ministerio del Interior lo permiten solo por motivos religiosos, culturales o médicos, con la cara bien visible. En cambio, la página del Ayuntamiento de Milán pide la foto con la cabeza descubierta: decide el funcionario de la ventanilla."
   },
   "carta-identita:req:foto-formato-passaporto:text": {
    "it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
    "text": "La foto debe tener el mismo formato que la del pasaporte."
   },
+  "carta-identita:req:foto-misure:text": {
+   "it": "Misure della foto: 45 mm di altezza e 35 mm di larghezza. In primo piano viso e spalle, con il viso che occupa il 70-80% della foto, su sfondo chiaro e uniforme.",
+   "text": "Tamaño de la foto: 45 mm de alto y 35 mm de ancho. Cara y hombros en primer plano, la cara ocupa el 70-80 % de la foto, sobre un fondo claro y uniforme."
+  },
   "carta-identita:req:foto-niente-usb:text": {
-   "it": "La foto va portata stampata: non si accettano foto su chiavetta USB.",
-   "text": "Lleva la foto impresa: no se aceptan fotos en una memoria USB."
+   "it": "Il Comune di Milano accetta solo fototessere stampate su carta: niente foto su chiavetta USB.",
+   "text": "El Ayuntamiento de Milán solo acepta fotos de carné impresas en papel: nada de fotos en una memoria USB."
+  },
+  "carta-identita:req:foto-posa:text": {
+   "it": "Nella foto: espressione neutra e bocca chiusa, niente sorrisi né occhi chiusi, sguardo dritto verso l'obiettivo; niente cappelli, occhiali da sole o accessori che coprono il viso; occhiali da vista solo se non fanno riflessi e non nascondono gli occhi.",
+   "text": "En la foto: expresión neutra, boca cerrada, sin sonreír, ojos abiertos, mirando de frente a la cámara; sin sombreros, gafas de sol ni accesorios que tapen la cara; gafas graduadas solo si no hacen reflejos y no tapan los ojos."
+  },
+  "carta-identita:req:foto-prima-del-check-in:text": {
+   "it": "Alcune sedi anagrafiche hanno una cabina per le fototessere: se la usi, fai la foto prima del check-in, così non ti chiamano allo sportello quando non hai ancora la foto.",
+   "text": "Algunas oficinas del registro tienen una cabina de fotos: si la usas, hazte la foto antes del check-in, para que no te llamen a la ventanilla sin ella."
+  },
+  "carta-identita:req:foto-recente:text": {
+   "it": "La foto deve essere recente: non più vecchia di sei mesi.",
+   "text": "La foto debe ser reciente: de no más de seis meses."
   },
   "carta-identita:req:fototessera:short": {
    "it": "Una fototessera recente, stampata",
@@ -208,17 +412,53 @@
    "it": "Porta una fototessera recente, a colori, su sfondo chiaro, a capo scoperto, secondo i parametri del Ministero dell'Interno.",
    "text": "Lleva una foto de carnet reciente, en color, con fondo claro y la cabeza descubierta, según los parámetros del Ministerio del Interior."
   },
+  "carta-identita:req:giacenza-documento:text": {
+   "it": "Per ritirarla all'ufficio postale porta un documento d'identità non scaduto; se ne hai solo uno scaduto, porta anche una sua fotocopia su cui dichiari che i dati non sono cambiati.",
+   "text": "Para recogerla en correos lleva un documento de identidad sin caducar; si solo tienes uno caducado, lleva también una fotocopia en la que declaras que los datos no han cambiado."
+  },
+  "carta-identita:req:impronte-dita:text": {
+   "it": "Vai con le dita pulite: patine o pellicole sulle dita possono alterare le impronte.",
+   "text": "Ven con los dedos limpios: cualquier película o capa en las yemas puede estropear las huellas."
+  },
+  "carta-identita:req:impronte-privacy:text": {
+   "it": "Le due impronte vengono scritte in modo sicuro solo dentro la carta e non vengono conservate da nessun'altra parte.",
+   "text": "Las dos huellas se graban de forma segura solo dentro de la carta y no se guardan en ningún otro sitio."
+  },
   "carta-identita:req:impronte:text": {
-   "it": "Allo sportello ti prendono le impronte digitali.",
-   "text": "En la ventanilla te toman las huellas dactilares."
+   "it": "L'operatore del Comune ti prende le impronte digitali.",
+   "text": "El funcionario del Ayuntamiento te toma las huellas dactilares."
+  },
+  "carta-identita:req:indirizzo-consegna:short": {
+   "it": "Indirizzo completo per la spedizione",
+   "text": "Dirección completa de entrega"
+  },
+  "carta-identita:req:indirizzo-consegna:text": {
+   "it": "Prepara l'indirizzo completo dove spedire la carta: via, numero civico, CAP, città, provincia e, se ci sono, scala e interno.",
+   "text": "Ten preparada la dirección completa de entrega: calle, número, código postal, ciudad, provincia y, si los hay, escalera y número de piso."
+  },
+  "carta-identita:req:mancata-consegna:text": {
+   "it": "Se non sei in casa ti lasciano un avviso: entro 5 giorni lavorativi puoi chiedere un secondo tentativo; dopo, la carta resta 30 giorni all'ufficio postale più vicino.",
+   "text": "Si no estás en casa recibes un aviso: en 5 días laborables puedes pedir un segundo intento de entrega; después la carta espera 30 días en la oficina de correos más cercana."
+  },
+  "carta-identita:req:minori-accompagno-questura:text": {
+   "it": "La dichiarazione di accompagnamento si chiede in Questura o in un commissariato, con anticipo: la Polizia di Frontiera non la rilascia.",
+   "text": "La declaración de acompañamiento se pide en la Questura o en una comisaría, con bastante antelación al viaje: la policía de fronteras no la expide."
+  },
+  "carta-identita:req:minori-credenziali:text": {
+   "it": "Online, con la carta un minorenne tra 5 e 18 anni può accedere solo ai servizi delle scuole; sotto i 5 anni nessun accesso.",
+   "text": "Online, con la carta un menor de 5 a 18 años solo puede acceder a los servicios escolares; con menos de 5 años, ningún acceso."
+  },
+  "carta-identita:req:minori-documento-personale:text": {
+   "it": "Un minorenne italiano che viaggia deve avere un suo documento: non può essere iscritto sul passaporto dei genitori.",
+   "text": "Un menor italiano que viaja debe tener su propio documento: no puede figurar en el pasaporte de uno de los padres."
   },
   "carta-identita:req:minori-espatrio:short": {
    "it": "Assenso dell'altro genitore per l'espatrio",
    "text": "Consentimiento del otro progenitor para viajar"
   },
   "carta-identita:req:minori-espatrio:text": {
-   "it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori; se uno non può venire, servono la copia del suo documento e la sua dichiarazione di assenso sul modulo del Comune.",
-   "text": "Menores italianos: para una carta que sirva para viajar al extranjero hacen falta los dos padres; si uno no puede venir, hacen falta la copia de su documento y su declaración de consentimiento en el formulario del Ayuntamiento."
+   "it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori. Se uno non può venire, la carta vale per l'espatrio solo se porti anche la copia del suo documento d'identità e la sua dichiarazione di assenso firmata sul modulo del Comune («Dichiarazione assenso minore», sulla pagina della carta d'identità).",
+   "text": "Menores italianos: para una carta que sirva para viajar al extranjero hacen falta los dos padres. Si uno no puede venir, la carta sirve para viajar solo si llevas también la copia de su documento de identidad y su declaración de consentimiento firmada en el formulario del Ayuntamiento («Dichiarazione assenso minore», en la página de la carta de identidad)."
   },
   "carta-identita:req:minori-extra-ue:short": {
    "it": "Permesso di soggiorno del minore",
@@ -227,6 +467,22 @@
   "carta-identita:req:minori-extra-ue:text": {
    "it": "Minorenni extra UE: serve un permesso di soggiorno del minore in corso di validità, oppure il minore deve essere iscritto nel permesso di soggiorno di un genitore.",
    "text": "Menores de fuera de la UE: el menor necesita un permiso de residencia propio sin caducar, o debe figurar en el permiso de residencia de uno de los padres."
+  },
+  "carta-identita:req:minori-impronte-firma:text": {
+   "it": "Dai 12 anni compiuti al minore prendono due impronte digitali e il minore firma la carta.",
+   "text": "A partir de los 12 años se toman dos huellas dactilares y el menor firma la carta."
+  },
+  "carta-identita:req:minori-neonati-attesa:text": {
+   "it": "Neonato: aspetta 30 giorni lavorativi dalla nascita e controlla nel Fascicolo del Cittadino che la nascita sia registrata, poi prenota.",
+   "text": "Recién nacido: espera 30 días laborables después del nacimiento y comprueba en el Fascicolo del Cittadino (área personal del Ayuntamiento) que el nacimiento está registrado; después reserva."
+  },
+  "carta-identita:req:minori-neonati:text": {
+   "it": "Per la prima carta di un neonato servono entrambi i genitori oppure un altro adulto maggiorenne.",
+   "text": "Para la primera carta de un recién nacido deben estar presentes los dos padres, u otro adulto."
+  },
+  "carta-identita:req:minori-nomi-genitori:text": {
+   "it": "Sotto i 14 anni si può chiedere di scrivere sul retro della carta i nomi dei genitori (o di chi ne fa le veci).",
+   "text": "Si el menor tiene menos de 14 años puedes pedir que en el reverso de la carta se impriman los nombres de los padres (o del tutor)."
   },
   "carta-identita:req:minori-non-italiani-espatrio:text": {
    "it": "Minorenni non italiani (anche UE): la carta rilasciata non vale per l'espatrio.",
@@ -244,6 +500,18 @@
    "it": "Il minorenne a cui è intestata la carta deve essere sempre presente.",
    "text": "El menor a cuyo nombre se expide la carta debe estar siempre presente."
   },
+  "carta-identita:req:minori-secondo-documento-urgente:text": {
+   "it": "Solo per urgenze motivate e documentate: il giorno del tuo appuntamento puoi chiedere anche la carta per un minorenne della stessa famiglia anagrafica di chi ha prenotato.",
+   "text": "Solo para urgencias justificadas y documentadas: el día de tu cita también puedes pedir una carta para un menor de la misma familia registrada que la persona que reservó."
+  },
+  "carta-identita:req:minori-sotto-14-viaggio:text": {
+   "it": "Sotto i 14 anni il minore va all'estero con la carta solo se accompagnato da un genitore (o da chi ne fa le veci), oppure affidato a una persona, un ente o una compagnia di trasporto con una dichiarazione che li nomina, firmata da chi può dare l'assenso e convalidata dalla Questura o dal Consolato.",
+   "text": "Si tiene menos de 14 años, el niño solo puede viajar al extranjero con la carta acompañado de uno de los padres (o del tutor), o confiado a una persona, entidad o empresa de transporte mediante una declaración que los nombre, firmada por quien puede dar el consentimiento y validada por la Questura (Jefatura de Policía) o un consulado."
+  },
+  "carta-identita:req:minori-un-genitore-documenti:text": {
+   "it": "Se viene un solo genitore, come documento del minore si possono mostrare anche il permesso di soggiorno o il certificato di identità in corso di validità e con foto, oppure la vecchia carta scaduta, se permettono di riconoscerlo: decide l'operatore.",
+   "text": "Si viene solo uno de los padres, como documento del menor también se pueden mostrar el permiso de residencia o el certificado de identidad sin caducar y con foto, o la carta anterior caducada, si permiten reconocerlo: decide el funcionario."
+  },
   "carta-identita:req:minori-un-genitore:short": {
    "it": "Se viene un solo genitore: testimone o documento",
    "text": "Si viene un solo progenitor: testigo o documento"
@@ -251,6 +519,14 @@
   "carta-identita:req:minori-un-genitore:text": {
    "it": "Se viene un solo genitore: serve un altro adulto con un documento d'identità come testimone, oppure un altro documento d'identità del minore con foto (passaporto o certificato di identità).",
    "text": "Si viene un solo progenitor: hace falta otro adulto con documento de identidad como testigo, o bien otro documento de identidad del menor con foto (pasaporte o certificado de identidad)."
+  },
+  "carta-identita:req:minori-unico-genitore:text": {
+   "it": "Se in anagrafe risulta un solo genitore, non serve nessun assenso.",
+   "text": "Si en el padrón consta un solo progenitor, no hace falta ningún consentimiento."
+  },
+  "carta-identita:req:minori-viaggi:text": {
+   "it": "Con una carta valida per l'espatrio il minore italiano può viaggiare nei Paesi UE, in Islanda, Norvegia, Svizzera e Liechtenstein.",
+   "text": "Con una carta válida para viajar, un menor italiano puede viajar a los países de la UE, Islandia, Noruega, Suiza y Liechtenstein."
   },
   "carta-identita:req:minori:short": {
    "it": "Entrambi i genitori, con il minore",
@@ -260,29 +536,185 @@
    "it": "Minorenni: il giorno dell'appuntamento vengono entrambi i genitori insieme al ragazzo o alla ragazza.",
    "text": "Menores: el día de la cita vienen los dos padres junto con el niño o la niña."
   },
+  "carta-identita:req:notaio-rovinata:text": {
+   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
+   "text": "La necesitas para una escritura ante notario o una cita legal y no tienes otro documento: ve a la oficina del registro sin cita en los 15 días antes de la cita."
+  },
+  "carta-identita:req:notaio-smarrimento:text": {
+   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
+   "text": "La necesitas para una escritura ante notario o una cita legal y no tienes otro documento: ve a la oficina del registro sin cita en los 15 días antes de la cita."
+  },
+  "carta-identita:req:nuovi-cittadini:text": {
+   "it": "Se sei appena diventato cittadino italiano (dopo il giuramento), puoi chiedere la nuova carta anche se quella da straniero scade tra più di 180 giorni; prima di prenotare controlla che in anagrafe la cittadinanza risulti aggiornata.",
+   "text": "Si acabas de obtener la ciudadanía italiana (después del juramento), puedes pedir la nueva carta aunque tu carta de extranjero caduque dentro de más de 180 días; antes de reservar, comprueba que el padrón ya muestra tu nueva ciudadanía."
+  },
+  "carta-identita:req:permesso-in-rinnovo:short": {
+   "it": "Ricevuta del rinnovo del permesso (se scaduto)",
+   "text": "Resguardo de renovación del permiso (si ha caducado)"
+  },
+  "carta-identita:req:permesso-in-rinnovo:text": {
+   "it": "Se il permesso di soggiorno è scaduto e hai chiesto il rinnovo, basta la ricevuta del rinnovo oppure la prenotazione fatta sull'app della Questura (prenotafacile).",
+   "text": "Si tu permiso de residencia (permesso di soggiorno) ha caducado y has pedido renovarlo, basta el resguardo de la renovación o la reserva hecha en la app de la Questura (Jefatura de Policía) (prenotafacile)."
+  },
+  "carta-identita:req:pin-nuovo-con-puk:text": {
+   "it": "Se dimentichi il PIN, ne imposti uno nuovo con il PUK: dall'app CieID sullo smartphone o dal Software CIE sul computer.",
+   "text": "Si olvidas el PIN, pones uno nuevo con el PUK: en la app CieID en un smartphone o con el Software CIE en un ordenador."
+  },
+  "carta-identita:req:pin-puk-domicilio:text": {
+   "it": "Se per gravi motivi di salute non puoi andare in una sede anagrafica, il duplicato di PIN e PUK si chiede con il servizio a domicilio: modulo online, con il documento d'identità della persona e il certificato medico che attesta che non può muoversi in modo permanente (e la delega o l'atto di nomina se la domanda la fa un'altra persona che non è il genitore).",
+   "text": "Si por motivos graves de salud no puedes ir a una oficina del registro, el duplicado de PIN y PUK se pide con el servicio a domicilio: formulario online, con el documento de identidad de la persona y el certificado médico que acredita que no puede moverse de forma permanente (y la delegación o el acta de nombramiento si la solicitud la hace otra persona que no es el padre o la madre)."
+  },
+  "carta-identita:req:pin-puk-non-funzionano:text": {
+   "it": "Se PIN e PUK non ti fanno entrare nei servizi online, puoi chiedere una nuova carta con l'autorizzazione del Ministero dell'Interno: scrivi a cie.cittadini@interno.it con il numero della carta e i tuoi dati.",
+   "text": "Si tu PIN y tu PUK no te dejan entrar en los servicios online, puedes pedir una nueva carta con la autorización del Ministerio del Interior: escribe a cie.cittadini@interno.it con el número de la carta y tus datos."
+  },
+  "carta-identita:req:pin-puk-seconda-meta:text": {
+   "it": "La seconda metà del PIN e del PUK è nella lettera dentro la busta con la carta: unisci le due metà e conserva i codici.",
+   "text": "La segunda mitad del PIN y del PUK está en la carta que viene en el sobre con la tarjeta: une las dos mitades y guarda los códigos."
+  },
+  "carta-identita:req:pin-puk-smarriti:text": {
+   "it": "PIN e PUK persi (carte emesse dal 3 agosto 2017): puoi chiederne il duplicato in qualsiasi sede anagrafica, con appuntamento, andando di persona con la carta.",
+   "text": "PIN y PUK perdidos (cartas emitidas desde el 3 de agosto de 2017): puedes pedir duplicados en cualquier oficina del registro, con cita, yendo en persona con la carta."
+  },
+  "carta-identita:req:prenotazione-famiglia:text": {
+   "it": "Se entri con SPID o CIE puoi prenotare insieme fino a cinque appuntamenti per persone della tua famiglia anagrafica.",
+   "text": "Si entras con SPID o CIE puedes reservar hasta cinco citas a la vez para miembros de tu familia registrada en el padrón (famiglia anagrafica)."
+  },
+  "carta-identita:req:prenotazione-portale-comune:text": {
+   "it": "A Milano si prenota solo con il sistema del Comune: Milano non usa il sistema di prenotazione del sito nazionale della carta d'identità.",
+   "text": "En Milán solo se reserva con el sistema del Ayuntamiento: Milán no usa el sistema de reservas de la web nacional de la carta de identidad."
+  },
   "carta-identita:req:prenotazione-senza-spid:text": {
-   "it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
-   "text": "En la mayoría de las oficinas puedes reservar también sin SPID, sin registrarte."
+   "it": "Per prenotare l'appuntamento della carta d'identità non serve lo SPID: si prenota dalla pagina del servizio del Comune.",
+   "text": "Para reservar la cita de la carta de identidad no necesitas SPID (identidad digital): reservas en la página del servicio del Ayuntamiento."
+  },
+  "carta-identita:req:prima-la-residenza:text": {
+   "it": "La carta d'identità si chiede dopo l'iscrizione all'anagrafe come residente a Milano: se sei appena arrivato, prima chiedi la residenza.",
+   "text": "La carta de identidad se pide después de inscribirte en el padrón como residente en Milán: si acabas de llegar, pide primero la residencia."
+  },
+  "carta-identita:req:primo-permesso-in-attesa:text": {
+   "it": "Da verificare: le fonti salvate non dicono se basta la ricevuta della prima domanda di permesso di soggiorno (permesso non ancora rilasciato). Le fonti parlano della ricevuta solo per un permesso scaduto in rinnovo: chiedi all'anagrafe prima di prenotare.",
+   "text": "Por comprobar: las fuentes guardadas no dicen si basta el resguardo de la primera solicitud del permiso de residencia (permiso todavía no expedido). Las fuentes mencionan el resguardo solo para un permiso caducado en renovación: pregunta en el registro antes de pedir cita."
+  },
+  "carta-identita:req:protezione-internazionale:text": {
+   "it": "Se hai chiesto protezione internazionale (asilo), la carta dura 3 anni, anche dopo i 70 anni.",
+   "text": "Si has pedido protección internacional (asilo), la carta dura 3 años, también a partir de los 70."
+  },
+  "carta-identita:req:provvisoria-costo:text": {
+   "it": "La carta provvisoria costa 5,42 euro.",
+   "text": "La carta provisional cuesta 5,42 euros."
+  },
+  "carta-identita:req:provvisoria-dichiarazione-viaggio:text": {
+   "it": "Se chiedi la carta provvisoria per un viaggio all'estero, nel modulo dichiari di non avere un passaporto per l'espatrio in corso di validità.",
+   "text": "Si pides la carta provisional para un viaje al extranjero, en el formulario declaras que no tienes un pasaporte para salir del país sin caducar."
+  },
+  "carta-identita:req:provvisoria-estero:text": {
+   "it": "Con la carta provvisoria gli altri Paesi UE potrebbero non farti entrare: controlla prima le regole del Paese dove vai.",
+   "text": "Otros países de la UE pueden negar la entrada con la carta provisional: antes consulta las normas del país al que vas."
+  },
+  "carta-identita:req:provvisoria-foto-modulo:text": {
+   "it": "Per la carta provvisoria porta il modulo di richiesta del Comune compilato e due fototessere a colori su sfondo chiaro, recenti e a capo scoperto.",
+   "text": "Para la carta provisional lleva el formulario de solicitud del Ayuntamiento rellenado y dos fotos de carnet recientes en color sobre fondo claro, con la cabeza descubierta."
+  },
+  "carta-identita:req:provvisoria-restituzione:text": {
+   "it": "La carta provvisoria va restituita al Comune quando fai la richiesta della CIE.",
+   "text": "La carta provisional debe devolverse al Ayuntamiento cuando pidas la CIE."
+  },
+  "carta-identita:req:provvisoria-validita:text": {
+   "it": "La carta provvisoria si può avere una sola volta, non si rinnova e dura sei mesi.",
+   "text": "La carta provisional solo se puede expedir una vez, no se puede renovar y dura seis meses."
+  },
+  "carta-identita:req:puk-recupero-app:text": {
+   "it": "Se hai perso il PUK e quando hai chiesto la carta avevi lasciato e-mail o cellulare, lo recuperi con l'app CieID: per sicurezza, l'SMS o la e-mail per completare la procedura e vedere il PUK arriva 48 ore dopo la richiesta.",
+   "text": "Si perdiste el PUK y al pedir la carta dejaste correo electrónico o móvil, lo recuperas con la app CieID: por seguridad, el SMS o el correo para terminar el trámite y ver el PUK llega 48 horas después de la solicitud."
+  },
+  "carta-identita:req:raccomandata-mani-proprie:text": {
+   "it": "Arriva con una raccomandata da consegnare «a mani proprie».",
+   "text": "Llega por correo certificado (raccomandata) con entrega en mano al destinatario."
+  },
+  "carta-identita:req:residenti-lombardia:text": {
+   "it": "Se sei residente in un altro Comune della Lombardia, la carta si chiede al tuo Comune di residenza, anche se è urgente.",
+   "text": "Si estás empadronado en otro municipio de Lombardía, la pides en tu propio municipio, aunque sea urgente."
+  },
+  "carta-identita:req:residenza-in-corso:text": {
+   "it": "Da verificare: le fonti salvate non dicono se puoi chiedere la carta mentre la domanda di residenza è ancora in verifica. Chiedi all'anagrafe prima di prenotare.",
+   "text": "Por comprobar: las fuentes guardadas no dicen si puedes pedir la carta mientras tu solicitud de residencia todavía se está comprobando. Pregunta en el registro antes de reservar."
+  },
+  "carta-identita:req:residenza-non-permesso:text": {
+   "it": "Attenzione: iscriversi all'anagrafe del Comune (residenza) non è la stessa cosa che avere il permesso di soggiorno.",
+   "text": "Atención: inscribirte en el padrón del Ayuntamiento (residenza) no es lo mismo que obtener el permiso de residencia (permesso di soggiorno)."
+  },
+  "carta-identita:req:rettifica-dati:text": {
+   "it": "Se i dati del tuo passaporto o del permesso di soggiorno sono cambiati, per correggerli in anagrafe c'è un servizio a parte del Comune: la rettifica dei dati anagrafici.",
+   "text": "Si los datos de tu pasaporte o de tu permiso de residencia han cambiado, hay un servicio aparte del Ayuntamiento para corregirlos en el padrón: la corrección de los datos del registro (rettifica dei dati anagrafici)."
+  },
+  "carta-identita:req:ricevuta-documento:text": {
+   "it": "Finché la carta non arriva, la ricevuta della richiesta vale come documento di riconoscimento.",
+   "text": "Hasta que llegue la carta, el resguardo de la solicitud sirve como documento de identidad."
+  },
+  "carta-identita:req:ricevuta-solo-italia:text": {
+   "it": "La ricevuta vale solo per spostarsi in Italia: non serve per andare all'estero.",
+   "text": "El resguardo solo sirve para moverte dentro de Italia: no para ir al extranjero."
+  },
+  "carta-identita:req:ricevuta-viaggi-italia:text": {
+   "it": "Per viaggiare in Italia puoi usare la ricevuta della CIE, senza aspettare che arrivi la carta.",
+   "text": "Para viajar dentro de Italia puedes usar el resguardo de la CIE, sin esperar a que llegue la carta."
   },
   "carta-identita:req:rinnovo-180-giorni:text": {
-   "it": "Puoi chiedere la nuova carta già da 180 giorni prima della scadenza di quella che hai.",
-   "text": "Puedes pedir la nueva carta desde 180 días antes de que caduque la que tienes."
+   "it": "Una carta elettronica si rinnova solo negli ultimi 180 giorni prima della scadenza, salvo urgenze.",
+   "text": "Una carta electrónica solo se puede renovar en los últimos 180 días antes de que caduque, salvo urgencia."
+  },
+  "carta-identita:req:rinnovo-cie-vecchie:text": {
+   "it": "Se la tua carta elettronica è stata rilasciata prima del 3 agosto 2017, puoi sostituirla quando vuoi con una di nuova generazione.",
+   "text": "Si tu carta electrónica se emitió antes del 3 de agosto de 2017, puedes cambiarla por una de nueva generación en cualquier momento."
+  },
+  "carta-identita:req:rinnovo-senza-pin-puk:text": {
+   "it": "Secondo un articolo del centro di supporto del Comune (novembre 2025), se la tua carta elettronica non ha PIN e PUK e scade tra più di 180 giorni, puoi andare senza appuntamento in una sede anagrafica, dove ti fissano una data per la nuova carta. La pagina del Comune (ottobre 2026) non elenca questo caso tra le eccezioni all'appuntamento: verifica con l'anagrafe.",
+   "text": "Según un artículo del centro de ayuda del Ayuntamiento (noviembre de 2025), si tu carta electrónica no tiene PIN ni PUK y caduca dentro de más de 180 días, puedes ir sin cita a una oficina del registro, donde te dan una fecha para la nueva carta. La página del Ayuntamiento (octubre de 2026) no incluye este caso entre las excepciones a la cita: consúltalo con el registro."
+  },
+  "carta-identita:req:riprogrammare:text": {
+   "it": "Se non puoi andare, puoi spostare l'appuntamento (anche dalla pagina del check-in online) fino all'orario fissato.",
+   "text": "Si no puedes ir, puedes cambiar la cita (también desde la página del check-in online) hasta la hora reservada."
+  },
+  "carta-identita:req:senza-appuntamento-deterioramento:text": {
+   "it": "Carta rovinata: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
+   "text": "Carta estropeada: es una de las excepciones en las que puedes ir a una oficina del registro sin cita."
   },
   "carta-identita:req:senza-appuntamento-orario:text": {
-   "it": "Le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00.",
-   "text": "Las excepciones sin cita se atienden solo de 8:30 a 15:00."
+   "it": "La pagina della carta d'identità dice che le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00. La pagina delle sedi anagrafiche dice invece che i ticket per urgenze si danno fino a mezz'ora prima della chiusura: le fonti non sono allineate.",
+   "text": "La página de la carta de identidad dice que las excepciones sin cita se atienden solo de 8:30 a 15:00. En cambio, la página de las oficinas del registro dice que los números para urgencias se dan hasta media hora antes del cierre: las fuentes no coinciden."
   },
   "carta-identita:req:senza-appuntamento-smarrimento:text": {
    "it": "Carta persa o rubata, con la denuncia e senza un altro documento di riconoscimento: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
    "text": "Carta perdida o robada, con la denuncia y sin otro documento de identificación: es una de las excepciones en las que puedes ir a una oficina del registro sin cita."
   },
   "carta-identita:req:senza-appuntamento-ticket:text": {
-   "it": "Senza appuntamento si entra con un ticket e i ticket del giorno sono limitati: vai presto.",
-   "text": "Sin cita se entra con un número de turno (ticket) y los del día son limitados: ve temprano."
+   "it": "Senza appuntamento si entra solo finché ci sono ticket disponibili: superato il limite massimo, potresti non essere servito.",
+   "text": "Sin cita solo se entra mientras queden números (ticket) disponibles: una vez alcanzado el máximo, puede que no te atiendan."
+  },
+  "carta-identita:req:servizi-online:text": {
+   "it": "Con la carta e i suoi codici PIN e PUK entri nei servizi online delle Pubbliche Amministrazioni abilitate, fino al livello di sicurezza più alto (tre livelli).",
+   "text": "Con la carta y su PIN y PUK puedes entrar en los servicios online de las administraciones públicas que la aceptan, hasta el nivel de seguridad más alto (tres niveles)."
+  },
+  "carta-identita:req:smarrimento-estero-etd:text": {
+   "it": "Se sei cittadino italiano e ti rubano o perdi la carta mentre sei all'estero, e non hai modo né tempo di chiedere un nuovo documento, rivolgiti al Consolato o all'Ambasciata d'Italia e chiedi un documento provvisorio di viaggio (E.T.D. – Emergency Travel Document).",
+   "text": "Si eres ciudadano italiano y te roban o pierdes la carta estando en el extranjero, y no tienes manera ni tiempo de pedir un nuevo documento, acude al Consulado o a la Embajada de Italia y pide un documento provisional de viaje (E.T.D., Emergency Travel Document)."
+  },
+  "carta-identita:req:smarrimento-estero:text": {
+   "it": "Persa o rubata all'estero: si può presentare la denuncia fatta al Consolato o all'Ambasciata d'Italia; quella fatta alla polizia straniera va presentata anche in Italia e poi consegnata al Comune.",
+   "text": "Perdida o robada en el extranjero: se puede presentar la denuncia hecha en el Consulado o en la Embajada de Italia; la hecha ante la policía extranjera también hay que presentarla en Italia y luego entregarla al Ayuntamiento."
+  },
+  "carta-identita:req:solo-residenti:text": {
+   "it": "Il centro di supporto del Comune scrive che il servizio della carta d'identità è solo per chi è residente a Milano oppure abita a Milano ed è residente fuori dalla Lombardia.",
+   "text": "El centro de ayuda del Ayuntamiento indica que el servicio de la carta de identidad es solo para quien está empadronado en Milán, o vive en Milán y está empadronado fuera de Lombardía."
+  },
+  "carta-identita:req:spedizione-assistenza:text": {
+   "it": "Se la spedizione resta a lungo «In spedizione», contatta l'assistenza del Ministero dell'Interno: cie.cittadini@interno.it o 06 4298 5699, dal lunedì al venerdì 9-16 e il sabato 9-13.",
+   "text": "Si la entrega se queda mucho tiempo «In spedizione» (en envío), contacta con el servicio de asistencia del Ministerio del Interior: cie.cittadini@interno.it o 06 4298 5699, de lunes a viernes de 9 a 16 y el sábado de 9 a 13."
   },
   "carta-identita:req:spedizione-citofono:text": {
-   "it": "Arriva per raccomandata: metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
-   "text": "Llega por correo certificado: pon el nombre de quien la recoge en el timbre, el portero automático y el buzón."
+   "it": "Metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
+   "text": "Pon el nombre de quien la recibe en el timbre, el portero automático y el buzón."
   },
   "carta-identita:req:stranieri:short": {
    "it": "Permesso o carta di soggiorno",
@@ -293,12 +725,12 @@
    "text": "Ciudadanos de fuera de la UE: lleva también el permiso de residencia (permesso di soggiorno) o la tarjeta de residencia sin caducar."
   },
   "carta-identita:req:su-appuntamento:text": {
-   "it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
-   "text": "Las ventanillas del registro solo atienden con cita, reservada online."
+   "it": "Gli sportelli anagrafici ricevono su appuntamento prenotato online; per le urgenze si entra con un ticket.",
+   "text": "Las ventanillas del registro atienden con cita reservada online; para los casos urgentes se entra con un número (ticket)."
   },
   "carta-identita:req:tempi-consegna:text": {
-   "it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta (conta almeno una settimana).",
-   "text": "La carta no se recoge en la ventanilla: la imprime la Casa de la Moneda del Estado y se envía en un plazo de 6 días laborables desde la solicitud (cuenta al menos una semana)."
+   "it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta.",
+   "text": "La carta no se recoge en la ventanilla: la imprime la Fábrica Nacional de Moneda (Poligrafico dello Stato) y se envía en un plazo de 6 días hábiles desde la solicitud."
   },
   "carta-identita:req:testimoni-prima:short": {
    "it": "Due testimoni (se non hai altri documenti)",
@@ -308,21 +740,73 @@
    "it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
    "text": "Primera carta y ningún otro documento de identidad: tienes que ir al Ayuntamiento con dos testigos."
   },
+  "carta-identita:req:testimoni-smarrimento:short": {
+   "it": "Due testimoni (se non hai altri documenti)",
+   "text": "Dos testigos (si no tienes otro documento)"
+  },
+  "carta-identita:req:testimoni-smarrimento:text": {
+   "it": "Se non hai più la carta e non hai un altro documento d'identità non scaduto, servono due testimoni maggiorenni con un documento d'identità valido.",
+   "text": "Si ya no tienes la carta y no tienes otro documento de identidad sin caducar, necesitas dos testigos mayores de edad con un documento de identidad en vigor."
+  },
   "carta-identita:req:testimoni:short": {
    "it": "Due testimoni (se non puoi essere riconosciuto)",
    "text": "Dos testigos (si no pueden identificarte)"
   },
   "carta-identita:req:testimoni:text": {
-   "it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità in corso di validità, servono due testimoni maggiorenni con un documento d'identità.",
-   "text": "Si la carta antigua no permite identificarte y no tienes otro documento de identidad sin caducar, hacen falta dos testigos mayores de edad con un documento de identidad."
+   "it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità non scaduto, servono due testimoni maggiorenni con un documento d'identità.",
+   "text": "Si la carta anterior no sirve para identificarte y no tienes otro documento de identidad sin caducar, necesitas dos testigos mayores de edad con un documento de identidad."
+  },
+  "carta-identita:req:tracciamento:text": {
+   "it": "Per seguire la spedizione su poste.it usa «cerca spedizioni» con il numero di raccomandata che trovi nel riepilogo che ti dà l'operatore.",
+   "text": "Para seguir la entrega en poste.it usa «cerca spedizioni» (buscar envíos) con el número del correo certificado que aparece en el resumen que te da el funcionario."
   },
   "carta-identita:req:urgenza-non-scadenza:text": {
-   "it": "Essersi accorti tardi che la carta è scaduta non conta come urgenza.",
-   "text": "Darse cuenta tarde de que la carta ha caducado no cuenta como urgencia."
+   "it": "Per la carta provvisoria non conta come urgenza essersi accorti tardi che la carta è scaduta (o di non averla).",
+   "text": "Para la carta provisional, darse cuenta tarde de que la carta ha caducado (o de que no la tienes) no cuenta como urgencia."
+  },
+  "carta-identita:req:urgenza-qualsiasi-sede:text": {
+   "it": "Con un'urgenza documentata (per esempio un ricovero in ospedale) e senza un altro documento di riconoscimento, puoi andare in qualsiasi sede anagrafica.",
+   "text": "Con una urgencia documentada (por ejemplo un ingreso en el hospital) y ningún otro documento de identidad, puedes ir a cualquier oficina del registro."
   },
   "carta-identita:req:urgenza:text": {
-   "it": "Urgenza documentata (per esempio un viaggio) e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
-   "text": "Urgencia documentada (por ejemplo un viaje) y ningún otro documento útil: preséntate en una oficina del registro en los 15 días anteriores al evento con los papeles que prueban la urgencia; te darán una fecha para la expedición."
+   "it": "Urgenza documentata e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
+   "text": "Urgencia documentada y ningún otro documento útil: preséntate en una oficina del registro en los 15 días anteriores al evento con los papeles que prueban la urgencia; te darán una fecha para la expedición."
+  },
+  "carta-identita:req:validita-70-anni:text": {
+   "it": "Se hai 70 anni o più, la carta rilasciata dal 30 luglio 2026 non scade; per entrare nei servizi online della Pubblica Amministrazione vale invece 10 anni. Non vale per chi ha chiesto asilo (la carta resta di 3 anni) né per chi per un problema temporaneo non può dare le impronte (resta di 1 anno).",
+   "text": "Si tienes 70 años o más, una carta expedida a partir del 30 de julio de 2026 no caduca; para entrar en los servicios públicos online dura 10 años. No se aplica a los solicitantes de asilo (la carta sigue durando 3 años) ni a quien temporalmente no puede dar las huellas (sigue durando 1 año)."
+  },
+  "carta-identita:req:validita-adulti:text": {
+   "it": "Per gli adulti la carta dura circa 10 anni (9 anni più i giorni fino al compleanno); i casi particolari (70 anni e oltre, richiesta di asilo, impronte non rilevabili) sono nelle voci qui sotto.",
+   "text": "Para los adultos la carta dura unos 10 años (9 años más los días hasta tu cumpleaños); los casos especiales (70 años o más, solicitud de asilo, huellas que no se pueden tomar) están en los puntos de abajo."
+  },
+  "carta-identita:req:validita-minori:text": {
+   "it": "Durata della carta di un minorenne: 3 anni fino ai 3 anni di età, 5 anni dai 3 ai 18 anni.",
+   "text": "Cuánto dura la carta de un menor: 3 años hasta los 3 años de edad, 5 años de los 3 a los 18."
+  },
+  "carta-identita:req:validita-senza-impronte:text": {
+   "it": "Se per un problema temporaneo non è possibile prendere le impronte, la carta dura 1 anno.",
+   "text": "Si no se pueden tomar las huellas por un problema temporal, la carta dura 1 año."
+  },
+  "carta-identita:req:viaggio-15-giorni-rovinata:text": {
+   "it": "Carta rovinata, viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza con la prova della data di partenza e la carta danneggiata.",
+   "text": "Carta estropeada, viaje cercano y ningún pasaporte sin caducar: preséntate en el registro en los 15 días antes de la salida con la prueba de la fecha de salida y la carta dañada."
+  },
+  "carta-identita:req:viaggio-15-giorni:text": {
+   "it": "Viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza, portando anche la prova della data di partenza.",
+   "text": "Viaje cercano y ningún pasaporte sin caducar: preséntate en el registro en los 15 días antes de la salida, llevando también la prueba de la fecha de salida."
+  },
+  "carta-identita:req:viaggio-5-giorni:text": {
+   "it": "Se chiedi la carta per urgenza nei 5 giorni prima di un viaggio in Europa, il Comune non può assicurare che arrivi subito.",
+   "text": "Si la pides con urgencia en los 5 días antes de un viaje dentro de Europa, el Ayuntamiento no puede prometer que la carta llegue enseguida."
+  },
+  "carta-identita:step:1:route:1:text": {
+   "it": "Senza appuntamento solo per urgenza documentata, carta persa o rubata (con denuncia e senza altro documento) o carta rovinata: vai direttamente a una sede anagrafica, finché ci sono ticket.",
+   "text": "Sin cita solo para una urgencia documentada, una carta perdida o robada (con denuncia y sin otro documento) o una carta estropeada: ve directamente a una oficina del registro, mientras queden números."
+  },
+  "carta-identita:step:1:route:2:text": {
+   "it": "Se la persona non può muoversi per gravi motivi di salute: si chiede il servizio a domicilio con il modulo online, anche da parte di un genitore, tutore, amministratore di sostegno o delegato.",
+   "text": "Si la persona no puede moverse por motivos graves de salud: el servicio a domicilio se pide con el formulario online, también por uno de los padres, el tutor, el administrador de apoyo o una persona delegada."
   },
   "carta-identita:step:1:text": {
    "it": "Prenota online l'appuntamento allo sportello anagrafico, scegliendo sede, giorno e ora.",
@@ -333,18 +817,34 @@
    "text": "Reserva"
   },
   "carta-identita:step:2:text": {
+   "it": "Il giorno dell'appuntamento fai il check-in: senza check-in non ti chiamano allo sportello.",
+   "text": "El día de la cita haz el check-in: sin check-in no te llaman a la ventanilla."
+  },
+  "carta-identita:step:2:title": {
+   "it": "Check-in",
+   "text": "Check-in"
+  },
+  "carta-identita:step:3:text": {
    "it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
    "text": "En la ventanilla, al final, compruebas tus datos y firmas el formulario de resumen."
   },
-  "carta-identita:step:2:title": {
+  "carta-identita:step:3:title": {
    "it": "Allo sportello",
    "text": "En la ventanilla"
   },
-  "carta-identita:step:3:text": {
-   "it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
-   "text": "La carta llega a casa por correo certificado en un plazo de 6 días laborables."
+  "carta-identita:step:4:text": {
+   "it": "Ti danno una ricevuta di carta: conservala, contiene la prima metà del PIN e del PUK.",
+   "text": "Te dan un resguardo en papel: guárdalo, contiene la primera mitad del PIN y del PUK."
   },
-  "carta-identita:step:3:title": {
+  "carta-identita:step:4:title": {
+   "it": "Ricevuta",
+   "text": "Resguardo"
+  },
+  "carta-identita:step:5:text": {
+   "it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
+   "text": "La carta llega por correo certificado en un plazo de 6 días laborables."
+  },
+  "carta-identita:step:5:title": {
    "it": "Consegna",
    "text": "Entrega"
   },

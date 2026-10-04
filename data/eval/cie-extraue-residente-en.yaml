@@ -1,0 +1,11 @@
+id: cie-extraue-residente-en
+quick: false
+messages:
+  - "Hi, I'm from Brazil and I'm registered as a resident in Milan. My residence permit is valid. I'm an adult and I'd like my first Italian ID card: what do I need to bring?"
+expect:
+  service: carta-identita
+  variant: prima
+  language: en
+  requirements_include: [stranieri, altro-documento, fototessera, codice-fiscale, espatrio-adulti-non-italiani]
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale, your name, passport number]

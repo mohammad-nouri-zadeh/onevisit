@@ -44,12 +44,15 @@ def test_scripted_text_states_a_requirement_only_as_written_in_the_data_with_its
 def test_first_turn_produces_a_checklist_and_asks_only_what_changes_it():
     state, user_text, reply = demo.start_persona("cie-isola", "en")
     assert user_text.startswith("I lost my ID card")
-    assert state["checklist"]["requirements"]
+    # nothing is listed before the residence answer, which decides whether Milan issues the card
+    assert not state["checklist"]["requirements"] and state["pending"] == "residenza"
     assert [s["tool"] for s in reply["trace"]][:3] == [
         "list_services",
         "get_service",
         "get_checklist",
     ]
+    nxt = demo.answer(state, "Resident in Milan")
+    assert state["checklist"]["requirements"] and nxt["check"]["ok"]
     if state["pending"]:
         assert state["pending"] in state["checklist"]["still_to_ask"]
         assert reply["options"] and len(reply["options"]) == len(reply["option_ids"])
@@ -85,8 +88,11 @@ def test_typed_answer_matching_an_option_is_understood():
 def test_appointment_from_the_booking_link():
     state, reply = demo.start_appointment("carta-identita", "ds549-11", "2030-01-15", "it")
     assert "15/01/2030" in reply["text"] and "Largo De Benedetti 1" in reply["text"]
-    assert state["office_id"] == "ds549-11" and state["checklist"]["requirements"]
+    assert state["office_id"] == "ds549-11" and state["pending"] == "residenza"
     assert reply["check"]["ok"]
+    demo.answer(state, "Residente a Milano")
+    demo.answer(state, "Rinnovo")  # what the appointment is for
+    assert state["checklist"]["requirements"]
 
 
 def test_idle_reply_states_nothing():

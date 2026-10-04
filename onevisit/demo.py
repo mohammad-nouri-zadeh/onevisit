@@ -227,7 +227,10 @@ def _checklist_paragraphs(state: dict, checklist: dict, final: bool) -> list[str
     state["seen_requirements"] = [r["id"] for r in reqs]
     out = []
     n_sources = len({r["source_id"] for r in reqs})
-    if not reqs:
+    if not reqs and checklist.get("still_to_ask"):  # nothing yet: the first answers decide everything
+        page = (kb.service_links(state["service_id"]).get("official_url") or {}) if state.get("service_id") else {}
+        out.append(_t(lang, "need_answers", cites=_refs([page["source_id"]] if page else [])))
+    elif not reqs:
         out.append(_t(lang, "none"))
     elif final or before is None:
         out.append(_t(lang, "final" if final else "partial", n=len(reqs), s=n_sources, cites=_refs(_top_sources(reqs))))
@@ -279,6 +282,78 @@ def _urgent_paragraphs(state: dict, checklist: dict) -> list[str]:
     return [_t(lang, "urgent_intro") + "\n" + "\n".join(lines)]
 
 
+def routes(service: dict, answers: dict) -> list[dict]:
+    """The routes the data attaches to the answers so far (`option_routes` of the deciding questions):
+    "stop" (this person cannot apply here: no booking link, no desk dossier, the services to do first),
+    "home" (home service: its online form instead of the booking page), "info" (no visit needed),
+    "walk-in", plus booking links of their own (e.g. the PIN/PUK duplicate), each with its source."""
+    out = []
+    for q in service.get("deciding_questions", []):
+        route = (q.get("option_routes") or {}).get(answers.get(q["id"]))
+        if route:
+            out.append(route)
+    return out
+
+
+def link_label(link: dict, lang: str) -> str:
+    """Label of a route link in the citizen's language (script.json, else the data's Italian/English)."""
+    lang = _lang(lang)
+    labels = script().get("links", {}).get(link.get("id"), {})
+    return labels.get(lang) or link.get(f"label_{lang}") or link.get("label_en") or link["url"]
+
+
+def _stop_paragraphs(state: dict, turn: _Turn, found: list[dict], checklist: dict) -> list[str]:
+    """This person cannot apply here: say so with the sources of the items, and link the services to do first."""
+    lang = state["lang"]
+    out = [_t(lang, "stop", cites=_refs(_top_sources(checklist.get("requirements", []))))]
+    services = []
+    answers = state["answers"]
+    wanted = [s["id"] for r in found for s in r.get("services", [])  # each service with its own condition
+              if all(answers.get(q) in allowed for q, allowed in (s.get("when") or {}).items())]
+    for sid in dict.fromkeys(wanted):
+        other = turn.call("get_service", {"service_id": sid})
+        link = ((other.get("links") or {}).get("official_url") if isinstance(other, dict) else None)
+        if link:
+            services.append(f"[{service_title(other, lang)}]({link['url']}) [{link['source_id']}]")
+    if services:
+        out.append(_t(lang, "stop_services", services=" · ".join(services)))
+    return out
+
+
+_ROUTE_DOSSIER = {"home": "dossier_home", "info": "dossier_info", "walk-in": "dossier_walkin"}
+
+
+def _urgent_first(state: dict, turn: _Turn, service: dict) -> list[str]:
+    """First reply to someone in a hurry: the urgent routes for the usual case of the answers still
+    missing (script.json "urgent_assume", e.g. resident in Milan and able to come to the desk), said
+    as a condition; the questions follow. Called before the real get_checklist, so the case keeps
+    the citizen's own answers."""
+    assume = [a for a in script().get("urgent_assume", {}).get(service["id"], [])
+              if a["question"] not in state["answers"]]
+    if not state.get("urgent") or state.get("urgent_shown") or not assume:
+        return []
+    probe = turn.call("get_checklist", {"service_id": service["id"],
+                                        "answers": {**state["answers"], **{a["question"]: a["option"] for a in assume}}})
+    items = urgent_items(probe) if isinstance(probe, dict) else []
+    if not items:
+        return []
+    state["urgent_shown"] = True
+    lang = state["lang"]
+    assumed = _t(lang, "and_join").join(a["label"].get(lang) or a["label"]["en"] for a in assume)
+    lines = [f"- {kb.req_text(state['service_id'], r, lang)[0]} [{r['source_id']}]" for r in items]
+    return [_t(lang, "urgent_intro_if", assumed=assumed) + "\n" + "\n".join(lines)]
+
+
+def _urgent_once(state: dict, checklist: dict) -> list[str]:
+    """For someone in a hurry, the urgent routes once, when no question is left: which routes apply
+    depends on the answers (where the person is resident, whether they can come to the desk)."""
+    if not state.get("urgent") or state.get("urgent_shown") or checklist.get("still_to_ask"):
+        return []
+    out = _urgent_paragraphs(state, checklist)
+    state["urgent_shown"] = bool(out)
+    return out
+
+
 def _ask_or_finish(state: dict, turn: _Turn, service: dict, checklist: dict, first: bool) -> list[str]:
     lang = state["lang"]
     question = _next_question(service, checklist, state["answers"])
@@ -290,6 +365,14 @@ def _ask_or_finish(state: dict, turn: _Turn, service: dict, checklist: dict, fir
     state["pending"] = None
     state["done"] = True
     paragraphs = _checklist_paragraphs(state, checklist, final=True)
+    found = routes(service, state["answers"])
+    kinds = [r.get("route") for r in found]
+    if "stop" in kinds:
+        return paragraphs + _stop_paragraphs(state, turn, found, checklist)
+    own_links = [link for r in found for link in r.get("links", [])]
+    if own_links:
+        paragraphs.append(_t(lang, "route_links", links=" · ".join(
+            f"[{link_label(link, lang)}]({link['url']}) [{link['source_id']}]" for link in own_links)))
     links = service.get("links") or {}  # from get_service, each link with the saved source that has it
     online = links.get("online_form_url")
     if online:
@@ -313,7 +396,8 @@ def _ask_or_finish(state: dict, turn: _Turn, service: dict, checklist: dict, fir
                 paragraphs.append(_t(lang, "booking", url=page["url"], cite="[prenotazione]"))
     kind = service.get("online_form_kind")
     own = f"dossier_{kind}" if online and kind and f"dossier_{kind}" in script()["templates"]["en"] else None
-    paragraphs.append(_t(lang, own or ("dossier_online" if online else "dossier")))
+    route = next((_ROUTE_DOSSIER[k] for k in kinds if k in _ROUTE_DOSSIER), None)
+    paragraphs.append(_t(lang, own or route or ("dossier_online" if online else "dossier")))
     return paragraphs
 
 
@@ -360,6 +444,7 @@ def _begin(state: dict, turn: _Turn, answers: dict, area_query: str | None, area
                 and not narrowed(live_q[qid], hints):
             answers[qid] = _alias(hint, live_q[qid]["options"])
     state["answers"] = {k: v for k, v in answers.items() if v in live_q[k]["options"]}
+    urgent = _urgent_first(state, turn, service)
     checklist = turn.call("get_checklist", {"service_id": service["id"], "answers": dict(state["answers"])})
     state["checklist"] = checklist
     paragraphs = [_t(lang, "opening", service=service_title(service, lang))]
@@ -367,8 +452,7 @@ def _begin(state: dict, turn: _Turn, answers: dict, area_query: str | None, area
     if state["answers"]:
         facts = ", ".join(option_label(v, lang) for v in state["answers"].values())
         paragraphs.append(_t(lang, "understood", facts=facts))
-    if state.get("urgent"):
-        paragraphs += _urgent_paragraphs(state, checklist)
+    paragraphs += urgent or _urgent_once(state, checklist)
     if area_query:
         offices = turn.call("find_offices", {"area": area_query, "limit": 2})
         if isinstance(offices, list) and offices:
@@ -434,10 +518,22 @@ _ANSWER_WORDS: dict[str, list[tuple[str, tuple[str, ...]]]] = {
         ("smarrimento-furto", (r"\bpers[oa]\b", r"\bsmarrit", r"\brubat", r"\bfurto\b", r"\blost\b", r"\bstolen\b",
                                r"\bperdi\b", r"\bperdido", r"\brobad", r"\brobo\b", r"\bperdu", r"\bvolee?s?\b", "丢", "被偷",
                                "遗失", "فقدت", "ضاعت", "ضاع", "سرق", "سُرقت")),
+        # a damaged card (physical damage words) before a chip-only fault; "broken" alone could be either
+        ("deteriorata", (r"\brovinat", r"\bdeteriorat", r"\bdanneggiat", r"\bdamaged", r"\bestropead",
+                         r"\bdanad[ao]\b", r"\babimee?\b", r"\bendommag", "损坏", "تالفة", "تالف")),
+        ("chip", (r"\bchip\b", r"\bpuce\b", "芯片", "الشريحة")),
+        ("deteriorata", (r"\brott[ao]\b", r"\bbroken\b", r"\brot[ao]\b", "坏了")),
+        # already has the card: a change of address or marital status, a card that has not arrived
+        ("gia-cie", (r"\bcambiat\w* (l'?\s?)?(indirizzo|residenza|stato civile)", r"\bcambio (di |d'?\s?)?indirizzo",
+                     r"\bchanged? (my )?(address|marital status)", r"\bmoved (house|flat)",
+                     r"\bnon (mi )?e (ancora )?arrivat", r"\bnot (yet )?arrived", r"\bhas ?n'?t (yet )?arrived",
+                     r"\bno (me )?ha llegado", r"\bcambiado de (direccion|domicilio)", "没有收到", "还没收到", "更改地址",
+                     "لم تصل", "غيرت عنواني")),
         ("rinnovo", (r"\bscadut", r"\bscade\b", r"\brinnov", r"\bexpir", r"\brenew", r"\bcaduc", r"\brenov", r"\bvencid",
-                     r"\brovinat", r"\bdamaged", r"\bcartacea", r"\brenouvel", "过期", "到期", "更新", "انتهت",
+                     r"\bcartacea", r"\bpaper (id|identity|card)", r"\brenouvel", "过期", "到期", "更新", "انتهت",
                      "منتهية", "تجديد")),
-        ("prima", (r"\bprima carta", r"\bfirst (italian )?(id|identity)", r"\bprimera (carta|vez)", "第一次", "首次",
+        ("prima", (r"\bprima carta", r"\bper la prima volta", r"\bfirst (italian )?(id|identity)",
+                   r"\bfor the first time", r"\bprimera (carta|vez)", r"\bpor primera vez", "第一次", "首次",
                    "أول بطاقة")),
     ],
     "cittadinanza": [
@@ -449,10 +545,49 @@ _ANSWER_WORDS: dict[str, list[tuple[str, tuple[str, ...]]]] = {
                       "البيرو", "秘鲁", r"\bphilippin", r"\bfilippin", r"\bfilipin", r"\bsri lanka", r"\bindia", r"\bmoroc",
                       r"\bmarocc", r"\bmarruec", "المغرب", r"\bbangladesh", r"\bpakistan", r"\bnigeria", r"\bbrazil",
                       r"\bbrasil", r"\bcolombia", r"\becuador", r"\balbani", r"\bukrain", r"\bucrain", r"\bsenegal",
-                      r"\btunisi", r"\bextra[- ]?ue\b", r"\bnon[- ]eu\b", r"\bextracomunitar", r"\bmaroc\b",
-                      r"\balgeri", r"\bcote d'?ivoire", r"\bcameroun", r"\bhors (de l')?ue\b")),
-        ("ue", (r"\bromani", r"\brumen", r"\bpolon", r"\bpoland", r"\bfranc[ei]", r"\bspagn", r"\bspain", r"\bgermani",
+                      r"\btunisi", r"\bextra[- ]?ue\b", r"\bnon[- ]eu\b", r"\boutside the eu\b",
+                      r"\bfuori (dall'?\s?)?ue\b", r"\bextracomunitar", r"\bmaroc\b", r"\balgeri",
+                      r"\bcote d'?ivoire", r"\bcameroun", r"\bhors (de l')?ue\b",
+                      # only non-EU citizens hold a permesso di soggiorno
+                      r"\bpermesso di soggiorno", r"\bresidence permit", r"\bpermiso de residencia",
+                      r"\btitre de sejour", "居留许可", "تصريح إقامة", "تصريح الإقامة")),
+        ("ue", (r"\bromani", r"\brumen", r"\bpolon", r"\bpoland", r"\bpolacc", r"\bpolish\b", r"\bfranc[ei]",
+                r"\bfrench\b", r"\bspagn", r"\bspain", r"\bspanish\b", r"\bgermani", r"\btedesc", r"\bgerman\b",
                 r"\bcittadin[oa] (ue|europe)", r"\beu citizen")),
+    ],
+    # Where the person is registered as resident (ID card): only explicit residence words count;
+    # "I live in Isola" says where they live, not where they are registered, so it stays a question.
+    "residenza": [
+        ("aire", (r"\baire\b",)),
+        ("non-residente", (r"\bnon (sono |e |siamo )?(ancora )?resident", r"\bnon ho (ancora )?(la )?residenza",
+                           r"\bsenza residenza", r"\bnot (yet )?(registered as )?(a )?resident",
+                           r"\bnot (yet )?registered as", r"\bno (tengo|tiene) (la )?residencia", r"\bsin residencia",
+                           r"\bno estoy empadronad", r"\bsans residence", "还没有登记居住", "没有居住登记", "尚未登记居住",
+                           "لست مسجلا", "لم أسجل إقامتي", "غير مسجل كمقيم")),
+        ("altro-comune-lombardia", (r"\bresiden\w*\s+(a|in|en|à)\s+(monza|bergamo|brescia|como|pavia|varese|lecco|lodi|"
+                                    r"cremona|mantova|sondrio|sesto san giovanni|cinisello|rho|legnano|busto arsizio|"
+                                    r"gallarate|saronno|seregno|desio|lissone|vigevano|abbiategrasso|cologno monzese|"
+                                    r"san donato milanese|rozzano|corsico|paderno dugnano|segrate|bollate)\b",
+                                    r"\b(altro|un altro) comune (della |in )?lombardia",
+                                    r"\banother (comune|town|city) in lombardy")),
+        ("domicilio-milano", (r"\bdomicili\w* a milano", r"\bresiden\w* fuori (dalla )?(lombardia|regione)",
+                              r"\bresident outside lombardy",
+                              r"\bresiden\w*\s+(a|in|en|à)\s+(torino|turin|roma|rome|napoli|naples|bologna|firenze|"
+                              r"florence|"
+                              r"genova|genoa|venezia|venice|verona|padova|padua|trieste|trento|bolzano|parma|modena|"
+                              r"palermo|catania|bari|cagliari|perugia|ancona|pescara|aosta)\b")),
+        ("milano", (r"\bresiden\w*\s+(a|in|en|à)\s+milan", r"\bregistered (as a )?residents? (in|of) milan",
+                    r"\bempadronad[oa] en milan", "户籍在米兰", "在米兰登记居住", "مقيم في ميلانو", "مسجل في ميلانو")),
+    ],
+    # Only someone who cannot move for serious health reasons gets the home service (ID card).
+    "presenza": [
+        ("domicilio-salute", (r"\ballettat", r"\bbedridden", r"\bbed-?bound", r"\bricoverat", r"\bin ospedale",
+                              r"\bin (a |the )?hospital", r"\bcare home", r"\bnursing home", r"\brsa\b",
+                              r"\bnon (puo|posso|riesce a|riesco a) (muover|camminar|uscire di casa)",
+                              r"\bcannot (move|walk)", r"\bcan[’']?t (move|walk)",
+                              r"\bencamad", r"\bhospitalizad", r"\ben (el )?hospital", r"\bno puede (moverse|caminar)",
+                              r"\b(costrett|bloccat)[oa] a letto", r"\ba letto\b",
+                              "卧床", "住院", "不能行动", "طريح الفراش", "في المستشفى", "لا يستطيع الحركة")),
     ],
     "permesso": [
         ("altro", ()),  # student waiting for a first study permit: see _infer
@@ -557,6 +692,23 @@ def _areas() -> list[tuple[str, str]]:
                   key=lambda x: -len(x[0]))
 
 
+# Words that change what the motivo and citizenship rules may read (see understand). _PIN and _CARD_LOST
+# are folded like the text (lower case), so they avoid upper-case classes such as \S.
+_PERMIT_RENEWAL = re.compile(r"\b(?:permesso|permit|permiso|titre)\b(?:\s+\S+){0,4}?\s+(?:in\s+|under\s+|en\s+)?"
+                             r"(?:rinnov|renew|renov)\w*|\b(?:rinnovo|renewal|renovacion)\s+(?:del|of the|of my|of|de)\s+"
+                             r"(?:mio\s+|su\s+|mi\s+)?(?:permesso|permit|permiso)")
+_PLACE = re.compile(r"\b(?:in|a|en|nel|nella|negli|to|at|au|aux|dans)\s+(?:\w+\s+)?(?:spagna|spain|espana|francia|"
+                    r"france|germania|germany|alemania|polonia|poland|romania|egitto|egypt|egipto|cina|china|peru|"
+                    r"marocco|morocco|marruecos|maroc|india|albania|ucraina|ukraine|tunisia|senegal|brasile|brazil|"
+                    r"brasil|filippine|philippines|filipinas|bangladesh|pakistan|nigeria|colombia|ecuador|sri lanka|"
+                    r"europa|europe|estero|abroad)\b")
+_PIN = (r"\bpin\b", r"\bpuk\b", r"\bcodici di sicurezza", r"\bcontatti (della|collegati alla) (carta|cie)")
+_CARD_LOST = (r"\b(?:pers[oa]|smarrit[oa]|rubat[oa]|lost|stolen|perdid[oa]|robad[oa]|perdu)\b"
+              r"(?:\s+(?!pin\b|puk\b|codic)[^\s]+){0,3}?\s+(?:carta|card|cie|carte|tarjeta)\b",
+              r"\b(?:carta|card|cie|carte|tarjeta)\b(?:\s+(?!pin\b|puk\b|codic)[^\s]+){0,4}?\s+"
+              r"(?:pers[oa]|smarrit|rubat|lost|stolen|perdid|robad)")
+
+
 def understand(text: str) -> dict:
     """Keyword rules for demo mode: the service, the answers, urgency and the area in a message.
 
@@ -566,11 +718,15 @@ def understand(text: str) -> dict:
     """
     folded = validator.fold(text or "")
     answers: dict[str, str] = {}
+    # "permesso in rinnovo" is about the permit, not the card; "in Spagna" says where, not the citizenship
+    texts = {"motivo": _PERMIT_RENEWAL.sub(" ", folded), "cittadinanza": _PLACE.sub(" ", folded)}
     for qid, rules in _ANSWER_WORDS.items():
         for value, pats in rules:
-            if pats and _any(pats, folded):
+            if pats and _any(pats, texts.get(qid, folded)):
                 answers[qid] = value
                 break
+    if _any(_PIN, folded) and not _any(_CARD_LOST, folded):  # lost PIN/PUK, not a lost card
+        answers["motivo"] = "pin-puk"
     hints: dict[str, str] = {}
     if "alloggio" not in answers and _any(_RENT, folded):
         if _any(_NOT_REGISTERED, folded):
@@ -605,7 +761,9 @@ def understand(text: str) -> dict:
             service_id = "iscrizione-anagrafica-extra-ue"
         else:  # residence, but from where? (and EU citizens from abroad are not covered yet)
             choices = ["iscrizione-anagrafica-extra-ue", "cambio-residenza"]
-    if service_id is None and choices is None and answers.get("motivo") in ("smarrimento-furto", "rinnovo"):
+    if service_id is None and choices is None and answers.get("motivo") in ("smarrimento-furto", "rinnovo",
+                                                                           "deteriorata", "chip", "pin-puk",
+                                                                           "gia-cie"):
         service_id = "carta-identita" if _any((r"\bcarta\b", r"\bcard\b", r"\bcarte\b", "证", "بطاقة"), folded) else None
     return {"service_id": service_id, "answers": answers, "urgent": _any(_URGENT, folded), "area": area,
             "hints": hints, "choices": choices}
@@ -728,7 +886,7 @@ def answer(state: dict, text: str) -> dict:
     service = turn.call("get_service", {"service_id": state["service_id"]})
     checklist = turn.call("get_checklist", {"service_id": state["service_id"], "answers": dict(state["answers"])})
     state["checklist"] = checklist
-    paragraphs = _ask_or_finish(state, turn, service, checklist, first=False)
+    paragraphs = _urgent_once(state, checklist) + _ask_or_finish(state, turn, service, checklist, first=False)
     return _finish(state, turn, paragraphs)
 
 

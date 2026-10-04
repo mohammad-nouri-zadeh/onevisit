@@ -46,10 +46,20 @@ LANGUAGES = {
     ),
 }
 CIE_CATEGORIES = (("italiana", 0.7), ("ue", 0.1), ("extra-ue", 0.2))
-CIE_VARIANTS = (("prima", 0.25), ("rinnovo", 0.55), ("smarrimento-furto", 0.2))
+# "deteriorata" prende la sua quota solo da "rinnovo": la soglia cumulata di "smarrimento-furto"
+# resta 0,8, quindi lo stesso seme estrae gli stessi casi di smarrimento (e le stesse scadenze).
+CIE_VARIANTS = (
+    ("prima", 0.25),
+    ("rinnovo", 0.5),
+    ("deteriorata", 0.05),
+    ("smarrimento-furto", 0.2),
+)
+# Risposte fisse alle domande della carta d'identita' che il generatore non varia:
+# residenza a Milano, richiesta allo sportello (non a domicilio).
+CIE_FIXED_ANSWERS = (("residenza", "milano"), ("presenza", "sportello"))
 # Quota di minori tra i casi della carta d'identita'.
 MINOR_RATE = 0.1
-PERMIT = (("permesso", 0.7), ("ricevuta", 0.25), ("nessuno", 0.05))
+PERMIT = (("permesso", 0.7), ("ricevuta-rinnovo", 0.25), ("nessuno", 0.05))
 FAMILY = (("solo", 0.6), ("con-familiari", 0.4))
 HOUSING = (("affitto", 0.7), ("ospite", 0.2), ("proprieta", 0.1))
 # Esiti negativi non legati a lacune ("other"): quota per servizio, prima e dopo la correzione.
@@ -198,7 +208,12 @@ def case_profile(rng: random.Random, service: str) -> CaseProfile:
         category = _pick(rng, CIE_CATEGORIES)
         age = "minore" if rng.random() < MINOR_RATE else "adulto"
         deadline = rng.choice((None, 14, 30)) if variant == "smarrimento-furto" else None
-        answers = (("motivo", variant), ("eta", age), ("cittadinanza", category))
+        answers: tuple[tuple[str, str], ...] = (
+            ("motivo", variant),
+            ("eta", age),
+            ("cittadinanza", category),
+            *CIE_FIXED_ANSWERS,
+        )
         return CaseProfile(variant, category, language, office, deadline, answers)
     answers = (
         ("permesso", _pick(rng, PERMIT)),

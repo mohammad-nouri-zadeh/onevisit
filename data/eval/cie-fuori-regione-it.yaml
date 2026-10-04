@@ -1,0 +1,11 @@
+id: cie-fuori-regione-it
+quick: false
+messages:
+  - "Abito a Milano per lavoro ma sono residente a Napoli. La mia carta d'identità è scaduta e non riesco a tornare a Napoli: posso rinnovarla a Milano? Sono italiano e maggiorenne."
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: it
+  requirements_include: [domiciliati-motivi, domiciliati-documenti]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

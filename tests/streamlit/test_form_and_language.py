@@ -48,23 +48,42 @@ def test_files_to_upload_come_in_the_order_of_the_city_page():
     desk = kb.to_upload(
         kb.checklist(
             "carta-identita",
-            {"motivo": "smarrimento-furto", "eta": "adulto", "cittadinanza": "extra-ue"},
+            {
+                "residenza": "milano",
+                "motivo": "smarrimento-furto",
+                "eta": "adulto",
+                "cittadinanza": "extra-ue",
+                "presenza": "sportello",
+            },
         )
     )
     assert {"denuncia", "stranieri", "costo"} <= {r["id"] for r in desk}
+
+
+# The ID card lists nothing before the residence answer: a complete case for the translation checks.
+FULL_ANSWERS = {
+    "carta-identita": {
+        "residenza": "milano",
+        "motivo": "rinnovo",
+        "eta": "adulto",
+        "cittadinanza": "italiana",
+        "presenza": "sportello",
+    }
+}
 
 
 @pytest.mark.parametrize("lang", ["ar", "es", "zh"])
 @pytest.mark.parametrize("service_id", [s["id"] for s in kb.list_services()])
 def test_every_text_has_a_current_translation_by_claude(service_id, lang):
     assert kb.missing_translations(service_id, lang) == {}
-    req = kb.checklist(service_id, {})["requirements"][0]
+    req = kb.checklist(service_id, FULL_ANSWERS.get(service_id, {}))["requirements"][0]
     text_local, translated = kb.req_text(service_id, req, lang)
     assert translated and text_local != req["text_en"]
 
 
 def test_a_stale_translation_falls_back_to_english(monkeypatch):
-    req = next(r for r in kb.checklist("carta-identita", {})["requirements"] if r["id"] == "costo")
+    cie = FULL_ANSWERS["carta-identita"]
+    req = next(r for r in kb.checklist("carta-identita", cie)["requirements"] if r["id"] == "costo")
     changed = {**req, "text_it": req["text_it"] + " (testo cambiato)"}
     shown, translated = kb.req_text("carta-identita", changed, "ar")
     assert (shown, translated) == (req["text_en"], False)

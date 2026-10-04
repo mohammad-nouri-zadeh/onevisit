@@ -1,0 +1,11 @@
+id: cie-lombardia-it
+quick: false
+messages:
+  - "Sono residente a Monza ma lavoro a Milano: posso rinnovare la carta d'identità all'anagrafe di Milano?"
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: it
+  requirements_include: [residenti-lombardia]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

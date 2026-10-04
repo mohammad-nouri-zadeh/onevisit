@@ -2,9 +2,9 @@
   {
     "id": "comune-milano",
     "name": "Comune di Milano · Servizi anagrafici",
-    "role_it": "Anagrafe: carta d'identità allo sportello su appuntamento prenotato online; residenza per chi arriva dall'estero con domanda online e documenti caricati; rinnovo della dichiarazione di dimora abituale; certificati.",
-    "role_en": "Registry office: ID card at the desk with an appointment booked online; residence for people arriving from abroad through an online application with uploaded documents; renewal of the habitual residence declaration; certificates.",
-    "source_ids": ["ds549", "cie", "residenza-estero", "residenza-estero-modulo", "dimora-abituale"],
+    "role_it": "Anagrafe: carta d'identità per i residenti a Milano, allo sportello su appuntamento prenotato online (senza appuntamento solo per urgenze, furto o smarrimento senza altri documenti o carta rovinata; a domicilio per gravi motivi di salute); residenza per chi arriva dall'estero con domanda online e documenti caricati; rinnovo della dichiarazione di dimora abituale; certificati.",
+    "role_en": "Registry office: ID card for Milan residents, at the desk with an appointment booked online (walk-in only for urgencies, a lost or stolen card with no other document, or a damaged card; at home for serious health reasons); residence for people arriving from abroad through an online application with uploaded documents; renewal of the habitual residence declaration; certificates.",
+    "source_ids": ["ds549", "cie", "cie-faq-00302", "cie-domicilio-salute", "residenza-estero", "residenza-estero-modulo", "dimora-abituale"],
     "quote_source_id": "residenza-estero",
     "quote": "che ti serviranno da inserire nella domanda online e poi procedi con la richiesta.",
     "verified_at": "2026-10-04",

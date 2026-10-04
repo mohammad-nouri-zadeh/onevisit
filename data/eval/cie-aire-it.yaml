@@ -1,0 +1,11 @@
+id: cie-aire-it
+quick: false
+messages:
+  - "Sono italiano, vivo a Londra e sono iscritto all'AIRE di Milano. La mia carta d'identità è scaduta e la rinnovo quando torno a Milano: come prenoto e dove me la mandano?"
+expect:
+  service: carta-identita
+  variant: rinnovo
+  language: it
+  requirements_include: [aire-consegna, aire-qualsiasi-comune, documento-precedente]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

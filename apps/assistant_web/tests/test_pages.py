@@ -13,7 +13,13 @@ FORBIDDEN = ("idoneo", "in regola", "garantito", "eligible", "guaranteed")
 FINAL_IT = "In base alle fonti citate risultano presenti tutti i documenti richiesti."
 FINAL_EN = "According to the cited sources, all the required documents are present."
 SIGNER = LinkSigner("test-link-key")
-ANSWERS = {"motivo": "rinnovo", "eta": "adulto", "cittadinanza": "extra-ue"}
+ANSWERS = {
+    "residenza": "milano",
+    "motivo": "rinnovo",
+    "eta": "adulto",
+    "cittadinanza": "extra-ue",
+    "presenza": "sportello",
+}
 FAKE_EMAIL = "persona.finta@example.org"
 
 

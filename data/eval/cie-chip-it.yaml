@@ -1,0 +1,11 @@
+id: cie-chip-it
+quick: false
+messages:
+  - "La mia carta d'identità elettronica è integra ma il chip non funziona. Sono italiano, maggiorenne e residente a Milano."
+expect:
+  service: carta-identita
+  variant: chip
+  language: it
+  requirements_include: [chip-segnalazione]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

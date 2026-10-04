@@ -1,0 +1,11 @@
+id: cie-rovinata-it
+quick: false
+messages:
+  - "La mia carta d'identità elettronica è rovinata e il chip non funziona più. Sono italiano, maggiorenne e residente a Milano."
+expect:
+  service: carta-identita
+  variant: deteriorata
+  language: it
+  requirements_include: [documento-precedente, testimoni]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [codice fiscale, nome]

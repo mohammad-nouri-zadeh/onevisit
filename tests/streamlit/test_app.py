@@ -65,6 +65,10 @@ def test_example_button_builds_a_checklist_and_offers_the_dossier(no_key, no_net
     at = _app(demo="1")
     at.button(key="ex-cie-isola").click().run()
     assert not at.exception
+    # where the person is resident comes first: it decides whether the card is issued in Milan
+    assert at.session_state["checklist"]["still_to_ask"]
+    next(b for b in at.button if b.label == "Residente a Milano").click().run()
+    assert not at.exception
     cl = at.session_state["checklist"]
     assert cl["service_id"] == "carta-identita" and cl["requirements"]
     assert len([c for c in at.checkbox if (c.key or "").startswith("have-")]) == len(
@@ -88,10 +92,11 @@ def test_booking_link_presets_service_office_and_date(no_key, no_network):
     assert at.session_state["office_id"] == "ds549-11"
     assert at.session_state["appointment"]["date"] == "2030-01-15"
     assert "From the link in the booking confirmation email" in _markdown(at)
-    assert (
-        at.session_state["chat"][0]["role"] == "assistant"
-        and at.session_state["checklist"]["requirements"]
-    )
+    assert at.session_state["chat"][0]["role"] == "assistant"
+    assert "residenza" in at.session_state["checklist"]["still_to_ask"]
+    for label in ("Resident in Milan", "Renewal"):  # residence, then what the appointment is for
+        next(b for b in at.button if b.label == label).click().run()
+    assert not at.exception and at.session_state["checklist"]["requirements"]
 
 
 def test_city_panel_shows_a_recorded_draft_and_the_approval(no_key, no_network):
@@ -170,14 +175,20 @@ def test_checklist_is_grouped_by_category_with_open_items_explained(no_key, no_n
         options = [b for b in at.button if (b.key or "").startswith("opt-")]
         if not options:
             break
-        # adult, non-EU: one item stays open
-        wanted = [b for b in options if b.label in ("Adult", "Non-EU")]
+        # lives in Milan, resident outside Lombardy, lost card: still open whether Milan issues it
+        wanted = [
+            b
+            for b in options
+            if b.label in ("Adult", "Non-EU", "Lives in Milan, resident outside Lombardy")
+        ]
         (wanted or options)[0].click().run()
     assert not at.exception
     assert at.session_state["answers"] == {
         "motivo": "smarrimento-furto",
         "eta": "adulto",
         "cittadinanza": "extra-ue",
+        "residenza": "domicilio-milano",
+        "presenza": "sportello",
     }
     text = _markdown(at)
     reqs = at.session_state["checklist"]["requirements"]

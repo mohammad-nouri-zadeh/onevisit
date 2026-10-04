@@ -22,7 +22,13 @@ def _norm(s: str) -> str:
 
 
 def test_dossier_contains_verified_requirements_and_their_sources():
-    answers = {"motivo": "smarrimento-furto", "eta": "adulto", "cittadinanza": "extra-ue"}
+    answers = {
+        "residenza": "milano",
+        "motivo": "smarrimento-furto",
+        "eta": "adulto",
+        "cittadinanza": "extra-ue",
+        "presenza": "sportello",
+    }
     pdf = dossier.build_pdf(
         "carta-identita", answers, office_id="ds549-11", appointment="2030-01-15"
     )
