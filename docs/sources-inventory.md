@@ -1,54 +1,65 @@
 # Inventario delle fonti ufficiali
 
-*Storia A1. Fonte di verità: [data/sources.csv](../data/sources.csv), mantenuto dal responsabile dei dati (@mohammad-nouri-zadeh). Questo documento lo riassume e ne elenca le lacune. Regole del catalogo: [data/README.md](../data/README.md) e [ADR 0007](adr/0007-catalogo-dal-livello-dati-del-team.md). Stato al 3 ottobre 2026, ore 14.*
+*Storia A1. Fonte di verità: [data/sources.csv](../data/sources.csv), mantenuto dal responsabile dei dati (@mohammad-nouri-zadeh). Questo documento lo riassume e ne elenca le lacune. Regole del catalogo: [data/README.md](../data/README.md) e [ADR 0007](adr/0007-catalogo-dal-livello-dati-del-team.md). Stato al 4 ottobre 2026.*
 
 ## Servizi coperti
 
-| Servizio (file del catalogo) | Varianti (domande decisive) | Enti coinvolti |
-|---|---|---|
-| Carta d'identità elettronica (`data/services/carta-identita.json`) | `motivo`: prima, rinnovo, smarrimento-furto; `eta`: adulto, minore; `cittadinanza`: italiana, ue, extra-ue; `scadenza` | Comune di Milano (anagrafe); Ministero dell'Interno per la CIE |
-| Iscrizione anagrafica di un cittadino extra-UE arrivato dall'estero (`data/services/iscrizione-anagrafica-extra-ue.json`) | `permesso`: permesso, ricevuta, nessuno; `famiglia`: solo, con-familiari; `alloggio`: affitto, ospite, proprieta; `scadenza` | Questura di Milano (permesso di soggiorno) → Agenzia delle Entrate (codice fiscale) → Comune di Milano (residenza) |
+| Servizio (file del catalogo) | Varianti (domande decisive) | Enti coinvolti | Verificati |
+|---|---|---|---|
+| Carta d'identità elettronica (`data/services/carta-identita.json`) | `motivo`: prima, rinnovo, smarrimento-furto; `eta`: adulto, minore; `cittadinanza`: italiana, ue, extra-ue; `scadenza` | Comune di Milano (anagrafe); Ministero dell'Interno per la CIE | 34 requisiti su 35, 3 passaggi su 3 |
+| Cambio di residenza per persone straniere provenienti dall'estero, cittadini extra UE (`data/services/iscrizione-anagrafica-extra-ue.json`) | `permesso`: permesso, ricevuta-rinnovo, ricevuta-lavoro, ricevuta-famiglia, nessuno, altro; `famiglia`: solo, con-familiari; `alloggio`: proprieta, affitto, affitto-erp, comodato, ospite, lavoro-domestico; `scadenza` | Questura di Milano (permesso) → Agenzia delle Entrate o Questura (codice fiscale) → Comune di Milano (residenza, domanda online) | 44 requisiti su 45, 6 passaggi su 6 |
+
+Le opzioni di `permesso` sono i quattro casi dell'Allegato A del Comune (permesso valido, in rinnovo, attesa del primo permesso per lavoro subordinato, attesa del primo permesso per ricongiungimento familiare), più "non l'ho ancora chiesto" e "altro".
 
 ## Fonti
 
-| id | Ente | URL | Servizio | Varianti coperte | Data di verifica | Lingua | Stato |
+| id | Ente | URL | Servizio | Cosa copre | Data | Lingua | Stato |
 |---|---|---|---|---|---|---|---|
-| `ds549` | Comune di Milano | https://dati.comune.milano.it/dataset/ds549-sedi-dei-servizi-anagrafici | Entrambi: sedi anagrafiche, orari, regole di prenotazione | Tutte (requisiti `su-appuntamento`, `prenotazione-senza-spid` della CIE) | 2026-10-03 (risorsa modificata il 2026-01-28) | it | ok · 2 requisiti verificati |
-| `ds1702` | Comune di Milano | https://dati.comune.milano.it/dataset/ds1702-rilevazione-qualita-servizio-richieste-residenza-anno-2022 | Contesto per il pannello (residenza online) | — | 2026-10-03 | it | ok · solo statistiche |
-| `ds1511` | Comune di Milano | https://dati.comune.milano.it/dataset/ds1511-rilevazione-della-qualita-del-servizio-appuntamenti-on-line-anno-2021 | Contesto (appuntamenti online) | — | 2026-10-03 | it | ok · solo statistiche |
-| `ds1512` | Comune di Milano | https://dati.comune.milano.it/dataset/ds1512-rilevazione-qualita-servizio-richieste-certificati-anno-2021 | Contesto (certificati online) | — | 2026-10-03 | it | ok · solo statistiche |
-| `ds1959` | Comune di Milano | https://dati.comune.milano.it/dataset/ds1959-popolazione-iscrizioni-anagrafiche-per-luogo-di-provenienza | Contesto (iscrizioni dall'estero) | — | 2026-10-03 | it | ok · solo statistiche |
-| `ds74` | Comune di Milano | https://dati.comune.milano.it/dataset/ds74-popolazione-residenti-stranieri-cittadinanza-e-municipio | Contesto (lingue da supportare) | — | 2026-10-03 | it | ok · solo statistiche |
-| `cie` | Comune di Milano | da trovare su comune.milano.it | Carta d'identità | prima, rinnovo, smarrimento-furto, minore, extra-ue (8 requisiti in attesa) | — | it | **todo** · pagina da salvare |
-| `residenza-estero` | Comune di Milano | da trovare su comune.milano.it | Iscrizione anagrafica extra-UE | tutte (6 requisiti e il passaggio 3 in attesa) | — | it | **todo** · pagina da salvare |
-| `prenotazione` | Comune di Milano | da trovare su comune.milano.it | Entrambi: link di prenotazione | — | — | it | **todo** · pagina da salvare |
-| `permesso-soggiorno` | Polizia di Stato / Questura | da trovare (fonte nazionale) | Iscrizione extra-UE, passaggio 1 | permesso, ricevuta, nessuno | — | it | **todo** · pagina da salvare |
-| `codice-fiscale` | Agenzia delle Entrate | da trovare (fonte nazionale) | Iscrizione extra-UE, passaggio 2 | — | — | it (verificare versione en) | **todo** · pagina da salvare |
-| `yesmilano-students` | YesMilano | da trovare | Percorso per studenti internazionali (citato nel brief) | — | — | it/en | **todo** · facoltativa |
+| `ds549` | Comune di Milano | https://dati.comune.milano.it/dataset/ds549-sedi-dei-servizi-anagrafici | Entrambi | Sedi, orari, regole di prenotazione (`su-appuntamento`, `prenotazione-senza-spid`) | 2026-10-03 (risorsa del 2026-01-28) | it | ok |
+| `cie` | Comune di Milano | https://www.comune.milano.it/servizi/anagrafe/carta-d-identita | Carta d'identità | Documenti, casi (rinnovo, smarrimento, minori, extra UE), costo 22,20 euro, consegna, eccezioni senza appuntamento, carta provvisoria | 2026-10-04 (pagina aggiornata il 02/10/2026) | it | ok · 27 requisiti, 1 passaggio |
+| `cie-ministero` | Ministero dell'Interno | https://www.cartaidentita.interno.gov.it/richiedi/rilascio-e-rinnovo-in-italia/ | Carta d'identità | Rinnovo da 180 giorni prima, cosa succede allo sportello, consegna in 6 giorni lavorativi | 2026-10-04 | it | ok · 4 requisiti, 2 passaggi |
+| `prenotazione` | Comune di Milano | https://www.comune.milano.it/servizi/prenota-il-tuo-appuntamento-in-comune | Carta d'identità | Accettazione il giorno dell'appuntamento (QR code, codice fiscale o CIE) | 2026-10-04 (18/08/2026) | it | ok · 1 requisito |
+| `residenza-estero` | Comune di Milano | https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza-per-persone-straniere-provenienti-dall-estero | Residenza extra UE | Domanda online, decorrenza dalla dichiarazione, accertamenti | 2026-10-04 (27/07/2026) | it | ok · 3 requisiti, 1 passaggio |
+| `residenza-estero-modulistica` | Comune di Milano | https://www.comune.milano.it/servizi/anagrafe/richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero/modulistica-richiesta-di-residenza-per-persone-straniere-provenienti-dall-estero | Residenza extra UE | Formati e peso dei file, documento d'identità, prova dell'alloggio per tipo, minori | 2026-10-04 (16/06/2026) | it | ok · 14 requisiti |
+| `residenza-estero-extraue` | Comune di Milano (PDF) | https://www.comune.milano.it/documents/20118/42443/Elenco+documenti+per+persone+provenienti+da+Paesi+extraUE.pdf/f59656a6-d8aa-7960-fc88-60daf732aeb3 | Residenza extra UE | Allegato A: documenti per i quattro casi di permesso | 2026-10-04 (PDF creato nel 2013) | it | ok · 12 requisiti |
+| `residenza-estero-modulo` | Comune di Milano (modulo online) | https://formshd4.comune.milano.it/rwe2/module_preview.jsp?MODULE_TAG=MOD_DDR_ESTERO | Residenza extra UE | Chi firma, caricamento solo online, email e protocollo, una domanda alla volta, assistenza | 2026-10-04 | it | ok · 6 requisiti, 1 passaggio |
+| `dimora-abituale` | Comune di Milano | https://www.comune.milano.it/servizi/anagrafe/rinnovo-dichiarazione-dimora-abituale-per-persone-extra-ue | Residenza extra UE (dopo) | Entro 60 giorni dal rinnovo del permesso | 2026-10-04 (27/07/2026) | it | ok · 1 requisito, 1 passaggio |
+| `cambio-residenza` | Comune di Milano | https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza | Residenza (dopo) | Cambio d'indirizzo o di Comune entro 20 giorni, online su ANPR. Non è la procedura per chi arriva dall'estero | 2026-10-04 (16/06/2026) | it | ok · 1 requisito |
+| `permesso-soggiorno` | Polizia di Stato | https://www.poliziadistato.it/articolo/225 | Residenza extra UE, passaggio 1 | 8 giorni lavorativi dall'ingresso, Questura o uffici postali, 60 giorni in media | 2026-10-04 (modificata il 05/01/2024) | it | ok · 1 requisito, 1 passaggio |
+| `permesso-soggiorno-come` | Polizia di Stato | https://www.poliziadistato.it/articolo/217 | Enti | Kit postale, Sportello Amico, Sportello Unico, costi | 2026-10-04 (modificata il 18/04/2019) | it | ok · usata in `enti.json` |
+| `codice-fiscale` | Agenzia delle Entrate | https://www.agenziaentrate.gov.it/portale/codice-fiscale-e-tessera-sanitaria/che-cos- | Residenza extra UE, passaggio 2 | Codice fiscale dalla Questura con il permesso; primo codice per stranieri solo con appuntamento in presenza | 2026-10-04 (7 marzo 2025) | it | ok · 1 requisito, 1 passaggio |
+| `yesmilano-students` | YesMilano (International Student Desk) | https://www.yesmilano.it/en/study/how-to/take-residence-milano-students | Residenza extra UE | Percorso studenti citato nel brief: correzioni, 45 giorni e visita a casa, nome sul citofono, contratto registrato, documento di chi ospita | 2026-10-04 | en | ok · 5 requisiti, 1 passaggio |
+| `yesmilano-permesso` | YesMilano | https://www.yesmilano.it/en/study/how-to/residence-permit-students | Contesto | Permesso per studio, passo per passo | 2026-10-04 | en | ok · salvata, non ancora citata |
+| `yesmilano-codice-fiscale` | YesMilano | https://www.yesmilano.it/en/study/how-to/get-italian-tax-code-codice-fiscale | Contesto | Codice fiscale per studenti, passo per passo | 2026-10-04 | en | ok · salvata, non ancora citata |
+| `ds1702`, `ds1511`, `ds1512`, `ds1959`, `ds74` | Comune di Milano | dati.comune.milano.it | Contesto per il pannello e il pitch | Sondaggi sui servizi online, iscrizioni dall'estero, residenti stranieri | 2026-10-03 | it | ok · solo statistiche |
 
-Nessuna fonte proviene da siti non ufficiali.
+Nessuna fonte proviene da siti non ufficiali. YesMilano è il portale della città per studenti e lavoratori internazionali citato nel brief del Comune: le sue indicazioni sono marcate come tali nel testo dei requisiti ("secondo la guida YesMilano").
 
 ## Lacune evidenti
 
 Diventano casi di prova per la demo e righe del pannello.
 
-1. **Pagine ancora da salvare: `cie`, `residenza-estero`, `prenotazione`, `permesso-soggiorno`, `codice-fiscale`.** Finché mancano, l'assistente risponde "non lo so" su quei requisiti e rimanda al link ufficiale (comportamento voluto, ADR 0003). Priorità per la demo: la denuncia di smarrimento o furto per la CIE e i documenti rilasciati all'estero (traduzione) per l'iscrizione extra-UE.
-2. **Varianti senza pagina dedicata:** il caso extra-UE con familiari (`famiglia = con-familiari`, documenti esteri da tradurre e legalizzare) e il caso con sola ricevuta del permesso (`permesso = ricevuta`) non hanno, per quanto visto finora, una pagina che li descriva per intero: candidati alla causa "procedura mancante".
-3. **Dati del Comune non aggiornati (`ds549`):** la sede di Via Passerini 5 non ha Municipio, telefono né note di prenotazione e negli orari riporta ancora "lunedì 5 gennaio 2026: CHIUSO"; la sede del Municipio 1 ha un ingresso "provvisorio" da Via Pecorari 3 da verificare. Dettagli in `data/offices.json` (`data_issues`). È la causa "procedura non aggiornata" trovata nei dati reali.
-4. **Enti nazionali non ancora descritti:** `data/enti.json` ha `questura-milano` e `agenzia-entrate` in stato `todo`.
-5. **Come si presenta la dichiarazione di residenza** (sportello, email, online) va verificato sulla pagina `residenza-estero`: il sondaggio `ds1702` riguarda il servizio online.
+1. **Allegato A vecchio.** L'elenco dei documenti per i cittadini extra UE è un PDF creato nel 2013: chiede "originale e fotocopia" e la ricevuta dell'ufficio postale, mentre oggi la domanda si fa online con scansioni. Causa "procedura non aggiornata".
+2. **Casi non coperti dall'Allegato A**: chi aspetta il primo permesso per studio (o per altri motivi) non ha un elenco di documenti. Nel catalogo è il requisito `todo` `documenti-altri-permessi`. Causa "procedura mancante".
+3. **Contratto d'affitto registrato**: la pagina del Comune elenca un documento solo per i contratti non ancora registrati; YesMilano chiede contratto ed estremi di registrazione. Causa "pagina incompleta".
+4. **Documento di chi ospita**: lo chiede la guida YesMilano, non la pagina del Comune.
+5. **Codice fiscale dall'estero**: l'Agenzia delle Entrate dice che chi risiede all'estero può chiederlo al consolato, YesMilano (maggio 2025) dice che non è più possibile. Le fonti non sono allineate.
+6. **CIE e viaggi per adulti non italiani**: la pagina del Comune lo dice solo per i minorenni. Nel catalogo è il requisito `todo` `espatrio-adulti-non-italiani`.
+7. **Dati del Comune non aggiornati (`ds549`)**: la sede di Via Passerini 5 non ha Municipio, telefono né note di prenotazione e negli orari riporta ancora "lunedì 5 gennaio 2026: CHIUSO". L'ingresso da Via Pecorari 3 della sede di via Larga 12 è confermato dalla pagina `cie`. Dettagli in `data/offices.json` (`data_issues`).
+
+Risolte rispetto al 3 ottobre: tutte le pagine sono salvate; la dichiarazione di residenza per chi arriva dall'estero si presenta **online** (non allo sportello); gli enti `questura-milano` e `agenzia-entrate` hanno un ruolo verificato con citazione.
 
 ## Come aggiungere una pagina
 
-La rete della sandbox cloud blocca comune.milano.it ([ADR 0009](adr/0009-sandbox-senza-build-docker.md)), quindi le pagine si salvano da un browser:
+comune.milano.it risponde 403 agli script (Azure Application Gateway): `onevisit ingest <id> --url` non funziona da lì. Le pagine si scaricano una volta con un browser, oppure con `curl` e normali intestazioni da browser, una richiesta al secondo e verifica TLS attiva. Poi:
 
-1. aprire la pagina ufficiale e salvarla con Ctrl+S ("Pagina web, solo HTML");
-2. importarla:
-   ```bash
-   onevisit ingest <id> --html <file.html> --url <url-ufficiale>
-   # oppure, senza il kit:
-   python data/tools/save_page.py <id> --html <file.html> --url <url-ufficiale>
-   ```
-   Il comando converte l'HTML in Markdown, scrive `data/pages/<id>.md` con intestazione (`url`, `ente`, `servizio`, `verified_at`, `content_hash`) e aggiorna la riga di `data/sources.csv`. Da una rete libera `onevisit ingest <id> --url <url>` scarica la pagina rispettando `robots.txt` e al massimo una richiesta al secondo;
-3. copiare in `quote` la frase esatta per ogni requisito, scrivere `text_it` / `text_en`, `verified_at` e `status: "verified"`;
-4. controllare: `python data/tools/validate.py` e `onevisit catalog-check`.
+```bash
+.venv/bin/python data/tools/clean_html.py pagina.html pulita.html   # --select article, --unescape-inner, --pdf
+.venv/bin/onevisit ingest <id> --html pulita.html --url <url-ufficiale>
+# oppure, senza il kit:
+python data/tools/save_page.py <id> --html pagina.html --url <url-ufficiale>
+```
+
+`clean_html.py` non cambia nessuna parola: tiene solo l'elemento principale della pagina, toglie grassetti e corsivi (così le citazioni non contengono asterischi), decodifica la descrizione dei moduli online del Comune ed estrae il testo dei PDF. `onevisit ingest` scrive `data/pages/<id>.md` con intestazione (`url`, `ente`, `servizio`, `verified_at`, `content_hash`) e aggiorna la riga di `data/sources.csv`; se la pagina è cambiata elenca i requisiti da riverificare.
+
+Poi si copia in `quote` la frase esatta per ogni requisito, si scrivono `text_it` / `text_en`, `verified_at` e `status: "verified"`, e si controlla con `python data/tools/validate.py` e `onevisit catalog-check`.

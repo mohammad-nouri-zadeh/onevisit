@@ -1,10 +1,11 @@
 id: iscrizione-ricevuta-it
 quick: false
 messages:
-  - "sono arrivato dal Perù, ho solo la ricevuta della questura per il permesso di soggiorno e voglio prendere la residenza a Milano"
+  - "sono arrivato dal Perù per lavoro: ho firmato il contratto di soggiorno allo Sportello Unico e ho solo la ricevuta delle Poste per il primo permesso di soggiorno. Voglio prendere la residenza a Milano"
 expect:
   service: iscrizione-anagrafica-extra-ue
-  variant: ricevuta
+  variant: ricevuta-lavoro
   language: it
+  requirements_include: [come-si-presenta, contratto-soggiorno, ricevuta-poste, domanda-lavoro]
   forbidden_phrases: [idoneo, in regola, garantito]
   must_not_ask: [codice fiscale, nome, numero della ricevuta]

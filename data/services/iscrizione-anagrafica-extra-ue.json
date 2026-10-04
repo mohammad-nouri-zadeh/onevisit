@@ -1,29 +1,1022 @@
 {
   "id": "iscrizione-anagrafica-extra-ue",
-  "title": {"it": "Iscrizione anagrafica (residenza) di un cittadino extra-UE arrivato dall'estero", "en": "Registering residence in Milan as a non-EU citizen arriving from abroad"},
+  "title": {
+    "it": "Cambio di residenza per persone straniere provenienti dall'estero (cittadini extra UE)",
+    "en": "Registering residence in Milan for people arriving from abroad (non-EU citizens)"
+  },
   "ente": "comune-milano",
-  "summary_it": "TODO: two lines from the official page",
-  "source_ids": ["residenza-estero", "permesso-soggiorno", "codice-fiscale", "ds549"],
+  "summary_it": "Non si fa allo sportello: si compila la domanda online sul sito del Comune (modulo MOD_DDR_ESTERO) e si caricano i documenti scansionati. La residenza vale dalla data della domanda; poi il Comune fa gli accertamenti, anche con una visita a casa. Prima servono il permesso di soggiorno (o la ricevuta) e il codice fiscale.",
+  "summary_en": "It is not done at a desk: you fill in the online application on the City website (form MOD_DDR_ESTERO) and upload scanned documents. Residence counts from the date you apply; then the City runs checks, including a home visit. Before that you need the residence permit (or its receipt) and a tax code.",
+  "official_url": "https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza-per-persone-straniere-provenienti-dall-estero",
+  "online_form_url": "https://formshd4.comune.milano.it/rwe2/module_preview.jsp?MODULE_TAG=MOD_DDR_ESTERO",
+  "source_ids": [
+    "residenza-estero",
+    "residenza-estero-modulistica",
+    "residenza-estero-extraue",
+    "residenza-estero-modulo",
+    "permesso-soggiorno",
+    "permesso-soggiorno-come",
+    "codice-fiscale",
+    "dimora-abituale",
+    "cambio-residenza",
+    "yesmilano-students",
+    "yesmilano-permesso",
+    "yesmilano-codice-fiscale",
+    "ds549"
+  ],
   "deciding_questions": [
-    {"id": "permesso", "ask_it": "Hai già il permesso di soggiorno, o la ricevuta della richiesta?", "ask_en": "Do you already have your residence permit, or the receipt of your application?", "options": ["permesso", "ricevuta", "nessuno"]},
-    {"id": "famiglia", "ask_it": "Ti trasferisci da solo o con familiari?", "ask_en": "Are you moving alone or with family members?", "options": ["solo", "con-familiari"]},
-    {"id": "alloggio", "ask_it": "A che titolo abiti nella casa (affitto, ospite, proprietà)?", "ask_en": "How do you live in the home (renting, guest, owner)?", "options": ["affitto", "ospite", "proprieta"]},
-    {"id": "scadenza", "ask_it": "Ti serve la residenza entro una data precisa?", "ask_en": "Do you need residence by a specific date?", "kind": "date"}
+    {
+      "id": "permesso",
+      "ask_it": "Qual è la tua situazione con il permesso di soggiorno? (a) ce l'ho ed è in corso di validità; (b) è scaduto e ho chiesto il rinnovo; (c) aspetto il primo permesso per lavoro subordinato; (d) aspetto il primo permesso per ricongiungimento familiare; (e) non l'ho ancora chiesto; (f) un altro caso.",
+      "ask_en": "What is your situation with the residence permit? (a) I have one that has not expired; (b) it expired and I applied to renew it; (c) I am waiting for my first permit for employment; (d) I am waiting for my first permit for family reunification; (e) I have not applied yet; (f) something else.",
+      "options": [
+        "permesso",
+        "ricevuta-rinnovo",
+        "ricevuta-lavoro",
+        "ricevuta-famiglia",
+        "nessuno",
+        "altro"
+      ]
+    },
+    {
+      "id": "famiglia",
+      "ask_it": "Ti trasferisci da solo o con familiari?",
+      "ask_en": "Are you moving alone or with family members?",
+      "options": [
+        "solo",
+        "con-familiari"
+      ]
+    },
+    {
+      "id": "alloggio",
+      "ask_it": "A che titolo abiti nella casa: proprietario, affitto con contratto già registrato, affitto con contratto non ancora registrato (o non sai), casa popolare (ERP), comodato gratuito, ospite, oppure lavori in casa del proprietario (colf, badante)?",
+      "ask_en": "How do you live in the home: owner, renting with a contract already registered, renting with a contract not registered yet (or you don't know), public housing (ERP), free loan (comodato), guest, or you work in the owner's home (domestic worker, carer)?",
+      "options": [
+        "proprieta",
+        "affitto-registrato",
+        "affitto",
+        "affitto-erp",
+        "comodato",
+        "ospite",
+        "lavoro-domestico"
+      ],
+      "narrow": [
+        {
+          "hint": "affitto",
+          "ask_it": "Il tuo contratto d'affitto è già registrato all'Agenzia delle Entrate?",
+          "ask_en": "Is your rental contract already registered with the Agenzia delle Entrate (Revenue Agency)?",
+          "options": [
+            "affitto-registrato",
+            "affitto"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scadenza",
+      "ask_it": "Ti serve la residenza entro una data precisa?",
+      "ask_en": "Do you need residence by a specific date?",
+      "kind": "date"
+    }
   ],
   "requirements": [
-    {"id": "come-si-presenta", "text_it": "TODO: HOW the declaration is submitted in Milan (counter appointment, email, online). Decides whether this case fits the 'one visit' story", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "permesso", "text_it": "TODO: which permit or receipt is required", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "passaporto", "text_it": "TODO: identity document required", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "alloggio", "text_it": "TODO: what proves the right to live in the home", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "documenti-esteri", "text_it": "TODO: family documents issued abroad: translation and legalisation", "when": {"famiglia": ["con-familiari"]}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "accertamento", "text_it": "TODO: what happens after (address check, time limit)", "when": {}, "source_id": "residenza-estero", "quote": "", "verified_at": null, "status": "todo"}
+    {
+      "id": "come-si-presenta",
+      "category": "how",
+      "text_it": "La richiesta si fa online, non allo sportello: prepari i documenti, li inserisci nella domanda online e la invii.",
+      "text_en": "You apply online, not at a desk: prepare the documents, add them to the online application and submit it.",
+      "when": {},
+      "source_id": "residenza-estero",
+      "quote": "che ti serviranno da inserire nella domanda online e poi procedi con la richiesta.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "solo-online",
+      "category": "how",
+      "text_it": "I file si caricano solo con i pulsanti della procedura online: quelli mandati per email non vengono considerati.",
+      "text_en": "Files are uploaded only with the online form's buttons: files sent by email are not considered.",
+      "when": {},
+      "source_id": "residenza-estero-modulo",
+      "quote": "inoltrare i file utilizzando esclusivamente gli strumenti di questa procedura online (i pulsanti allega, carica ecc.)",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "invio"
+    },
+    {
+      "id": "formati-file",
+      "category": "prepare",
+      "text_it": "Formati accettati: gif, jpeg, jpg, pdf, tiff, tff. Ogni allegato al massimo 7 MB.",
+      "text_en": "Accepted formats: gif, jpeg, jpg, pdf, tiff, tff. Each file at most 7 MB.",
+      "when": {},
+      "source_id": "residenza-estero-modulistica",
+      "quote": "La piattaforma accetta documenti di tipo gif, jpeg, jpg, pdf, tiff, tff - il peso massimo di ciascun allegato non può superare i 7MB.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "invio"
+    },
+    {
+      "id": "modulo-firmato",
+      "category": "prepare",
+      "text_it": "Il modulo della domanda va compilato, firmato e scansionato, insieme agli altri allegati.",
+      "text_en": "The application form must be filled in, signed and scanned, together with the other attachments.",
+      "when": {},
+      "source_id": "residenza-estero-modulo",
+      "quote": "Scansionare il modulo compilato e sottoscritto e gli altri allegati eventualmente richiesti",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "dichiarazione",
+      "short_it": "Il modulo della domanda, firmato e scansionato",
+      "short_en": "The application form, signed and scanned"
+    },
+    {
+      "id": "firma-familiari",
+      "category": "prepare",
+      "text_it": "Chi fa la domanda la compila per sé e per la famiglia; anche i familiari maggiorenni devono firmarla.",
+      "text_en": "The applicant fills it in for themselves and their family; adult family members must sign it too.",
+      "when": {
+        "famiglia": [
+          "con-familiari"
+        ]
+      },
+      "source_id": "residenza-estero-modulo",
+      "quote": "Il richiedente deve compilare il modulo di dichiarazione per sé e per i componenti del nucleo familiare esistente o che si va a costituire. Anche i componenti maggiorenni del nucleo devono sottoscrivere la dichiarazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "dichiarazione",
+      "short_it": "Le firme dei familiari maggiorenni sul modulo",
+      "short_en": "Signatures of adult family members on the form"
+    },
+    {
+      "id": "passaporto",
+      "category": "prepare",
+      "text_it": "Copia del passaporto (o documento equivalente) in corso di validità.",
+      "text_en": "Copy of your passport (or equivalent document) that has not expired.",
+      "when": {
+        "permesso": [
+          "permesso",
+          "ricevuta-rinnovo",
+          "ricevuta-lavoro",
+          "ricevuta-famiglia"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "copia del passaporto o documento equipollente in corso di validità",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Passaporto",
+      "short_en": "Passport"
+    },
+    {
+      "id": "documento-fronte-retro",
+      "category": "prepare",
+      "text_it": "Il documento d'identità va scansionato fronte e retro.",
+      "text_en": "Scan both sides of your identity document.",
+      "when": {},
+      "source_id": "residenza-estero-modulistica",
+      "quote": "copia fronte/retro del documento di identità in corso di validità",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "base",
+      "short_it": "Documento d'identità, fronte e retro",
+      "short_en": "Identity document, front and back"
+    },
+    {
+      "id": "permesso",
+      "category": "prepare",
+      "text_it": "Copia del permesso di soggiorno in corso di validità.",
+      "text_en": "Copy of your residence permit that has not expired.",
+      "when": {
+        "permesso": [
+          "permesso"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "copia del titolo di soggiorno in corso di validità.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Permesso di soggiorno",
+      "short_en": "Residence permit"
+    },
+    {
+      "id": "permesso-scaduto",
+      "category": "prepare",
+      "text_it": "Copia del permesso di soggiorno scaduto.",
+      "text_en": "Copy of your expired residence permit.",
+      "when": {
+        "permesso": [
+          "ricevuta-rinnovo"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "copia del titolo di soggiorno scaduto.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Permesso di soggiorno scaduto",
+      "short_en": "Expired residence permit"
+    },
+    {
+      "id": "ricevuta-rinnovo",
+      "category": "prepare",
+      "text_it": "Ricevuta della richiesta di rinnovo del permesso di soggiorno.",
+      "text_en": "Receipt of your residence permit renewal application.",
+      "when": {
+        "permesso": [
+          "ricevuta-rinnovo"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "ricevuta della richiesta di rinnovo del titolo di soggiorno.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Ricevuta della richiesta di rinnovo",
+      "short_en": "Receipt of the renewal application"
+    },
+    {
+      "id": "contratto-soggiorno",
+      "category": "prepare",
+      "text_it": "Copia del contratto di soggiorno firmato allo Sportello Unico per l'immigrazione.",
+      "text_en": "Copy of the residence contract (contratto di soggiorno) signed at the Sportello Unico per l'immigrazione.",
+      "when": {
+        "permesso": [
+          "ricevuta-lavoro"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "copia del contratto di soggiorno presso lo Sportello Unico per l’immigrazione",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Contratto di soggiorno (Sportello Unico)",
+      "short_en": "Contratto di soggiorno (Sportello Unico)"
+    },
+    {
+      "id": "ricevuta-poste",
+      "category": "prepare",
+      "text_it": "La ricevuta dell'ufficio postale che prova che hai presentato la richiesta di permesso di soggiorno.",
+      "text_en": "The post office receipt proving you applied for the residence permit.",
+      "when": {
+        "permesso": [
+          "ricevuta-lavoro",
+          "ricevuta-famiglia"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "ricevuta rilasciata dall’ufficio postale attestante l’avvenuta presentazione della richiesta di permesso",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Ricevuta dell'ufficio postale",
+      "short_en": "Post office receipt"
+    },
+    {
+      "id": "domanda-lavoro",
+      "category": "prepare",
+      "text_it": "La domanda di permesso di soggiorno per lavoro subordinato presentata allo Sportello Unico.",
+      "text_en": "The application for an employment residence permit filed at the Sportello Unico.",
+      "when": {
+        "permesso": [
+          "ricevuta-lavoro"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "domanda di rilascio del permesso di soggiorno per lavoro subordinato presentata allo Sportello Unico",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Domanda di permesso per lavoro subordinato",
+      "short_en": "Application for the employment permit"
+    },
+    {
+      "id": "visto-ingresso",
+      "category": "prepare",
+      "text_it": "Il visto d'ingresso, in originale e in fotocopia.",
+      "text_en": "Your entry visa, original and photocopy.",
+      "when": {
+        "permesso": [
+          "ricevuta-famiglia"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "originale e fotocopia del visto di ingresso",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Visto d'ingresso",
+      "short_en": "Entry visa"
+    },
+    {
+      "id": "nulla-osta",
+      "category": "prepare",
+      "text_it": "Fotocopia (non autenticata) del nulla osta dello Sportello Unico.",
+      "text_en": "Photocopy (not certified) of the clearance (nulla osta) from the Sportello Unico.",
+      "when": {
+        "permesso": [
+          "ricevuta-famiglia"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "fotocopia non autenticata del nulla osta rilasciato dallo Sportello unico",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Nulla osta dello Sportello Unico",
+      "short_en": "Nulla osta from the Sportello Unico"
+    },
+    {
+      "id": "prima-il-permesso",
+      "category": "how",
+      "text_it": "Prima di tutto chiedi il permesso di soggiorno: chi arriva in Italia per la prima volta ha 8 giorni lavorativi dall'ingresso per chiederlo.",
+      "text_en": "First of all apply for the residence permit: people arriving in Italy for the first time have 8 working days from entry to apply.",
+      "when": {
+        "permesso": [
+          "nessuno"
+        ]
+      },
+      "source_id": "permesso-soggiorno",
+      "quote": "Chi arriva in Italia per la prima volta ha 8 giorni lavorativi dal suo ingresso nel territorio dello Stato di tempo per chiedere il permesso di soggiorno",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "caso-non-coperto",
+      "category": "how",
+      "text_it": "Il tuo caso non è tra i quattro dell'elenco ufficiale dei documenti: chiedi al Comune con il modulo di assistenza della domanda online.",
+      "text_en": "Your case is not one of the four in the official list of documents: ask the City through the help form of the online application.",
+      "when": {
+        "permesso": [
+          "altro"
+        ]
+      },
+      "source_id": "residenza-estero-modulo",
+      "quote": "per informazioni sulle pratiche di residenza o per problemi tecnici nella compilazione della pratica",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "documenti-altri-permessi",
+      "category": "prepare",
+      "text_it": "Da verificare: quali documenti servono a chi aspetta il primo permesso per studio o per altri motivi non elencati nell'Allegato A.",
+      "text_en": "To be checked: which documents are needed by people waiting for a first permit for study or other reasons not listed in Annex A.",
+      "when": {
+        "permesso": [
+          "altro"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "",
+      "verified_at": null,
+      "status": "todo"
+    },
+    {
+      "id": "codice-fiscale",
+      "category": "prepare",
+      "text_it": "Il codice fiscale. L'elenco ufficiale dice \"in originale e in fotocopia\".",
+      "text_en": "Your tax code (codice fiscale). The official list says \"original and photocopy\".",
+      "when": {
+        "permesso": [
+          "permesso",
+          "ricevuta-rinnovo",
+          "ricevuta-lavoro",
+          "ricevuta-famiglia"
+        ]
+      },
+      "source_id": "residenza-estero-extraue",
+      "quote": "codice fiscale, in originale e in fotocopia",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Codice fiscale",
+      "short_en": "Tax code (codice fiscale)"
+    },
+    {
+      "id": "codice-fiscale-appuntamento",
+      "category": "how",
+      "text_it": "Se non hai ancora il codice fiscale e non te l'hanno attribuito la Questura o lo Sportello Unico: per il primo codice fiscale di un cittadino straniero serve un appuntamento in presenza all'Agenzia delle Entrate.",
+      "text_en": "If you do not have a tax code yet and neither the Questura nor the Sportello Unico assigned one: a foreign citizen's first tax code needs an in-person appointment at the Agenzia delle Entrate.",
+      "when": {},
+      "source_id": "codice-fiscale",
+      "quote": "Per il rilascio del primo codice fiscale ai cittadini stranieri UE o extra UE, è necessario prenotare un appuntamento in presenza.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "documenti-esteri",
+      "category": "prepare",
+      "text_it": "Atti rilasciati all'estero su stato civile e famiglia (per esempio matrimonio, nascita dei figli): copia degli originali, tradotti e legalizzati.",
+      "text_en": "Documents issued abroad on marital status and family (for example marriage, children's birth): copy of the originals, translated and legalised.",
+      "when": {},
+      "source_id": "residenza-estero-extraue",
+      "quote": "copia degli atti originali, tradotti e legalizzati, comprovanti lo stato civile e la composizione della famiglia.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "cittadinanza",
+      "short_it": "Atti esteri tradotti e legalizzati (matrimonio, nascite)",
+      "short_en": "Foreign certificates, translated and legalised (marriage, births)"
+    },
+    {
+      "id": "documenti-esteri-scopo",
+      "category": "how",
+      "text_it": "Questi atti tradotti e legalizzati non sono tra quelli obbligatori, ma servono per registrare in anagrafe la parentela e per avere i certificati.",
+      "text_en": "These translated and legalised documents are not among the mandatory ones, but they are needed to record family relationships in the registry and to get certificates.",
+      "when": {},
+      "source_id": "residenza-estero-extraue",
+      "quote": "documentazione necessaria per la registrazione nell’anagrafe del rapporto di parentela e per il rilascio della certificazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "patente",
+      "category": "how",
+      "text_it": "Se hai una patente o un libretto di circolazione italiani, scrivilo nel modulo.",
+      "text_en": "If you have an Italian driving licence or vehicle registration, say so in the form.",
+      "when": {},
+      "source_id": "residenza-estero-modulistica",
+      "quote": "chi è in possesso di patente e/o libretto di circolazione emessi dall'autorità italiana deve indicarlo all'interno del modulo",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "nel-modulo"
+    },
+    {
+      "id": "consenso-stato-famiglia",
+      "category": "prepare",
+      "text_it": "Solo se entri nello stato di famiglia di chi è già residente e non siete parenti: il modulo di consenso di quella persona.",
+      "text_en": "Only if you join the household record of someone already resident and you are not relatives: that person's consent form.",
+      "when": {
+        "alloggio": [
+          "ospite",
+          "comodato",
+          "lavoro-domestico"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "modulo Consenso del componente già residente per inserimento nello stato di famiglia (da presentare solo se non sussiste il vincolo di parentela per autorizzare l'iscrizione nello stesso stato di famiglia)",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "base",
+      "short_it": "Consenso di chi è già residente (solo se non siete parenti)",
+      "short_en": "Consent of the resident (only if you are not related)"
+    },
+    {
+      "id": "minori-consenso",
+      "category": "prepare",
+      "text_it": "Se trasferisci un figlio minorenne e l'altro genitore non trasferisce la residenza: la sua dichiarazione di consenso, sul modulo del Comune.",
+      "text_en": "If you move a child under 18 and the other parent does not move residence: their consent declaration, on the City's form.",
+      "when": {
+        "famiglia": [
+          "con-familiari"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "Dichiarazione di consenso del genitore che non trasferisce la residenza",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "minori",
+      "short_it": "Consenso del genitore che non si trasferisce",
+      "short_en": "Consent of the parent who is not moving"
+    },
+    {
+      "id": "minori-genitore-assente",
+      "category": "prepare",
+      "text_it": "Se trasferisci un figlio minorenne e un genitore è assente: la dichiarazione delle generalità del genitore assente, sul modulo del Comune.",
+      "text_en": "If you move a child under 18 and one parent is absent: the declaration of the absent parent's personal details, on the City's form.",
+      "when": {
+        "famiglia": [
+          "con-familiari"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "Dichiarazione delle generalità del genitore assente",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "minori",
+      "short_it": "Dichiarazione sul genitore assente",
+      "short_en": "Declaration about the absent parent"
+    },
+    {
+      "id": "alloggio-proprieta",
+      "category": "prepare",
+      "text_it": "Proprietario: copia del documento che attesta il rogito.",
+      "text_en": "Owner: copy of the deed of purchase (rogito).",
+      "when": {
+        "alloggio": [
+          "proprieta"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "copia del documento che attesta il rogito",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Atto di proprietà (rogito)",
+      "short_en": "Deed of ownership (rogito)"
+    },
+    {
+      "id": "alloggio-affitto",
+      "category": "prepare",
+      "text_it": "Affitto con contratto non ancora registrato (o in registrazione) all'Agenzia delle Entrate: copia del contratto di locazione.",
+      "text_en": "Rental contract not yet registered (or being registered) with the Agenzia delle Entrate: copy of the rental contract.",
+      "when": {
+        "alloggio": [
+          "affitto"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "Se il contratto non è registrato o è in corso di registrazione presso l'Agenzia delle Entrate - copia del contratto di locazione",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Contratto d'affitto (se non ancora registrato)",
+      "short_en": "Rental contract (if not yet registered)"
+    },
+    {
+      "id": "alloggio-affitto-registrazione",
+      "category": "prepare",
+      "text_it": "Affitto con contratto già registrato: la guida YesMilano per gli studenti indica la scansione del contratto con numero, luogo e data di registrazione all'Agenzia delle Entrate.",
+      "text_en": "Renting with a contract already registered: the YesMilano student guide says to scan the rental contract with its registration number, place and date at the Revenue Agency.",
+      "when": {
+        "alloggio": [
+          "affitto-registrato"
+        ]
+      },
+      "source_id": "yesmilano-students",
+      "quote": "Tenancy: Scan of the rent contract. Include the number, place, and date of registration of the rent contract at the Revenue Agency (if available).",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Contratto d'affitto con gli estremi di registrazione",
+      "short_en": "Rental contract with its registration details"
+    },
+    {
+      "id": "alloggio-erp",
+      "category": "prepare",
+      "text_it": "Casa popolare (Edilizia Residenziale Pubblica): copia del contratto o del verbale di consegna firmati dall'Ente Gestore.",
+      "text_en": "Public housing (ERP): copy of the contract or handover report signed by the managing body.",
+      "when": {
+        "alloggio": [
+          "affitto-erp"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "copia del contratto di locazione o del verbale di consegna dell’immobile sottoscritti dall’Ente Gestore",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Contratto o verbale di consegna della casa popolare",
+      "short_en": "Public housing contract or handover record"
+    },
+    {
+      "id": "alloggio-erp-nucleo",
+      "category": "prepare",
+      "text_it": "Casa popolare, se la domanda allarga il nucleo familiare: l'autorizzazione dell'Ente Gestore.",
+      "text_en": "Public housing, if the application adds people to the household: the managing body's authorisation.",
+      "when": {
+        "alloggio": [
+          "affitto-erp"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "se la richiesta riguarda l’ampliamento del nucleo familiare: allegare l'autorizzazione rilasciata dall'Ente Gestore",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Autorizzazione dell'Ente Gestore",
+      "short_en": "Authorisation of the housing body"
+    },
+    {
+      "id": "alloggio-comodato",
+      "category": "prepare",
+      "text_it": "Comodato gratuito con contratto non registrato (o in registrazione): copia del contratto di comodato.",
+      "text_en": "Free loan (comodato) with a contract not registered (or being registered): copy of the loan contract.",
+      "when": {
+        "alloggio": [
+          "comodato"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "Se il contratto non è registrato o è in corso di registrazione presso l'Agenzia delle Entrate - copia del contratto di comodato",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Contratto di comodato",
+      "short_en": "Free-loan (comodato) contract"
+    },
+    {
+      "id": "alloggio-assenso",
+      "category": "prepare",
+      "text_it": "Ospite, o comodato fatto solo a voce: la \"Dichiarazione di assenso dell'affittuario o del proprietario\", modulo del Comune firmato da chi ti dà la casa.",
+      "text_en": "Guest, or a free loan agreed only verbally: the \"Declaration of consent of the tenant or owner\", the City's form signed by whoever gives you the home.",
+      "when": {
+        "alloggio": [
+          "ospite",
+          "comodato"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "Dichiarazione di assenso dell'affittuario o del proprietario",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Dichiarazione di assenso del proprietario o dell'affittuario",
+      "short_en": "Consent declaration of the owner or tenant"
+    },
+    {
+      "id": "alloggio-ospite-dati",
+      "category": "prepare",
+      "text_it": "Ospite: nel modulo indica i dati anagrafici di chi ti ospita e gli estremi del rogito o della registrazione del contratto d'affitto della casa.",
+      "text_en": "Guest: in the form give your host's personal details and the references of the deed or of the rental contract registration for the home.",
+      "when": {
+        "alloggio": [
+          "ospite"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "Indicare i dati anagrafici del soggetto che ospita e gli estremi del rogito o della registrazione del contratto di locazione riguardanti l'immobile",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "nel-modulo"
+    },
+    {
+      "id": "alloggio-ospite-documento",
+      "category": "prepare",
+      "text_it": "Ospite: la guida YesMilano per gli studenti chiede anche la copia del documento d'identità di chi ti ospita (la pagina del Comune non lo elenca).",
+      "text_en": "Guest: the YesMilano student guide also asks for a copy of your host's ID (the City page does not list it).",
+      "when": {
+        "alloggio": [
+          "ospite"
+        ]
+      },
+      "source_id": "yesmilano-students",
+      "quote": "Hospitality: Scan of the host's written declaration of consent to reside on their premises plus a scan of their ID.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Documento d'identità di chi ti ospita",
+      "short_en": "Identity document of your host"
+    },
+    {
+      "id": "alloggio-lavoro-domestico",
+      "category": "prepare",
+      "text_it": "Colf, badante o chi lavora in casa del proprietario o dell'affittuario: copia del contratto di lavoro con lui o lei.",
+      "text_en": "Domestic worker or carer living in the owner's or tenant's home: copy of your employment contract with them.",
+      "when": {
+        "alloggio": [
+          "lavoro-domestico"
+        ]
+      },
+      "source_id": "residenza-estero-modulistica",
+      "quote": "copia del contratto di lavoro esistente tra lavoratore e proprietario/affittuario",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "abitazione",
+      "short_it": "Contratto di lavoro con il proprietario o l'affittuario",
+      "short_en": "Employment contract with the owner or tenant"
+    },
+    {
+      "id": "una-domanda-alla-volta",
+      "category": "how",
+      "text_it": "Non puoi inviare una nuova domanda finché quella precedente non è conclusa: conviene mandarla completa la prima volta.",
+      "text_en": "You cannot send a new application until the previous one is closed: it pays to send it complete the first time.",
+      "when": {},
+      "source_id": "residenza-estero-modulo",
+      "quote": "Il sistema non consente di inviare una nuova dichiarazione di residenza se non si è concluso l'iter della dichiarazione precedentemente inviata.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "form_section": "invio"
+    },
+    {
+      "id": "correzioni",
+      "category": "after",
+      "text_it": "Se manca qualcosa o un documento non si legge, gli uffici ti chiedono le correzioni e devi rimandare la domanda.",
+      "text_en": "If something is missing or a document is unreadable, the office asks for corrections and you must resubmit.",
+      "when": {},
+      "source_id": "yesmilano-students",
+      "quote": "If some information is missing, is insufficient or not readable, the officers will notify with the required changes. In this case, edit the application, complete the corrections, confirm each tab, and resubmit.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "email-protocollo",
+      "category": "after",
+      "text_it": "Dopo l'invio ricevi una email con il riepilogo e poi un altro messaggio con il numero di protocollo.",
+      "text_en": "After sending it you get an email with the summary and then another message with the protocol number.",
+      "when": {},
+      "source_id": "residenza-estero-modulo",
+      "quote": "Riceverai una email con il riepilogo della richiesta e, successivamente, un altro messaggio col numero di protocollo.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "decorrenza",
+      "category": "after",
+      "text_it": "La residenza vale dalla data in cui presenti la dichiarazione.",
+      "text_en": "Residence counts from the date you submit the declaration.",
+      "when": {},
+      "source_id": "residenza-estero",
+      "quote": "Gli effetti giuridici delle iscrizioni anagrafiche hanno inizio dalla data di presentazione della dichiarazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "accertamento",
+      "category": "after",
+      "text_it": "Poi il Comune fa degli accertamenti. Se l'esito è negativo la pratica si ferma e il Comune ti scrive: puoi rispondere con memorie o documenti.",
+      "text_en": "Then the City runs checks. If they are negative the procedure stops and the City writes to you: you can reply with statements or documents.",
+      "when": {},
+      "source_id": "residenza-estero",
+      "quote": "se gli accertamenti danno esiti negativi, il procedimento si interrompe. Il Comune invia una comunicazione al richiedente, che potrà replicare presentando memorie o documenti utili all'istruttoria.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "accertamento-45-giorni",
+      "category": "after",
+      "text_it": "Secondo la guida YesMilano, il Comune impiega 45 giorni per controllare i requisiti e venire a casa a verificare che ci abiti.",
+      "text_en": "According to the YesMilano guide, the City takes 45 days to check the requirements and visit your home to confirm you live there.",
+      "when": {},
+      "source_id": "yesmilano-students",
+      "quote": "The administration takes 45 days (about 1 and a half months) to check on your residence requirements and to visit your home.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "nome-citofono",
+      "category": "after",
+      "text_it": "Per la visita: indica l'indirizzo completo (scala, piano) e metti il tuo nome su citofono e cassetta delle lettere.",
+      "text_en": "For the visit: give the full address (staircase, floor) and put your name on the intercom and mailbox.",
+      "when": {},
+      "source_id": "yesmilano-students",
+      "quote": "Provide an accurate address (stairs number, floor) and ensure your name is on the intercom and mailbox.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "dimora-abituale-60-giorni",
+      "category": "after",
+      "text_it": "Dopo, ogni volta che rinnovi il permesso o la carta di soggiorno, entro 60 giorni devi rinnovare la dichiarazione di dimora abituale al Comune.",
+      "text_en": "Afterwards, every time you renew your residence permit or card, within 60 days you must renew your declaration of habitual residence with the City.",
+      "when": {},
+      "source_id": "dimora-abituale",
+      "quote": "Il rinnovo della dichiarazione di dimora abituale deve avvenire entro i 60 giorni successivi al rinnovo del permesso o della carta di soggiorno.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "cambio-indirizzo-20-giorni",
+      "category": "after",
+      "text_it": "Dopo, se cambi indirizzo dentro Milano o ti trasferisci in un'altra città, devi comunicarlo all'anagrafe entro 20 giorni dal trasloco.",
+      "text_en": "Afterwards, if you change address within Milan or move to another city, you must tell the registry office within 20 days of moving.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "Chi cambia città o indirizzo deve comunicarlo all'Ufficio Anagrafe entro 20 giorni dal trasferimento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    }
   ],
   "steps": [
-    {"order": 1, "ente": "questura-milano", "text_it": "TODO: residence permit step, from the source", "source_id": "permesso-soggiorno", "status": "todo"},
-    {"order": 2, "ente": "agenzia-entrate", "text_it": "TODO: tax code step, from the source", "source_id": "codice-fiscale", "status": "todo"},
-    {"order": 3, "ente": "comune-milano", "text_it": "TODO: residence declaration, from the source", "source_id": "residenza-estero", "status": "todo"}
+    {
+      "order": 1,
+      "ente": "questura-milano",
+      "text_it": "Permesso di soggiorno: chi arriva in Italia per la prima volta ha 8 giorni lavorativi dall'ingresso per chiederlo al Questore; per alcuni permessi tramite gli uffici postali abilitati.",
+      "text_en": "Residence permit: people arriving in Italy for the first time have 8 working days from entry to apply to the Questore; for some permits through authorised post offices.",
+      "source_id": "permesso-soggiorno",
+      "quote": "Chi arriva in Italia per la prima volta ha 8 giorni lavorativi dal suo ingresso nel territorio dello Stato di tempo per chiedere il permesso di soggiorno che deve essere richiesto al Questore della provincia in cui lo straniero intende soggiornare, in determinate ipotesi, anche tramite gli uffici postali abilitati.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Permesso di soggiorno",
+      "title_en": "Residence permit"
+    },
+    {
+      "order": 2,
+      "ente": "questura-milano",
+      "text_it": "Se chiedi il permesso di soggiorno (o il rinnovo): il codice fiscale te lo attribuisce la Questura.",
+      "text_en": "If you are applying for the residence permit (or renewing it): the Questura assigns your tax code.",
+      "source_id": "codice-fiscale",
+      "quote": "Per i cittadini stranieri che richiedono il rilascio/rinnovo del permesso di soggiorno il codice fiscale viene attribuito dalle questure.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Codice fiscale",
+      "title_en": "Tax code (codice fiscale)",
+      "routes": [
+        {
+          "ente": "sportello-unico-immigrazione",
+          "text_it": "Se la domanda di ingresso è passata dallo Sportello Unico per l'immigrazione (lavoro subordinato o ricongiungimento familiare): te lo attribuisce lo stesso Sportello Unico.",
+          "text_en": "If your entry application went through the Sportello Unico per l'immigrazione (employment or family reunification): that Sportello Unico assigns it.",
+          "source_id": "codice-fiscale",
+          "quote": "ai cittadini stranieri che fanno domanda di ingresso nel territorio agli Sportelli unici per l’immigrazione, per lavoro subordinato e ricongiungimento familiare, il codice fiscale viene attribuito presso gli stessi sportelli",
+          "verified_at": "2026-10-04",
+          "status": "verified"
+        },
+        {
+          "ente": "agenzia-entrate",
+          "text_it": "Altrimenti: per il primo codice fiscale serve un appuntamento in presenza all'Agenzia delle Entrate.",
+          "text_en": "Otherwise: your first tax code needs an in-person appointment at the Agenzia delle Entrate.",
+          "source_id": "codice-fiscale",
+          "quote": "Per il rilascio del primo codice fiscale ai cittadini stranieri UE o extra UE, è necessario prenotare un appuntamento in presenza.",
+          "verified_at": "2026-10-04",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "ente": "comune-milano",
+      "text_it": "Residenza: domanda online sul sito del Comune, con i documenti caricati nella domanda.",
+      "text_en": "Residence: online application on the City website, with the documents uploaded in the application.",
+      "source_id": "residenza-estero",
+      "quote": "che ti serviranno da inserire nella domanda online e poi procedi con la richiesta.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Domanda di residenza online",
+      "title_en": "Online residence application"
+    },
+    {
+      "order": 4,
+      "ente": "comune-milano",
+      "text_it": "Dopo l'invio ricevi una email di riepilogo e poi il numero di protocollo.",
+      "text_en": "After sending it you get a summary email and then the protocol number.",
+      "source_id": "residenza-estero-modulo",
+      "quote": "Riceverai una email con il riepilogo della richiesta e, successivamente, un altro messaggio col numero di protocollo.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Riepilogo e protocollo",
+      "title_en": "Summary and protocol number"
+    },
+    {
+      "order": 5,
+      "ente": "comune-milano",
+      "text_it": "Il Comune controlla i requisiti e viene a casa a verificare che ci abiti: secondo la guida YesMilano ci vogliono 45 giorni.",
+      "text_en": "The City checks the requirements and visits your home to confirm you live there: according to the YesMilano guide it takes 45 days.",
+      "source_id": "yesmilano-students",
+      "quote": "The administration takes 45 days (about 1 and a half months) to check on your residence requirements and to visit your home.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Accertamento a casa",
+      "title_en": "Home check"
+    },
+    {
+      "order": 6,
+      "ente": "comune-milano",
+      "text_it": "Ogni volta che rinnovi il permesso: entro 60 giorni rinnova la dichiarazione di dimora abituale (online o allo sportello su appuntamento).",
+      "text_en": "Every time you renew the permit: within 60 days renew the declaration of habitual residence (online or at the desk by appointment).",
+      "source_id": "dimora-abituale",
+      "quote": "Il rinnovo della dichiarazione di dimora abituale deve avvenire entro i 60 giorni successivi al rinnovo del permesso o della carta di soggiorno.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Dopo: dimora abituale",
+      "title_en": "Afterwards: habitual abode"
+    }
   ],
   "unknowns_it": [
-    "L'ordine dei passaggi tra enti va confermato sulle fonti prima di mostrarlo al cittadino."
-  ]
+    "Nessuna fonte impone un ordine tra permesso di soggiorno e codice fiscale: il codice fiscale può arrivare dalla Questura durante la pratica del permesso, oppure prima con un appuntamento all'Agenzia delle Entrate. Entrambi servono prima della domanda di residenza (Allegato A).",
+    "L'elenco ufficiale dei documenti (Allegato A, PDF creato nel 2013) parla di originali e fotocopie e di ricevuta dell'ufficio postale, ma oggi la domanda si fa online con scansioni: va chiesto al Comune di aggiornarlo.",
+    "L'Allegato A copre quattro casi (permesso valido, in rinnovo, attesa del primo permesso per lavoro subordinato o per ricongiungimento familiare). Non dice nulla, per esempio, di chi aspetta il primo permesso per studio: in quei casi l'assistente non lo sa e rimanda al Comune.",
+    "Per un contratto d'affitto già registrato la pagina del Comune non dice quale documento allegare; la guida YesMilano indica copia del contratto ed estremi di registrazione.",
+    "La pagina del Comune non indica quanto durano gli accertamenti; i 45 giorni vengono dalla guida YesMilano.",
+    "Per chi è ospite, la copia del documento di chi ospita è indicata solo dalla guida YesMilano, non dalla pagina del Comune.",
+    "L'Agenzia delle Entrate dice che chi risiede all'estero può chiedere il codice fiscale al consolato; la guida YesMilano (maggio 2025) dice che non è più possibile e che si chiede solo dopo l'arrivo in Italia. Le due fonti non sono allineate.",
+    "Il modulo di consenso per entrare nello stato di famiglia di un residente non parente è mostrato solo a chi è ospite, ha la casa in comodato o lavora in casa del proprietario: la pagina non lega il modulo al tipo di alloggio, è una scelta del team per non mostrarlo a chi affitta o è proprietario. La pagina del Comune resta il riferimento.",
+    "La guida «Come compilare la domanda online» segue le sezioni della pagina Modulistica del Comune; le fonti salvate non mostrano i campi interni del modulo online (servono le credenziali), quindi non nominiamo pulsanti o campi che non vediamo."
+  ],
+  "form_guide": {
+    "form_url_kind": "online_form_url",
+    "sections": [
+      {
+        "id": "dichiarazione",
+        "title_it": "Il modulo di dichiarazione",
+        "title_en": "The declaration form",
+        "text_it": "Compili il modulo di dichiarazione per te e per i componenti della famiglia; anche i maggiorenni lo firmano.",
+        "text_en": "You fill in the declaration form for yourself and your family members; adults sign it too.",
+        "source_id": "residenza-estero-modulo",
+        "quote": "Il richiedente deve compilare il modulo di dichiarazione per sé e per i componenti del nucleo familiare esistente o che si va a costituire.",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "id": "base",
+        "title_it": "Documentazione di base per tutti",
+        "title_en": "Basic documents for everyone",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Documentazione di base per tutti",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "id": "cittadinanza",
+        "title_it": "Documentazione relativa alla cittadinanza",
+        "title_en": "Documents about citizenship",
+        "text_it": "Per chi ha cittadinanza extra UE: i documenti dell'elenco ufficiale (Allegato A) per il tuo caso di permesso.",
+        "text_en": "For non-EU citizens: the documents in the official list (Annex A) for your permit case.",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Documentazione relativa alla cittadinanza",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "id": "abitazione",
+        "title_it": "Documentazione relativa all'abitazione",
+        "title_en": "Documents about your home",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Documentazione relativa all'abitazione",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "id": "minori",
+        "title_it": "Documentazione per il trasferimento di minori",
+        "title_en": "Documents for moving minors",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Documentazione per il trasferimento di minori",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "id": "nel-modulo",
+        "title_it": "Da scrivere nel modulo",
+        "title_en": "To write in the form",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "deve indicarlo all'interno del modulo",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "id": "invio",
+        "title_it": "Come trasmettere la documentazione",
+        "title_en": "How to send the documents",
+        "source_id": "residenza-estero-modulo",
+        "quote": "Come trasmettere la documentazione?",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      }
+    ],
+    "housing_options": [
+      {
+        "answer": "proprieta",
+        "label_it": "Per chi è proprietario dell'immobile",
+        "label_en": "If you own the home",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Per chi è proprietario dell'immobile",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "answer": "affitto",
+        "label_it": "Per chi ha un contratto di locazione",
+        "label_en": "If you have a rental contract",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Per chi ha un contratto di locazione",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "answer": "affitto-registrato",
+        "label_it": "Per chi ha un contratto di locazione",
+        "label_en": "If you have a rental contract",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Per chi ha un contratto di locazione",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "answer": "affitto-erp",
+        "label_it": "Per chi ha un contratto di locazione · Se l'immobile è di Edilizia Residenziale Pubblica",
+        "label_en": "If you have a rental contract · If the home is public housing (ERP)",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Se l'immobile è di Edilizia Residenziale Pubblica",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "answer": "comodato",
+        "label_it": "Per chi ha l'immobile in comodato gratuito",
+        "label_en": "If you have the home on a free loan (comodato)",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Per chi ha l'immobile in comodato gratuito",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "answer": "ospite",
+        "label_it": "Per chi è ospite",
+        "label_en": "If you are a guest",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Per chi è ospite",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      },
+      {
+        "answer": "lavoro-domestico",
+        "label_it": "Per chi è al servizio del proprietario o dell'affittuario (colf, badanti o altri soggetti)",
+        "label_en": "If you work for the owner or tenant (domestic worker, carer or other)",
+        "source_id": "residenza-estero-modulistica",
+        "quote": "Per chi è al servizio del proprietario o dell’affittuario (colf, badanti o altri soggetti)",
+        "verified_at": "2026-10-04",
+        "status": "verified"
+      }
+    ]
+  }
 }

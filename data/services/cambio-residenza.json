@@ -1,0 +1,298 @@
+{
+  "id": "cambio-residenza",
+  "title": {
+    "it": "Cambio di residenza da un altro Comune italiano o dentro Milano",
+    "en": "Change of residence from another Italian municipality or within Milan"
+  },
+  "ente": "comune-milano",
+  "summary_it": "Per chi arriva a Milano da un altro Comune italiano, per chi cambia indirizzo dentro Milano e per chi ha cittadinanza italiana e rientra dall'estero iscritto all'AIRE. Non si fa allo sportello: la dichiarazione si invia online sul sito dell'Anagrafe Nazionale (ANPR) con SPID o CIE, entro 20 giorni dal trasferimento. È gratuita. Il Comune registra la dichiarazione in due giorni lavorativi e poi fa gli accertamenti.",
+  "summary_en": "For people moving to Milan from another Italian municipality, changing address within Milan, or Italian citizens coming back from abroad who are registered with AIRE. It is not done at a desk: you send the declaration online on the National Registry (ANPR) website with SPID or CIE, within 20 days of moving. It is free. The City registers it within two working days and then runs its checks.",
+  "official_url": "https://www.comune.milano.it/servizi/anagrafe/cambio-di-residenza",
+  "online_form_url": "https://www.anagrafenazionale.interno.it/servizi-al-cittadino/",
+  "online_form_kind": "anpr",
+  "source_ids": ["cambio-residenza", "anpr-cambio-residenza"],
+  "deciding_questions": [
+    {
+      "id": "cittadinanza",
+      "ask_it": "Che cittadinanza hai: italiana, di un altro Paese UE o di un Paese extra UE?",
+      "ask_en": "What is your citizenship: Italian, another EU country, or a non-EU country?",
+      "options": ["italiana", "ue", "extra-ue"]
+    },
+    {
+      "id": "alloggio",
+      "ask_it": "La casa dove vai ad abitare è tua (di proprietà) oppure no (affitto, ospite o altro)?",
+      "ask_en": "Is the home you are moving into yours (you own it) or not (renting, staying as a guest or other)?",
+      "options": ["proprieta", "non-proprietario"]
+    },
+    {
+      "id": "famiglia",
+      "ask_it": "Con te cambiano residenza altre persone maggiorenni della tua famiglia?",
+      "ask_en": "Are other adults in your family changing residence with you?",
+      "options": ["solo", "con-familiari"]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "a-chi-si-rivolge",
+      "category": "how",
+      "text_it": "Questo servizio è per chi arriva a Milano da un altro Comune italiano, per chi cambia indirizzo dentro Milano e per chi ha cittadinanza italiana e rientra dall'estero, se iscritto all'AIRE.",
+      "text_en": "This service is for people moving to Milan from another Italian municipality, people changing address within Milan, and Italian citizens coming back from abroad who are registered with AIRE.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "Il servizio è rivolto a persone italiane e straniere che arrivano da un altro Comune italiano o cambiano indirizzo all’interno di Milano e alle persone italiane che sono rientrate in Italia dall’estero (se iscritte all’AIRE).",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "online-spid-cie",
+      "category": "how",
+      "text_it": "Non si va allo sportello: la dichiarazione si fa sul sito dell'Anagrafe Nazionale (ANPR) e per entrare servono SPID o CIE.",
+      "text_en": "You don't go to a desk: you make the declaration on the National Registry (ANPR) website, and you need SPID or CIE to log in.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "Per accedere al servizio occorre collegarsi al sito dell'Anagrafe Nazionale ed essere in possesso di SPID o CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "SPID o CIE per entrare nel sito dell'Anagrafe Nazionale",
+      "short_en": "SPID or CIE to log in to the National Registry website"
+    },
+    {
+      "id": "entro-20-giorni",
+      "category": "how",
+      "text_it": "Il cambio di città o di indirizzo va comunicato all'anagrafe entro 20 giorni dal trasferimento.",
+      "text_en": "A move to another city or address must be declared to the registry office within 20 days of moving.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "Chi cambia città o indirizzo deve comunicarlo all'Ufficio Anagrafe entro 20 giorni dal trasferimento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "gratuita",
+      "category": "how",
+      "text_it": "La dichiarazione di cambio di residenza è gratuita.",
+      "text_en": "The change of residence declaration is free of charge.",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "La dichiarazione di cambio di residenza è gratuita.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "tipo-nuova-residenza",
+      "category": "how",
+      "text_it": "Nel servizio scegli «Nuova residenza» se nella casa non abita nessun altro, oppure abitano persone con cui non hai legami di parentela o affettivi (per esempio studenti che dividono un appartamento).",
+      "text_en": "In the service choose «Nuova residenza» (new residence) if nobody else lives in the home, or the people there are not relatives or partners (for example students sharing a flat).",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Nuova residenza, se vai ad abitare in una casa dove non risiedono altre persone o se nella casa dove ti trasferisci ci sono altre persone con cui non hai vincoli di parentela o affettivi (è il caso di un gruppo di studenti che condividono un appartamento)",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "tipo-famiglia-esistente",
+      "category": "how",
+      "text_it": "Scegli invece «Residenza in famiglia esistente» se nella nuova casa ci sono persone con cui hai legami di parentela o affettivi (per esempio una coppia).",
+      "text_en": "Choose «Residenza in famiglia esistente» (joining an existing household) if the new home has people you are related to or in a relationship with (for example a couple).",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Residenza in famiglia esistente, se, viceversa, nella nuova casa ci sono persone con le quali hai vincoli di parentela o affettivi (è il caso di una coppia di fidanzati).",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "dati-richiesti",
+      "category": "prepare",
+      "text_it": "Nella dichiarazione ti chiedono i dati del nuovo indirizzo, il titolo con cui occupi la casa e i tuoi contatti.",
+      "text_en": "The declaration asks for the new address, the basis on which you occupy the home and your contact details.",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Sono richiesti i dati relativi al nuovo indirizzo di residenza, al titolo di occupazione dell’immobile e ai tuoi dati di contatto.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Dati del nuovo indirizzo e tuoi contatti",
+      "short_en": "New address details and your contacts"
+    },
+    {
+      "id": "estremi-catastali",
+      "category": "prepare",
+      "text_it": "Casa di tua proprietà: tieni a portata di mano gli estremi catastali dell'immobile.",
+      "text_en": "A home you own: have the property's cadastral references (estremi catastali) at hand.",
+      "when": {"alloggio": ["proprieta"]},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "gli estremi catastali dell’immobile presso cui ti trasferisci nel caso in cui sia di tua proprietà",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Estremi catastali della casa",
+      "short_en": "Cadastral references of the home"
+    },
+    {
+      "id": "estremi-contratto",
+      "category": "prepare",
+      "text_it": "Casa non tua: per esempio gli estremi del contratto di locazione e la carta d'identità della persona proprietaria.",
+      "text_en": "A home that is not yours: for example the rental contract's registration details and the owner's identity card.",
+      "when": {"alloggio": ["non-proprietario"]},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "oppure gli estremi del contratto di locazione e la carta d’identità della persona proprietaria se l’immobile non è tuo",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Estremi del contratto d'affitto e carta d'identità del proprietario",
+      "short_en": "Rental contract details and the owner's identity card"
+    },
+    {
+      "id": "permesso-extra-ue",
+      "category": "prepare",
+      "text_it": "Cittadinanza extra UE: è obbligatorio allegare il permesso di soggiorno.",
+      "text_en": "Non-EU citizenship: you must attach your residence permit.",
+      "when": {"cittadinanza": ["extra-ue"]},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Per le persone con cittadinanza extra UE è obbligatorio allegare il permesso di soggiorno.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Permesso di soggiorno",
+      "short_en": "Residence permit"
+    },
+    {
+      "id": "altri-allegati",
+      "category": "prepare",
+      "text_it": "Puoi allegare anche altri documenti che ritieni utili per la pratica.",
+      "text_en": "You can also attach any other document you think will help the City process it.",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "ti suggeriamo di allegare qualunque documento tu ritenga necessario per agevolare la lavorazione della pratica presso il tuo comune",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "invio-diretto",
+      "category": "how",
+      "text_it": "Se sei l'unica persona maggiorenne che cambia residenza, invii tu la dichiarazione direttamente al Comune.",
+      "text_en": "If you are the only adult changing residence, you send the declaration to the City yourself.",
+      "when": {"famiglia": ["solo"]},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "la persona dichiarante è la sola che cambia residenza oppure è l’unica maggiorenne tra le persone che cambiano residenza, potrà inviare direttamente la dichiarazione al comune",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "convalida-familiari",
+      "category": "how",
+      "text_it": "Se con te si trasferiscono altri maggiorenni, prima dell'invio ognuno entra nella propria area dell'Anagrafe Nazionale e convalida i dati inseriti.",
+      "text_en": "If other adults move with you, before it is sent each of them logs in to their own National Registry area and confirms the data entered.",
+      "when": {"famiglia": ["con-familiari"]},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "altri componenti maggiorenni della famiglia sono coinvolti nel cambio di residenza, prima dell’invio della dichiarazione dovranno accedere alla propria area riservata dell’Anagrafe Nazionale e convalidare i dati inseriti",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "SPID o CIE anche per gli altri maggiorenni, per convalidare",
+      "short_en": "SPID or CIE for the other adults too, to confirm"
+    },
+    {
+      "id": "senza-spid-cie",
+      "category": "how",
+      "text_it": "Da verificare: come presentare la dichiarazione senza SPID o CIE. Le fonti salvate non lo dicono.",
+      "text_en": "To be checked: how to make the declaration without SPID or CIE. The saved sources don't say.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "status": "todo"
+    },
+    {
+      "id": "iscrizione-2-giorni",
+      "category": "after",
+      "text_it": "L'iscrizione anagrafica avviene nei due giorni lavorativi dopo la dichiarazione; poi il Comune accerta i requisiti.",
+      "text_en": "You are registered within two working days of the declaration; then the City checks the requirements.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "L’iscrizione anagrafica avviene nei due giorni lavorativi successivi alla dichiarazione",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "accertamento-45-giorni",
+      "category": "after",
+      "text_it": "Gli accertamenti durano al massimo 45 giorni; se l'esito è positivo, la residenza vale dalla data della dichiarazione.",
+      "text_en": "The checks take at most 45 days; if they are positive, residence counts from the date of the declaration.",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Si entra poi in una fase di accertamento di massimo 45 giorni. Se l’esito è positivo, il comune accoglie definitivamente la richiesta con decorrenza dalla data di presentazione.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "stato-pratica",
+      "category": "after",
+      "text_it": "Segui la pratica nella sezione «Le tue richieste» dell'Anagrafe Nazionale; le notifiche arrivano per email (se l'hai indicata) e sull'app IO.",
+      "text_en": "Follow the procedure in the «Le tue richieste» (your requests) section of the National Registry; notifications arrive by email (if you gave one) and on the IO app.",
+      "when": {},
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Puoi seguire lo stato di lavorazione nella sezione Le tue richieste. Riceverai comunque una notifica sia per email (se indicata nei tuoi contatti) sia tramite app IO.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "esito-negativo",
+      "category": "after",
+      "text_it": "Se gli accertamenti danno esito negativo il procedimento si interrompe: il Comune te lo comunica e puoi rispondere con memorie o documenti.",
+      "text_en": "If the checks are negative the procedure stops: the City tells you and you can reply with statements or documents.",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "se gli accertamenti danno esiti negativi, il procedimento si interrompe. Il Comune invia una comunicazione al richiedente, che potrà replicare presentando memorie o documenti utili all'istruttoria.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "tari",
+      "category": "after",
+      "text_it": "Ricorda di dichiarare la nuova situazione abitativa per la TARI (tassa rifiuti).",
+      "text_en": "Remember to declare your new housing situation for the TARI (waste tax).",
+      "when": {},
+      "source_id": "cambio-residenza",
+      "quote": "Ai fini della TARI (Tassa rifiuti), quando cambi indirizzo o residenza ricordati di",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    }
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "ente": "anagrafe-nazionale",
+      "title_it": "Dichiarazione online",
+      "title_en": "Online declaration",
+      "text_it": "Entri nel sito dell'Anagrafe Nazionale con SPID o CIE e compili la dichiarazione di cambio di residenza.",
+      "text_en": "You log in to the National Registry website with SPID or CIE and fill in the change of residence declaration.",
+      "source_id": "cambio-residenza",
+      "quote": "Per accedere al servizio occorre collegarsi al sito dell'Anagrafe Nazionale ed essere in possesso di SPID o CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "order": 2,
+      "ente": "comune-milano",
+      "title_it": "Registrazione",
+      "title_en": "Registration",
+      "text_it": "L'anagrafe del Comune registra e accoglie la dichiarazione, con riserva, entro 2 giorni dal ricevimento.",
+      "text_en": "The City's registry office registers and accepts the declaration, provisionally, within 2 days of receiving it.",
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Il comune in cui ti trasferisci deve registrare e accogliere la dichiarazione con riserva entro 2 giorni dal ricevimento.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "order": 3,
+      "ente": "comune-milano",
+      "title_it": "Accertamento",
+      "title_en": "Checks",
+      "text_it": "Il Comune fa gli accertamenti, al massimo in 45 giorni.",
+      "text_en": "The City runs its checks, within at most 45 days.",
+      "source_id": "anpr-cambio-residenza",
+      "quote": "Si entra poi in una fase di accertamento di massimo 45 giorni.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    }
+  ],
+  "unknowns_it": [
+    "Le fonti salvate non dicono come presentare la dichiarazione senza SPID o CIE: l'assistente non lo sa e rimanda alla pagina del Comune.",
+    "Per i cittadini UE la pagina del Comune elenca solo riferimenti normativi, nessun documento in più: OneVisit non aggiunge requisiti che le fonti non scrivono.",
+    "La pagina ANPR dà gli estremi catastali e del contratto «per esempio»: non è un elenco chiuso di allegati."
+  ]
+}

@@ -1,0 +1,11 @@
+id: residenza-da-altro-comune-it
+quick: false
+messages:
+  - "Devo fare il cambio di residenza, mi sono trasferito da Torino. Sono italiano e sono in affitto."
+expect:
+  service: cambio-residenza
+  variant: italiana
+  language: it
+  requirements_include: [online-spid-cie, entro-20-giorni, estremi-contratto]
+  forbidden_phrases: [idoneo, in regola, garantito]
+  must_not_ask: [permesso di soggiorno, codice fiscale, nome]

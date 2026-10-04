@@ -1,0 +1,11 @@
+id: iscrizione-ricongiungimento-ar
+quick: false
+messages:
+  - "وصلت إلى ميلانو بتأشيرة لمّ شمل الأسرة للالتحاق بزوجي، ومعي إيصال البريد لطلب أول تصريح إقامة. كيف أسجّل إقامتي في ميلانو؟"
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: ricevuta-famiglia
+  language: ar
+  requirements_include: [visto-ingresso, nulla-osta, ricevuta-poste]
+  forbidden_phrases: [idoneo, in regola, eligible, مؤهل, مضمون]
+  must_not_ask: [codice fiscale]

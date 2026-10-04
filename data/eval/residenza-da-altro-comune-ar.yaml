@@ -1,0 +1,11 @@
+id: residenza-da-altro-comune-ar
+quick: false
+messages:
+  - "أنا مصري وأسكن في إيطاليا منذ خمس سنوات. انتقلت من تورينو إلى ميلانو الشهر الماضي وأستأجر شقة. كيف أغيّر إقامتي؟"
+expect:
+  service: cambio-residenza
+  variant: extra-ue
+  language: ar
+  requirements_include: [permesso-extra-ue, online-spid-cie, entro-20-giorni]
+  forbidden_phrases: [مؤهل, مضمون, نضمن]
+  must_not_ask: [رقمك الضريبي, اسمك, رقم جواز]

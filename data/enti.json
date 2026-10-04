@@ -1,5 +1,79 @@
 [
-  {"id": "comune-milano", "name": "Comune di Milano · Servizi anagrafici", "role_it": "Anagrafe: carta d'identità, residenza, certificati", "source_ids": ["ds549"], "status": "verified"},
-  {"id": "questura-milano", "name": "Questura di Milano", "role_it": "TODO: what it handles for non-EU citizens, from the source", "source_ids": ["permesso-soggiorno"], "status": "todo"},
-  {"id": "agenzia-entrate", "name": "Agenzia delle Entrate", "role_it": "TODO: codice fiscale, from the source", "source_ids": ["codice-fiscale"], "status": "todo"}
+  {
+    "id": "comune-milano",
+    "name": "Comune di Milano · Servizi anagrafici",
+    "role_it": "Anagrafe: carta d'identità allo sportello su appuntamento prenotato online; residenza per chi arriva dall'estero con domanda online e documenti caricati; rinnovo della dichiarazione di dimora abituale; certificati.",
+    "role_en": "Registry office: ID card at the desk with an appointment booked online; residence for people arriving from abroad through an online application with uploaded documents; renewal of the habitual residence declaration; certificates.",
+    "source_ids": ["ds549", "cie", "residenza-estero", "residenza-estero-modulo", "dimora-abituale"],
+    "quote_source_id": "residenza-estero",
+    "quote": "che ti serviranno da inserire nella domanda online e poi procedi con la richiesta.",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "questura-milano",
+    "name": "Questura di Milano",
+    "role_it": "Rilascia il permesso di soggiorno a chi abita a Milano (si chiede entro 8 giorni lavorativi dall'ingresso, per alcuni permessi tramite gli uffici postali) e, durante la pratica, attribuisce il codice fiscale.",
+    "role_en": "Issues the residence permit to people living in Milan (apply within 8 working days of entry, for some permits through post offices) and, during the procedure, assigns the tax code.",
+    "source_ids": ["permesso-soggiorno", "permesso-soggiorno-come", "codice-fiscale"],
+    "quote_source_id": "permesso-soggiorno",
+    "quote": "Il permesso di soggiorno è rilasciato dalla Questura in cui abita lo straniero",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "agenzia-entrate",
+    "name": "Agenzia delle Entrate",
+    "role_it": "Attribuisce il codice fiscale. Il primo codice fiscale di un cittadino straniero si chiede con un appuntamento in presenza; a chi chiede il permesso di soggiorno lo attribuisce la Questura.",
+    "role_en": "Assigns the tax code (codice fiscale). A foreign citizen's first tax code needs an in-person appointment; for people applying for a residence permit the Questura assigns it.",
+    "source_ids": ["codice-fiscale"],
+    "quote_source_id": "codice-fiscale",
+    "quote": "Per il rilascio del primo codice fiscale ai cittadini stranieri UE o extra UE, è necessario prenotare un appuntamento in presenza.",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "sportello-unico-immigrazione",
+    "name": "Sportello Unico per l'Immigrazione (Prefettura di Milano)",
+    "role_it": "Per chi entra con un visto per lavoro subordinato o ricongiungimento familiare: compila la richiesta di permesso di soggiorno (che poi si spedisce per posta) e attribuisce il codice fiscale.",
+    "role_en": "For people entering with a visa for employment or family reunification: fills in the residence permit application (then sent by post) and assigns the tax code.",
+    "source_ids": ["permesso-soggiorno-come", "codice-fiscale"],
+    "quote_source_id": "permesso-soggiorno-come",
+    "quote": "Gli stranieri entrati con un visto per ricongiungimento familiare o lavoro subordinato, devono recarsi, per la compilazione, allo Sportello Unico per l'immigrazione",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "poste-italiane",
+    "name": "Poste Italiane · Sportello Amico",
+    "role_it": "Per i permessi che si chiedono tramite posta: distribuisce il kit, riceve la domanda negli uffici con Sportello Amico e rilascia la ricevuta, che sostituisce il vecchio cedolino.",
+    "role_en": "For permits requested by post: hands out the application kit, accepts the application at offices with a Sportello Amico and issues the receipt, which replaces the old 'cedolino'.",
+    "source_ids": ["permesso-soggiorno-come"],
+    "quote_source_id": "permesso-soggiorno-come",
+    "quote": "Una volta compilata la domanda, è possibile consegnarla solo presso uno degli uffici postali dotati di Sportello Amico.",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "yesmilano-student-desk",
+    "name": "YesMilano · International Student Desk",
+    "role_it": "Percorso informativo per studenti internazionali (permesso di soggiorno, codice fiscale, residenza), in inglese. Non gestisce le pratiche: informa e indirizza.",
+    "role_en": "Information path for international students (residence permit, tax code, residence), in English. It does not handle applications: it informs and points to the right office.",
+    "source_ids": ["yesmilano-students", "yesmilano-permesso", "yesmilano-codice-fiscale"],
+    "quote_source_id": "yesmilano-students",
+    "quote": "If you still have questions or doubts about this administrative procedure or anything else related to living in Milano, you can always contact our International Student Desk.",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  },
+  {
+    "id": "anagrafe-nazionale",
+    "name": "Anagrafe Nazionale (ANPR) · Ministero dell'Interno",
+    "role_it": "Sito nazionale dove si invia online, con SPID o CIE, la dichiarazione di cambio di residenza da un altro Comune o dentro Milano; la pratica la gestisce poi l'anagrafe del Comune.",
+    "role_en": "National website where you send the change of residence declaration online, with SPID or CIE, when moving from another municipality or within Milan; the City's registry office then handles it.",
+    "source_ids": ["anpr-cambio-residenza", "cambio-residenza"],
+    "quote_source_id": "anpr-cambio-residenza",
+    "quote": "Una volta inviata, la dichiarazione di cambio di residenza è gestita direttamente dall’ufficio anagrafe del comune di competenza.",
+    "verified_at": "2026-10-04",
+    "status": "verified"
+  }
 ]

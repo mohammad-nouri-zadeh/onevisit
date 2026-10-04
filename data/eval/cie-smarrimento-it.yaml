@@ -6,6 +6,6 @@ expect:
   service: carta-identita
   variant: smarrimento-furto
   language: it
-  requirements_include: [su-appuntamento]
+  requirements_include: [su-appuntamento, denuncia, senza-appuntamento-smarrimento]
   forbidden_phrases: [idoneo, in regola, garantito]
   must_not_ask: [codice fiscale, nome, indirizzo]

@@ -1,18 +1,61 @@
 {
   "id": "carta-identita",
-  "title": {"it": "Carta d'identità elettronica (CIE)", "en": "Electronic identity card (CIE)"},
+  "title": {
+    "it": "Carta d'identità elettronica (CIE)",
+    "en": "Electronic identity card (CIE)"
+  },
   "ente": "comune-milano",
-  "summary_it": "TODO: two lines from the official page",
-  "source_ids": ["cie", "ds549", "prenotazione"],
+  "summary_it": "Si chiede allo sportello anagrafico su appuntamento prenotato online. Vale come documento di identità e, per chi ha cittadinanza italiana, anche per l'espatrio nei Paesi UE. Costa 22,20 euro e non si ritira allo sportello: arriva per raccomandata entro 6 giorni lavorativi.",
+  "summary_en": "You apply at a registry desk with an appointment booked online. It is an identity document and, for Italian citizens, also a travel document in EU countries. It costs EUR 22.20 and is not handed over at the desk: it arrives by registered mail within 6 working days.",
+  "official_url": "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita",
+  "booking_url": "https://servizicrm.comune.milano.it/spec/appuntamenti/anagrafecie",
+  "source_ids": [
+    "cie",
+    "cie-ministero",
+    "prenotazione",
+    "ds549"
+  ],
   "deciding_questions": [
-    {"id": "motivo", "ask_it": "È la tua prima carta d'identità, un rinnovo, o quella vecchia è stata persa o rubata?", "ask_en": "Is this your first ID card, a renewal, or was the old one lost or stolen?", "options": ["prima", "rinnovo", "smarrimento-furto"]},
-    {"id": "eta", "ask_it": "La carta è per un adulto o per un minorenne?", "ask_en": "Is the card for an adult or a minor?", "options": ["adulto", "minore"]},
-    {"id": "cittadinanza", "ask_it": "Che cittadinanza ha la persona?", "ask_en": "What is the person's citizenship?", "options": ["italiana", "ue", "extra-ue"]},
-    {"id": "scadenza", "ask_it": "Ti serve entro una data precisa?", "ask_en": "Do you need it by a specific date?", "kind": "date"}
+    {
+      "id": "motivo",
+      "ask_it": "È la tua prima carta d'identità, un rinnovo (scaduta, rovinata o ancora cartacea), o quella vecchia è stata persa o rubata?",
+      "ask_en": "Is this your first ID card, a renewal (expired, damaged or still the paper one), or was the old one lost or stolen?",
+      "options": [
+        "prima",
+        "rinnovo",
+        "smarrimento-furto"
+      ]
+    },
+    {
+      "id": "eta",
+      "ask_it": "La carta è per un adulto o per un minorenne?",
+      "ask_en": "Is the card for an adult or a minor?",
+      "options": [
+        "adulto",
+        "minore"
+      ]
+    },
+    {
+      "id": "cittadinanza",
+      "ask_it": "Che cittadinanza ha la persona: italiana, di un altro Paese UE o di un Paese extra UE?",
+      "ask_en": "What is the person's citizenship: Italian, another EU country, or a non-EU country?",
+      "options": [
+        "italiana",
+        "ue",
+        "extra-ue"
+      ]
+    },
+    {
+      "id": "scadenza",
+      "ask_it": "Ti serve entro una data precisa (per esempio un viaggio)?",
+      "ask_en": "Do you need it by a specific date (for example a trip)?",
+      "kind": "date"
+    }
   ],
   "requirements": [
     {
       "id": "su-appuntamento",
+      "category": "how",
       "text_it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
       "text_en": "Registry desks only see people with an appointment, booked online.",
       "when": {},
@@ -23,6 +66,7 @@
     },
     {
       "id": "prenotazione-senza-spid",
+      "category": "how",
       "text_it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
       "text_en": "At most offices you can book without SPID, with no registration.",
       "when": {},
@@ -31,17 +75,541 @@
       "verified_at": "2026-10-03",
       "status": "verified"
     },
-    {"id": "fototessera", "text_it": "TODO: photo requirements, from the page", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "documento-precedente", "text_it": "TODO: bring the old card / expired document", "when": {"motivo": ["rinnovo"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "denuncia", "text_it": "TODO: police report for loss or theft", "when": {"motivo": ["smarrimento-furto"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "codice-fiscale", "text_it": "TODO: tax code / health card", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "costo", "text_it": "TODO: cost and how to pay", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "minori", "text_it": "TODO: what minors need (parents present, consent for travel validity)", "when": {"eta": ["minore"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "stranieri", "text_it": "TODO: what non-EU residents need, and whether the card is valid for travel abroad", "when": {"cittadinanza": ["extra-ue"]}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"},
-    {"id": "tempi-consegna", "text_it": "TODO: how long until the card arrives (matters for the 'scadenza' question)", "when": {}, "source_id": "cie", "quote": "", "verified_at": null, "status": "todo"}
+    {
+      "id": "codice-fiscale",
+      "category": "prepare",
+      "text_it": "Porta la tessera sanitaria o il codice fiscale.",
+      "text_en": "Bring your health card (tessera sanitaria) or your tax code (codice fiscale).",
+      "when": {},
+      "source_id": "cie",
+      "quote": "Tessera sanitaria (Carta Nazionale dei Servizi) o codice fiscale",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Tessera sanitaria o codice fiscale",
+      "short_en": "Health card or tax code"
+    },
+    {
+      "id": "fototessera",
+      "category": "prepare",
+      "text_it": "Porta una fototessera recente, a colori, su sfondo chiaro, a capo scoperto, secondo i parametri del Ministero dell'Interno.",
+      "text_en": "Bring a recent colour passport-style photo, light background, head uncovered, meeting the Ministry of the Interior's standards.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "Una fototessera a colori su sfondo chiaro, recente e con il capo scoperto, compatibile con i parametri stabiliti dal Ministero dell’Interno.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Una fototessera recente, stampata",
+      "short_en": "A recent passport photo, printed"
+    },
+    {
+      "id": "foto-formato-passaporto",
+      "category": "prepare",
+      "text_it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
+      "text_en": "The photo must be in the same format used for passports.",
+      "when": {},
+      "source_id": "cie-ministero",
+      "quote": "La fototessera dovrà essere nello stesso formato utilizzato per il passaporto.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "foto-niente-usb",
+      "category": "prepare",
+      "text_it": "La foto va portata stampata: non si accettano foto su chiavetta USB.",
+      "text_en": "Bring the photo printed: photos on a USB stick are not accepted.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "Per motivi di sicurezza non sono ammesse foto memorizzate su supporti USB.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "altro-documento",
+      "category": "prepare",
+      "text_it": "Prima carta: porta un altro documento d'identità in corso di validità con foto, per esempio il passaporto o la patente.",
+      "text_en": "First card: bring another identity document with a photo that has not expired, for example your passport or driving licence.",
+      "when": {
+        "motivo": [
+          "prima"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "In caso di nuovo rilascio - altro documento di identità in corso di validità (Sono equipollenti alla carta di identità: passaporto, patente di guida",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Un altro documento d'identità con foto",
+      "short_en": "Another photo identity document"
+    },
+    {
+      "id": "testimoni-prima",
+      "category": "prepare",
+      "text_it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
+      "text_en": "First card and no other identity document: you must come with two witnesses.",
+      "when": {
+        "motivo": [
+          "prima"
+        ]
+      },
+      "source_id": "cie-ministero",
+      "quote": "Se non ne è in possesso, dovrà presentarsi al Comune accompagnato da due testimoni",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Due testimoni (se non hai altri documenti)",
+      "short_en": "Two witnesses (if you have no other document)"
+    },
+    {
+      "id": "documento-precedente",
+      "category": "prepare",
+      "text_it": "Rinnovo: consegna la carta scaduta o rovinata.",
+      "text_en": "Renewal: hand in the expired or damaged card.",
+      "when": {
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "In caso di rinnovo consegna il documento scaduto o deteriorato.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "La carta scaduta o rovinata",
+      "short_en": "The expired or damaged card"
+    },
+    {
+      "id": "rinnovo-180-giorni",
+      "category": "how",
+      "text_it": "Puoi chiedere la nuova carta già da 180 giorni prima della scadenza di quella che hai.",
+      "text_en": "You can apply for the new card from 180 days before your current one expires.",
+      "when": {
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie-ministero",
+      "quote": "La Carta di Identità Elettronica può essere richiesta presso il proprio Comune di residenza o dimora a partire da centottanta giorni prima della scadenza della propria carta d’identità",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "carta-cartacea-scaduta",
+      "category": "how",
+      "text_it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
+      "text_en": "Paper ID cards expired on 3 August 2026: if you still have a paper one, you need the CIE.",
+      "when": {
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Il 3 agosto 2026 sono scadute le carte d'identità cartacee, in conformità alle direttive europee.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "carta-cartacea-espatrio",
+      "category": "how",
+      "text_it": "Dopo il 3 agosto 2026 la carta cartacea non si può più usare in nessun caso per andare all'estero.",
+      "text_en": "After 3 August 2026 the paper card can no longer be used, in any case, to travel abroad.",
+      "when": {
+        "motivo": [
+          "rinnovo"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "In nessun caso il documento cartaceo potrà essere utilizzato per l'espatrio dopo il 3 agosto 2026.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "testimoni",
+      "category": "prepare",
+      "text_it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità in corso di validità, servono due testimoni maggiorenni con un documento d'identità.",
+      "text_en": "If the old card cannot identify you and you have no other identity document that has not expired, you need two adult witnesses with an identity document.",
+      "when": {
+        "motivo": [
+          "rinnovo",
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Se il vecchio documento non consente l'identificazione e non si dispone di altro documento d'identità in corso di validità - occorre anche la presenza di due testimoni maggiorenni muniti di valido documento d'identità",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Due testimoni (se non puoi essere riconosciuto)",
+      "short_en": "Two witnesses (if you cannot be identified)"
+    },
+    {
+      "id": "denuncia",
+      "category": "prepare",
+      "text_it": "Carta persa o rubata: porta la denuncia fatta alle forze dell'ordine (autorità di Pubblica Sicurezza).",
+      "text_en": "Lost or stolen card: bring the police report (denuncia) you filed with the public security authorities.",
+      "when": {
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Se il vecchio documento è stato smarrito o rubato - mostrare anche la denuncia presentata all'autorità di Pubblica Sicurezza.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "La denuncia di furto o smarrimento",
+      "short_en": "The police report (denuncia)"
+    },
+    {
+      "id": "senza-appuntamento-smarrimento",
+      "category": "how",
+      "text_it": "Carta persa o rubata, con la denuncia e senza un altro documento di riconoscimento: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
+      "text_en": "Lost or stolen card, with the police report and no other identity document: this is one of the exceptions where you can go to a registry office without an appointment.",
+      "when": {
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "furto o smarrimento del documento, corredati di denuncia presentata ad Autorità di Pubblica Sicurezza e in assenza di altro documento di riconoscimento",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "senza-appuntamento-ticket",
+      "category": "how",
+      "text_it": "Senza appuntamento si entra con un ticket e i ticket del giorno sono limitati: vai presto.",
+      "text_en": "Without an appointment you need a ticket and the day's tickets are limited: go early.",
+      "when": {
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Nei casi sopra citati è possibile rivolgersi direttamente alle sedi anagrafiche, fino al limite massimo di ticket erogabili",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "senza-appuntamento-orario",
+      "category": "how",
+      "text_it": "Le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00.",
+      "text_en": "Walk-in exceptions are handled only from 8:30 to 15:00.",
+      "when": {
+        "motivo": [
+          "smarrimento-furto"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Le eventuali eccezioni sono gestite esclusivamente nella fascia oraria dalle 8:30 alle 15:00.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "urgenza",
+      "category": "if-urgent",
+      "text_it": "Urgenza documentata (per esempio un viaggio) e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
+      "text_en": "Documented urgency (for example a trip) and no other usable document: go to a registry office in the 15 days before the event with papers that prove the urgency; they will set a date to issue the card.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "presentarsi nei 15 giorni precedenti la data dell'evento che determina l'urgenza portando documentazione in grado di dimostrarla. Verrà fissata una data per il rilascio del documento",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "urgenza-non-scadenza",
+      "category": "if-urgent",
+      "text_it": "Essersi accorti tardi che la carta è scaduta non conta come urgenza.",
+      "text_en": "Noticing late that your card has expired does not count as an urgency.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "Non sono considerate situazioni di urgenza la mancata o tardiva verifica della scadenza o possesso del documento d’identità.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "carta-provvisoria",
+      "category": "if-urgent",
+      "text_it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
+      "text_en": "Until December 2027, only for real and documented urgencies, you can get a temporary ID card, only at the main office in Via Larga 12 (entrance from Via Pecorari 3), showing that you have already booked your CIE appointment.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "Fino a dicembre 2027, può essere rilasciata la carta d'identità provvisoria solo in casi di reale e documentata urgenza segnalati dalla persona richiedente, esclusivamente nella sede centrale di via Larga 12 (ingresso lato via Pecorari, 3). Al momento della richiesta è necessario dimostrare di avere prenotato un appuntamento per il rilascio della carta d’identità elettronica.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "urgent_lead": true
+    },
+    {
+      "id": "stranieri",
+      "category": "prepare",
+      "text_it": "Cittadini extra UE: porta anche il permesso di soggiorno o la carta di soggiorno in corso di validità.",
+      "text_en": "Non-EU citizens: also bring your residence permit (permesso di soggiorno) or residence card that has not expired.",
+      "when": {
+        "cittadinanza": [
+          "extra-ue"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Per cittadine e cittadini extra UE - presentare anche il permesso di soggiorno o la carta di soggiorno in corso di validità.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Permesso o carta di soggiorno",
+      "short_en": "Residence permit or residence card"
+    },
+    {
+      "id": "minori",
+      "category": "prepare",
+      "text_it": "Minorenni: il giorno dell'appuntamento vengono entrambi i genitori insieme al ragazzo o alla ragazza.",
+      "text_en": "Minors: on the day of the appointment both parents come together with the child.",
+      "when": {
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Il giorno dell’appuntamento entrambi i genitori devono presentarsi insieme alla persona minorenne.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Entrambi i genitori, con il minore",
+      "short_en": "Both parents, with the child"
+    },
+    {
+      "id": "minori-un-genitore",
+      "category": "prepare",
+      "text_it": "Se viene un solo genitore: serve un altro adulto con un documento d'identità come testimone, oppure un altro documento d'identità del minore con foto (passaporto o certificato di identità).",
+      "text_en": "If only one parent comes: you need another adult with an identity document as a witness, or another identity document of the child with a photo (passport or identity certificate).",
+      "when": {
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "È possibile inoltrare la richiesta anche in presenza di un solo genitore purché: - sia presente un'altra persona maggiorenne munita di un documento di identità in corso di validità, in qualità di testimone oppure - venga presentato un altro documento di identità della persona minorenne (passaporto o certificato di identità)",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Se viene un solo genitore: testimone o documento",
+      "short_en": "If only one parent comes: witness or document"
+    },
+    {
+      "id": "minori-presenza",
+      "category": "prepare",
+      "text_it": "Il minorenne a cui è intestata la carta deve essere sempre presente.",
+      "text_en": "The child the card is for must always be present.",
+      "when": {
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "In tutti i casi, per il rilascio del documento è sempre necessaria la presenza della persona titolare.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Il minore presente",
+      "short_en": "The child present"
+    },
+    {
+      "id": "minori-prenotazione",
+      "category": "how",
+      "text_it": "Quando prenoti, inserisci i dati della persona a cui è intestata la carta, anche se è minorenne.",
+      "text_en": "When you book, enter the details of the person the card is for, even if it is a minor.",
+      "when": {
+        "eta": [
+          "minore"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "inserendo, in fase di prenotazione, i dati della persona intestataria del documento, anche se minore.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-espatrio",
+      "category": "prepare",
+      "text_it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori; se uno non può venire, servono la copia del suo documento e la sua dichiarazione di assenso sul modulo del Comune.",
+      "text_en": "Italian minors: a card valid for travel abroad needs both parents; if one cannot come, bring a copy of their ID and their consent declaration on the City's form.",
+      "when": {
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "italiana"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Per il rilascio della carta identità valida per l'espatrio è necessaria la presenza di entrambi i genitori. Se uno dei genitori non può essere presente, il documento rilasciato sarà valido per l’espatrio solo se la richiesta sarà corredata anche da: - copia del documento d'identità del genitore assente - dichiarazione di assenso all'espatrio sottoscritta dal genitore assente sul modulo predisposto",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Assenso dell'altro genitore per l'espatrio",
+      "short_en": "Other parent's consent for travel"
+    },
+    {
+      "id": "minori-non-italiani-espatrio",
+      "category": "how",
+      "text_it": "Minorenni non italiani (anche UE): la carta rilasciata non vale per l'espatrio.",
+      "text_en": "Non-Italian minors (EU citizens included): the card issued is not valid for travel abroad.",
+      "when": {
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "ue",
+          "extra-ue"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "Il documento rilasciato alle persone minorenni non italiane non è valido per l’espatrio, neppure se appartengono all'Unione Europea.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "minori-extra-ue",
+      "category": "prepare",
+      "text_it": "Minorenni extra UE: serve un permesso di soggiorno del minore in corso di validità, oppure il minore deve essere iscritto nel permesso di soggiorno di un genitore.",
+      "text_en": "Non-EU minors: the child needs a residence permit that has not expired, or must be listed on a parent's residence permit.",
+      "when": {
+        "eta": [
+          "minore"
+        ],
+        "cittadinanza": [
+          "extra-ue"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "La carta di identità viene rilasciata solo a minorenni titolari del permesso di soggiorno in corso di validità. In alternativa occorre l'iscrizione nel permesso di soggiorno di uno dei genitori.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "Permesso di soggiorno del minore",
+      "short_en": "The child's residence permit"
+    },
+    {
+      "id": "costo",
+      "category": "prepare",
+      "text_it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
+      "text_en": "Cost: EUR 22.20, cash or debit card, on the day of the appointment.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "€ 22,20 da versare in contanti o bancomat il giorno dell’appuntamento.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "short_it": "22,20 euro (contanti o bancomat)",
+      "short_en": "EUR 22.20 (cash or debit card)"
+    },
+    {
+      "id": "accettazione",
+      "category": "how",
+      "text_it": "Il giorno dell'appuntamento fai l'accettazione: online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
+      "text_en": "On the day, check in: online with the code in the confirmation email, or at the office by showing the QR code from the email, your tax code or your CIE.",
+      "when": {},
+      "source_id": "prenotazione",
+      "quote": "online, cliccando sul codice che riceverai nella mail di conferma della prenotazione; - in sede, rivolgendoti al personale del Comune e mostrando il QR code inserito nella mail di conferma della prenotazione oppure il tuo codice fiscale oppure la tua CIE.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "impronte",
+      "category": "how",
+      "text_it": "Allo sportello ti prendono le impronte digitali.",
+      "text_en": "At the desk your fingerprints are taken.",
+      "when": {},
+      "source_id": "cie-ministero",
+      "quote": "procede con l’operatore comunale all’acquisizione delle impronte digitali",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "tempi-consegna",
+      "category": "after",
+      "text_it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta (conta almeno una settimana).",
+      "text_en": "You do not get the card at the desk: it is printed by the State Mint and posted within 6 working days of your application (allow at least a week).",
+      "when": {},
+      "source_id": "cie",
+      "quote": "spedita direttamente al cittadino/cittadina entro 6 giorni lavorativi dalla richiesta.",
+      "verified_at": "2026-10-04",
+      "lead_time_days": 8,
+      "status": "verified"
+    },
+    {
+      "id": "spedizione-citofono",
+      "category": "after",
+      "text_it": "Arriva per raccomandata: metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
+      "text_en": "It comes by registered mail: put the name of the person collecting it on the doorbell, intercom and mailbox.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "aggiornare campanello, citofono e una cassetta delle lettere (per l'eventuale avviso di giacenza in caso di assenza) con il nominativo della persona indicata per il ritiro.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "cambio-indirizzo",
+      "category": "how",
+      "text_it": "Non serve rifare la carta d'identità quando cambi indirizzo o residenza.",
+      "text_en": "You do not need a new ID card when you change address or residence.",
+      "when": {},
+      "source_id": "cie",
+      "quote": "Non è necessario rinnovare la carta d’identità in occasione di cambi di indirizzo e di residenza.",
+      "verified_at": "2026-10-04",
+      "status": "verified"
+    },
+    {
+      "id": "espatrio-adulti-non-italiani",
+      "category": "how",
+      "text_it": "Da verificare: le fonti salvate non dicono se la carta d'identità di un adulto non italiano vale per andare all'estero. Rimanda alla pagina ufficiale o allo sportello.",
+      "text_en": "To be checked: the saved sources do not say whether the ID card of a non-Italian adult is valid for travel abroad. Point to the official page or the desk.",
+      "when": {
+        "eta": [
+          "adulto"
+        ],
+        "cittadinanza": [
+          "ue",
+          "extra-ue"
+        ]
+      },
+      "source_id": "cie",
+      "quote": "",
+      "verified_at": null,
+      "status": "todo"
+    }
   ],
-  "steps": [],
+  "steps": [
+    {
+      "order": 1,
+      "ente": "comune-milano",
+      "text_it": "Prenota online l'appuntamento allo sportello anagrafico, scegliendo sede, giorno e ora.",
+      "text_en": "Book the registry desk appointment online, choosing office, day and time.",
+      "source_id": "cie",
+      "quote": "Il rilascio della carta d’identità elettronica avviene solo su appuntamento da prenotare online, selezionando la sede di proprio interesse, indicando nel calendario la data e l’orario prescelti",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "booking": true,
+      "title_it": "Prenotazione",
+      "title_en": "Booking"
+    },
+    {
+      "order": 2,
+      "ente": "comune-milano",
+      "text_it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
+      "text_en": "At the desk, at the end, you check your details and sign the summary form.",
+      "source_id": "cie-ministero",
+      "quote": "firma il modulo di riepilogo procedendo alla verifica finale sui dati",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Allo sportello",
+      "title_en": "At the desk"
+    },
+    {
+      "order": 3,
+      "ente": "comune-milano",
+      "text_it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
+      "text_en": "The card arrives by registered mail within 6 working days.",
+      "source_id": "cie-ministero",
+      "quote": "La CIE sarà consegnata entro 6 giorni lavorativi dalla richiesta.",
+      "verified_at": "2026-10-04",
+      "status": "verified",
+      "title_it": "Consegna",
+      "title_en": "Delivery"
+    }
+  ],
   "unknowns_it": [
-    "Le fonti salvate non dicono ancora quali documenti servono: finché i requisiti sono 'todo', l'assistente deve dire che non lo sa e rimandare alla pagina ufficiale."
+    "La pagina del Comune dice che la carta dei minorenni non italiani non vale per l'espatrio, ma non dice nulla per gli adulti non italiani: se lo chiedono, l'assistente dice che le fonti salvate non lo dicono e rimanda alla pagina ufficiale.",
+    "Il Ministero indica 16,79 euro più i diritti fissi e di segreteria; il totale a Milano (22,20 euro) è quello della pagina del Comune.",
+    "L'elenco delle sedi con cabina per le fototessere digitali è in un PDF del Comune non ancora salvato tra le fonti.",
+    "6 giorni lavorativi sono almeno una settimana di calendario: lead_time_days = 8 è una stima prudente del team, non un dato della fonte."
   ]
 }

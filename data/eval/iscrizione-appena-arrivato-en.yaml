@@ -1,0 +1,11 @@
+id: iscrizione-appena-arrivato-en
+quick: false
+messages:
+  - "I landed in Milan three days ago from Nigeria. I have not applied for anything yet and I want to register my residence here."
+expect:
+  service: iscrizione-anagrafica-extra-ue
+  variant: nessuno
+  language: en
+  requirements_include: [prima-il-permesso]
+  forbidden_phrases: [eligible, guaranteed, compliant]
+  must_not_ask: [tax code, codice fiscale, passport number, your name]

@@ -6,7 +6,9 @@ Input:  data/opendata/ds549-sedi-dei-servizi-anagrafici.csv (as downloaded, unto
 Output: data/offices.json
 
 Nothing is invented: every field comes from the CSV. Where the CSV is incomplete
-or stale, the office gets a `data_issues` entry instead of a guessed value. Those
+or stale, the office gets a `data_issues` entry instead of a guessed value. The one
+exception is an entrance a saved official page confirms (CONFIRMED_ENTRANCES): it
+carries the page's quote, and the dataset's wording goes to `dataset_notes` for staff. Those
 issues are real findings about City data, useful for the panel and the pitch.
 """
 import csv
@@ -35,6 +37,21 @@ def split_address(raw: str) -> tuple[str, str | None]:
         return raw, None
     entrance = re.sub(r"INGRESSO PROVVISORIO", "Ingresso provvisorio", m.group(2).strip())
     return m.group(1).strip(), entrance or None
+
+
+# Entrances that a saved official page confirms, with the quote validate.py checks.
+# ds549 still calls the via Larga entrance "provvisorio"; the City's CIE page (updated
+# 02/10/2026) gives the same entrance without calling it provisional.
+CONFIRMED_ENTRANCES = {
+    "via Larga 12": {
+        "entrance_note": "Ingresso da via Pecorari 3",
+        "source_id": "cie",
+        "quote": "via Larga 12 (ingresso lato via Pecorari, 3)",
+        "dataset_note": ("Il dataset ds549 indica l'ingresso da via Pecorari 3 come «provvisorio»; la pagina del Comune "
+                         "sulla carta d'identità (aggiornata il 02/10/2026) indica lo stesso ingresso senza dirlo provvisorio: "
+                         "va aggiornato il dataset."),
+    },
+}
 
 
 def past_dates(text: str, today: dt.date) -> list[str]:
@@ -66,7 +83,12 @@ def main() -> None:
             issues.append("Telefono mancante")
         if not notes:
             issues.append("Nessuna nota su prenotazione e accesso")
-        if entrance and "provvisorio" in entrance.lower():
+        confirmed = CONFIRMED_ENTRANCES.get(address)
+        dataset_notes = []
+        if confirmed:
+            entrance = confirmed["entrance_note"]
+            dataset_notes.append(confirmed["dataset_note"])
+        elif entrance and "provvisorio" in entrance.lower():
             issues.append("Ingresso indicato come provvisorio: verificare se è ancora valido")
         for d in past_dates(hours + " " + notes, today):
             issues.append(f"Il testo cita una data già passata ({d}): informazione probabilmente non aggiornata")
@@ -88,6 +110,9 @@ def main() -> None:
             "source_id": "ds549",
             "data_issues": issues,
         })
+        if confirmed:
+            offices[-1]["entrance_confirmed_by"] = {"source_id": confirmed["source_id"], "quote": confirmed["quote"]}
+            offices[-1]["dataset_notes"] = dataset_notes
 
     OUT.write_text(json.dumps(offices, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     flagged = sum(1 for o in offices if o["data_issues"])

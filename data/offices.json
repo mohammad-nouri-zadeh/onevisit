@@ -3,7 +3,7 @@
     "id": "ds549-01",
     "municipio": 1,
     "address": "via Larga 12",
-    "entrance_note": "Ingresso provvisorio da Via Pecorari 3",
+    "entrance_note": "Ingresso da via Pecorari 3",
     "address_raw": "(sede via Larga 12) INGRESSO PROVVISORIO da Via Pecorari 3",
     "phone": "020202",
     "hours_it": "Orario su appuntamento: dal lun.al ven. dalle 08:30 alle 15:30 Orario prolungato (su appuntamento): giovedì fino alle 19:00; sabato dalle 8:30 alle 11:30",
@@ -17,8 +17,13 @@
     "lat": 45.46184599990516,
     "lon": 9.192323000293767,
     "source_id": "ds549",
-    "data_issues": [
-      "Ingresso indicato come provvisorio: verificare se è ancora valido"
+    "data_issues": [],
+    "entrance_confirmed_by": {
+      "source_id": "cie",
+      "quote": "via Larga 12 (ingresso lato via Pecorari, 3)"
+    },
+    "dataset_notes": [
+      "Il dataset ds549 indica l'ingresso da via Pecorari 3 come «provvisorio»; la pagina del Comune sulla carta d'identità (aggiornata il 02/10/2026) indica lo stesso ingresso senza dirlo provvisorio: va aggiornato il dataset."
     ]
   },
   {

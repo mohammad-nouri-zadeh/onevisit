@@ -6,6 +6,6 @@ expect:
   service: carta-identita
   variant: rinnovo
   language: it
-  requirements_include: [su-appuntamento, prenotazione-senza-spid]
+  requirements_include: [su-appuntamento, prenotazione-senza-spid, documento-precedente, fototessera, costo]
   forbidden_phrases: [idoneo, in regola, garantito]
   must_not_ask: [codice fiscale, nome]
