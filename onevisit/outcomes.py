@@ -9,8 +9,8 @@ from __future__ import annotations
 import collections
 import datetime as dt
 import json
-import os
 import pathlib
+import re
 
 import anthropic
 
@@ -19,6 +19,7 @@ from onevisit.agent import FALLBACK, MODEL
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SIMULATED = ROOT / "data" / "demo" / "simulated-outcomes.json"
 RUNTIME = ROOT / "runtime" / "outcomes.jsonl"
+EXAMPLES = ROOT / "data" / "demo" / "classifications.json"
 THRESHOLD = 5
 
 CAUSES = {
@@ -42,13 +43,43 @@ CLASSIFY_SCHEMA = {
 }
 
 
+# Personal details removed from a report before it reaches Claude (and before anything is stored).
+_PII = (
+    ("email", re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")),
+    ("codice_fiscale", re.compile(r"\b[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]\b", re.IGNORECASE)),
+    ("iban", re.compile(r"\bIT\d{2}[A-Z]\d{10}[0-9A-Z]{12}\b", re.IGNORECASE)),
+    ("data", re.compile(r"\b\d{1,2}[/.-]\d{1,2}[/.-]\d{2,4}\b")),
+    ("telefono", re.compile(r"(?<!\w)\+?\d[\d\s./-]{7,}\d")),
+    ("numero_documento", re.compile(r"\b(?=[A-Z0-9]*\d)(?=[A-Z0-9]*[A-Z])[A-Z0-9]{7,12}\b")),
+)
+
+
+def scrub(note: str) -> tuple[str, list[str]]:
+    """Replace emails, tax codes, IBANs, dates, phone and document numbers with a placeholder.
+
+    Returns the cleaned text and the kinds removed (never the values), so the citizen can
+    see what was taken out before Claude reads the report.
+    """
+    removed: list[str] = []
+    text = note or ""
+    for kind, pattern in _PII:
+        text, n = pattern.subn(f"[{kind}]", text)
+        removed += [kind] * n
+    return text, removed
+
+
 def _text(resp) -> str:
     return "".join(b.text for b in resp.content if b.type == "text")
 
 
 def classify(service_id: str, outcome: str, note: str, client: anthropic.Anthropic | None = None) -> dict:
-    """Turn one citizen's free-text report into a cause and a general, anonymous summary."""
+    """Turn one citizen's free-text report into a cause and a general, anonymous summary.
+
+    The note is scrubbed of emails, tax codes and document or phone numbers first (`scrub`),
+    so those never reach the model; Claude removes the remaining personal details.
+    """
     client = client or anthropic.Anthropic()
+    note, _ = scrub(note)
     prompt = (
         f"A citizen used OneVisit to prepare for the service '{service_id}' at the City of Milan registry office. "
         f"After the appointment they reported: outcome='{outcome}', note='{note}'.\n"
@@ -64,6 +95,21 @@ def classify(service_id: str, outcome: str, note: str, client: anthropic.Anthrop
     if resp.stop_reason == "refusal":
         raise RuntimeError("The model declined to classify this report.")
     return json.loads(_text(resp))
+
+
+def recorded_classification(note: str) -> dict | None:
+    """Demo without a key: Claude's recorded classification of one of the example reports."""
+    data = json.loads(EXAMPLES.read_text(encoding="utf-8")) if EXAMPLES.exists() else {}
+    for ex in data.get("examples", []):
+        if note.strip() in ex["note"].values():
+            return ex["result"]
+    return None
+
+
+def example_notes(lang: str) -> list[str]:
+    """The example reports offered in the demo, in the interface language (Italian or English)."""
+    data = json.loads(EXAMPLES.read_text(encoding="utf-8")) if EXAMPLES.exists() else {}
+    return [ex["note"].get(lang) or ex["note"]["en"] for ex in data.get("examples", [])]
 
 
 def save_report(service_id: str, outcome: str, result: dict) -> dict:

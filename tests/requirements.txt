@@ -1,0 +1,5 @@
+# Test dependencies of the Streamlit app (tests/streamlit), on top of the app's own:
+#   pip install -r tests/requirements.txt && python -m pytest tests/streamlit -q
+-r ../requirements.txt
+pytest>=8
+pypdf>=5

@@ -1,0 +1,756 @@
+{
+ "_about": "Claude's translation of the requirement, step and section texts in data/services, for the citizen's language. Each entry keeps the Italian it was translated from ('it'): when the Italian changes, the entry is stale and the app shows English until it is translated again (python -m onevisit.translate). The Italian text and the verbatim quote from the official page are the ones that count; the app labels these texts 'Traduzione di Claude'. Not reviewed by a human translator yet.",
+ "lang": "zh",
+ "translated_by": "Claude (claude-opus-5-5) on 2026-10-04, following the instructions in onevisit/translate.py (the runtime path uses claude-haiku-4-5 for texts missing here)",
+ "updated": "2026-10-04",
+ "texts": {
+  "cambio-residenza:req:a-chi-si-rivolge:text": {
+   "it": "Questo servizio è per chi arriva a Milano da un altro Comune italiano, per chi cambia indirizzo dentro Milano e per chi ha cittadinanza italiana e rientra dall'estero, se iscritto all'AIRE.",
+   "text": "本服务适用于从意大利其他市镇迁到米兰的人、在米兰市内更换地址的人，以及从国外回国且已在 AIRE（海外意大利人登记处）登记的意大利公民。"
+  },
+  "cambio-residenza:req:accertamento-45-giorni:text": {
+   "it": "Gli accertamenti durano al massimo 45 giorni; se l'esito è positivo, la residenza vale dalla data della dichiarazione.",
+   "text": "核查最长 45 天；如果结果为肯定，居住地自申报之日起生效。"
+  },
+  "cambio-residenza:req:altri-allegati:text": {
+   "it": "Puoi allegare anche altri documenti che ritieni utili per la pratica.",
+   "text": "你也可以附上任何你认为有助于办理的其他文件。"
+  },
+  "cambio-residenza:req:convalida-familiari:short": {
+   "it": "SPID o CIE anche per gli altri maggiorenni, per convalidare",
+   "text": "其他成年人也需要 SPID 或 CIE 来确认"
+  },
+  "cambio-residenza:req:convalida-familiari:text": {
+   "it": "Se con te si trasferiscono altri maggiorenni, prima dell'invio ognuno entra nella propria area dell'Anagrafe Nazionale e convalida i dati inseriti.",
+   "text": "如果有其他成年人和你一起搬迁，提交前每人都要登录自己在全国户籍登记处的个人区域，确认已填写的信息。"
+  },
+  "cambio-residenza:req:dati-richiesti:short": {
+   "it": "Dati del nuovo indirizzo e tuoi contatti",
+   "text": "新地址信息和你的联系方式"
+  },
+  "cambio-residenza:req:dati-richiesti:text": {
+   "it": "Nella dichiarazione ti chiedono i dati del nuovo indirizzo, il titolo con cui occupi la casa e i tuoi contatti.",
+   "text": "申报需要填写新地址、你居住该住所的依据以及你的联系方式。"
+  },
+  "cambio-residenza:req:entro-20-giorni:text": {
+   "it": "Il cambio di città o di indirizzo va comunicato all'anagrafe entro 20 giorni dal trasferimento.",
+   "text": "更换城市或地址，须在搬迁后 20 天内告知户籍处。"
+  },
+  "cambio-residenza:req:esito-negativo:text": {
+   "it": "Se gli accertamenti danno esito negativo il procedimento si interrompe: il Comune te lo comunica e puoi rispondere con memorie o documenti.",
+   "text": "如果核查结果为否定，程序将中止：市政府会通知你，你可以提交说明或文件作出回应。"
+  },
+  "cambio-residenza:req:estremi-catastali:short": {
+   "it": "Estremi catastali della casa",
+   "text": "住房的地籍信息"
+  },
+  "cambio-residenza:req:estremi-catastali:text": {
+   "it": "Casa di tua proprietà: tieni a portata di mano gli estremi catastali dell'immobile.",
+   "text": "自有住房：请准备好房产的地籍信息（estremi catastali）。"
+  },
+  "cambio-residenza:req:estremi-contratto:short": {
+   "it": "Estremi del contratto d'affitto e carta d'identità del proprietario",
+   "text": "租房合同信息和房主身份证"
+  },
+  "cambio-residenza:req:estremi-contratto:text": {
+   "it": "Casa non tua: per esempio gli estremi del contratto di locazione e la carta d'identità della persona proprietaria.",
+   "text": "不是你自己的住房：例如租房合同的登记信息和房主的身份证。"
+  },
+  "cambio-residenza:req:gratuita:text": {
+   "it": "La dichiarazione di cambio di residenza è gratuita.",
+   "text": "变更居住地申报是免费的。"
+  },
+  "cambio-residenza:req:invio-diretto:text": {
+   "it": "Se sei l'unica persona maggiorenne che cambia residenza, invii tu la dichiarazione direttamente al Comune.",
+   "text": "如果你是唯一变更居住地的成年人，你可以直接把申报提交给市政府。"
+  },
+  "cambio-residenza:req:iscrizione-2-giorni:text": {
+   "it": "L'iscrizione anagrafica avviene nei due giorni lavorativi dopo la dichiarazione; poi il Comune accerta i requisiti.",
+   "text": "申报后两个工作日内完成登记；之后市政府核查相关条件。"
+  },
+  "cambio-residenza:req:online-spid-cie:short": {
+   "it": "SPID o CIE per entrare nel sito dell'Anagrafe Nazionale",
+   "text": "登录全国户籍登记处网站所需的 SPID 或 CIE"
+  },
+  "cambio-residenza:req:online-spid-cie:text": {
+   "it": "Non si va allo sportello: la dichiarazione si fa sul sito dell'Anagrafe Nazionale (ANPR) e per entrare servono SPID o CIE.",
+   "text": "不用去窗口：在全国户籍登记处（Anagrafe Nazionale，ANPR）网站上提交申报，登录需要 SPID 或 CIE（电子身份证）。"
+  },
+  "cambio-residenza:req:permesso-extra-ue:short": {
+   "it": "Permesso di soggiorno",
+   "text": "居留许可"
+  },
+  "cambio-residenza:req:permesso-extra-ue:text": {
+   "it": "Cittadinanza extra UE: è obbligatorio allegare il permesso di soggiorno.",
+   "text": "非欧盟国籍：必须附上 permesso di soggiorno（居留许可）。"
+  },
+  "cambio-residenza:req:senza-spid-cie:text": {
+   "it": "Da verificare: come presentare la dichiarazione senza SPID o CIE. Le fonti salvate non lo dicono.",
+   "text": "待核实：没有 SPID 或 CIE 时如何提交申报。已保存的来源没有说明。"
+  },
+  "cambio-residenza:req:stato-pratica:text": {
+   "it": "Segui la pratica nella sezione «Le tue richieste» dell'Anagrafe Nazionale; le notifiche arrivano per email (se l'hai indicata) e sull'app IO.",
+   "text": "在全国户籍登记处的 «Le tue richieste»（你的申请）栏目跟踪办理进度；通知会通过电子邮件（如果你填写了）和 IO 应用发送。"
+  },
+  "cambio-residenza:req:tari:text": {
+   "it": "Ricorda di dichiarare la nuova situazione abitativa per la TARI (tassa rifiuti).",
+   "text": "记得为 TARI（垃圾税）申报你的新住房情况。"
+  },
+  "cambio-residenza:req:tipo-famiglia-esistente:text": {
+   "it": "Scegli invece «Residenza in famiglia esistente» se nella nuova casa ci sono persone con cui hai legami di parentela o affettivi (per esempio una coppia).",
+   "text": "如果新住所里有与你有亲属或情感关系的人（例如情侣），则选择 «Residenza in famiglia esistente»（加入现有家庭）。"
+  },
+  "cambio-residenza:req:tipo-nuova-residenza:text": {
+   "it": "Nel servizio scegli «Nuova residenza» se nella casa non abita nessun altro, oppure abitano persone con cui non hai legami di parentela o affettivi (per esempio studenti che dividono un appartamento).",
+   "text": "在服务中选择 «Nuova residenza»（新居住地）：如果住所里没有其他人，或住在那里的人与你没有亲属或情感关系（例如合租的学生）。"
+  },
+  "cambio-residenza:step:1:text": {
+   "it": "Entri nel sito dell'Anagrafe Nazionale con SPID o CIE e compili la dichiarazione di cambio di residenza.",
+   "text": "用 SPID 或 CIE 登录全国户籍登记处网站，填写变更居住地申报。"
+  },
+  "cambio-residenza:step:1:title": {
+   "it": "Dichiarazione online",
+   "text": "在线申报"
+  },
+  "cambio-residenza:step:2:text": {
+   "it": "L'anagrafe del Comune registra e accoglie la dichiarazione, con riserva, entro 2 giorni dal ricevimento.",
+   "text": "市政府户籍处在收到申报后 2 天内予以登记并暂时受理。"
+  },
+  "cambio-residenza:step:2:title": {
+   "it": "Registrazione",
+   "text": "登记"
+  },
+  "cambio-residenza:step:3:text": {
+   "it": "Il Comune fa gli accertamenti, al massimo in 45 giorni.",
+   "text": "市政府在最长 45 天内完成核查。"
+  },
+  "cambio-residenza:step:3:title": {
+   "it": "Accertamento",
+   "text": "核查"
+  },
+  "carta-identita:req:accettazione:text": {
+   "it": "Il giorno dell'appuntamento fai l'accettazione: online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
+   "text": "预约当天先办理签到：可在网上用确认邮件中的代码签到，或在现场出示邮件里的二维码、税号或电子身份证（CIE）。"
+  },
+  "carta-identita:req:altro-documento:short": {
+   "it": "Un altro documento d'identità con foto",
+   "text": "另一份带照片的身份证件"
+  },
+  "carta-identita:req:altro-documento:text": {
+   "it": "Prima carta: porta un altro documento d'identità in corso di validità con foto, per esempio il passaporto o la patente.",
+   "text": "第一次办理：带上另一份未过期的带照片身份证件，例如护照或驾照。"
+  },
+  "carta-identita:req:cambio-indirizzo:text": {
+   "it": "Non serve rifare la carta d'identità quando cambi indirizzo o residenza.",
+   "text": "更换地址或户籍时不需要重新办理身份证。"
+  },
+  "carta-identita:req:carta-cartacea-espatrio:text": {
+   "it": "Dopo il 3 agosto 2026 la carta cartacea non si può più usare in nessun caso per andare all'estero.",
+   "text": "2026 年 8 月 3 日之后，纸质身份证在任何情况下都不能再用于出国。"
+  },
+  "carta-identita:req:carta-cartacea-scaduta:text": {
+   "it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
+   "text": "纸质身份证已于 2026 年 8 月 3 日失效：如果你还持有纸质身份证，就需要办理电子身份证（CIE）。"
+  },
+  "carta-identita:req:carta-provvisoria:text": {
+   "it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
+   "text": "2027 年 12 月前，仅限真实且有书面证明的紧急情况，可以办理临时身份证，只能在 Via Larga 12 的总部办理（入口在 Via Pecorari 3），并须证明已预约电子身份证（CIE）。"
+  },
+  "carta-identita:req:codice-fiscale:short": {
+   "it": "Tessera sanitaria o codice fiscale",
+   "text": "医疗卡或税号"
+  },
+  "carta-identita:req:codice-fiscale:text": {
+   "it": "Porta la tessera sanitaria o il codice fiscale.",
+   "text": "带上医疗卡（tessera sanitaria）或税号（codice fiscale）。"
+  },
+  "carta-identita:req:costo:short": {
+   "it": "22,20 euro (contanti o bancomat)",
+   "text": "22,20 欧元（现金或借记卡）"
+  },
+  "carta-identita:req:costo:text": {
+   "it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
+   "text": "费用：22,20 欧元，预约当天用现金或借记卡支付。"
+  },
+  "carta-identita:req:denuncia:short": {
+   "it": "La denuncia di furto o smarrimento",
+   "text": "丢失或被盗报案证明（denuncia）"
+  },
+  "carta-identita:req:denuncia:text": {
+   "it": "Carta persa o rubata: porta la denuncia fatta alle forze dell'ordine (autorità di Pubblica Sicurezza).",
+   "text": "身份证丢失或被盗：带上向公共安全机关提交的报案证明（denuncia）。"
+  },
+  "carta-identita:req:documento-precedente:short": {
+   "it": "La carta scaduta o rovinata",
+   "text": "过期或损坏的旧卡"
+  },
+  "carta-identita:req:documento-precedente:text": {
+   "it": "Rinnovo: consegna la carta scaduta o rovinata.",
+   "text": "更新：交回过期或损坏的旧卡。"
+  },
+  "carta-identita:req:espatrio-adulti-non-italiani:text": {
+   "it": "Da verificare: le fonti salvate non dicono se la carta d'identità di un adulto non italiano vale per andare all'estero. Rimanda alla pagina ufficiale o allo sportello.",
+   "text": "待确认：已保存的来源没有说明非意大利籍成年人的身份证能否用于出国。请查看官方页面或询问窗口。"
+  },
+  "carta-identita:req:foto-formato-passaporto:text": {
+   "it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
+   "text": "照片规格须与护照照片相同。"
+  },
+  "carta-identita:req:foto-niente-usb:text": {
+   "it": "La foto va portata stampata: non si accettano foto su chiavetta USB.",
+   "text": "照片要打印出来带去：不接受存在 U 盘里的照片。"
+  },
+  "carta-identita:req:fototessera:short": {
+   "it": "Una fototessera recente, stampata",
+   "text": "一张近期证件照（纸质）"
+  },
+  "carta-identita:req:fototessera:text": {
+   "it": "Porta una fototessera recente, a colori, su sfondo chiaro, a capo scoperto, secondo i parametri del Ministero dell'Interno.",
+   "text": "带一张近期彩色证件照，浅色背景，不戴帽子，符合内政部的标准。"
+  },
+  "carta-identita:req:impronte:text": {
+   "it": "Allo sportello ti prendono le impronte digitali.",
+   "text": "在窗口会采集你的指纹。"
+  },
+  "carta-identita:req:minori-espatrio:short": {
+   "it": "Assenso dell'altro genitore per l'espatrio",
+   "text": "另一方父母同意出国的声明"
+  },
+  "carta-identita:req:minori-espatrio:text": {
+   "it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori; se uno non può venire, servono la copia del suo documento e la sua dichiarazione di assenso sul modulo del Comune.",
+   "text": "意大利籍未成年人：办理可用于出国的身份证需要父母双方；如一方不能到场，需要其证件复印件以及填写在市政府表格上的同意声明。"
+  },
+  "carta-identita:req:minori-extra-ue:short": {
+   "it": "Permesso di soggiorno del minore",
+   "text": "孩子的居留许可"
+  },
+  "carta-identita:req:minori-extra-ue:text": {
+   "it": "Minorenni extra UE: serve un permesso di soggiorno del minore in corso di validità, oppure il minore deve essere iscritto nel permesso di soggiorno di un genitore.",
+   "text": "非欧盟籍未成年人：孩子需要本人未过期的居留许可，或者登记在父母一方的居留许可上。"
+  },
+  "carta-identita:req:minori-non-italiani-espatrio:text": {
+   "it": "Minorenni non italiani (anche UE): la carta rilasciata non vale per l'espatrio.",
+   "text": "非意大利籍未成年人（包括欧盟公民）：所发身份证不能用于出国。"
+  },
+  "carta-identita:req:minori-prenotazione:text": {
+   "it": "Quando prenoti, inserisci i dati della persona a cui è intestata la carta, anche se è minorenne.",
+   "text": "预约时请填写身份证持有人的信息，即使是未成年人。"
+  },
+  "carta-identita:req:minori-presenza:short": {
+   "it": "Il minore presente",
+   "text": "孩子本人到场"
+  },
+  "carta-identita:req:minori-presenza:text": {
+   "it": "Il minorenne a cui è intestata la carta deve essere sempre presente.",
+   "text": "身份证持有人（未成年人）本人必须始终到场。"
+  },
+  "carta-identita:req:minori-un-genitore:short": {
+   "it": "Se viene un solo genitore: testimone o documento",
+   "text": "只有一方到场时：证人或证件"
+  },
+  "carta-identita:req:minori-un-genitore:text": {
+   "it": "Se viene un solo genitore: serve un altro adulto con un documento d'identità come testimone, oppure un altro documento d'identità del minore con foto (passaporto o certificato di identità).",
+   "text": "如果只有父母一方到场：需要另一名持身份证件的成年人作证人，或者孩子另一份带照片的身份证件（护照或身份证明书）。"
+  },
+  "carta-identita:req:minori:short": {
+   "it": "Entrambi i genitori, con il minore",
+   "text": "父母双方与孩子一同到场"
+  },
+  "carta-identita:req:minori:text": {
+   "it": "Minorenni: il giorno dell'appuntamento vengono entrambi i genitori insieme al ragazzo o alla ragazza.",
+   "text": "未成年人：预约当天父母双方须与孩子一起到场。"
+  },
+  "carta-identita:req:prenotazione-senza-spid:text": {
+   "it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
+   "text": "大多数办公室也可以不用 SPID（数字身份）、无需注册就能预约。"
+  },
+  "carta-identita:req:rinnovo-180-giorni:text": {
+   "it": "Puoi chiedere la nuova carta già da 180 giorni prima della scadenza di quella che hai.",
+   "text": "在现有身份证到期前 180 天起就可以申请新卡。"
+  },
+  "carta-identita:req:senza-appuntamento-orario:text": {
+   "it": "Le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00.",
+   "text": "不预约的例外情况只在 8:30 至 15:00 办理。"
+  },
+  "carta-identita:req:senza-appuntamento-smarrimento:text": {
+   "it": "Carta persa o rubata, con la denuncia e senza un altro documento di riconoscimento: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
+   "text": "身份证丢失或被盗，有报案证明且没有其他身份证明：这属于可以不预约直接去户籍办公室的例外情况之一。"
+  },
+  "carta-identita:req:senza-appuntamento-ticket:text": {
+   "it": "Senza appuntamento si entra con un ticket e i ticket del giorno sono limitati: vai presto.",
+   "text": "不预约要取号（ticket）进入，当天号码有限：请早点去。"
+  },
+  "carta-identita:req:spedizione-citofono:text": {
+   "it": "Arriva per raccomandata: metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
+   "text": "以挂号信寄达：请在门铃、对讲机和信箱上写上收件人的名字。"
+  },
+  "carta-identita:req:stranieri:short": {
+   "it": "Permesso o carta di soggiorno",
+   "text": "居留许可或居留卡"
+  },
+  "carta-identita:req:stranieri:text": {
+   "it": "Cittadini extra UE: porta anche il permesso di soggiorno o la carta di soggiorno in corso di validità.",
+   "text": "非欧盟公民：还要带上未过期的居留许可（permesso di soggiorno）或居留卡。"
+  },
+  "carta-identita:req:su-appuntamento:text": {
+   "it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
+   "text": "户籍窗口只接待在网上预约的人。"
+  },
+  "carta-identita:req:tempi-consegna:text": {
+   "it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta (conta almeno una settimana).",
+   "text": "身份证不在窗口领取：由国家造币印刷局印制，在申请后 6 个工作日内寄出（至少预留一周）。"
+  },
+  "carta-identita:req:testimoni-prima:short": {
+   "it": "Due testimoni (se non hai altri documenti)",
+   "text": "两名证人（如没有其他证件）"
+  },
+  "carta-identita:req:testimoni-prima:text": {
+   "it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
+   "text": "第一次办理且没有任何其他身份证件：须带两名证人到市政府。"
+  },
+  "carta-identita:req:testimoni:short": {
+   "it": "Due testimoni (se non puoi essere riconosciuto)",
+   "text": "两名证人（如无法确认身份）"
+  },
+  "carta-identita:req:testimoni:text": {
+   "it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità in corso di validità, servono due testimoni maggiorenni con un documento d'identità.",
+   "text": "如果旧卡无法用于确认你的身份，而你又没有其他未过期的身份证件，需要两名持身份证件的成年证人。"
+  },
+  "carta-identita:req:urgenza-non-scadenza:text": {
+   "it": "Essersi accorti tardi che la carta è scaduta non conta come urgenza.",
+   "text": "很晚才发现身份证已过期，不算紧急情况。"
+  },
+  "carta-identita:req:urgenza:text": {
+   "it": "Urgenza documentata (per esempio un viaggio) e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
+   "text": "有书面证明的紧急情况（例如出行）且没有其他可用证件：在该事项前 15 天内带上能证明紧急情况的材料去户籍办公室，工作人员会给你定一个发证日期。"
+  },
+  "carta-identita:step:1:text": {
+   "it": "Prenota online l'appuntamento allo sportello anagrafico, scegliendo sede, giorno e ora.",
+   "text": "在网上预约户籍窗口，选择办公室、日期和时间。"
+  },
+  "carta-identita:step:1:title": {
+   "it": "Prenotazione",
+   "text": "预约"
+  },
+  "carta-identita:step:2:text": {
+   "it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
+   "text": "在窗口办理的最后，你要核对自己的信息并在汇总表上签字。"
+  },
+  "carta-identita:step:2:title": {
+   "it": "Allo sportello",
+   "text": "在窗口"
+  },
+  "carta-identita:step:3:text": {
+   "it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
+   "text": "身份证在 6 个工作日内以挂号信寄到家里。"
+  },
+  "carta-identita:step:3:title": {
+   "it": "Consegna",
+   "text": "寄送"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:affitto-erp:label": {
+   "it": "Per chi ha un contratto di locazione · Se l'immobile è di Edilizia Residenziale Pubblica",
+   "text": "如果你有租房合同 · 如果住房是公共住房（ERP）"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:affitto-registrato:label": {
+   "it": "Per chi ha un contratto di locazione",
+   "text": "如果你有租房合同"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:affitto:label": {
+   "it": "Per chi ha un contratto di locazione",
+   "text": "如果你有租房合同"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:comodato:label": {
+   "it": "Per chi ha l'immobile in comodato gratuito",
+   "text": "如果住房是无偿借给你的（comodato）"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:lavoro-domestico:label": {
+   "it": "Per chi è al servizio del proprietario o dell'affittuario (colf, badanti o altri soggetti)",
+   "text": "如果你为房主或租户工作（保姆、护工或其他）"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:ospite:label": {
+   "it": "Per chi è ospite",
+   "text": "如果你是借住"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:proprieta:label": {
+   "it": "Per chi è proprietario dell'immobile",
+   "text": "如果你是房主"
+  },
+  "iscrizione-anagrafica-extra-ue:req:accertamento-45-giorni:text": {
+   "it": "Secondo la guida YesMilano, il Comune impiega 45 giorni per controllare i requisiti e venire a casa a verificare che ci abiti.",
+   "text": "根据 YesMilano 指南，市政府需要 45 天核查条件，并上门确认你住在那里。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:accertamento:text": {
+   "it": "Poi il Comune fa degli accertamenti. Se l'esito è negativo la pratica si ferma e il Comune ti scrive: puoi rispondere con memorie o documenti.",
+   "text": "之后市政府会进行核查。如果结果为否定，程序会中止，市政府会写信通知你：你可以用声明或材料回复。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto-registrazione:short": {
+   "it": "Contratto d'affitto con gli estremi di registrazione",
+   "text": "附登记信息的租房合同"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto-registrazione:text": {
+   "it": "Affitto con contratto già registrato: la guida YesMilano per gli studenti indica la scansione del contratto con numero, luogo e data di registrazione all'Agenzia delle Entrate.",
+   "text": "租房且合同已登记：YesMilano 学生指南要求扫描租房合同，并附上在 Agenzia delle Entrate（税务局）登记的编号、地点和日期。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto:short": {
+   "it": "Contratto d'affitto (se non ancora registrato)",
+   "text": "租房合同（如尚未登记）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto:text": {
+   "it": "Affitto con contratto non ancora registrato (o in registrazione) all'Agenzia delle Entrate: copia del contratto di locazione.",
+   "text": "租房合同尚未在税务局登记（或正在登记）：租房合同复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-assenso:short": {
+   "it": "Dichiarazione di assenso del proprietario o dell'affittuario",
+   "text": "房主或租户的同意声明"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-assenso:text": {
+   "it": "Ospite, o comodato fatto solo a voce: la \"Dichiarazione di assenso dell'affittuario o del proprietario\", modulo del Comune firmato da chi ti dà la casa.",
+   "text": "借住，或仅口头约定的无偿借用：《租户或房主同意声明》，即由提供住房的人签署的市政府表格。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-comodato:short": {
+   "it": "Contratto di comodato",
+   "text": "无偿借用合同（comodato）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-comodato:text": {
+   "it": "Comodato gratuito con contratto non registrato (o in registrazione): copia del contratto di comodato.",
+   "text": "无偿借用（comodato）且合同未登记（或正在登记）：借用合同复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp-nucleo:short": {
+   "it": "Autorizzazione dell'Ente Gestore",
+   "text": "管理机构的授权"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp-nucleo:text": {
+   "it": "Casa popolare, se la domanda allarga il nucleo familiare: l'autorizzazione dell'Ente Gestore.",
+   "text": "公共住房，如果申请会增加家庭成员：管理机构的授权。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp:short": {
+   "it": "Contratto o verbale di consegna della casa popolare",
+   "text": "公共住房合同或交房记录"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp:text": {
+   "it": "Casa popolare (Edilizia Residenziale Pubblica): copia del contratto o del verbale di consegna firmati dall'Ente Gestore.",
+   "text": "公共住房（Edilizia Residenziale Pubblica）：由管理机构签署的合同或交房记录复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-lavoro-domestico:short": {
+   "it": "Contratto di lavoro con il proprietario o l'affittuario",
+   "text": "与房主或租户的劳动合同"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-lavoro-domestico:text": {
+   "it": "Colf, badante o chi lavora in casa del proprietario o dell'affittuario: copia del contratto di lavoro con lui o lei.",
+   "text": "保姆、护工或在房主或租户家中工作的人：与其签订的劳动合同复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-ospite-dati:text": {
+   "it": "Ospite: nel modulo indica i dati anagrafici di chi ti ospita e gli estremi del rogito o della registrazione del contratto d'affitto della casa.",
+   "text": "借住：在表格中填写接待你的人的身份信息，以及该住房的房产契约或租房合同登记信息。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-ospite-documento:short": {
+   "it": "Documento d'identità di chi ti ospita",
+   "text": "接待你的人的身份证件"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-ospite-documento:text": {
+   "it": "Ospite: la guida YesMilano per gli studenti chiede anche la copia del documento d'identità di chi ti ospita (la pagina del Comune non lo elenca).",
+   "text": "借住：YesMilano 学生指南还要求提供接待你的人的身份证件复印件（市政府页面没有列出）。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-proprieta:short": {
+   "it": "Atto di proprietà (rogito)",
+   "text": "房产契约（rogito）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-proprieta:text": {
+   "it": "Proprietario: copia del documento che attesta il rogito.",
+   "text": "房主：房产买卖契约（rogito）复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:cambio-indirizzo-20-giorni:text": {
+   "it": "Dopo, se cambi indirizzo dentro Milano o ti trasferisci in un'altra città, devi comunicarlo all'anagrafe entro 20 giorni dal trasloco.",
+   "text": "之后，如果你在米兰市内换地址或搬到其他城市，必须在 20 天内通知户籍处。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:caso-non-coperto:text": {
+   "it": "Il tuo caso non è tra i quattro dell'elenco ufficiale dei documenti: chiedi al Comune con il modulo di assistenza della domanda online.",
+   "text": "你的情况不在官方材料清单的四种情况之内：请通过在线申请中的帮助表格询问市政府。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:codice-fiscale-appuntamento:text": {
+   "it": "Se non hai ancora il codice fiscale e non te l'hanno attribuito la Questura o lo Sportello Unico: per il primo codice fiscale di un cittadino straniero serve un appuntamento in presenza all'Agenzia delle Entrate.",
+   "text": "如果你还没有税号，警察局（Questura）和统一窗口也没有为你分配：外国公民的第一个税号需要到税务局（Agenzia delle Entrate）当面预约办理。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:codice-fiscale:short": {
+   "it": "Codice fiscale",
+   "text": "税号（codice fiscale）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:codice-fiscale:text": {
+   "it": "Il codice fiscale. L'elenco ufficiale dice \"in originale e in fotocopia\".",
+   "text": "你的税号（codice fiscale）。官方清单写的是“原件和复印件”。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:come-si-presenta:text": {
+   "it": "La richiesta si fa online, non allo sportello: prepari i documenti, li inserisci nella domanda online e la invii.",
+   "text": "申请在网上提交，不在窗口办理：准备好材料，上传到在线申请中，然后提交。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:consenso-stato-famiglia:short": {
+   "it": "Consenso di chi è già residente (solo se non siete parenti)",
+   "text": "已登记居民的同意（仅限非亲属）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:consenso-stato-famiglia:text": {
+   "it": "Solo se entri nello stato di famiglia di chi è già residente e non siete parenti: il modulo di consenso di quella persona.",
+   "text": "仅当你加入一位已登记居民的家庭登记（stato di famiglia）且你们不是亲属时：需要该居民的同意表。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:contratto-soggiorno:short": {
+   "it": "Contratto di soggiorno (Sportello Unico)",
+   "text": "居留合同（contratto di soggiorno）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:contratto-soggiorno:text": {
+   "it": "Copia del contratto di soggiorno firmato allo Sportello Unico per l'immigrazione.",
+   "text": "在移民统一窗口（Sportello Unico per l'immigrazione）签署的居留合同（contratto di soggiorno）复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:correzioni:text": {
+   "it": "Se manca qualcosa o un documento non si legge, gli uffici ti chiedono le correzioni e devi rimandare la domanda.",
+   "text": "如果缺少材料或文件无法辨认，办公室会要求你更正并重新提交。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:decorrenza:text": {
+   "it": "La residenza vale dalla data in cui presenti la dichiarazione.",
+   "text": "居住登记从你提交声明之日起生效。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:dimora-abituale-60-giorni:text": {
+   "it": "Dopo, ogni volta che rinnovi il permesso o la carta di soggiorno, entro 60 giorni devi rinnovare la dichiarazione di dimora abituale al Comune.",
+   "text": "之后，每次续签居留许可或居留卡，都必须在 60 天内向市政府更新常住声明（dimora abituale）。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-altri-permessi:text": {
+   "it": "Da verificare: quali documenti servono a chi aspetta il primo permesso per studio o per altri motivi non elencati nell'Allegato A.",
+   "text": "待确认：等待第一张学习居留许可或其他未列入附件 A 的居留许可的人需要哪些材料。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-esteri-scopo:text": {
+   "it": "Questi atti tradotti e legalizzati non sono tra quelli obbligatori, ma servono per registrare in anagrafe la parentela e per avere i certificati.",
+   "text": "这些经翻译和认证的证明不属于必交材料，但用于在户籍中登记亲属关系和开具证明。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-esteri:short": {
+   "it": "Atti esteri tradotti e legalizzati (matrimonio, nascite)",
+   "text": "经翻译认证的国外证明（结婚、出生）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-esteri:text": {
+   "it": "Atti rilasciati all'estero su stato civile e famiglia (per esempio matrimonio, nascita dei figli): copia degli originali, tradotti e legalizzati.",
+   "text": "在国外开具的婚姻状况和家庭证明（例如结婚证、子女出生证明）：原件复印件，经翻译和认证。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documento-fronte-retro:short": {
+   "it": "Documento d'identità, fronte e retro",
+   "text": "身份证件正反面"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documento-fronte-retro:text": {
+   "it": "Il documento d'identità va scansionato fronte e retro.",
+   "text": "身份证件要正反两面扫描。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:domanda-lavoro:short": {
+   "it": "Domanda di permesso per lavoro subordinato",
+   "text": "工作居留许可申请"
+  },
+  "iscrizione-anagrafica-extra-ue:req:domanda-lavoro:text": {
+   "it": "La domanda di permesso di soggiorno per lavoro subordinato presentata allo Sportello Unico.",
+   "text": "向统一窗口（Sportello Unico）提交的受雇工作居留许可申请。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:email-protocollo:text": {
+   "it": "Dopo l'invio ricevi una email con il riepilogo e poi un altro messaggio con il numero di protocollo.",
+   "text": "提交后你会收到一封汇总邮件，之后还会收到一条带登记号（protocollo）的消息。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:firma-familiari:short": {
+   "it": "Le firme dei familiari maggiorenni sul modulo",
+   "text": "成年家庭成员在表上的签名"
+  },
+  "iscrizione-anagrafica-extra-ue:req:firma-familiari:text": {
+   "it": "Chi fa la domanda la compila per sé e per la famiglia; anche i familiari maggiorenni devono firmarla.",
+   "text": "申请人为自己和家人填写；成年家庭成员也必须签名。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:formati-file:text": {
+   "it": "Formati accettati: gif, jpeg, jpg, pdf, tiff, tff. Ogni allegato al massimo 7 MB.",
+   "text": "可接受的格式：gif、jpeg、jpg、pdf、tiff、tff。每个文件最大 7 MB。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-consenso:short": {
+   "it": "Consenso del genitore che non si trasferisce",
+   "text": "不迁移的一方父母的同意"
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-consenso:text": {
+   "it": "Se trasferisci un figlio minorenne e l'altro genitore non trasferisce la residenza: la sua dichiarazione di consenso, sul modulo del Comune.",
+   "text": "如果你为未成年子女迁移户籍而另一方父母不迁移：需要其填写在市政府表格上的同意声明。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-genitore-assente:short": {
+   "it": "Dichiarazione sul genitore assente",
+   "text": "关于不在场一方父母的声明"
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-genitore-assente:text": {
+   "it": "Se trasferisci un figlio minorenne e un genitore è assente: la dichiarazione delle generalità del genitore assente, sul modulo del Comune.",
+   "text": "如果你为未成年子女迁移户籍而父母一方不在：需要填写在市政府表格上的不在场一方父母身份信息声明。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:modulo-firmato:short": {
+   "it": "Il modulo della domanda, firmato e scansionato",
+   "text": "申请表（签名并扫描）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:modulo-firmato:text": {
+   "it": "Il modulo della domanda va compilato, firmato e scansionato, insieme agli altri allegati.",
+   "text": "申请表要填写、签名并扫描，与其他附件一起提交。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:nome-citofono:text": {
+   "it": "Per la visita: indica l'indirizzo completo (scala, piano) e metti il tuo nome su citofono e cassetta delle lettere.",
+   "text": "为了上门核查：填写完整地址（楼梯、楼层），并在对讲机和信箱上写上你的名字。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:nulla-osta:short": {
+   "it": "Nulla osta dello Sportello Unico",
+   "text": "统一窗口的许可（nulla osta）"
+  },
+  "iscrizione-anagrafica-extra-ue:req:nulla-osta:text": {
+   "it": "Fotocopia (non autenticata) del nulla osta dello Sportello Unico.",
+   "text": "统一窗口签发的许可（nulla osta）复印件（无需公证）。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:passaporto:short": {
+   "it": "Passaporto",
+   "text": "护照"
+  },
+  "iscrizione-anagrafica-extra-ue:req:passaporto:text": {
+   "it": "Copia del passaporto (o documento equivalente) in corso di validità.",
+   "text": "未过期的护照（或同等证件）复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:patente:text": {
+   "it": "Se hai una patente o un libretto di circolazione italiani, scrivilo nel modulo.",
+   "text": "如果你有意大利驾照或车辆行驶证，请在表格中注明。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso-scaduto:short": {
+   "it": "Permesso di soggiorno scaduto",
+   "text": "已过期的居留许可"
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso-scaduto:text": {
+   "it": "Copia del permesso di soggiorno scaduto.",
+   "text": "已过期的居留许可复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso:short": {
+   "it": "Permesso di soggiorno",
+   "text": "居留许可"
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso:text": {
+   "it": "Copia del permesso di soggiorno in corso di validità.",
+   "text": "未过期的居留许可（permesso di soggiorno）复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:prima-il-permesso:text": {
+   "it": "Prima di tutto chiedi il permesso di soggiorno: chi arriva in Italia per la prima volta ha 8 giorni lavorativi dall'ingresso per chiederlo.",
+   "text": "首先申请居留许可：第一次来意大利的人，从入境起有 8 个工作日的时间提出申请。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-poste:short": {
+   "it": "Ricevuta dell'ufficio postale",
+   "text": "邮局回执"
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-poste:text": {
+   "it": "La ricevuta dell'ufficio postale che prova che hai presentato la richiesta di permesso di soggiorno.",
+   "text": "邮局开具的、证明你已提交居留许可申请的回执。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-rinnovo:short": {
+   "it": "Ricevuta della richiesta di rinnovo",
+   "text": "续签申请回执"
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-rinnovo:text": {
+   "it": "Ricevuta della richiesta di rinnovo del permesso di soggiorno.",
+   "text": "居留许可续签申请的回执。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:solo-online:text": {
+   "it": "I file si caricano solo con i pulsanti della procedura online: quelli mandati per email non vengono considerati.",
+   "text": "文件只能用在线程序里的按钮上传：通过电子邮件发送的文件不予受理。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:una-domanda-alla-volta:text": {
+   "it": "Non puoi inviare una nuova domanda finché quella precedente non è conclusa: conviene mandarla completa la prima volta.",
+   "text": "上一份申请办结之前不能提交新的申请：最好第一次就提交完整。"
+  },
+  "iscrizione-anagrafica-extra-ue:req:visto-ingresso:short": {
+   "it": "Visto d'ingresso",
+   "text": "入境签证"
+  },
+  "iscrizione-anagrafica-extra-ue:req:visto-ingresso:text": {
+   "it": "Il visto d'ingresso, in originale e in fotocopia.",
+   "text": "入境签证，原件和复印件。"
+  },
+  "iscrizione-anagrafica-extra-ue:section:abitazione:title": {
+   "it": "Documentazione relativa all'abitazione",
+   "text": "与住房有关的材料"
+  },
+  "iscrizione-anagrafica-extra-ue:section:base:title": {
+   "it": "Documentazione di base per tutti",
+   "text": "所有人都要提交的基本材料"
+  },
+  "iscrizione-anagrafica-extra-ue:section:cittadinanza:text": {
+   "it": "Per chi ha cittadinanza extra UE: i documenti dell'elenco ufficiale (Allegato A) per il tuo caso di permesso.",
+   "text": "非欧盟公民：官方清单（附件 A）中与你的居留许可情况对应的材料。"
+  },
+  "iscrizione-anagrafica-extra-ue:section:cittadinanza:title": {
+   "it": "Documentazione relativa alla cittadinanza",
+   "text": "与国籍有关的材料"
+  },
+  "iscrizione-anagrafica-extra-ue:section:dichiarazione:text": {
+   "it": "Compili il modulo di dichiarazione per te e per i componenti della famiglia; anche i maggiorenni lo firmano.",
+   "text": "你为自己和家庭成员填写声明表；成年人也要签名。"
+  },
+  "iscrizione-anagrafica-extra-ue:section:dichiarazione:title": {
+   "it": "Il modulo di dichiarazione",
+   "text": "声明表"
+  },
+  "iscrizione-anagrafica-extra-ue:section:invio:title": {
+   "it": "Come trasmettere la documentazione",
+   "text": "如何提交材料"
+  },
+  "iscrizione-anagrafica-extra-ue:section:minori:title": {
+   "it": "Documentazione per il trasferimento di minori",
+   "text": "未成年人迁移户籍的材料"
+  },
+  "iscrizione-anagrafica-extra-ue:section:nel-modulo:title": {
+   "it": "Da scrivere nel modulo",
+   "text": "需要在表格中填写的内容"
+  },
+  "iscrizione-anagrafica-extra-ue:step:1:text": {
+   "it": "Permesso di soggiorno: chi arriva in Italia per la prima volta ha 8 giorni lavorativi dall'ingresso per chiederlo al Questore; per alcuni permessi tramite gli uffici postali abilitati.",
+   "text": "居留许可：第一次来意大利的人从入境起有 8 个工作日的时间向警察局长（Questore）申请；部分许可通过指定邮局申请。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:1:title": {
+   "it": "Permesso di soggiorno",
+   "text": "居留许可"
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:route:1:text": {
+   "it": "Se la domanda di ingresso è passata dallo Sportello Unico per l'immigrazione (lavoro subordinato o ricongiungimento familiare): te lo attribuisce lo stesso Sportello Unico.",
+   "text": "如果你的入境申请经过移民统一窗口（Sportello Unico per l'immigrazione）办理（受雇工作或家庭团聚）：由该统一窗口分配。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:route:2:text": {
+   "it": "Altrimenti: per il primo codice fiscale serve un appuntamento in presenza all'Agenzia delle Entrate.",
+   "text": "其他情况：第一个税号需要到税务局（Agenzia delle Entrate）当面预约办理。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:text": {
+   "it": "Se chiedi il permesso di soggiorno (o il rinnovo): il codice fiscale te lo attribuisce la Questura.",
+   "text": "如果你在申请居留许可（或续签）：税号由警察局（Questura）分配。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:title": {
+   "it": "Codice fiscale",
+   "text": "税号（codice fiscale）"
+  },
+  "iscrizione-anagrafica-extra-ue:step:3:text": {
+   "it": "Residenza: domanda online sul sito del Comune, con i documenti caricati nella domanda.",
+   "text": "居住登记：在市政府网站上在线申请，并在申请中上传材料。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:3:title": {
+   "it": "Domanda di residenza online",
+   "text": "在线居住登记申请"
+  },
+  "iscrizione-anagrafica-extra-ue:step:4:text": {
+   "it": "Dopo l'invio ricevi una email di riepilogo e poi il numero di protocollo.",
+   "text": "提交后你会收到汇总邮件，之后会收到登记号（protocollo）。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:4:title": {
+   "it": "Riepilogo e protocollo",
+   "text": "汇总和登记号"
+  },
+  "iscrizione-anagrafica-extra-ue:step:5:text": {
+   "it": "Il Comune controlla i requisiti e viene a casa a verificare che ci abiti: secondo la guida YesMilano ci vogliono 45 giorni.",
+   "text": "市政府核查条件并上门确认你住在那里：根据 YesMilano 指南需要 45 天。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:5:title": {
+   "it": "Accertamento a casa",
+   "text": "上门核查"
+  },
+  "iscrizione-anagrafica-extra-ue:step:6:text": {
+   "it": "Ogni volta che rinnovi il permesso: entro 60 giorni rinnova la dichiarazione di dimora abituale (online o allo sportello su appuntamento).",
+   "text": "每次续签居留许可时：在 60 天内更新常住声明（在线或在窗口预约办理）。"
+  },
+  "iscrizione-anagrafica-extra-ue:step:6:title": {
+   "it": "Dopo: dimora abituale",
+   "text": "之后：常住声明"
+  }
+ }
+}

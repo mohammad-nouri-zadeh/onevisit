@@ -1,0 +1,230 @@
+{
+  "_about": "Invented demo personas (no real person). 'opening' is what the persona writes; 'inferred' are the answers Claude takes from that first message (in the demo, recorded); 'urgent' marks a message that says the person is in a hurry; 'answers' are the persona's replies to the questions, used to play the demo to the end in tests; 'featured' personas are the two big cases on the home page. Requirements are never written here: they come live from data/services.",
+  "personas": [
+    {
+      "id": "cairo-residenza",
+      "service_id": "iscrizione-anagrafica-extra-ue",
+      "area_query": null,
+      "area": {
+        "it": "via Padova",
+        "en": "Via Padova",
+        "ar": "شارع بادوفا (via Padova)",
+        "es": "Via Padova",
+        "zh": "Via Padova"
+      },
+      "alt_lang": "ar",
+      "label": {
+        "it": "Appena arrivata dal Cairo · residenza",
+        "en": "Just arrived from Cairo · residence",
+        "ar": "وصلت للتو من القاهرة · الإقامة",
+        "es": "Recién llegada de El Cairo · residencia",
+        "zh": "刚从开罗来到米兰 · 居住登记"
+      },
+      "opening": {
+        "it": "Sono arrivata dal Cairo il mese scorso per lavoro e devo registrare la residenza a Milano. Da dove comincio?",
+        "en": "I arrived from Cairo last month for work and need to register my residence in Milan. Where do I start?",
+        "ar": "وصلت من القاهرة الشهر الماضي للعمل وأحتاج إلى تسجيل إقامتي في ميلانو. من أين أبدأ؟",
+        "es": "Llegué de El Cairo el mes pasado por trabajo y tengo que registrar mi residencia en Milán. ¿Por dónde empiezo?",
+        "zh": "我上个月因为工作从开罗来到米兰，需要登记居住。我该从哪里开始？"
+      },
+      "inferred": {},
+      "answers": {
+        "permesso": "ricevuta-lavoro",
+        "famiglia": "solo",
+        "alloggio": "affitto"
+      },
+      "featured": true
+    },
+    {
+      "id": "cie-isola",
+      "service_id": "carta-identita",
+      "area_query": "Isola",
+      "area": {
+        "it": "Isola",
+        "en": "Isola",
+        "ar": "إيزولا (Isola)",
+        "es": "Isola",
+        "zh": "Isola"
+      },
+      "alt_lang": null,
+      "label": {
+        "it": "Carta d'identità persa · abita all'Isola",
+        "en": "Lost ID card · lives in Isola",
+        "ar": "بطاقة هوية مفقودة · يسكن في إيزولا",
+        "es": "Carta de identidad perdida · vive en Isola",
+        "zh": "身份证丢失 · 住在 Isola"
+      },
+      "opening": {
+        "it": "Ho perso la carta d'identità e parto il mese prossimo. Abito all'Isola.",
+        "en": "I lost my ID card and I travel next month. I live in Isola.",
+        "ar": "فقدت بطاقة هويتي وسأسافر الشهر القادم. أسكن في إيزولا.",
+        "es": "Perdí mi carta de identidad y viajo el mes que viene. Vivo en Isola.",
+        "zh": "我的身份证丢了，下个月要出行。我住在Isola。"
+      },
+      "inferred": {
+        "motivo": "smarrimento-furto",
+        "eta": "adulto"
+      },
+      "answers": {
+        "motivo": "smarrimento-furto",
+        "eta": "adulto",
+        "cittadinanza": "extra-ue",
+        "famiglia": "solo",
+        "permesso": "permesso",
+        "alloggio": "affitto"
+      },
+      "urgent": true,
+      "featured": true
+    },
+    {
+      "id": "studente-studio",
+      "service_id": "iscrizione-anagrafica-extra-ue",
+      "area_query": null,
+      "area": {
+        "it": "",
+        "en": "",
+        "ar": "",
+        "es": "",
+        "zh": ""
+      },
+      "alt_lang": "es",
+      "label": {
+        "it": "Studentessa · aspetta il primo permesso per studio · residenza",
+        "en": "Student · waiting for her first study permit · residence",
+        "ar": "طالبة · تنتظر أول تصريح إقامة للدراسة · الإقامة",
+        "es": "Estudiante · espera su primer permiso de estudios · residencia",
+        "zh": "留学生 · 正在等待第一张学习居留许可 · 居住登记"
+      },
+      "opening": {
+        "it": "Sono una studentessa del Perù, arrivata a Milano per l'università. Aspetto il primo permesso di soggiorno per studio e affitto una stanza. Come prendo la residenza?",
+        "en": "I'm a student from Peru and came to Milan for university. I'm waiting for my first residence permit for study and I rent a room. How do I register my residence?",
+        "ar": "أنا طالبة من البيرو، جئت إلى ميلانو للدراسة في الجامعة. أنتظر أول تصريح إقامة للدراسة وأستأجر غرفة. كيف أسجّل إقامتي؟",
+        "es": "Soy estudiante de Perú y vine a Milán para la universidad. Espero mi primer permiso de residencia por estudios y alquilo una habitación. ¿Cómo me registro como residente?",
+        "zh": "我是来自秘鲁的学生，来米兰上大学。我在等第一张学习居留许可，现在租了一个房间。怎么办理居住登记？"
+      },
+      "inferred": {
+        "permesso": "altro"
+      },
+      "hints": {
+        "alloggio": "affitto"
+      },
+      "answers": {
+        "permesso": "altro",
+        "famiglia": "solo",
+        "alloggio": "affitto"
+      }
+    },
+    {
+      "id": "cie-rinnovo-bovisa",
+      "service_id": "carta-identita",
+      "area_query": "Bovisa",
+      "area": {
+        "it": "Bovisa",
+        "en": "Bovisa",
+        "ar": "بوفيزا (Bovisa)",
+        "es": "Bovisa",
+        "zh": "Bovisa"
+      },
+      "alt_lang": "es",
+      "label": {
+        "it": "Carta d'identità scaduta · da rinnovare · abita in Bovisa",
+        "en": "Expired ID card · renewal · lives in Bovisa",
+        "ar": "بطاقة هوية منتهية · تجديد · يسكن في بوفيزا",
+        "es": "Carta de identidad caducada · renovación · vive en Bovisa",
+        "zh": "身份证过期 · 需要更新 · 住在 Bovisa"
+      },
+      "opening": {
+        "it": "La mia carta d'identità è scaduta e devo rinnovarla. Sono peruviano, ho il permesso di soggiorno e abito in Bovisa.",
+        "en": "My ID card has expired and I need to renew it. I'm from Peru, I have a residence permit and I live in Bovisa.",
+        "ar": "انتهت صلاحية بطاقة هويتي وأحتاج إلى تجديدها. أنا من البيرو، لدي تصريح إقامة وأسكن في بوفيزا.",
+        "es": "Mi carta de identidad caducó y tengo que renovarla. Soy peruano, tengo permiso de residencia y vivo en Bovisa.",
+        "zh": "我的身份证过期了，需要更新。我是秘鲁人，有居留许可，住在 Bovisa。"
+      },
+      "inferred": {
+        "motivo": "rinnovo",
+        "eta": "adulto",
+        "cittadinanza": "extra-ue"
+      },
+      "answers": {
+        "motivo": "rinnovo",
+        "eta": "adulto",
+        "cittadinanza": "extra-ue"
+      }
+    },
+    {
+      "id": "famiglia-cina",
+      "service_id": "iscrizione-anagrafica-extra-ue",
+      "area_query": null,
+      "area": {
+        "it": "",
+        "en": "",
+        "ar": "",
+        "es": "",
+        "zh": ""
+      },
+      "alt_lang": "zh",
+      "label": {
+        "it": "Famiglia dalla Cina · con il permesso · residenza",
+        "en": "Family from China · with a permit · residence",
+        "ar": "عائلة من الصين · لديها تصريح إقامة · الإقامة",
+        "es": "Familia de China · con permiso · residencia",
+        "zh": "从中国来的一家人 · 有居留许可 · 居住登记"
+      },
+      "opening": {
+        "it": "Siamo arrivati dalla Cina, io con mia moglie e nostro figlio. Ho il permesso di soggiorno e abbiamo un appartamento in affitto. Come registriamo la residenza?",
+        "en": "We came from China, me with my wife and our son. I have my residence permit and we rent a flat. How do we register our residence?",
+        "ar": "جئنا من الصين، أنا مع زوجتي وابننا. لدي تصريح إقامة ونستأجر شقة. كيف نسجّل إقامتنا؟",
+        "es": "Llegamos de China, yo con mi esposa y nuestro hijo. Tengo permiso de residencia y alquilamos un piso. ¿Cómo registramos la residencia?",
+        "zh": "我们从中国来，我和妻子还有儿子。我有居留许可，我们租了一套公寓。怎么办理居住登记？"
+      },
+      "inferred": {
+        "permesso": "permesso",
+        "famiglia": "con-familiari"
+      },
+      "hints": {
+        "alloggio": "affitto"
+      },
+      "answers": {
+        "permesso": "permesso",
+        "famiglia": "con-familiari",
+        "alloggio": "affitto-registrato"
+      }
+    },
+    {
+      "id": "torino-milano",
+      "service_id": "cambio-residenza",
+      "area_query": null,
+      "area": {
+        "it": "",
+        "en": "",
+        "ar": "",
+        "es": "",
+        "zh": ""
+      },
+      "alt_lang": null,
+      "label": {
+        "it": "Da Torino a Milano · cambio di residenza da un altro Comune",
+        "en": "From Turin to Milan · change of residence from another comune",
+        "ar": "من تورينو إلى ميلانو · تغيير الإقامة من بلدية أخرى",
+        "es": "De Turín a Milán · cambio de residencia desde otro municipio",
+        "zh": "从都灵到米兰 · 从其他市镇迁入"
+      },
+      "opening": {
+        "it": "Devo fare il cambio di residenza: mi sono trasferito da Torino e sono in affitto in un bilocale. Sono italiano. Come faccio?",
+        "en": "I need to change my residence: I moved from Turin and I rent a small flat. I'm Italian. How do I do it?",
+        "ar": "أحتاج إلى تغيير إقامتي: انتقلت من تورينو وأستأجر شقة صغيرة. أنا إيطالي. كيف أفعل ذلك؟",
+        "es": "Tengo que hacer el cambio de residencia: me mudé desde Turín y alquilo un piso pequeño. Soy italiano. ¿Cómo lo hago?",
+        "zh": "我需要变更居住地：我从都灵搬来，租了一套小公寓。我是意大利人。该怎么办？"
+      },
+      "inferred": {
+        "cittadinanza": "italiana",
+        "alloggio": "non-proprietario"
+      },
+      "answers": {
+        "cittadinanza": "italiana",
+        "alloggio": "non-proprietario",
+        "famiglia": "solo"
+      }
+    }
+  ]
+}

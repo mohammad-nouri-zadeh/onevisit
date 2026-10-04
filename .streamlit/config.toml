@@ -1,10 +1,32 @@
 [theme]
 base = "light"
-primaryColor = "#111214"
+# Comune di Milano red (#a60d27, as on comune.milano.it) for primary actions and links;
+# neutrals from design-tokens-italia (Bootstrap Italia). The app adds its own dark mode.
+primaryColor = "#a60d27"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#EDEEF0"
-textColor = "#111214"
-font = "sans serif"
+secondaryBackgroundColor = "#F5F5F5"
+textColor = "#1A1A1A"
+linkColor = "#A60D27"
+borderColor = "#C5C7C9"
+baseRadius = "4px"
+font = "Titillium Web, Geneva, Tahoma, sans-serif"
+headingFont = "Titillium Web, Geneva, Tahoma, sans-serif"
+
+[[theme.fontFaces]]
+family = "Titillium Web"
+url = "app/static/fonts/titillium-web-v10-latin-ext_latin-regular.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Titillium Web"
+url = "app/static/fonts/titillium-web-v10-latin-ext_latin-600.woff2"
+weight = 600
+
+[[theme.fontFaces]]
+family = "Titillium Web"
+url = "app/static/fonts/titillium-web-v10-latin-ext_latin-700.woff2"
+weight = 700
 
 [server]
 headless = true
+enableStaticServing = true

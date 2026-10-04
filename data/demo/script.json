@@ -1,0 +1,431 @@
+{
+  "_about": "Demo replay without an API key (onevisit/demo.py). These are Claude's replies, recorded as templates; a typed message is understood with keywords, not by Claude, and the page says so. The templates never state a City requirement: every fact (requirements, offices, sources) is filled in from live tool results computed on data/services, data/offices.json and data/sources.csv, and the urgent options are the requirement texts themselves, each with its source. Placeholders: {service} {question} {n} {m} {s} {cites} {office} {office_cite} {area} {date} {url} {cite} {facts} {groups} {group} {k}.",
+  "templates": {
+    "it": {
+      "opening": "Ti aiuto a preparare: **{service}**. Ho letto la scheda del servizio e le sue fonti ufficiali.",
+      "understood": "Dal tuo messaggio ho capito: {facts}.",
+      "office": "Sede anagrafica vicino a {area}: **{office}** {office_cite}.",
+      "deeplink": "Hai un appuntamento per **{service}** il **{date}** in **{office}** {office_cite}: prepariamo i documenti.",
+      "partial": "La checklist qui sotto ha già {n} voci da {s} fonti ufficiali{cites}.",
+      "none": "Per ora le fonti salvate non hanno requisiti verificati per questo caso: non li indovino, ti rimando alla pagina ufficiale.",
+      "ask_first": "Una domanda che cambia la lista dei documenti: {question}",
+      "ask_next": "Grazie. Ancora una domanda: {question}",
+      "final": "La tua checklist è pronta: {n} voci da {s} fonti ufficiali{cites}.",
+      "todo": "{m} voci non hanno ancora una fonte verificata: per quelle controlla la pagina ufficiale, non te le invento.",
+      "booking": "Per prenotare l'appuntamento: [pagina di prenotazione del Comune]({url}) {cite}.",
+      "dossier": "Scarica il dossier per lo sportello e portalo all'appuntamento. La verifica finale spetta all'operatore allo sportello.",
+      "free_text": "Non ho trovato la risposta nel tuo messaggio: scegli una delle risposte qui sotto. Questa replica legge solo le parole chiave; dal vivo Claude capisce qualsiasi frase.",
+      "start_free": "Questa è la replica dimostrativa: scrivi la tua situazione o scegli uno degli esempi.",
+      "done": "La checklist è pronta qui sotto. La replica non risponde a domande nuove: dal vivo risponde Claude; intanto c'è la pagina ufficiale.",
+      "steps": "Il percorso ha {n} passi tra {entes}: li trovi qui sotto, in ordine, ognuno con la sua fonte {cites}.",
+      "delta": "Con la tua risposta la checklist cambia: ora sono {n} voci (+{k}){cites}.",
+      "same": "La checklist resta di {n} voci{cites}.",
+      "todo_1": "1 voce non ha ancora una fonte verificata: controllala sulla pagina ufficiale, non te la invento.",
+      "dossier_online": "Scarica il dossier: ti aiuta a preparare i file da caricare nella domanda online. La verifica finale spetta all'operatore dell'anagrafe.",
+      "groups": "Nella checklist le voci sono divise in: {groups}.",
+      "group_count": "{group} ({k})",
+      "online": "La domanda si invia online, con il [modulo del Comune]({url}) {cite}.",
+      "urgent_intro": "Visto che hai fretta, prima le strade più rapide che le fonti indicano per il tuo caso:",
+      "which_service": "Non ho riconosciuto la pratica dalle parole del tuo messaggio. Questa replica riconosce per parole chiave queste pratiche: quale ti serve?",
+      "form_guide": "Sotto la checklist trovi anche dove va ogni file nella domanda online, sezione per sezione, come nella pagina Modulistica del Comune {cite}.",
+      "online_anpr": "La dichiarazione si invia online, sul [sito dell'Anagrafe Nazionale]({url}) {cite}.",
+      "which_residence": "Per la residenza le pratiche sono due e cambiano tutto: arrivi dall'estero, oppure da un altro Comune italiano (o cambi indirizzo dentro Milano)? Scegli qui sotto.",
+      "dossier_anpr": "Scarica il dossier: ti aiuta a tenere a portata di mano dati e documenti per la dichiarazione online. La verifica finale spetta all'anagrafe del Comune.",
+      "other_language": "Ti rispondo in inglese: questa replica scrive italiano, inglese, arabo, spagnolo e cinese. La versione dal vivo, con Claude, risponde in {language}."
+    },
+    "en": {
+      "opening": "I'll help you prepare: **{service}**. I read the service record and its official sources.",
+      "understood": "From your message I understood: {facts}.",
+      "office": "Registry office near {area}: **{office}** {office_cite}.",
+      "deeplink": "You have an appointment for **{service}** on **{date}** at **{office}** {office_cite}: let's get your documents ready.",
+      "partial": "The checklist below already has {n} items from {s} official sources{cites}.",
+      "none": "The saved sources don't have verified requirements for this case yet: I won't guess, check the official page.",
+      "ask_first": "One question that changes the list of documents: {question}",
+      "ask_next": "Thanks. One more question: {question}",
+      "final": "Your checklist is ready: {n} items from {s} official sources{cites}.",
+      "todo": "{m} items don't have a verified source yet: check those on the official page, I won't make them up.",
+      "booking": "To book the appointment: [the City's booking page]({url}) {cite}.",
+      "dossier": "Download the desk dossier and bring it to the appointment. The desk officer makes the final check.",
+      "free_text": "I couldn't find the answer in your message: pick one of the answers below. This replay reads keywords only; live, Claude understands any wording.",
+      "start_free": "This is the demo replay: describe your situation or pick one of the examples.",
+      "done": "Your checklist is below. The replay can't answer new questions: live, Claude does; meanwhile there is the official page.",
+      "steps": "The path has {n} steps across {entes}: they are below, in order, each with its source {cites}.",
+      "delta": "With your answer the checklist changes: now {n} items (+{k}){cites}.",
+      "same": "The checklist stays at {n} items{cites}.",
+      "todo_1": "1 item doesn't have a verified source yet: check it on the official page, I won't make it up.",
+      "dossier_online": "Download the dossier: it helps you prepare the files to upload in the online application. The registry officer makes the final check.",
+      "groups": "In the checklist the items are grouped into: {groups}.",
+      "group_count": "{group} ({k})",
+      "online": "You send the application online, with the [City's online form]({url}) {cite}.",
+      "urgent_intro": "Since you're in a hurry, first the fastest routes the sources give for your case:",
+      "which_service": "I couldn't tell the procedure from the words in your message. This replay recognises these procedures by keywords: which one do you need?",
+      "form_guide": "Below the checklist you'll also find where each file goes in the online application, section by section, as on the City's Modulistica page {cite}.",
+      "online_anpr": "You send the declaration online, on the [National Registry (ANPR) website]({url}) {cite}.",
+      "which_residence": "For residence there are two different procedures: are you arriving from abroad, or from another Italian municipality (or changing address within Milan)? Choose below.",
+      "dossier_anpr": "Download the dossier: it helps you keep the details and documents for the online declaration at hand. The final check is up to the City's registry office.",
+      "other_language": "I'm answering in English: this demo replay writes Italian, English, Arabic, Spanish and Chinese. The live version, with Claude, answers in {language}."
+    },
+    "ar": {
+      "opening": "سأساعدك في التحضير لـ: **{service}**. قرأتُ بطاقة الخدمة ومصادرها الرسمية.",
+      "understood": "فهمتُ من رسالتك: {facts}.",
+      "office": "مكتب السجل المدني القريب من {area}: **{office}** {office_cite}.",
+      "deeplink": "لديك موعد لـ **{service}** يوم **{date}** في **{office}** {office_cite}: لنحضّر وثائقك.",
+      "partial": "في القائمة أدناه حتى الآن {n} بندًا من {s} مصادر رسمية{cites}.",
+      "none": "المصادر المحفوظة لا تحتوي بعد على شروط موثّقة لحالتك: لن أخمّن، راجع الصفحة الرسمية.",
+      "ask_first": "سؤال واحد يغيّر قائمة الوثائق: {question}",
+      "ask_next": "شكرًا. سؤال آخر: {question}",
+      "final": "قائمتك جاهزة: {n} بندًا من {s} مصادر رسمية{cites}.",
+      "todo": "عدد البنود التي ليس لها مصدر موثّق بعد: {m}. تحقّق منها في الصفحة الرسمية، لن أختلقها.",
+      "booking": "لحجز الموعد: [صفحة الحجز في البلدية]({url}) {cite}.",
+      "dossier": "نزّل ملف الشباك وأحضره معك إلى الموعد. القرار النهائي لموظف الشباك.",
+      "free_text": "لم أجد الإجابة في رسالتك: اختر إحدى الإجابات أدناه. هذا العرض المسجّل يقرأ الكلمات المفتاحية فقط؛ في الوضع المباشر يفهم Claude أي صياغة.",
+      "start_free": "هذا عرض تجريبي مسجّل: صِف وضعك أو اختر أحد الأمثلة.",
+      "done": "قائمتك أدناه. العرض المسجّل لا يجيب عن أسئلة جديدة: في الوضع المباشر يجيب Claude؛ وإلى ذلك الحين راجع الصفحة الرسمية.",
+      "steps": "المسار فيه {n} خطوات بين {entes}: تجدها أدناه بالترتيب، ولكل خطوة مصدرها {cites}.",
+      "delta": "مع إجابتك تتغيّر القائمة: عدد البنود الآن {n} (+{k}){cites}.",
+      "same": "يبقى عدد البنود {n}{cites}.",
+      "todo_1": "بند واحد ليس له مصدر موثّق بعد: تحقّق منه في الصفحة الرسمية، لن أختلقه.",
+      "dossier_online": "نزّل الملف: يساعدك على تحضير الملفات التي ترفعها في الطلب الإلكتروني. القرار النهائي لموظف السجل المدني.",
+      "groups": "في القائمة قسّمتُ البنود إلى: {groups}.",
+      "group_count": "{group} ({k})",
+      "online": "يُرسَل الطلب عبر الإنترنت، من خلال [استمارة البلدية الإلكترونية]({url}) {cite}.",
+      "urgent_intro": "بما أنك مستعجل، إليك أولًا أسرع الطرق التي تذكرها المصادر لحالتك:",
+      "which_service": "لم أتعرّف على المعاملة من كلمات رسالتك. يتعرّف هذا العرض المسجّل على هذه المعاملات بالكلمات المفتاحية: أيّها تحتاج؟",
+      "form_guide": "تحت القائمة تجد أيضًا أين يوضع كل ملف في الطلب الإلكتروني، قسمًا بقسم، كما في صفحة النماذج (Modulistica) في البلدية {cite}.",
+      "online_anpr": "يُرسَل الإقرار عبر الإنترنت، على [موقع السجل الوطني (ANPR)]({url}) {cite}.",
+      "which_residence": "للإقامة معاملتان مختلفتان: هل تصل من الخارج، أم من بلدية إيطالية أخرى (أو تغيّر عنوانك داخل ميلانو)؟ اختر أدناه.",
+      "dossier_anpr": "نزّل الملف: يساعدك على إبقاء البيانات والوثائق اللازمة للإقرار الإلكتروني في متناول يدك. التحقق النهائي من اختصاص مكتب السجل المدني في البلدية."
+    },
+    "es": {
+      "opening": "Te ayudo a preparar: **{service}**. He leído la ficha del servicio y sus fuentes oficiales.",
+      "understood": "Por tu mensaje he entendido: {facts}.",
+      "office": "Oficina del registro cerca de {area}: **{office}** {office_cite}.",
+      "deeplink": "Tienes una cita para **{service}** el **{date}** en **{office}** {office_cite}: preparemos tus documentos.",
+      "partial": "La lista de abajo ya tiene {n} puntos de {s} fuentes oficiales{cites}.",
+      "none": "Las fuentes guardadas aún no tienen requisitos verificados para este caso: no voy a adivinar, consulta la página oficial.",
+      "ask_first": "Una pregunta que cambia la lista de documentos: {question}",
+      "ask_next": "Gracias. Una pregunta más: {question}",
+      "final": "Tu lista está preparada: {n} puntos de {s} fuentes oficiales{cites}.",
+      "todo": "{m} puntos aún no tienen una fuente verificada: compruébalos en la página oficial, no me los invento.",
+      "booking": "Para pedir cita: [página de citas del Ayuntamiento]({url}) {cite}.",
+      "dossier": "Descarga el dossier para la ventanilla y llévalo a la cita. La comprobación final la hace el funcionario de la ventanilla.",
+      "free_text": "No he encontrado la respuesta en tu mensaje: elige una de las respuestas de abajo. Esta réplica solo lee palabras clave; en directo Claude entiende cualquier frase.",
+      "start_free": "Esta es la réplica de demostración: describe tu situación o elige uno de los ejemplos.",
+      "done": "Tu lista está abajo. La réplica no responde a preguntas nuevas: en directo responde Claude; mientras tanto, consulta la página oficial.",
+      "steps": "El recorrido tiene {n} pasos entre {entes}: los tienes abajo, en orden, cada uno con su fuente {cites}.",
+      "delta": "Con tu respuesta la lista cambia: ahora son {n} puntos (+{k}){cites}.",
+      "same": "La lista se queda en {n} puntos{cites}.",
+      "todo_1": "1 punto aún no tiene una fuente verificada: compruébalo en la página oficial, no me lo invento.",
+      "dossier_online": "Descarga el dossier: te ayuda a preparar los archivos que subirás en la solicitud online. La comprobación final la hace el funcionario del registro.",
+      "groups": "En la lista los puntos están divididos en: {groups}.",
+      "group_count": "{group} ({k})",
+      "online": "La solicitud se envía online, con el [formulario del Ayuntamiento]({url}) {cite}.",
+      "urgent_intro": "Como tienes prisa, primero las vías más rápidas que indican las fuentes para tu caso:",
+      "which_service": "No he reconocido el trámite por las palabras de tu mensaje. Esta réplica reconoce estos trámites por palabras clave: ¿cuál necesitas?",
+      "form_guide": "Debajo de la lista también verás dónde va cada archivo en la solicitud online, sección por sección, como en la página Modulistica del Ayuntamiento {cite}.",
+      "online_anpr": "La declaración se envía online, en la [web del Registro Nacional (ANPR)]({url}) {cite}.",
+      "which_residence": "Para la residencia hay dos trámites distintos: ¿llegas del extranjero, o de otro municipio italiano (o cambias de dirección dentro de Milán)? Elige abajo.",
+      "dossier_anpr": "Descarga el dossier: te ayuda a tener a mano los datos y documentos para la declaración online. La comprobación final corresponde al registro civil del Ayuntamiento."
+    },
+    "zh": {
+      "opening": "我来帮你准备：**{service}**。我已阅读该服务的资料及其官方来源。",
+      "understood": "从你的消息中我理解到：{facts}。",
+      "office": "{area}附近的户籍办公室：**{office}** {office_cite}。",
+      "deeplink": "你在 **{date}** 于 **{office}** {office_cite} 有一个“**{service}**”的预约：我们来准备材料吧。",
+      "partial": "下面的清单目前有 {n} 项，来自 {s} 个官方来源{cites}。",
+      "none": "已保存的来源中还没有适用于你情况的已核实要求：我不会猜测，请查看官方页面。",
+      "ask_first": "一个会改变材料清单的问题：{question}",
+      "ask_next": "谢谢。还有一个问题：{question}",
+      "final": "你的清单已准备好：共 {n} 项，来自 {s} 个官方来源{cites}。",
+      "todo": "有 {m} 项还没有已核实的来源：请在官方页面上查看，我不会编造。",
+      "booking": "预约办理：[市政府预约页面]({url}) {cite}。",
+      "dossier": "下载窗口材料单，并在预约时带上。最终由窗口工作人员审核。",
+      "free_text": "我没有在你的消息中找到答案：请选择下面的一个回答。这个演示回放只能理解关键词；实时版本中 Claude 能理解任何说法。",
+      "start_free": "这是演示回放：请描述你的情况，或选择一个示例。",
+      "done": "你的清单在下方。演示回放无法回答新问题：实时版本由 Claude 回答；你也可以查看官方页面。",
+      "steps": "整个流程共 {n} 步，涉及 {entes}：按顺序列在下方，每一步都有来源 {cites}。",
+      "delta": "根据你的回答，清单有变化：现在共 {n} 项（新增 {k} 项）{cites}。",
+      "same": "清单仍为 {n} 项{cites}。",
+      "todo_1": "有 1 项还没有已核实的来源：请在官方页面上查看，我不会编造。",
+      "dossier_online": "下载材料单：帮助你准备在线申请中要上传的文件。最终由户籍处工作人员审核。",
+      "groups": "清单中的各项分为：{groups}。",
+      "group_count": "{group}（{k}）",
+      "online": "申请需在线提交，使用[市政府的在线表格]({url}) {cite}。",
+      "urgent_intro": "既然你很急，先看来源中针对你情况最快的办法：",
+      "which_service": "我没能从你的消息中识别出要办的事项。这个演示回放按关键词识别以下业务：你需要哪一项？",
+      "form_guide": "清单下方还列出了每个文件在在线申请中应放在哪个部分，与市政府“Modulistica”页面的分节一致 {cite}。",
+      "online_anpr": "申报需在线提交，通过[全国户籍登记处（ANPR）网站]({url}) {cite}。",
+      "which_residence": "居住登记有两种不同的手续：你是从国外来，还是从意大利其他市镇来（或在米兰市内换地址）？请在下面选择。",
+      "dossier_anpr": "下载材料单：帮你把在线申报所需的信息和文件准备在手边。最终审核由市政府户籍处负责。"
+    }
+  },
+  "service_titles": {
+    "carta-identita": {
+      "ar": "بطاقة الهوية الإلكترونية (Carta d'identità elettronica)",
+      "es": "Carta de identidad electrónica (Carta d'identità elettronica)",
+      "zh": "电子身份证（Carta d'identità elettronica）"
+    },
+    "iscrizione-anagrafica-extra-ue": {
+      "ar": "تسجيل الإقامة في ميلانو للقادمين من الخارج من خارج الاتحاد الأوروبي (Cambio di residenza)",
+      "es": "Registro de residencia en Milán para quien llega del extranjero, ciudadanos de fuera de la UE (Cambio di residenza)",
+      "zh": "从国外来米兰的非欧盟公民居住登记（Cambio di residenza）"
+    },
+    "cambio-residenza": {
+      "ar": "تغيير الإقامة من بلدية إيطالية أخرى أو داخل ميلانو (Cambio di residenza)",
+      "es": "Cambio de residencia desde otro municipio italiano o dentro de Milán (Cambio di residenza)",
+      "zh": "从意大利其他市镇迁入或在米兰市内变更居住地（Cambio di residenza）"
+    }
+  },
+  "questions": {
+    "carta-identita.motivo": {
+      "ar": "هل هذه أول بطاقة هوية لك، أم تجديد (منتهية أو تالفة أو ما زالت ورقية)، أم أن البطاقة القديمة فُقدت أو سُرقت؟",
+      "es": "¿Es tu primera carta de identidad, una renovación (caducada, estropeada o todavía de papel), o la anterior se perdió o te la robaron?",
+      "zh": "这是你的第一张身份证、续办（过期、损坏或仍是纸质的），还是旧证丢失或被盗？"
+    },
+    "carta-identita.eta": {
+      "ar": "هل البطاقة لشخص بالغ أم لقاصر؟",
+      "es": "¿La carta es para un adulto o para un menor?",
+      "zh": "身份证是给成年人还是未成年人办理？"
+    },
+    "carta-identita.cittadinanza": {
+      "ar": "ما جنسية الشخص: إيطالية، أم من بلد آخر في الاتحاد الأوروبي، أم من بلد خارج الاتحاد الأوروبي؟",
+      "es": "¿Qué ciudadanía tiene la persona: italiana, de otro país de la UE o de un país de fuera de la UE?",
+      "zh": "此人的国籍是：意大利、其他欧盟国家，还是非欧盟国家？"
+    },
+    "iscrizione-anagrafica-extra-ue.permesso": {
+      "ar": "ما وضعك مع تصريح الإقامة (permesso di soggiorno)؟ لديك تصريح ساري المفعول؛ أو انتهى وطلبت تجديده؛ أو تنتظر أول تصريح للعمل؛ أو تنتظر أول تصريح للمّ الشمل العائلي؛ أو لم تطلبه بعد؛ أو حالة أخرى.",
+      "es": "¿Cuál es tu situación con el permiso de residencia (permesso di soggiorno)? Lo tienes y está en vigor; caducó y pediste la renovación; esperas el primer permiso por trabajo; esperas el primer permiso por reagrupación familiar; aún no lo has pedido; u otro caso.",
+      "zh": "你的居留许可（permesso di soggiorno）是什么情况？已有且在有效期内；已过期并申请了续签；正在等待第一份工作居留许可；正在等待第一份家庭团聚居留许可；还没有申请；或其他情况。"
+    },
+    "iscrizione-anagrafica-extra-ue.famiglia": {
+      "ar": "هل تنتقل وحدك أم مع أفراد من عائلتك؟",
+      "es": "¿Te mudas solo o con familiares?",
+      "zh": "你是一个人搬来，还是和家人一起？"
+    },
+    "iscrizione-anagrafica-extra-ue.alloggio": {
+      "ar": "بأي صفة تسكن في البيت: مالك، أو مستأجر بعقد مسجّل، أو مستأجر بعقد غير مسجّل بعد (أو لا تعرف)، أو سكن شعبي (ERP)، أو إعارة مجانية (comodato)، أو ضيف، أو تعمل في بيت المالك (عاملة منزلية، مرافِقة)؟",
+      "es": "¿Cómo vives en la casa: propietario, alquiler con contrato ya registrado, alquiler con contrato aún no registrado (o no lo sabes), vivienda pública (ERP), préstamo gratuito (comodato), invitado, o trabajas en casa del propietario (empleada doméstica, cuidadora)?",
+      "zh": "你以什么身份居住在该住所：房主、租房且合同已登记、租房但合同尚未登记（或不清楚）、公共住房（ERP）、无偿借用（comodato）、借住，还是在房主家工作（家政、护工）？"
+    },
+    "cambio-residenza.cittadinanza": {
+      "ar": "ما جنسيتك: إيطالية، أم من بلد آخر في الاتحاد الأوروبي، أم من بلد خارج الاتحاد الأوروبي؟",
+      "es": "¿Qué ciudadanía tienes: italiana, de otro país de la UE o de un país de fuera de la UE?",
+      "zh": "你的国籍是：意大利、其他欧盟国家，还是非欧盟国家？"
+    },
+    "cambio-residenza.alloggio": {
+      "ar": "هل البيت الذي ستسكن فيه ملكك، أم لا (إيجار، ضيف أو غير ذلك)؟",
+      "es": "¿La casa a la que te mudas es tuya (en propiedad) o no (alquiler, invitado u otro)?",
+      "zh": "你要搬入的住所是你自己的（产权房），还是不是（租房、借住或其他）？"
+    },
+    "cambio-residenza.famiglia": {
+      "ar": "هل يغيّر معك إقامتهم أشخاص بالغون آخرون من عائلتك؟",
+      "es": "¿Cambian de residencia contigo otras personas adultas de tu familia?",
+      "zh": "是否有其他成年家庭成员和你一起变更居住地？"
+    },
+    "iscrizione-anagrafica-extra-ue.alloggio.affitto": {
+      "ar": "هل عقد إيجارك مسجّل بالفعل لدى وكالة الإيرادات (Agenzia delle Entrate)؟",
+      "es": "¿Tu contrato de alquiler ya está registrado en la Agenzia delle Entrate (Agencia Tributaria)?",
+      "zh": "你的租房合同是否已在税务局（Agenzia delle Entrate）登记？"
+    }
+  },
+  "options": {
+    "prima": {
+      "it": "Prima carta",
+      "en": "First card",
+      "ar": "أول بطاقة",
+      "es": "Primera carta",
+      "zh": "首次办理"
+    },
+    "rinnovo": {
+      "it": "Rinnovo",
+      "en": "Renewal",
+      "ar": "تجديد",
+      "es": "Renovación",
+      "zh": "续办"
+    },
+    "smarrimento-furto": {
+      "it": "Persa o rubata",
+      "en": "Lost or stolen",
+      "ar": "مفقودة أو مسروقة",
+      "es": "Perdida o robada",
+      "zh": "丢失或被盗"
+    },
+    "adulto": {
+      "it": "Adulto",
+      "en": "Adult",
+      "ar": "بالغ",
+      "es": "Adulto",
+      "zh": "成年人"
+    },
+    "minore": {
+      "it": "Minorenne",
+      "en": "Minor",
+      "ar": "قاصر",
+      "es": "Menor",
+      "zh": "未成年人"
+    },
+    "italiana": {
+      "it": "Italiana",
+      "en": "Italian",
+      "ar": "إيطالية",
+      "es": "Italiana",
+      "zh": "意大利"
+    },
+    "ue": {
+      "it": "UE",
+      "en": "EU",
+      "ar": "من الاتحاد الأوروبي",
+      "es": "UE",
+      "zh": "欧盟"
+    },
+    "extra-ue": {
+      "it": "Extra-UE",
+      "en": "Non-EU",
+      "ar": "من خارج الاتحاد الأوروبي",
+      "es": "Fuera de la UE",
+      "zh": "非欧盟"
+    },
+    "permesso": {
+      "it": "Ho il permesso valido",
+      "en": "I have a valid permit",
+      "ar": "لدي تصريح ساري",
+      "es": "Tengo el permiso en vigor",
+      "zh": "有有效的居留许可"
+    },
+    "nessuno": {
+      "it": "Non l'ho ancora chiesto",
+      "en": "Not applied yet",
+      "ar": "لم أطلبه بعد",
+      "es": "Aún no lo he pedido",
+      "zh": "还没有申请"
+    },
+    "solo": {
+      "it": "Da solo/a",
+      "en": "Alone",
+      "ar": "وحدي",
+      "es": "Solo/a",
+      "zh": "一个人"
+    },
+    "con-familiari": {
+      "it": "Con familiari",
+      "en": "With family",
+      "ar": "مع العائلة",
+      "es": "Con familiares",
+      "zh": "和家人一起"
+    },
+    "affitto": {
+      "it": "Affitto · contratto non ancora registrato, o non lo so",
+      "en": "Renting · contract not registered yet, or I don't know",
+      "ar": "إيجار · العقد غير مسجّل بعد، أو لا أعرف",
+      "es": "Alquiler · contrato aún no registrado, o no lo sé",
+      "zh": "租房 · 合同尚未登记，或我不清楚"
+    },
+    "affitto-registrato": {
+      "it": "Affitto · contratto già registrato",
+      "en": "Renting · contract already registered",
+      "ar": "إيجار · العقد مسجّل",
+      "es": "Alquiler · contrato ya registrado",
+      "zh": "租房 · 合同已登记"
+    },
+    "ospite": {
+      "it": "Ospite",
+      "en": "Guest",
+      "ar": "ضيف",
+      "es": "Invitado/a",
+      "zh": "借住"
+    },
+    "proprieta": {
+      "it": "Proprietario",
+      "en": "Owner",
+      "ar": "مالك",
+      "es": "Propietario",
+      "zh": "房主"
+    },
+    "non-proprietario": {
+      "it": "Non è mia (affitto, ospite o altro)",
+      "en": "Not mine (renting, guest or other)",
+      "ar": "ليس ملكي (إيجار، ضيف أو غير ذلك)",
+      "es": "No es mía (alquiler, invitado u otro)",
+      "zh": "不是我的（租房、借住或其他）"
+    },
+    "ricevuta-rinnovo": {
+      "it": "Scaduto, rinnovo chiesto",
+      "en": "Expired, renewal requested",
+      "ar": "منتهٍ وطلبت التجديد",
+      "es": "Caducado, renovación pedida",
+      "zh": "已过期，已申请续签"
+    },
+    "ricevuta-lavoro": {
+      "it": "Aspetto il primo, per lavoro",
+      "en": "Waiting for the first, for work",
+      "ar": "أنتظر الأول، للعمل",
+      "es": "Espero el primero, por trabajo",
+      "zh": "等待第一份，工作类"
+    },
+    "ricevuta-famiglia": {
+      "it": "Aspetto il primo, per famiglia",
+      "en": "Waiting for the first, for family",
+      "ar": "أنتظر الأول، للمّ الشمل",
+      "es": "Espero el primero, por familia",
+      "zh": "等待第一份，家庭团聚类"
+    },
+    "altro": {
+      "it": "Un altro caso",
+      "en": "Something else",
+      "ar": "حالة أخرى",
+      "es": "Otro caso",
+      "zh": "其他情况"
+    },
+    "affitto-erp": {
+      "it": "Casa popolare (ERP)",
+      "en": "Public housing (ERP)",
+      "ar": "سكن شعبي (ERP)",
+      "es": "Vivienda pública (ERP)",
+      "zh": "公共住房（ERP）"
+    },
+    "comodato": {
+      "it": "Comodato gratuito",
+      "en": "Free loan (comodato)",
+      "ar": "إعارة مجانية (comodato)",
+      "es": "Préstamo gratuito (comodato)",
+      "zh": "无偿借用（comodato）"
+    },
+    "lavoro-domestico": {
+      "it": "Lavoro in casa (colf, badante)",
+      "en": "I work in the home (domestic, carer)",
+      "ar": "أعمل في البيت (عاملة منزلية، مرافِقة)",
+      "es": "Trabajo en la casa (doméstica, cuidadora)",
+      "zh": "在房主家工作（家政、护工）"
+    }
+  },
+  "categories": {
+    "prepare": {
+      "it": "Da preparare",
+      "en": "To prepare",
+      "ar": "ما يجب تحضيره",
+      "es": "Qué preparar",
+      "zh": "需要准备"
+    },
+    "how": {
+      "it": "Come funziona",
+      "en": "How it works",
+      "ar": "كيف تسير الإجراءات",
+      "es": "Cómo funciona",
+      "zh": "办理流程"
+    },
+    "if-urgent": {
+      "it": "Se è urgente",
+      "en": "If it's urgent",
+      "ar": "إذا كان الأمر عاجلًا",
+      "es": "Si es urgente",
+      "zh": "紧急情况"
+    },
+    "after": {
+      "it": "Dopo",
+      "en": "Afterwards",
+      "ar": "بعد ذلك",
+      "es": "Después",
+      "zh": "之后"
+    }
+  }
+}

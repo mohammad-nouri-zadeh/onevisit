@@ -5,6 +5,7 @@ Numbers computed by `data/tools/summarise_opendata.py` from the Comune di Milano
 ## How many people this is for
 
 - **19,755 people registered in Milan arriving from abroad in 2024**, 42.1% of all new registrations that year (26,359 in 2023, 44.4%). Source: `ds1959`, table `arrivals-from-abroad.csv`. "From abroad" means the previous residence was abroad, whatever the citizenship.
+- **27,184 registered in Milan coming from another Italian comune in 2024** (every place of origin except abroad and the 14 not stated): the change-of-residence procedure. Same dataset and table, column `registrations_from_other_comuni`. The City tab's impact estimate uses these two 2024 figures as its bases; no dataset here counts ID cards issued, so the estimate leaves them out.
 
 ## Where the online service fails, and for whom
 

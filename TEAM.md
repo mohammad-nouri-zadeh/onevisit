@@ -52,6 +52,7 @@ Record a decision here when the team makes it, so every session follows it.
 
 Newest at the top. One line per push that others depend on: time, handle, what changed.
 
+- 4 Oct · @Saroth85 · `data/context/arrivals-from-abroad.csv` gains two columns computed from `ds1959` (`registrations_from_other_comuni`: 27,184 in 2024; `origin_not_stated`), regenerated with `python data/tools/summarise_opendata.py arrivals`; the City tab's impact estimate uses both bases. `onevisit.agent.guess_lang` also recognises more scripts and Tagalog and may return codes outside the five interface languages (the app switches the page only to it/en/ar/es/zh). The demo is now labelled a replay: replies signed "OneVisit · replica".
 - 16:20 · @mohammad-nouri-zadeh · `docs/slides/onevisit-pitch.pptx` replaced with the team's Italian pitch deck (8 slides); old PDF and preview removed.
 - 16:05 · @mohammad-nouri-zadeh · Pitch slides in `docs/slides/` (PowerPoint with speaker notes, PDF), linked at the top of the README.
 - 15:25 · @Saroth85 · Merged `main` (Streamlit app, video, README) into `claude/busy-mccarthy-uq5xoi`: the kit and the Streamlit demo now live side by side. README keeps main's submission text and adds a short "Production path: the OneVisit kit" section.

@@ -1,6 +1,7 @@
 """Turn the City's open datasets into small, citable tables in data/context/.
 
     python data/tools/fetch_opendata.py && python data/tools/summarise_opendata.py
+    python data/tools/summarise_opendata.py arrivals    # only the ds1959 table
 
 These numbers are for the pitch and the panel (size of the problem, baseline
 satisfaction, which languages to support). They are computed, never typed in.
@@ -48,10 +49,10 @@ def helped_row(label: str, rows: list[dict], **extra) -> dict:
             "helped_little_or_not_pct": round(100 * neg / n, 1)}
 
 
-def main() -> None:
-    OUT.mkdir(exist_ok=True)
+def arrivals() -> None:
+    """1. How many people register in Milan arriving from abroad, and from another Italian comune (ds1959).
 
-    # 1. How many people register in Milan arriving from abroad (ds1959)
+    "From other comuni" is every place of origin except "Estero" and "n.d." (not stated)."""
     rows = load(ARRIVALS)
     years = sorted({r["Anno_evento"] for r in rows})
     out = []
@@ -59,9 +60,16 @@ def main() -> None:
         yr = [r for r in rows if r["Anno_evento"] == y]
         total = sum(int(r["Numerosità"]) for r in yr)
         abroad = sum(int(r["Numerosità"]) for r in yr if r["Luogo_Prov"] == "Estero")
+        unknown = sum(int(r["Numerosità"]) for r in yr if r["Luogo_Prov"] == "n.d.")
         out.append({"year": y, "registrations_from_abroad": abroad, "all_registrations": total,
-                    "share_from_abroad_pct": round(100 * abroad / total, 1)})
+                    "share_from_abroad_pct": round(100 * abroad / total, 1),
+                    "registrations_from_other_comuni": total - abroad - unknown, "origin_not_stated": unknown})
     write("arrivals-from-abroad.csv", out)
+
+
+def main() -> None:
+    OUT.mkdir(exist_ok=True)
+    arrivals()
 
     # 2. Largest foreign communities, latest year (ds74): which languages to support
     rows = load(FOREIGN)
@@ -93,4 +101,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    arrivals() if sys.argv[1:] == ["arrivals"] else main()

@@ -2,352 +2,1288 @@
 
     streamlit run app/streamlit_app.py
 
-Needs ANTHROPIC_API_KEY in .env (Claude runs every conversation and every report).
+With ANTHROPIC_API_KEY (in .env or the app's Secrets) Claude runs every conversation,
+every report classification and every page-correction draft. Without a key, or with
+?demo=1 in the URL, the app plays the demo replay: the assistant's sentences are recorded
+and typed messages are read by keywords, while the tools, the checklist, the offices and
+the sources are computed live on the verified data.
+
+Deep link from the City's booking confirmation email (no personal data):
+    ?servizio=carta-identita&sede=ds549-11&data=2026-10-20&lang=it
 """
+from __future__ import annotations
+
 import datetime as dt
 import html
+import json
 import os
 import pathlib
+import re
 import sys
+import threading
 import uuid
 
 import streamlit as st
-import streamlit.components.v1 as components
 from dotenv import load_dotenv
 
-ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+APP = pathlib.Path(__file__).resolve().parent
+ROOT = APP.parent
+for p in (str(ROOT), str(APP)):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 load_dotenv(ROOT / ".env")
 
-from onevisit import kb, outcomes  # noqa: E402
-from onevisit.agent import MODEL, run_turn  # noqa: E402
-import anthropic  # noqa: E402
+# E402 below: these imports need the paths above and the key from .env loaded first
+import deeplink  # noqa: E402
+from i18n import CAUSES_IT, LANGS, PROACTIVE, RTL, STRINGS, t, t_variant  # noqa: E402
+from onevisit import demo, dossier, kb, outcomes, plan, translate, validator  # noqa: E402
+from onevisit.agent import MODEL, guess_lang, run_turn  # noqa: E402
 
-st.set_page_config(page_title="OneVisit", page_icon="🗂️", layout="centered")
-
-# ---------- look ----------
-big = st.session_state.get("big_text", False)
-dark = st.session_state.get("theme_mode") == "Dark"
-C = ({"bg": "#0C0C0E", "side": "#141518", "fill": "#24252A", "bubble": "#24252A", "pill": "#3A3C42", "fg": "#F2F2F3", "fg2": "#B7B9C0",
-      "muted": "#8B8E97", "line": "#3A3C42", "soft": "#24252A", "ink": "#F2F2F3", "on_ink": "#0C0C0E"} if dark else
-     {"bg": "#FFFFFF", "side": "#EDEEF0", "fill": "#EDEEF0", "bubble": "#E4E5E9", "pill": "#FFFFFF", "fg": "#111214", "fg2": "#4A4D55",
-      "muted": "#6E727C", "line": "#C6C8CE", "soft": "#E4E5E9", "ink": "#111214", "on_ink": "#FFFFFF"})
-st.markdown(f"""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-html {{ font-size: {'20px' if big else '16px'}; color-scheme: {'dark' if dark else 'light'}; }}
-.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], [data-testid="stHeader"] {{ background:{C['bg']} !important; color:{C['fg']}; }}
-[data-testid="stSidebar"], [data-testid="stSidebar"] > div {{ background:{C['side']} !important; }}
-.stApp [data-testid="stMarkdownContainer"], .stApp [data-testid="stMarkdownContainer"] p, .stApp [data-testid="stMarkdownContainer"] li,
-.stApp h1, .stApp h2, .stApp h3, .stApp [data-testid="stWidgetLabel"] p, [data-testid="stMetricValue"], [data-testid="stMetricLabel"] p,
-[data-testid="stExpander"] summary p {{ color:{C['fg']} !important; }}
-.stApp [data-testid="stCaptionContainer"], .stApp [data-testid="stCaptionContainer"] p {{ color:{C['muted']} !important; }}
-.stMarkdown, .stMarkdown p, .stMarkdown li, h1, h2, h3, .stCaption, [data-testid="stMetricValue"], [data-testid="stMetricLabel"] p {{ font-family: "Titillium Web", -apple-system, system-ui, sans-serif; }}
-[data-baseweb="select"] > div, [data-baseweb="input"], [data-baseweb="input"] > div, [data-baseweb="base-input"], .stTextInput input,
-[data-testid="stChatInput"] > div, [data-testid="stChatInputTextArea"] {{ background:{C['fill']} !important; color:{C['fg']} !important; border-color:{C['line']} !important; }}
-[data-testid="stChatInputTextArea"]::placeholder, .stTextInput input::placeholder {{ color:{C['muted']} !important; }}
-[data-baseweb="popover"] ul, [data-baseweb="popover"] li {{ background:{C['fill']} !important; color:{C['fg']} !important; }}
-.ov-chip {{ display:inline-block; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:0.72em; padding:1px 8px; margin-left:6px; border-radius:999px;
-           background:{C['ink']}; color:{C['on_ink']}; white-space:nowrap; vertical-align:middle; }}
-.ov-chip.todo {{ background:transparent; color:{C['muted']}; border:1px dashed {C['line']}; }}
-.ov-item {{ padding:8px 0; border-bottom:1px solid {C['soft']}; color:{C['fg']}; }}
-.ov-muted {{ color:{C['muted']}; }}
-.ov-warn {{ border-top:1px solid {C['line']}; color:{C['fg2']}; padding:6px 0; font-size:0.9em; }}
-[data-testid="stToolbar"], [data-testid="stDecoration"], footer {{ display:none !important; }}
-.block-container {{ max-width: 460px !important; padding-top: 4.5rem !important; }}
-[data-testid="stHeader"] {{ background: transparent !important; }}
-h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
-[data-testid="stChatMessage"] {{ border-radius:20px; padding:10px 14px !important; gap:0 !important; }}
-[data-testid="stChatMessageAvatarUser"], [data-testid="stChatMessageAvatarAssistant"] {{ display:none !important; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {{ background:{C['ink']} !important; margin-left:auto; max-width:86%; width:fit-content; border-bottom-right-radius:6px; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) p {{ color:{C['on_ink']} !important; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {{ background:{C['bubble']} !important; margin-right:8%; border-bottom-left-radius:6px; }}
-[data-testid="stVerticalBlockBorderWrapper"] {{ border-radius:22px !important; border-color:{C['line']} !important; }}
-[data-testid="stExpander"] details {{ border-radius:14px !important; border-color:{C['line']} !important; }}
-[data-testid="stTabs"] [role="tablist"] {{ background:{C['fill']}; border-radius:999px; padding:3px; gap:2px; width:fit-content; max-width:100%; border:0 !important; box-shadow:none !important; overflow:visible !important; margin:2px 0 6px; }}
-[data-testid="stTabs"] [role="tablist"]::after {{ display:none !important; }}
-[data-testid="stTab"] {{ border-radius:999px !important; padding:6px 16px !important; }}
-[data-testid="stTab"] p {{ color:{C['fg2']} !important; }}
-[data-testid="stTab"][aria-selected="true"] {{ background:{C['pill']}; box-shadow:0 1px 3px rgba(0,0,0,.14); }}
-[data-testid="stTab"][aria-selected="true"] p {{ color:{C['fg']} !important; }}
-[data-testid="stTab"] > div:not([data-testid]) {{ display:none !important; }}
-[data-testid="stChatInput"] > div {{ border-radius:999px !important; }}
-.ov-hero h1 {{ font-size:2.4rem; line-height:1.06; margin:.2rem 0 .6rem; padding:0; }}
-.ov-kicker {{ color:{C['muted']}; font-size:.85rem; }}
-.ov-lead {{ color:{C['fg2']}; font-size:1.05rem; }}
-.ov-foot {{ color:{C['muted']}; font-size:0.8em; margin-top:2rem; border-top:1px solid {C['line']}; padding-top:10px; }}
-div[data-testid="stMetricValue"] {{ font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }}
-.stButton > button, .stDownloadButton > button {{ border-radius:999px; border:1.5px solid {C['ink']} !important; font-weight:600; background:transparent !important; color:{C['fg']} !important; }}
-.stButton > button p, .stDownloadButton > button p {{ color:{C['fg']} !important; }}
-.stButton > button:disabled {{ opacity:.45; }}
-[data-testid="stButtonGroup"] button {{ border-radius:999px !important; background:transparent !important; color:{C['fg2']} !important; border:1px solid {C['line']} !important; }}
-[data-testid="stButtonGroup"] button p {{ color:{C['fg2']} !important; }}
-[data-testid="stButtonGroup"] button[data-testid$="Active"] {{ background:{C['ink']} !important; border-color:{C['ink']} !important; }}
-[data-testid="stButtonGroup"] button[data-testid$="Active"] p {{ color:{C['on_ink']} !important; }}
-[data-testid="stSelectbox"] [data-baseweb="select"] > div {{ background:{C['fill']} !important; border-color:{C['fill']} !important; }}
-[data-testid="stSelectbox"] [data-baseweb="select"] div, [data-testid="stSelectbox"] [data-baseweb="select"] span {{ color:{C['fg']} !important; }}
-[data-testid="stSelectbox"] svg {{ fill:{C['fg']} !important; color:{C['fg']} !important; }}
-</style>""", unsafe_allow_html=True)
+st.set_page_config(page_title="OneVisit · Servizi anagrafici Milano", page_icon="🗂️", layout="centered",
+                   initial_sidebar_state="collapsed")
 
 state = st.session_state
-state.setdefault("messages", [])      # full API history, including tool turns
-state.setdefault("chat", [])          # what we show: {"role", "text", "options", "trace"}
-state.setdefault("checklist", None)
-state.setdefault("offices", None)
-state.setdefault("service_id", None)
-state.setdefault("drafts", {})
-state.setdefault("approved", set())
+qp = st.query_params
 
-if not os.getenv("ANTHROPIC_API_KEY"):  # Streamlit Community Cloud: key stored in the app's Secrets
+# ---------- state ----------
+for key, default in {"messages": [], "chat": [], "checklist": None, "offices": None, "service_id": None,
+                     "answers": {}, "office_id": None, "demo_state": None, "appointment": None,
+                     "drafts": {}, "approved": set(), "pending": None, "theme_mode": "light",
+                     "big_text": False, "urgent": False, "plans": {}, "translated": set(), "live_calls": 0,
+                     "live_off": None, "notice": None}.items():
+    state.setdefault(key, default)
+if "_lang_next" in state:  # set by a turn (the language the person writes in), applied before the menu exists
+    state.lang = state.pop("_lang_next")
+
+if not state.get("_boot"):
+    state._boot = True
+    link = deeplink.parse(qp.to_dict())
+    lang_q = qp.get("lang")
+    state.lang = (link or {}).get("lang") or (lang_q if lang_q in LANGS else "it")
+    if link:
+        state.appointment = link
+        state.office_id = link["office_id"]
+        state.offices = [o for o in kb.find_offices(limit=1000) if o["id"] == link["office_id"]] or None
+        state.pending = {"kind": "appointment"}
+state.setdefault("lang", "it")
+
+
+def real_key(value: str | None) -> bool:
+    """A key that can work: not empty and not the .env.example placeholder ("sk-ant-...")."""
+    value = (value or "").strip()
+    return len(value) >= 30 and "..." not in value
+
+
+if not real_key(os.getenv("ANTHROPIC_API_KEY")):  # Streamlit Community Cloud: key stored in the app's Secrets
     try:
         os.environ["ANTHROPIC_API_KEY"] = st.secrets["ANTHROPIC_API_KEY"]
     except Exception:
         pass
-state_key = st.session_state.get("api_key", "").strip()
-has_key = bool(os.getenv("ANTHROPIC_API_KEY") or state_key)
+SERVER_KEY = os.getenv("ANTHROPIC_API_KEY") if real_key(os.getenv("ANTHROPIC_API_KEY")) else ""
+pasted_key = (state.get("api_key") or "").strip()
+has_key = bool(SERVER_KEY or real_key(pasted_key))
+FORCE_DEMO = qp.get("demo") == "1"
+# Live by default when the deployment has a key; ?demo=1 is the fallback for a pitch without network.
+# A session falls back to demo by itself when Claude can't be reached or the request cap is hit.
+LIVE = has_key and not FORCE_DEMO and not state.get("live_off")
 
 
-def client() -> anthropic.Anthropic:
+def _setting(name: str, default: int) -> int:
+    """A number from the environment or the app's Secrets (e.g. ONEVISIT_MAX_CALLS_PER_DAY)."""
+    raw = os.getenv(name)
+    if raw is None:
+        try:
+            raw = st.secrets.get(name)
+        except Exception:
+            raw = None
+    try:
+        return int(raw) if raw is not None else default
+    except (TypeError, ValueError):
+        return default
+
+
+MAX_PER_SESSION = _setting("ONEVISIT_MAX_CALLS_PER_SESSION", 40)
+MAX_PER_DAY = _setting("ONEVISIT_MAX_CALLS_PER_DAY", 1500)
+
+
+@st.cache_resource
+def _day_counter() -> dict:
+    """Claude calls made today by this server (all sessions), to cap spending on the public demo."""
+    return {"day": None, "n": 0, "lock": threading.Lock()}
+
+
+def take_live_call() -> bool:
+    """Count one Claude call; False (and this session goes to demo) once a cap is reached."""
+    if not LIVE:
+        return False
+    if not SERVER_KEY:  # a key pasted in the page pays for its own calls
+        return True
+    counter = _day_counter()
+    with counter["lock"]:
+        today = dt.date.today().isoformat()
+        if counter["day"] != today:
+            counter["day"], counter["n"] = today, 0
+        if state.live_calls >= MAX_PER_SESSION or counter["n"] >= MAX_PER_DAY:
+            state.live_off = "limit"
+            return False
+        counter["n"] += 1
+    state.live_calls += 1
+    return True
+
+
+def client():
     """Server key if configured, otherwise the key pasted in this browser session only."""
-    return anthropic.Anthropic(api_key=state_key) if state_key and not os.getenv("ANTHROPIC_API_KEY") else anthropic.Anthropic()
-
-with st.sidebar:
-    st.toggle("Larger text", key="big_text")
-    st.caption(f"Runs on Claude · `{MODEL}`")
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        st.text_input("Anthropic API key", type="password", key="api_key",
-                      help="Kept only in this browser session. Never stored or shared.")
-        if not has_key:
-            st.caption("Paste the API key to talk to OneVisit.")
-    if st.button("New conversation"):
-        for k in ("messages", "chat", "checklist", "offices", "service_id"):
-            state[k] = [] if k in ("messages", "chat") else None
-        st.rerun()
+    import anthropic
+    return anthropic.Anthropic(api_key=SERVER_KEY or pasted_key)
 
 
-WELCOME = {
-    "English": {"dir": "ltr", "kicker": "Anagrafe, Comune di Milano", "h": "Get it right at your first appointment.",
-                "lead": "Tell us your situation in your language. We check every requirement against official City sources and show where each one comes from.",
-                "note": "We never ask for your name, tax code or documents. Prototype, not an official City of Milan service.",
-                "examples": ["I lost my ID card and I travel next month. I live in Isola.",
-                             "I just moved to Milan from abroad and need to register my residence."]},
-    "Italiano": {"dir": "ltr", "kicker": "Anagrafe, Comune di Milano", "h": "La pratica chiusa al primo appuntamento.",
-                 "lead": "Raccontaci la tua situazione nella tua lingua. Controlliamo ogni requisito sulle fonti ufficiali del Comune e ti mostriamo da dove viene.",
-                 "note": "Non chiediamo mai nome, codice fiscale o documenti. Prototipo, non è un servizio ufficiale del Comune di Milano.",
-                 "examples": ["Ho perso la carta d'identità e parto il mese prossimo. Abito all'Isola.",
-                              "Mi sono appena trasferito a Milano dall'estero e devo registrare la residenza."]},
-    "العربية": {"dir": "rtl", "kicker": "Anagrafe، بلدية ميلانو", "h": "أنجز معاملتك من الموعد الأول.",
-                "lead": "أخبرنا بوضعك بلغتك. نتحقق من كل شرط في المصادر الرسمية لبلدية ميلانو ونُظهر لك مصدر كل معلومة.",
-                "note": "لا نطلب أبدًا اسمك أو رمزك الضريبي أو وثائقك. نموذج أولي، وليس خدمة رسمية من بلدية ميلانو.",
-                "examples": ["فقدت بطاقة هويتي وسأسافر الشهر القادم. أسكن في إيزولا.",
-                             "انتقلت للتو إلى ميلانو من الخارج وأحتاج إلى تسجيل إقامتي."]},
-    "中文": {"dir": "ltr", "kicker": "Anagrafe，米兰市政府", "h": "第一次预约就把事情办好。",
-             "lead": "用你的语言告诉我们你的情况。我们根据米兰市政府的官方来源核对每一项要求，并告诉你每一项的出处。",
-             "note": "我们从不询问你的姓名、税号或证件。这是原型，不是米兰市政府的官方服务。",
-             "examples": ["我的身份证丢了，下个月要出行。我住在Isola。", "我刚从国外搬到米兰，需要登记居住。"]},
-    "Español": {"dir": "ltr", "kicker": "Anagrafe, Ayuntamiento de Milán", "h": "Resuélvelo en tu primera cita.",
-                "lead": "Cuéntanos tu situación en tu idioma. Comprobamos cada requisito con las fuentes oficiales del Ayuntamiento y te mostramos de dónde viene cada uno.",
-                "note": "Nunca te pedimos tu nombre, tu código fiscal ni tus documentos. Prototipo, no es un servicio oficial del Ayuntamiento de Milán.",
-                "examples": ["Perdí mi carta de identidad y viajo el mes que viene. Vivo en Isola.",
-                             "Acabo de mudarme a Milán desde el extranjero y tengo que registrar mi residencia."]},
-}
+def L(key: str, **kw: object) -> str:
+    return t(key, state.lang, **kw)
 
 
-def chip(text: str, todo: bool = False) -> str:
-    return f'<span class="ov-chip{" todo" if todo else ""}">{html.escape(text)}</span>'
+DL_FROM = {"prenotazione": "dl_from", "yesmilano": "dl_from_yesmilano", "benvenuto": "dl_from_benvenuto"}
 
 
-def show_checklist(cl: dict) -> None:
-    with st.container(border=True):
-        st.markdown("**Your checklist, from official sources**")
-        for r in cl["requirements"]:
-            text = r.get("text_en") or r["text_it"]
-            tip = html.escape(f'"{r.get("quote", "")}"')
-            st.markdown(f'<div class="ov-item" title={tip}>✓ {html.escape(text)}'
-                        f'{chip(r["source_id"] + " · checked " + str(r.get("verified_at")))}</div>',
-                        unsafe_allow_html=True)
-        for rid in cl.get("not_yet_verified", []):
-            st.markdown(f'<div class="ov-item ov-muted">? {html.escape(rid.replace("-", " ").capitalize())}'
-                        f'{chip("no verified source yet: check comune.milano.it", todo=True)}</div>',
-                        unsafe_allow_html=True)
-        if cl.get("still_to_ask"):
-            st.caption("Still to clarify: " + ", ".join(cl["still_to_ask"]))
-        st.caption("The officer at the desk makes the final check.")
+def link_origin(appt: dict) -> str:
+    """Where the citizen's link was placed: booking email, welcome email, YesMilano guide."""
+    return L(DL_FROM.get(appt.get("channel") or "", "dl_from_link"))
 
 
-def show_offices(offices: list) -> None:
-    with st.container(border=True):
-        st.markdown("**Registry offices** " + chip("ds549 · City open data"), unsafe_allow_html=True)
-        for o in offices:
-            where = o["address"] + (f" ({o['entrance_note']})" if o.get("entrance_note") else "")
-            dist = f" · {o['distance_km']} km" if "distance_km" in o else ""
-            st.markdown(f"**{html.escape(where)}**{dist}  \n{html.escape(o.get('hours_it') or '')}")
-            if o.get("booking_without_spid"):
-                st.caption("You can book without SPID.")
-            for issue in o.get("data_issues", []):
-                st.markdown(f'<div class="ov-warn">City data note: {html.escape(issue)}</div>', unsafe_allow_html=True)
+def online_service(service_id: str | None) -> bool:
+    """The procedure is sent online with the City's form (no desk appointment), as the data says."""
+    return bool(service_id) and "online_form_url" in kb.service_links(service_id)
 
 
-def ics(appointment: dt.date) -> str:
+def LV(key: str, service_id: str | None, **kw: object) -> str:
+    """Interface text for this service: the "_online" wording for online procedures, and the wording of
+    the site it is sent on when the data names one (e.g. "_anpr": the national registry website)."""
+    if online_service(service_id):
+        kind = (kb.get_service(service_id) or {}).get("online_form_kind")
+        if kind and any(f"{key}_{kind}" in STRINGS[x] for x in (state.lang, "en", "it") if x in STRINGS):
+            return t_variant(key, kind, state.lang, **kw)
+        return t_variant(key, "online", state.lang, **kw)
+    return t(key, state.lang, **kw)
+
+
+# ---------- look: .italia tokens, Comune di Milano red ----------
+DARK = state.get("theme_mode") == "dark"
+RTL_UI = state.lang in RTL
+C = ({"bg": "#0f1215", "surface": "#1a1f24", "surface2": "#232a31", "fg": "#f1f2f3", "fg2": "#c9d3dc", "muted": "#a3b1bf",
+      "line": "#3a444e", "accent": "#ff9aa9", "accent_bg": "#a60d27", "accent_hover": "#c41a37", "accent_soft": "#3a1a20",
+      "slim": "#4a0612", "center": "#7d0a1e", "user": "#2b4a6a", "ok": "#5fd3a6", "warn_bg": "#3b2e14", "warn_line": "#d9a441"}
+     if DARK else
+     {"bg": "#ffffff", "surface": "#f5f5f5", "surface2": "#ebeced", "fg": "#1a1a1a", "fg2": "#2f475e", "muted": "#5c6f82",
+      "line": "#c5c7c9", "accent": "#a60d27", "accent_bg": "#a60d27", "accent_hover": "#6f030c", "accent_soft": "#f4e2e5",
+      "slim": "#630817", "center": "#a60d27", "user": "#17324d", "ok": "#008055", "warn_bg": "#f6e4c8", "warn_line": "#995c00"})
+BIG = state.get("big_text", False)
+st.markdown(f"""
+<style>
+@font-face {{ font-family:"Titillium Web"; src:url("app/static/fonts/titillium-web-v10-latin-ext_latin-regular.woff2") format("woff2"); font-weight:400; font-display:swap; }}
+@font-face {{ font-family:"Titillium Web"; src:url("app/static/fonts/titillium-web-v10-latin-ext_latin-600.woff2") format("woff2"); font-weight:600; font-display:swap; }}
+@font-face {{ font-family:"Titillium Web"; src:url("app/static/fonts/titillium-web-v10-latin-ext_latin-700.woff2") format("woff2"); font-weight:700; font-display:swap; }}
+:root {{ --ov-accent:{C['accent']}; }}
+html {{ font-size:{'19px' if BIG else '16px'}; color-scheme:{'dark' if DARK else 'light'}; }}
+html, body, .stApp {{ overflow-x:hidden; }}
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {{ background:{C['bg']} !important; color:{C['fg']}; }}
+.stApp, .stApp p, .stApp li, .stApp label, .stApp button, .stApp input, .stApp textarea, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {{
+  font-family:"Titillium Web", Geneva, Tahoma, sans-serif !important; }}
+[data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stDecoration"], [data-testid="stSidebar"],
+[data-testid="stSidebarCollapsedControl"], footer {{ display:none !important; }}
+[data-testid="stMainBlockContainer"], .block-container {{ max-width:780px !important; padding:0 16px 3rem !important; }}
+.stApp [data-testid="stMarkdownContainer"], .stApp [data-testid="stMarkdownContainer"] p, .stApp [data-testid="stMarkdownContainer"] li,
+.stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp [data-testid="stWidgetLabel"] p, .stApp [data-testid="stCheckbox"] p,
+.stApp [data-testid="stRadio"] p, [data-testid="stMetricValue"], [data-testid="stMetricLabel"] p, [data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span {{ color:{C['fg']} !important; }}
+.stApp [data-testid="stCaptionContainer"], .stApp [data-testid="stCaptionContainer"] p {{ color:{C['muted']} !important; }}
+.stApp a {{ color:{C['accent']}; text-underline-offset:3px; }}
+.stApp a:hover {{ color:{C['accent_hover'] if not DARK else C['fg']}; }}
+.stApp h2 {{ font-size:1.55rem !important; font-weight:700 !important; margin-top:1.4rem !important; }}
+.stApp h3 {{ font-size:1.2rem !important; font-weight:700 !important; }}
+:focus-visible {{ outline:3px solid {C['fg']} !important; outline-offset:2px; }}
+/* full-bleed header: slim bar + centre band (Modello Comuni) */
+.ov-bleed {{ width:100vw; position:relative; left:50%; margin-left:-50vw; direction:ltr; }}
+.ov-slim {{ background:{C['slim']}; color:#fff; font-size:.85rem; }}
+.ov-shell {{ max-width:780px; margin:0 auto; padding:0 16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }}
+.ov-slim .ov-shell {{ min-height:40px; justify-content:space-between; }}
+.ov-slim .ov-mode {{ font-weight:600; opacity:.95; padding:1px 9px; border:1px solid rgba(255,255,255,.75); border-radius:999px; cursor:help; white-space:nowrap; }}
+.ov-center {{ background:{C['center']}; color:#fff; }}
+.ov-center .ov-shell {{ min-height:92px; padding-top:14px; padding-bottom:14px; }}
+.ov-center {{ margin-bottom:10px; }}
+.ov-brand {{ display:grid; gap:2px; }}
+.ov-brand-name {{ font-size:2rem; line-height:1.1; font-weight:700; letter-spacing:-.01em; color:#fff; }}
+.ov-brand-sub {{ font-size:1rem; color:#fff; opacity:.92; }}
+.ov-callout {{ border-left:4px solid {C['warn_line']}; background:{C['warn_bg']}; color:{C['fg']}; padding:10px 14px; border-radius:4px; margin:14px 0 4px; font-size:.95rem; }}
+.ov-callout b {{ display:block; }}
+.ov-callout.appt {{ border-left-color:{C['accent_bg']}; background:{C['accent_soft']}; }}
+.ov-live {{ display:inline-block; font-size:.78rem; font-weight:600; padding:1px 8px; border-radius:999px; background:#fff; color:#630817; }}
+/* tabs */
+[data-testid="stTabs"] [data-baseweb="tab-list"] {{ gap:4px; border-bottom:2px solid {C['line']}; }}
+[data-testid="stTabs"] [data-baseweb="tab"] {{ padding:10px 14px !important; }}
+[data-testid="stTabs"] [data-baseweb="tab"] p {{ font-size:1.05rem !important; font-weight:600 !important; color:{C['fg2']} !important; }}
+[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"] p {{ color:{C['accent']} !important; }}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {{ background:{C['accent']} !important; height:3px !important; }}
+[data-testid="stTabs"] [data-baseweb="tab-border"] {{ display:none; }}
+/* buttons */
+.stButton > button, .stDownloadButton > button, .stLinkButton > a {{ border-radius:4px !important; font-weight:600 !important; min-height:44px; }}
+[data-testid="stElementContainer"]:has(style), [data-testid="stElementContainer"]:has(> .stHtml:empty) {{ display:none !important; }}
+.stApp [data-testid^="stBaseButton-secondary"] [data-testid="stMarkdownContainer"] p, .stApp [data-testid^="stBaseLinkButton-secondary"] p,
+.stApp [data-testid^="stBaseButton-tertiary"] [data-testid="stMarkdownContainer"] p {{ color:{C['accent']} !important; }}
+.stApp [data-testid^="stBaseButton-primary"] [data-testid="stMarkdownContainer"] p, .stApp [data-testid^="stBaseLinkButton-primary"] p,
+.stApp [data-testid^="stBaseLinkButton-primary"] span {{ color:#fff !important; }}
+[data-testid^="stBaseLinkButton-secondary"] {{ border:2px solid {C['accent']} !important; background:{C['bg']} !important; border-radius:4px !important; }}
+[data-testid^="stBaseLinkButton-primary"] {{ border:2px solid {C['accent_bg']} !important; background:{C['accent_bg']} !important; border-radius:4px !important; }}
+[data-testid^="stBaseLinkButton"] span[data-testid="stIconMaterial"], [data-testid^="stBaseButton"] span[data-testid="stIconMaterial"] {{ color:inherit !important; }}
+[data-testid="stBaseButton-secondary"], [data-testid="stBaseButton-secondary"]:focus:not(:active) {{ background:{C['bg']} !important; color:{C['accent']} !important; border:2px solid {C['accent']} !important; }}
+[data-testid="stBaseButton-secondary"] p {{ color:{C['accent']} !important; }}
+[data-testid="stBaseButton-secondary"]:hover {{ background:{C['accent_soft']} !important; }}
+[data-testid="stBaseButton-primary"] {{ background:{C['accent_bg']} !important; border:2px solid {C['accent_bg']} !important; color:#fff !important; }}
+[data-testid="stBaseButton-primary"] p {{ color:#fff !important; }}
+[data-testid="stBaseButton-primary"]:hover {{ background:{C['accent_hover']} !important; border-color:{C['accent_hover']} !important; }}
+[data-testid="stBaseButton-tertiary"] p {{ color:{C['accent']} !important; text-decoration:underline; text-underline-offset:3px; }}
+[data-testid="stBaseButton-secondary"]:disabled, [data-testid="stBaseButton-primary"]:disabled {{ opacity:.45; }}
+[class*="st-key-persona-"] [data-testid="stBaseButton-secondary"] {{ text-align:start; justify-content:flex-start; border-width:1px !important; border-color:{C['line']} !important;
+  border-left:4px solid {C['accent']} !important; color:{C['fg']} !important; padding:12px 14px !important; }}
+[class*="st-key-persona-"] [data-testid="stBaseButton-secondary"] > div, [class*="st-key-persona-"] [data-testid="stBaseButton-secondary"] [data-testid="stMarkdownContainer"] {{
+  justify-content:flex-start !important; text-align:start !important; width:100%; }}
+.stApp [class*="st-key-persona-"] [data-testid="stBaseButton-secondary"] [data-testid="stMarkdownContainer"] p {{ color:{C['fg']} !important; text-align:start; }}
+[class*="st-key-persona-"] [data-testid="stBaseButton-secondary"] p {{ color:{C['fg']} !important; font-weight:400; font-size:1.02rem; }}
+/* inputs */
+[data-baseweb="select"] > div, [data-baseweb="input"], [data-baseweb="input"] > div, [data-baseweb="base-input"], .stTextInput input,
+[data-testid="stDateInput"] input, [data-testid="stChatInput"] > div, [data-testid="stChatInputTextArea"] {{ background:{C['surface']} !important; color:{C['fg']} !important; border-color:{C['line']} !important; }}
+[data-testid="stChatInputTextArea"]::placeholder, .stTextInput input::placeholder {{ color:{C['muted']} !important; }}
+[data-baseweb="popover"] ul, [data-baseweb="popover"] li, [data-baseweb="calendar"], [data-baseweb="calendar"] * {{ background:{C['surface']} !important; color:{C['fg']} !important; }}
+[data-testid="stSelectbox"] [data-baseweb="select"] div, [data-testid="stSelectbox"] [data-baseweb="select"] span {{ color:{C['fg']} !important; }}
+[data-testid="stSelectbox"] svg {{ fill:{C['fg']} !important; }}
+[data-testid="stSelectbox"] input {{ color:{C['fg']} !important; -webkit-text-fill-color:{C['fg']} !important; }}
+[data-testid="stButtonGroup"] button:not([aria-checked="true"]):not([data-testid$="Active"]) span {{ color:{C['fg2']} !important; }}
+.st-key-big_text label:has(input:not(:checked)) > span + div {{ background:{C['line']} !important; }}
+[data-testid="stButtonGroup"] button {{ background:{C['bg']} !important; border-color:{C['line']} !important; }}
+[data-testid="stButtonGroup"] button p {{ color:{C['fg2']} !important; }}
+[data-testid="stCaptionContainer"] {{ opacity:1 !important; }}
+.stApp [data-testid="stSelectbox"] div, .stApp [data-testid="stDateInputField"], .stApp [data-testid="stDateInputField"] * {{ background-color:{C['surface']} !important; color:{C['fg']} !important; }}
+[data-testid="stTooltipIcon"] svg, [data-testid="stTooltipHoverTarget"] svg {{ color:{C['muted']} !important; opacity:1 !important; }}
+[data-testid="stTooltipIcon"], [data-testid="stTooltipIcon"] button, [data-testid="stTooltipHoverTarget"] {{ opacity:1 !important; color:{C['muted']} !important; }}
+[data-testid="stTooltipIcon"] svg, [data-testid="stTooltipIcon"] svg * {{ stroke:{C['muted']} !important; }}
+[data-testid="stMetricLabel"], [data-testid="stMetricLabel"] * {{ white-space:normal !important; overflow:visible !important; text-overflow:clip !important; }}
+[data-testid="stButtonGroup"] button[aria-checked="true"] {{ background:{C['accent_bg']} !important; border-color:{C['accent_bg']} !important; }}
+[data-testid="stButtonGroup"] button[aria-checked="true"] p, [data-testid="stButtonGroup"] button[aria-checked="true"] span {{ color:#fff !important; }}
+[data-testid="stButtonGroup"] button[data-testid$="Active"] {{ background:{C['accent_bg']} !important; border-color:{C['accent_bg']} !important; }}
+[data-testid="stButtonGroup"] button[data-testid$="Active"] p {{ color:#fff !important; }}
+[data-testid="stExpander"] details {{ border-radius:4px !important; border-color:{C['line']} !important; background:{C['bg']}; }}
+[data-testid="stExpander"] summary:hover p {{ color:{C['accent']} !important; }}
+[data-testid="stVerticalBlockBorderWrapper"], [data-testid="stVerticalBlock"][class*="border"] {{ border-color:{C['line']} !important; border-radius:6px !important; }}
+[data-testid="stMetric"] {{ background:{C['surface']}; border-radius:4px; padding:10px 12px; border-left:4px solid {C['accent']}; }}
+[data-testid="stMetricValue"] {{ font-variant-numeric:tabular-nums; font-weight:700; }}
+/* hero */
+.ov-kicker {{ color:{C['accent']}; font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-top:1.4rem; }}
+.ov-hero h1 {{ font-size:2.2rem !important; line-height:1.1 !important; margin:.25rem 0 .5rem !important; padding:0 !important; font-weight:700 !important; color:{C['fg']} !important; }}
+.ov-lead {{ color:{C['fg2']}; font-size:1.08rem; line-height:1.5; }}
+.ov-label {{ font-size:.8rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:{C['muted']}; margin:.6rem 0 .1rem; }}
+.ov-note {{ color:{C['muted']}; font-size:.86rem; }}
+.stApp ol.ov-how {{ padding-inline-start:0 !important; margin-inline-start:0 !important; }}
+.stApp .ov-how li {{ margin:0 !important; }}
+@media (max-width: 640px) {{ .ov-callout .more {{ display:none; }} }}
+.ov-how {{ list-style:none; padding:0; margin:.9rem 0 .6rem; display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }}
+.ov-how li {{ display:flex; gap:8px; align-items:flex-start; background:{C['surface']}; border-radius:4px; padding:10px 12px; font-size:.92rem; color:{C['fg']}; line-height:1.35; }}
+.ov-how .n {{ flex:0 0 24px; height:24px; border-radius:50%; background:{C['accent_bg']}; color:#fff; font-weight:700; text-align:center; line-height:24px; font-size:.8rem; }}
+@media (max-width: 640px) {{ .ov-how {{ grid-template-columns:1fr; gap:6px; }} .ov-how li {{ padding:7px 10px; }} }}
+.ov-trust {{ color:{C['fg2']}; font-size:.86rem; border-left:3px solid {C['ok']}; padding:2px 10px; margin:.4rem 0 1rem; }}
+.stApp p.ov-demo-line, .ov-demo-line {{ color:{C['muted']} !important; font-size:.84rem !important; margin:-.3rem 0 .5rem !important; line-height:1.4 !important; }}
+.ov-summary-n {{ color:{C['fg']}; font-size:.95rem; margin:.35rem 0 .5rem; }}
+details.ov-details {{ margin:2px 4px 10px; font-size:.86rem; color:{C['fg2']}; }}
+details.ov-details summary {{ cursor:pointer; color:{C['muted']}; font-weight:600; }}
+/* chat */
+.ov-msg {{ display:flex; margin:12px 0 4px; }}
+.ov-msg.user {{ justify-content:flex-end; }}
+.ov-msg .ov-body {{ max-width:88%; }}
+.ov-msg.user .ov-bubble {{ background:{C['user']}; color:#fff; border-radius:14px 14px 4px 14px; padding:10px 14px; }}
+.ov-msg.bot .ov-bubble {{ background:{C['surface']}; color:{C['fg']}; border-radius:14px 14px 14px 4px; padding:12px 16px; border:1px solid {C['surface2']}; }}
+.ov-msg .ov-bubble[dir="rtl"] {{ text-align:right; }}
+.ov-bubble p {{ margin:0 0 .55em; line-height:1.5; }}
+.ov-bubble p:last-child, .ov-bubble ul:last-child {{ margin-bottom:0; }}
+.ov-bubble ul {{ margin:.2em 0 .55em; padding-inline-start:1.2em; }}
+.ov-who {{ font-size:.78rem; font-weight:700; color:{C['muted']}; margin:0 4px 3px; }}
+.ov-tag {{ font-weight:600; border:1px solid {C['line']}; border-radius:999px; padding:0 7px; margin-inline-start:6px; color:{C['muted']}; }}
+.ov-from {{ font-size:.78rem; opacity:.85; display:block; margin-bottom:2px; }}
+.ov-cite {{ display:inline-block; font-size:.78em; font-weight:600; padding:0 7px; margin:0 1px; border-radius:999px; background:{C['accent_soft']}; color:{C['accent']} !important;
+  text-decoration:none !important; white-space:nowrap; vertical-align:baseline; border:1px solid transparent; }}
+.ov-cite:hover {{ border-color:{C['accent']}; }}
+.ov-meta {{ margin:6px 4px 0; font-size:.84rem; color:{C['fg2']}; display:grid; gap:4px; }}
+.ov-fn-ref {{ display:inline-block; min-width:1.25em; padding:0 4px; margin-inline-start:2px; border-radius:999px; font-size:.72em; line-height:1.4;
+  font-weight:700; text-align:center; vertical-align:super; background:{C['accent_soft']}; color:{C['accent']} !important; text-decoration:none !important; }}
+.ov-fn {{ list-style:none; margin:2px 0 0; padding:0; display:grid; gap:2px; }}
+.ov-fn li {{ font-size:.82rem; color:{C['fg2']}; }}
+.ov-fn .n {{ display:inline-block; min-width:1.3em; margin-inline-end:6px; padding:0 4px; border-radius:999px; text-align:center; font-weight:700;
+  font-size:.75rem; background:{C['accent_soft']}; color:{C['accent']}; }}
+.ov-fn a {{ color:{C['fg2']} !important; }}
+.ov-mt {{ font-size:.74rem; font-weight:600; color:{C['muted']}; border:1px dashed {C['line']}; border-radius:999px; padding:0 8px; display:inline-block; margin:2px 0 4px; }}
+.ov-sum {{ background:{C['surface']}; border-radius:6px; padding:10px 14px; margin:4px 0 10px; }}
+.ov-sum ol {{ margin:4px 0 0; padding-inline-start:1.4em; }}
+.ov-sum li {{ margin:2px 0; color:{C['fg']}; font-size:.95rem; }}
+.ov-sum li.done {{ color:{C['muted']}; text-decoration:line-through; }}
+.ov-sum .sec {{ color:{C['muted']}; font-size:.8rem; }}
+.ov-act {{ display:flex; gap:10px; padding:8px 0; border-bottom:1px solid {C['surface2']}; }}
+.ov-act:last-child {{ border-bottom:0; }}
+.ov-act .n {{ flex:0 0 28px; height:28px; border-radius:50%; background:{C['accent_bg']}; color:#fff; font-weight:700; text-align:center; line-height:28px; }}
+.ov-act .why {{ color:{C['fg2']}; font-size:.86rem; }}
+.ov-sec {{ font-weight:700; color:{C['fg']}; margin:12px 0 2px; }}
+.ov-sec small {{ font-weight:400; color:{C['muted']}; }}
+.ov-housing {{ border-left:4px solid {C['accent']}; background:{C['accent_soft']}; padding:6px 10px; border-radius:3px; margin:4px 0 6px; color:{C['fg']}; }}
+.ov-route {{ margin:4px 0 0; padding-inline-start:1.1em; }}
+.ov-route li {{ margin:2px 0; }}
+.ov-step.done {{ opacity:.75; }}
+.st-key-other-cases [data-testid^="stBaseButton"] {{ height:auto; text-align:start; }}
+.st-key-other-cases [data-testid^="stBaseButton"] *, .st-key-other-cases [data-testid="stMarkdownContainer"] p {{
+  white-space:normal !important; overflow:visible !important; text-overflow:clip !important; text-align:start; }}
+.ov-step.done .n {{ background:{C['ok']}; }}
+.ov-chips {{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }}
+.ov-chip {{ display:inline-block; font-size:.8rem; padding:2px 9px; border-radius:4px; border:1px solid {C['line']}; background:{C['bg']}; color:{C['fg']} !important; text-decoration:none !important; }}
+.ov-chip:hover {{ border-color:{C['accent']}; }}
+.ov-chip small {{ color:{C['muted']}; }}
+.ov-check {{ color:{C['ok']}; font-weight:600; }}
+.ov-tool {{ margin:4px 0; font-size:.9rem; color:{C['fg']}; }}
+.ov-tool code {{ font-size:.8rem; background:{C['surface']}; color:{C['fg2']}; padding:1px 6px; border-radius:3px; border:1px solid {C['surface2']}; }}
+.ov-check.warn {{ color:{C['warn_line']}; }}
+/* checklist */
+.ov-card-h {{ font-size:1.15rem; font-weight:700; color:{C['fg']}; margin:0; }}
+.ov-card-sub {{ color:{C['muted']}; font-size:.88rem; margin:2px 0 6px; }}
+.ov-bar {{ height:6px; background:{C['surface2']}; border-radius:3px; overflow:hidden; margin:6px 0 10px; }}
+.ov-bar > span {{ display:block; height:100%; background:{C['ok']}; }}
+.ov-src {{ font-size:.82rem; color:{C['muted']}; margin:-6px 0 10px 28px; }}
+[dir="rtl"] .ov-src {{ margin:-6px 28px 10px 0; }}
+.ov-src a {{ color:{C['accent']}; }}
+.ov-src details summary {{ cursor:pointer; color:{C['fg2']}; display:inline; }}
+.ov-src blockquote {{ margin:4px 0; padding:4px 10px; border-left:3px solid {C['line']}; color:{C['fg2']}; font-style:italic; }}
+.ov-group {{ font-size:.86rem; color:{C['fg2']}; margin:12px 0 2px; padding-top:8px; border-top:1px solid {C['surface2']}; }}
+.ov-cat {{ font-size:.82rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:{C['accent']}; margin:18px 0 0; padding-bottom:4px; border-bottom:2px solid {C['accent']}; }}
+.ov-group a {{ color:{C['accent']}; }}
+.ov-step {{ display:flex; gap:10px; padding:8px 0; border-bottom:1px solid {C['surface2']}; color:{C['fg']}; font-size:.95rem; }}
+.ov-step:last-child {{ border-bottom:0; }}
+.ov-step .n {{ flex:0 0 26px; height:26px; border-radius:50%; background:{C['accent_bg']}; color:#fff; font-weight:700; text-align:center; line-height:26px; font-size:.85rem; }}
+.ov-step .who {{ font-size:.78rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:{C['muted']}; }}
+.ov-todo {{ padding:6px 0; border-top:1px dashed {C['line']}; color:{C['fg']}; font-size:.95rem; }}
+.ov-todo .q {{ display:inline-block; width:22px; height:22px; line-height:20px; text-align:center; border-radius:50%; border:1px dashed {C['muted']}; color:{C['muted']}; font-weight:700; margin-inline-end:8px; }}
+.ov-final {{ border-left:4px solid {C['accent_bg']}; padding:4px 10px; margin-top:8px; font-weight:600; color:{C['fg']}; font-size:.92rem; }}
+.ov-office b {{ font-size:1.05rem; }}
+.ov-office {{ padding:6px 0 8px; border-bottom:1px solid {C['surface2']}; }}
+.ov-office .ov-hours {{ color:{C['fg2']}; font-size:.9rem; }}
+.ov-warn {{ border-left:3px solid {C['warn_line']}; background:{C['warn_bg']}; color:{C['fg']}; padding:4px 10px; font-size:.86rem; margin-top:6px; border-radius:3px; }}
+/* city tab */
+.ov-badge {{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.05em; padding:1px 8px; border-radius:3px; background:{C['warn_bg']}; color:{C['fg']}; border:1px solid {C['warn_line']}; }}
+.ov-formula {{ background:{C['surface']}; border-radius:4px; padding:10px 14px; font-size:.95rem; color:{C['fg']}; border-left:4px solid {C['fg2']}; }}
+.ov-mail {{ border:1px solid {C['line']}; border-radius:6px; overflow:hidden; background:{C['bg']}; }}
+.ov-mail-h {{ background:{C['surface']}; padding:8px 14px; font-size:.86rem; color:{C['fg2']}; border-bottom:1px solid {C['line']}; }}
+.ov-mail-b {{ padding:12px 14px; font-size:.95rem; color:{C['fg']}; }}
+.ov-mail-b .old {{ color:{C['muted']}; font-style:italic; }}
+.ov-mail-b .new {{ margin-top:10px; padding:10px 12px; border:2px dashed {C['accent']}; border-radius:4px; background:{C['accent_soft']}; }}
+.ov-mail-b .new a {{ word-break:break-all; font-weight:600; }}
+.ov-mock {{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.05em; padding:2px 8px; border-radius:3px; background:{C['fg']}; color:{C['bg']}; margin-bottom:6px; }}
+.ov-table-wrap {{ overflow-x:auto; border:1px solid {C['line']}; border-radius:4px; }}
+.ov-table {{ border-collapse:collapse; width:100%; min-width:640px; font-size:.86rem; }}
+.ov-table th {{ background:{C['surface']}; color:{C['fg']}; text-align:start; padding:8px 10px; border-bottom:2px solid {C['line']}; }}
+.ov-table td {{ padding:8px 10px; border-bottom:1px solid {C['surface2']}; vertical-align:top; color:{C['fg']}; }}
+.ov-table td.when {{ font-weight:700; white-space:nowrap; }}
+.ov-table tr.day1 td.when {{ color:{C['ok']}; }}
+.ov-group-h {{ font-weight:700; color:{C['fg']}; }}
+.ov-foot {{ color:{C['muted']}; font-size:.8rem; margin-top:2.5rem; border-top:1px solid {C['line']}; padding-top:10px; }}
+{'.ov-bleed { left:auto; right:50%; margin-left:0; margin-right:-50vw; }' if RTL_UI else ''}
+{'[data-testid="stMainBlockContainer"] { direction: rtl; } [data-testid="stMainBlockContainer"] p, [data-testid="stMainBlockContainer"] li { text-align: right; }' if RTL_UI else ''}
+{'[data-testid="stMainBlockContainer"] :is(p, li, .ov-step > div, .ov-todo, .ov-group, .ov-office, .ov-hours, .ov-foot) { unicode-bidi: plaintext; }' if RTL_UI else ''}
+</style>""", unsafe_allow_html=True)
+
+# ---------- helpers ----------
+KNOWN = kb.sources()
+
+
+def esc(s: object) -> str:
+    return html.escape(str(s or ""), quote=True)
+
+
+def is_rtl(text: str) -> bool:
+    return bool(re.search(r"[؀-ۿ]", text or ""))
+
+
+def source_meta(sid: str) -> dict:
+    return kb.get_source(sid) or {"id": sid, "title": sid, "url": "", "retrieved_at": ""}
+
+
+def short_label(sid: str) -> str:
+    """A human label for a source: who published it ("Comune di Milano", "Polizia di Stato"), or the open dataset."""
+    s = source_meta(sid)
+    if s.get("id", "").startswith("ds") and (KNOWN.get(sid) or {}).get("kind") == "opendata":
+        return f"{L('open_data')} {sid}"
+    return s.get("publisher") or s.get("title") or sid
+
+
+def cite_html(sid: str) -> str:
+    """A small link to the official source, labelled with who published it (the id is in the tooltip)."""
+    s = source_meta(sid)
+    tip = esc(f"{s.get('title', '')} · {s.get('retrieved_at', '')} · [{sid}]")
+    if s.get("url"):
+        return (f'<a class="ov-cite" href="{esc(s["url"])}" target="_blank" rel="noopener" title="{tip}">'
+                f'{esc(short_label(sid))} ↗</a>')
+    return f'<span class="ov-cite" title="{tip}">{esc(short_label(sid))}</span>'
+
+
+_INLINE = re.compile(r"\[([^\]\n]+)\]\((https?://[^)\s]+)\)|(https?://[^\s<>()\]]+[^\s<>()\].,;:!?])|\[([^\[\]\n]{1,80})\]")
+
+
+def inline_html(raw: str, notes: list[str] | None = None) -> str:
+    """Escape, then bold, links and numbered source notes. Only what Claude's replies use.
+
+    A cited source id ([cie]) becomes a small number linking to the official page; `notes`
+    collects the ids in order so the sources can be listed under the reply by name.
+    """
+    notes = [] if notes is None else notes
+
+    def sub(m: re.Match) -> str:
+        if m.group(2):
+            return f'<a href="{m.group(2)}" target="_blank" rel="noopener">{m.group(1)}</a>'
+        if m.group(3):
+            return f'<a href="{m.group(3)}" target="_blank" rel="noopener">{m.group(3)}</a>'
+        ids = validator.cited_source_ids(f"[{html.unescape(m.group(4))}]", KNOWN)
+        if ids and all(i in KNOWN for i in ids):
+            refs = []
+            for i in ids:
+                if i not in notes:
+                    notes.append(i)
+                meta = source_meta(i)
+                tip = esc(f"{meta.get('title', '')} · {meta.get('publisher', '')}")
+                refs.append(f'<a class="ov-fn-ref" href="{esc(meta.get("url") or "#")}" target="_blank" rel="noopener" '
+                            f'title="{tip}">{notes.index(i) + 1}</a>')
+            return "".join(refs)
+        return m.group(0)
+    s = html.escape(raw, quote=False)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    return _INLINE.sub(sub, s)
+
+
+def md_html(text: str, notes: list[str] | None = None) -> str:
+    notes = [] if notes is None else notes
+    out = []
+    for para in re.split(r"\n\s*\n", (text or "").strip()):
+        lines = [ln for ln in para.split("\n") if ln.strip()]
+        bullet = re.compile(r"^\s*(?:[-*•]|\d+[.)])\s+")
+        if lines and all(bullet.match(ln) for ln in lines):
+            out.append("<ul>" + "".join(f"<li>{inline_html(bullet.sub('', ln), notes)}</li>" for ln in lines) + "</ul>")
+        elif lines and len(lines) > 1 and all(bullet.match(ln) for ln in lines[1:]):  # "intro:" + bullets
+            out.append(f"<p>{inline_html(lines[0], notes)}</p><ul>"
+                       + "".join(f"<li>{inline_html(bullet.sub('', ln), notes)}</li>" for ln in lines[1:]) + "</ul>")
+        elif lines:
+            out.append("<p>" + "<br>".join(inline_html(ln, notes) for ln in lines) + "</p>")
+    return "".join(out)
+
+
+def footnotes_html(notes: list[str]) -> str:
+    """The sources a reply cites, numbered as in the text, by name and with the date they were read."""
+    if not notes:
+        return ""
+    items = []
+    for n, sid in enumerate(notes, start=1):
+        s = source_meta(sid)
+        name = f"{short_label(sid)} · {s.get('title') or sid}"
+        link = (f'<a href="{esc(s["url"])}" target="_blank" rel="noopener">{esc(name)}</a>' if s.get("url") else esc(name))
+        items.append(f'<li><span class="n">{n}</span>{link} <small>· {esc(demo.format_date(s.get("retrieved_at")))}</small></li>')
+    return f'<ol class="ov-fn">{"".join(items)}</ol>'
+
+
+def chips_html(ids: list[str]) -> str:
+    out = []
+    for sid in ids:
+        s = source_meta(sid)
+        label = f"{esc(s.get('title') or sid)} <small>· {esc(s.get('retrieved_at') or '')}</small>"
+        if s.get("url"):
+            out.append(f'<a class="ov-chip" href="{esc(s["url"])}" target="_blank" rel="noopener" title="{esc(sid)}">{label}</a>')
+        else:
+            out.append(f'<span class="ov-chip" title="{esc(sid)}">{label}</span>')
+    return "".join(out)
+
+
+def check_line(m: dict) -> str:
+    check = m.get("check") or {}
+    why_lang = "it" if state.lang == "it" else "en"
+    if check.get("fallback"):
+        why = validator.describe(check.get("blocked_again") or check.get("blocked", []), why_lang)
+        return f'<div class="ov-check warn">⚠ {esc(L("check_fallback", why=why))}</div>'
+    if check.get("blocked") and check.get("attempts", 1) > 1:
+        why = validator.describe(check["blocked"], why_lang)
+        return f'<div class="ov-check">✓ {esc(L("check_retry", why=why))}</div>'
+    if check.get("blocked"):
+        return f'<div class="ov-check warn">⚠ {esc(L("check_blocked", why=validator.describe(check["blocked"], why_lang)))}</div>'
+    return f'<div class="ov-check">{esc(L("check_ok") if m.get("cited") else L("check_ok_plain"))}</div>'
+
+
+def step_text(step: dict) -> str:
+    out, args, tool = step.get("output"), step.get("input") or {}, step.get("tool")
+    if isinstance(out, dict) and "error" in out:
+        return L("step_error", tool=tool)
+    if tool == "list_services":
+        return L("step_list_services", n=len(out) if isinstance(out, list) else 0)
+    if tool == "get_service":
+        title = (out.get("title") or {}).get("it" if state.lang == "it" else "en", out.get("id"))
+        return L("step_get_service", service=title, q=len(out.get("deciding_questions", [])), s=len(out.get("steps", [])))
+    if tool == "get_checklist":
+        answers = ", ".join(f"{k}={v}" for k, v in (args.get("answers") or {}).items()) or L("no_answers")
+        return L("step_get_checklist", answers=answers, v=len(out.get("requirements", [])),
+                 t=len(out.get("not_yet_verified", [])), o=len(out.get("still_to_ask", [])))
+    if tool == "get_form_guide":
+        return L("step_get_form_guide", n=len(out.get("sections", [])),
+                 f=sum(len(x.get("items", [])) for x in out.get("sections", [])))
+    if tool == "find_offices":
+        area = args.get("area") or (f"Municipio {args['municipio']}" if args.get("municipio") else "lat/lon")
+        return L("step_find_offices", area=area, n=len(out) if isinstance(out, list) else 0)
+    if tool == "get_source":
+        return L("step_get_source", title=out.get("title", args.get("source_id")))
+    return f"{tool}"
+
+
+def absorb(reply: dict) -> None:
+    """Keep the latest checklist and offices the tools returned (live or demo)."""
+    for step in reply.get("trace", []):
+        out = step.get("output")
+        if step.get("tool") == "get_checklist" and isinstance(out, dict) and "requirements" in out:
+            state.checklist = out
+            state.service_id = out["service_id"]
+            state.answers = dict((step.get("input") or {}).get("answers") or {})
+        if step.get("tool") == "find_offices" and isinstance(out, list) and out:
+            state.offices = out
+            if state.office_id not in {o["id"] for o in out}:
+                state.office_id = out[0]["id"]
+    if state.get("demo_state"):
+        state.urgent = bool(state.demo_state.get("urgent"))
+
+
+def ics(appointment: dt.date, service_id: str | None) -> str:
     def event(day: dt.date, title: str) -> str:
-        d = day.strftime("%Y%m%d")
-        nxt = (day + dt.timedelta(days=1)).strftime("%Y%m%d")
-        return (f"BEGIN:VEVENT\r\nUID:{uuid.uuid4()}@onevisit\r\nDTSTAMP:{dt.datetime.utcnow():%Y%m%dT%H%M%SZ}\r\n"
+        d, nxt = day.strftime("%Y%m%d"), (day + dt.timedelta(days=1)).strftime("%Y%m%d")
+        return (f"BEGIN:VEVENT\r\nUID:{uuid.uuid4()}@onevisit\r\nDTSTAMP:{dt.datetime.now(dt.timezone.utc):%Y%m%dT%H%M%SZ}\r\n"
                 f"DTSTART;VALUE=DATE:{d}\r\nDTEND;VALUE=DATE:{nxt}\r\nSUMMARY:{title}\r\nEND:VEVENT\r\n")
     return ("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//OneVisit//EN\r\n"
-            + event(appointment - dt.timedelta(days=3), "OneVisit: check your documents with the checklist")
-            + event(appointment, "Registry office appointment")
+            + event(appointment - dt.timedelta(days=3), LV("ics_check", service_id))
+            + event(appointment, LV("ics_appt", service_id))
             + "END:VCALENDAR\r\n")
 
 
-def ask(text: str) -> None:
-    state.chat.append({"role": "user", "text": text})
+@st.cache_data(show_spinner=False, max_entries=64)
+def dossier_pdf(service_id: str, answers_json: str, office_id: str | None, date_iso: str | None,
+                ticked: tuple[str, ...], today_iso: str, lang: str = "it") -> bytes:
+    return dossier.build_pdf(service_id, json.loads(answers_json), office_id=office_id, appointment=date_iso,
+                             ticked=set(ticked), today=dt.date.fromisoformat(today_iso), lang=lang)
+
+
+def current_day() -> dt.date | None:
+    """Appointment date: what the citizen picked, else the date from the booking link."""
+    if state.get("appt_day"):
+        return state.appt_day
+    preset = (state.appointment or {}).get("date")
+    return dt.date.fromisoformat(preset) if preset else None
+
+
+def ticked_ids(cl: dict) -> set[str]:
+    return {r["id"] for r in cl.get("requirements", []) if state.get(f"have-{cl['service_id']}-{r['id']}")}
+
+
+def current_pdf(cl: dict, day: dt.date | None) -> bytes:
+    return dossier_pdf(cl["service_id"], json.dumps(state.answers, sort_keys=True), state.office_id,
+                       day.isoformat() if day else None, tuple(sorted(ticked_ids(cl))), dt.date.today().isoformat(),
+                       state.lang)
+
+
+def reset() -> None:
+    for k in ("messages", "chat"):
+        state[k] = []
+    for k in ("checklist", "offices", "service_id", "demo_state", "appointment", "office_id", "pending", "notice"):
+        state[k] = None
+    state.answers = {}
+    state.urgent = False
+    state.pop("appt_day", None)
+
+
+# ---------- processing a turn ----------
+def queue(kind: str, **kw: object) -> None:
+    state.pending = {"kind": kind, **kw}
+
+
+def on_chat_submit() -> None:
+    text = (state.get("chat_text") or "").strip()
+    if text:
+        queue("text", text=text)
+
+
+def follow_language(text: str) -> str:
+    """Switch the page to the language the person writes in (Arabic, Chinese, Spanish…), from the next run."""
+    guessed = guess_lang(text) if len(text or "") >= 12 else None
+    if guessed in LANGS and guessed != state.lang:
+        state["_lang_next"] = guessed
+        return guessed
+    return state.lang
+
+
+def run_live(text: str, origin: str | None = None) -> bool:
+    """One turn with Claude. False when this session can't use Claude (cap reached or API down):
+    the caller then answers the same message in demo mode, so the page never shows an error."""
+    if not take_live_call():
+        state.notice = "limit"
+        return False
+    state.chat.append({"role": "user", "text": text, "origin": origin})
+    n = len(state.messages)
     state.messages.append({"role": "user", "content": text})
-    with st.spinner("Claude is checking the official sources…"):
-        try:
-            reply = run_turn(state.messages, client=client())
-        except Exception as e:  # show the error instead of a blank screen during the demo
-            state.messages.pop()
-            state.chat.append({"role": "assistant", "text": f"Something went wrong: {e}", "options": [], "trace": []})
-            return
-    for step in reply["trace"]:
-        if step["tool"] == "get_checklist" and "requirements" in step["output"]:
-            state.checklist = step["output"]
-            state.service_id = step["output"]["service_id"]
-        if step["tool"] == "find_offices" and isinstance(step["output"], list):
-            state.offices = step["output"]
+    try:
+        reply = run_turn(state.messages, client=client(), lang=state.get("_lang_next") or state.lang)
+    except Exception:  # no key that works, no credit, no network: continue without Claude
+        del state.messages[n:]
+        state.chat.pop()
+        state.live_off = "down"
+        state.notice = "down"
+        return False
+    absorb(reply)
+    state.chat.append({"role": "assistant", **reply})
+    return True
+
+
+def demo_text(text: str, origin: str | None = None) -> None:
+    """A typed message without Claude: keyword rules pick the service and answers, the tools do the rest."""
+    lang = state.get("_lang_next") or state.lang
+    state.chat.append({"role": "user", "text": text, "origin": origin})
+    if state.demo_state and (state.demo_state.get("service_id") or state.demo_state.get("pending")):
+        reply = demo.answer(state.demo_state, text)
+    else:
+        state.demo_state, reply = demo.start_text(text, lang)
+    if reply.get("other_language") and reply.get("lang") != lang:  # a language the replay can't write: English page
+        state["_lang_next"] = reply["lang"]
+    absorb(reply)
     state.chat.append({"role": "assistant", **reply})
 
 
-st.segmented_control("Theme", ["Light", "Dark"], default="Light", key="theme_mode", label_visibility="collapsed")
-citizen, panel, design = st.tabs(["For citizens", "For City staff", "Design preview"])
+def process(pending: dict) -> None:
+    kind = pending["kind"]
+    appt = state.appointment or {}
+    if kind == "appointment":
+        service = kb.get_service(appt["service_id"]) or {}
+        title = demo.service_title(service, state.lang) if service else appt["service_id"]
+        if LIVE:
+            if appt.get("date") or appt.get("office_id"):
+                msg = L("dl_user_msg", service=title, date=demo.format_date(appt.get("date")) or "—",
+                        office=appt.get("office_address") or "—")
+            else:
+                msg = L("dl_user_msg_service", service=title)
+            if run_live(msg, origin=link_origin(appt)):
+                return
+        state.demo_state, reply = demo.start_appointment(appt["service_id"], appt.get("office_id"),
+                                                         appt.get("date"), state.lang)
+        absorb(reply)
+        state.chat.append({"role": "assistant", **reply})
+        return
+    if kind == "persona":
+        persona = demo.personas()[pending["id"]]
+        lang = pending.get("lang") or state.lang
+        if lang != state.lang:
+            state["_lang_next"] = lang  # "the same person writes in Arabic": the whole page follows
+        if LIVE and run_live(persona["opening"].get(lang) or persona["opening"]["en"]):
+            return
+        state.demo_state, user_text, reply = demo.start_persona(pending["id"], lang)
+        state.chat.append({"role": "user", "text": user_text})
+        absorb(reply)
+        state.chat.append({"role": "assistant", **reply})
+        return
+    text = pending["text"]
+    follow_language(text)
+    if LIVE and run_live(text):
+        return
+    demo_text(text)
+
+
+# ---------- header ----------
+# Live: the badge names the model. Demo replay: a chip, not a banner across the first screen; its tooltip says
+# what the replay is, and every replayed reply is signed "OneVisit · replica", never "Claude".
+mode = (f'<span class="ov-live">{esc(L("live_badge", model=MODEL))}</span>' if LIVE
+        else f'<span class="ov-mode" title="{esc(L("demo_banner") + ". " + L("demo_banner_more").strip())}">'
+             f'{esc(L("demo_chip"))}</span>')
+st.markdown(
+    f'<div class="ov-bleed ov-slim"><div class="ov-shell" dir="{"rtl" if RTL_UI else "ltr"}"><span>{esc(L("slim"))}</span>{mode}</div></div>'
+    f'<div class="ov-bleed ov-center"><div class="ov-shell" dir="{"rtl" if RTL_UI else "ltr"}"><div class="ov-brand">'
+    f'<span class="ov-brand-name">OneVisit</span><span class="ov-brand-sub">{esc(L("brand_sub"))}</span></div></div></div>',
+    unsafe_allow_html=True)
+
+with st.container(horizontal=True, vertical_alignment="center", gap="small"):
+    st.selectbox(L("lang_label"), list(LANGS), format_func=LANGS.get, key="lang", label_visibility="collapsed", width=150)
+    st.segmented_control(L("theme_label"), ["light", "dark"], key="theme_mode", label_visibility="collapsed",
+                         format_func=lambda m: ("☀ " + L("theme_light")) if m == "light" else ("☾ " + L("theme_dark")))
+    st.toggle(L("big_text"), key="big_text")
+
+if state.get("notice"):  # Claude went unreachable or the cap was reached: say so, then carry on in demo mode
+    st.markdown(f'<div class="ov-callout" dir="{"rtl" if RTL_UI else "ltr"}"><b>{esc(L("notice_" + state.notice))}</b></div>',
+                unsafe_allow_html=True)
+
+citizen, panel = st.tabs([L("tab_citizen"), L("tab_city")])
+
+
+def local_req(sid: str, r: dict, field: str = "text") -> tuple[str, bool]:
+    """A requirement in the page language (Claude's translation for ar/es/zh, flagged)."""
+    return kb.req_text(sid, r, state.lang, field)
+
+
+def req_help(r: dict, sid: str, translated: bool) -> str:
+    parts = []
+    if translated:
+        parts.append(f'{L("original_it")}: {r.get("text_it")}')
+    if r.get("quote"):
+        parts.append(f'{L("quote_label")} · {short_label(r["source_id"])} · {source_meta(r["source_id"]).get("title")}: «{r["quote"]}»')
+    return "\n\n".join(parts)
+
+
+def report_form(prefix: str, service_id: str) -> None:
+    """A report after the appointment: personal details removed by code, then classified by Claude
+    (live) or, in the demo, Claude's recorded classification of the example reports."""
+    fb_labels = {L("fb_ok"): "ok", L("fb_missing"): "missing", L("fb_other"): "other"}
+    choice = fb_labels[st.radio(L("fb_outcome"), list(fb_labels), horizontal=True, key=f"{prefix}-outcome", index=1)]
+    examples = outcomes.example_notes("it" if state.lang == "it" else "en")
+    if examples:
+        st.caption(L("fb_examples"))
+        with st.container(horizontal=True, gap="small"):
+            for k, ex in enumerate(examples):
+                st.button(ex[:70] + ("…" if len(ex) > 70 else ""), key=f"{prefix}-ex-{k}", type="tertiary",
+                          on_click=lambda ex=ex: state.update({f"{prefix}_note": ex}))
+    note = st.text_area(L("fb_note"), key=f"{prefix}_note", height=90)
+    if not LIVE:
+        st.caption(L("fb_demo"))
+    if not st.button(L("fb_send"), key=f"{prefix}-send", disabled=not (note or "").strip()):
+        return
+    clean, removed = outcomes.scrub(note)
+    if removed:
+        st.info(L("fb_scrubbed", kinds=", ".join(dict.fromkeys(L("pii_" + k) for k in removed))))
+    result, recorded = None, False
+    if LIVE and take_live_call():
+        with st.spinner(L("fb_spinner")):
+            try:
+                result = outcomes.classify(service_id, choice, clean, client=client())
+            except Exception as e:
+                st.error(L("error", e=type(e).__name__))
+    else:
+        result, recorded = outcomes.recorded_classification(note), True
+    if result:
+        row = outcomes.save_report(service_id, choice, result)
+        label = (CAUSES_IT if state.lang == "it" else outcomes.CAUSES)[row["cause"]][0]
+        st.success(L("fb_thanks", cause=label, summary=row["summary_it" if state.lang == "it" else "summary_en"]))
+        if recorded:
+            st.caption(L("fb_recorded"))
+    elif not LIVE:
+        st.warning(L("fb_need_claude"))
+
 
 # ---------- citizen ----------
 with citizen:
-    if not state.chat:
-        lang = st.selectbox("Language", list(WELCOME), key="lang", label_visibility="collapsed")
-        w = WELCOME[lang]
-        st.markdown(
-            f'<div class="ov-hero" dir="{w["dir"]}"><div class="ov-kicker">{w["kicker"]}</div>'
-            f'<h1>{w["h"]}</h1><p class="ov-lead">{w["lead"]}</p></div>', unsafe_allow_html=True)
-        for j, ex in enumerate(w["examples"]):
-            if st.button(ex, key=f"ex-{lang}-{j}", use_container_width=True, disabled=not has_key):
-                state.pending = ex
-                st.rerun()
-        st.markdown(f'<p class="ov-muted" dir="{w["dir"]}" style="font-size:.85em">{w["note"]}</p>', unsafe_allow_html=True)
+    appt = state.appointment
+    if appt:
+        service = kb.get_service(appt["service_id"]) or {}
+        office = next((o for o in state.offices or [] if o["id"] == appt.get("office_id")), None)
+        parts = [demo.service_title(service, state.lang), demo.format_date(appt.get("date")),
+                 demo.office_where(office) if office else appt.get("office_address")]
+        icon = "📅" if appt.get("channel") == "prenotazione" else "🔗"
+        st.markdown(f'<div class="ov-callout appt"><b>{icon} {esc(link_origin(appt))}</b>{esc(" · ".join(p for p in parts if p))}</div>',
+                    unsafe_allow_html=True)
+
+    if not state.chat and not state.pending:
+        st.markdown(f'<div class="ov-hero"><div class="ov-kicker">{esc(L("kicker"))}</div><h1>{esc(L("h1"))}</h1>'
+                    f'<p class="ov-lead">{esc(L("lead"))}</p></div>', unsafe_allow_html=True)
+        if not LIVE:  # one line, under the title: what the replay is (the header chip has the rest)
+            live_link = (f' <a href="?lang={state.lang}" target="_self">{esc(L("live_link"))} →</a>'
+                         if FORCE_DEMO and SERVER_KEY and not state.get("live_off") else "")
+            st.markdown(f'<p class="ov-demo-line">{esc(L("demo_line"))}{live_link}</p>', unsafe_allow_html=True)
+        catalogue = [r for r in KNOWN.values() if r.get("status") == "ok"]
+        pages = [r for r in catalogue if r.get("kind") != "opendata"]
+        publishers = ", ".join(dict.fromkeys(r["publisher"] for r in pages if r.get("publisher")))
+        verified = sum(x["verified_requirements"] for x in kb.list_services())
+        updated = max((r.get("retrieved_at") or "" for r in catalogue), default="")
+        # The cases first: a juror (or a newcomer) can start in one tap without scrolling.
+        st.markdown(f'<div class="ov-label">{esc(L("examples_title"))}</div>', unsafe_allow_html=True)
+        everyone = demo.personas()
+        for pid, persona in everyone.items():
+            if not persona.get("featured"):
+                continue
+            with st.container(key=f"persona-{pid}"):
+                st.markdown(f'<div class="ov-note" style="margin:.5rem 0 0;line-height:1.6">{esc(persona["label"].get(state.lang) or persona["label"]["en"])}</div>',
+                            unsafe_allow_html=True)
+                st.button(persona["opening"].get(state.lang) or persona["opening"]["en"], key=f"ex-{pid}",
+                          on_click=queue, args=("persona",), kwargs={"id": pid, "lang": state.lang}, width="stretch")
+                alt = persona.get("alt_lang")
+                if alt and alt != state.lang:
+                    st.button(f'{L("try_alt_" + alt)}: {persona["opening"][alt]}', key=f"ex-{pid}-{alt}", type="tertiary",
+                              on_click=queue, args=("persona",), kwargs={"id": pid, "lang": alt})
+        others = [(pid, p) for pid, p in everyone.items() if not p.get("featured")]
+        if others:
+            st.markdown(f'<div class="ov-label">{esc(L("other_cases"))}</div>', unsafe_allow_html=True)
+            with st.container(horizontal=True, gap="small", key="other-cases"):
+                for pid, persona in others:
+                    alt = persona.get("alt_lang")
+                    lang = alt if alt else state.lang
+                    label = persona["label"].get(state.lang) or persona["label"]["en"]
+                    if alt and alt != state.lang:
+                        label += f" · 🌐 {LANGS.get(alt, alt)}"
+                    st.button(label, key=f"ex-{pid}", on_click=queue, args=("persona",), kwargs={"id": pid, "lang": lang})
+        st.markdown(f'<p class="ov-note" style="margin-top:.8rem">{esc(L("type_hint" if LIVE else "type_hint_demo"))} '
+                    f'{esc(L("note"))}</p><p class="ov-trust">🔎 {esc(L("trust", p=len(pages), pubs=publishers, d=len(catalogue) - len(pages), v=verified, date=demo.format_date(updated)))}</p>',
+                    unsafe_allow_html=True)
+        how = "".join(f'<li><span class="n">{n}</span><span>{esc(x)}</span></li>' for n, x in enumerate(L("how").split("|"), start=1))
+        with st.expander(L("how_title")):
+            st.markdown(f'<ol class="ov-how">{how}</ol>', unsafe_allow_html=True)
+
+    last_assistant = max((i for i, m in enumerate(state.chat) if m["role"] == "assistant"), default=-1)
+
+    def render_message(i: int, m: dict, folded: bool = False) -> None:
+        """One chat message. A replayed reply is signed "OneVisit · replica" and says the tools read the sources:
+        only a live reply is signed by Claude. Inside the folded conversation the trace is a <details>
+        (Streamlit expanders can't be nested)."""
+        if m["role"] == "user":
+            origin = f'<span class="ov-from">↳ {esc(m["origin"])}</span>' if m.get("origin") else ""
+            st.markdown(f'<div class="ov-msg user"><div class="ov-body"><div class="ov-bubble" dir="{"rtl" if is_rtl(m["text"]) else "auto"}">'
+                        f'{origin}{esc(m["text"])}</div></div></div>', unsafe_allow_html=True)
+            return
+        by_demo = bool(m.get("demo"))
+        if m.get("routing") == "keywords":
+            tag = f'<span class="ov-tag">{esc(L("keywords_tag"))}</span>'
+        else:
+            tag = f'<span class="ov-tag">{esc(L("recorded"))}</span>' if by_demo else ""
+        notes: list[str] = []
+        body = md_html(m["text"], notes)
+        read = m.get("sources_read") or []
+        suffix = "_demo" if by_demo else ""
+        read_line = (f'<div>📚 {esc(L("read_1" + suffix) if len(read) == 1 else L("read_n" + suffix, n=len(read)))}</div>'
+                     if read else "")
+        meta = (f'<div class="ov-meta" dir="{"rtl" if RTL_UI else "ltr"}">{read_line}{footnotes_html(notes)}'
+                f'{check_line(m) if m.get("check") else ""}</div>')
+        st.markdown(f'<div class="ov-msg bot"><div class="ov-body">'
+                    f'<div class="ov-who">{esc(L("assistant_demo") if by_demo else L("assistant"))}{tag}</div>'
+                    f'<div class="ov-bubble" dir="{"rtl" if is_rtl(m["text"]) else "ltr"}">{body}</div>'
+                    f'{meta}</div></div>', unsafe_allow_html=True)
+        if m.get("trace"):
+            label = L("checked_demo") if by_demo else L("what_checked")
+            inner = ("".join(f"<div class='ov-tool'><code>{esc(s.get('tool'))}</code> {esc(step_text(s))}</div>" for s in m["trace"])
+                     + (f'<div class="ov-chips" style="margin-top:8px">{chips_html(read)}</div>' if read else "")
+                     + f'<p class="ov-note" style="margin-top:8px">{esc(L("validator_note"))}</p>')
+            if folded:
+                st.markdown(f'<details class="ov-details"><summary>{esc(label)}</summary>{inner}</details>', unsafe_allow_html=True)
+            else:
+                with st.expander(label):
+                    st.markdown(inner, unsafe_allow_html=True)
+        if i == last_assistant and m.get("options") and not state.pending:
+            with st.container(horizontal=True, gap="small"):
+                for j, opt in enumerate(m["options"]):
+                    st.button(opt, key=f"opt-{i}-{j}", on_click=queue, args=("text",), kwargs={"text": opt})
+
+    cl_now = state.checklist
+    case_done = bool(cl_now and "requirements" in cl_now and not cl_now.get("still_to_ask")
+                     and not state.pending and last_assistant >= 0)
+    if case_done:
+        # The case is clear: lead with what to do, fold the earlier turns (the last reply stays open).
+        sid_now = cl_now["service_id"]
+        files_now = kb.to_upload(cl_now)
+        links_now = kb.service_links(sid_now)
+        with st.container(border=True, key="summary"):
+            title = demo.service_title(kb.get_service(sid_now) or {"id": sid_now}, state.lang)
+            st.markdown(f'<p class="ov-card-h">✓ {esc(L("summary_title"))}</p>'
+                        f'<p class="ov-card-sub">{esc(title)}</p>'
+                        f'<p class="ov-summary-n">{esc(LV("upload_title", sid_now, n=len(files_now)))} · '
+                        f'{esc(L("cl_counts", v=len(cl_now["requirements"]), t=len(cl_now.get("not_yet_verified", []))))}</p>',
+                        unsafe_allow_html=True)
+            # The one action that sends the case (online form, or booking); the dossier is at the top of the checklist.
+            if links_now.get("online_form_url"):
+                st.link_button(LV("online_btn", sid_now), links_now["online_form_url"]["url"], type="primary",
+                               icon=":material/open_in_new:")
+            elif links_now.get("booking_url") and not state.appointment:
+                st.link_button(L("book"), links_now["booking_url"]["url"], type="primary", icon=":material/open_in_new:")
+        earlier = list(range(last_assistant))
+        if len(earlier) >= 3:  # at least one question and its answer: fold them, keep the last reply open
+            with st.expander(L("conv_title", n=len(earlier))):
+                for i in earlier:
+                    render_message(i, state.chat[i], folded=True)
+        else:
+            for i in earlier:
+                render_message(i, state.chat[i])
+        for i in range(last_assistant, len(state.chat)):
+            render_message(i, state.chat[i])
     else:
-        st.markdown('<div class="ov-kicker">Anagrafe, Comune di Milano</div>', unsafe_allow_html=True)
-        st.title("OneVisit")
+        for i, m in enumerate(state.chat):
+            render_message(i, m)
 
-    for i, m in enumerate(state.chat):
-        with st.chat_message(m["role"]):
-            st.markdown(m["text"])
-            if m["role"] == "assistant" and m.get("trace"):
-                with st.expander("What Claude checked"):
-                    for step in m["trace"]:
-                        out = step["output"]
-                        if isinstance(out, dict) and "requirements" in out:
-                            summary = f"{len(out['requirements'])} verified, {len(out.get('not_yet_verified', []))} not yet verified"
-                        elif isinstance(out, list):
-                            summary = f"{len(out)} results"
-                        else:
-                            summary = "ok" if "error" not in str(out)[:50] else "error"
-                        st.markdown(f"`{step['tool']}({', '.join(f'{k}={v}' for k, v in step['input'].items())})` → {summary}")
-            if m["role"] == "assistant" and m.get("options") and i == len(state.chat) - 1:
-                cols = st.columns(len(m["options"]))
-                for col, opt in zip(cols, m["options"]):
-                    if col.button(opt, key=f"opt-{i}-{opt}", use_container_width=True):
-                        state.pending = opt
-                        st.rerun()
-
-    if state.checklist:
-        show_checklist(state.checklist)
-    if state.offices:
-        show_offices(state.offices)
-
-    if state.checklist:
-        with st.expander("Remind me before the appointment"):
-            day = st.date_input("Appointment date", min_value=dt.date.today())
-            st.download_button("Add reminders to my calendar (.ics)", ics(day), "onevisit.ics", "text/calendar")
-            st.caption("Saved on your device only. We don't ask for your email.")
-
-        with st.expander("After your appointment: how did it go?"):
-            outcome = st.radio("Outcome", ["All fine", "Something was missing", "Other"], horizontal=True)
-            note = st.text_input("What happened? Please don't write names or document numbers.")
-            if st.button("Send", disabled=not has_key):
-                code = {"All fine": "ok", "Something was missing": "missing", "Other": "other"}[outcome]
-                with st.spinner("Claude is removing personal details and classifying your report…"):
-                    try:
-                        result = outcomes.classify(state.service_id or "unknown", code, note, client=client())
-                        row = outcomes.save_report(state.service_id or "unknown", code, result)
-                        st.markdown(f"**✓ Thank you.** Recorded as: {outcomes.CAUSES[row['cause']][0]}. "
-                                    f"Saved: “{row['summary_en']}” (your own words are not stored).")
-                    except Exception as e:
-                        st.error(f"Could not send: {e}")
-
-    prompt = st.chat_input("Describe your situation in any language", disabled=not has_key)
-    pending = state.pop("pending", None)
-    if prompt or pending:
-        ask(prompt or pending)
+    if state.pending:
+        pending = state.pending
+        if pending["kind"] == "text":
+            st.markdown(f'<div class="ov-msg user"><div class="ov-body"><div class="ov-bubble">{esc(pending["text"])}</div></div></div>',
+                        unsafe_allow_html=True)
+        with st.spinner(L("spinner") if LIVE else L("spinner_demo")):
+            state.pending = None
+            process(pending)
         st.rerun()
 
-# ---------- panel ----------
+    # ---- path, next actions, checklist, online form, offices, dossier ----
+    cl = state.checklist
+    if cl and "requirements" in cl:
+        sid = cl["service_id"]
+        service = kb.get_service(sid) or {}
+        links = service.get("links") or {}
+        steps = service.get("steps") or []
+        complete = not cl.get("still_to_ask")
+
+        # Claude translates what the cache lacks (live only): the Italian stays the text that counts.
+        if LIVE and state.lang not in ("it", "en") and (sid, state.lang) not in state.translated:
+            state.translated.add((sid, state.lang))
+            if kb.missing_translations(sid, state.lang) and take_live_call():
+                with st.spinner(L("translating")):
+                    try:
+                        translate.ensure(sid, state.lang, client())
+                    except Exception:
+                        pass  # English stays on screen; nothing invented
+
+        if steps:
+            with st.container(border=True, key="steps"):
+                st.markdown(f'<p class="ov-card-h">🧭 {esc(L("steps_title"))}</p>'
+                            f'<p class="ov-card-sub">{esc(L("steps_sub", n=len(steps)))}</p>', unsafe_allow_html=True)
+                rows = []
+                for n, step in enumerate(sorted(steps, key=lambda x: x.get("order", 0)), start=1):
+                    title, _ = kb.step_text(sid, step, state.lang, "title")
+                    bodies = [step.get("ente")] + [r.get("ente") for r in step.get("routes") or []]
+                    who = " · ".join(f"<bdi>{esc(x)}</bdi>" for x in [title, " / ".join(dict.fromkeys(demo.ente_name(b) for b in bodies if b))] if x)
+                    text, _ = kb.step_text(sid, step, state.lang)
+                    if step.get("booking") and state.appointment and state.appointment.get("date"):
+                        when = demo.format_date(state.appointment.get("date"))
+                        rows.append(f'<div class="ov-step done"><span class="n">✓</span><div><div class="who">{who}</div>'
+                                    f'{esc(L("step_booked", when=when))}</div></div>')
+                        continue
+                    if step.get("routes"):
+                        items = [f'<li>{esc(text)} {cite_html(step["source_id"])}</li>']
+                        for k, route in enumerate(step["routes"], start=1):
+                            rtext, _ = kb.route_text(sid, step, k, state.lang)
+                            items.append(f'<li>{esc(rtext)} {cite_html(route["source_id"])}</li>')
+                        body = f'{esc(L("step_routes"))}<ul class="ov-route">{"".join(items)}</ul>'
+                    else:
+                        body = f'{esc(text)} {cite_html(step["source_id"]) if step.get("source_id") else ""}'
+                    rows.append(f'<div class="ov-step"><span class="n">{n}</span><div><div class="who">{who}</div>{body}</div></div>')
+                st.markdown("".join(rows), unsafe_allow_html=True)
+                with st.container(horizontal=True, gap="small"):
+                    if links.get("online_form_url") and not case_done:  # once done, the summary card has it
+                        st.link_button(LV("online_btn", sid), links["online_form_url"]["url"], type="primary", icon=":material/open_in_new:")
+                    if links.get("official_url"):
+                        st.link_button(L("official_link"), links["official_url"]["url"], icon=":material/open_in_new:")
+
+        reqs, todo = cl.get("requirements", []), cl.get("not_yet_verified", [])
+        ticked = ticked_ids(cl)
+
+        # The next 3 actions, once the case is clear: Claude orders the verified items; code checks every action.
+        if reqs and complete:
+            plan_key = json.dumps([sid, state.answers, state.lang, (state.appointment or {}).get("date")], sort_keys=True)
+            result = state.plans.get(plan_key)
+            if result is None and LIVE and take_live_call():
+                with st.spinner(L("actions_spinner")):
+                    try:
+                        result = plan.claude_actions(sid, dict(state.answers), state.lang, client=client(),
+                                                     appointment=(state.appointment or {}).get("date"))
+                    except Exception:  # shown from the data instead; not retried on every rerun
+                        result = {"actions": [], "rejected": [], "by": "claude", "failed": True}
+                state.plans[plan_key] = result
+            if not result or not result.get("actions"):
+                result = plan.fallback_actions(sid, dict(state.answers), state.lang, ticked=ticked)
+            by_id = {r["id"]: r for r in reqs}
+            rows = []
+            for n, a in enumerate(result["actions"], start=1):
+                done = all(x in ticked for x in a["requirement_ids"])
+                why = f'<div class="why">{esc(a["why"])}</div>' if a.get("why") else ""
+                cites = "".join(cite_html(s) for s in a.get("source_ids", []))
+                action = a["action"] if result["by"] == "claude" else local_req(sid, by_id[a["requirement_ids"][0]])[0]
+                strike = ' style="text-decoration:line-through"' if done else ""
+                rows.append(f'<div class="ov-act"><span class="n">{"✓" if done else n}</span><div>'
+                            f'<div{strike}>{esc(action)} {cites}</div>{why}</div></div>')
+            if result["by"] == "claude":
+                with st.container(border=True, key="actions"):
+                    st.markdown(f'<p class="ov-card-h">➡ {esc(L("actions_title"))}</p>'
+                                f'<p class="ov-card-sub">{esc(L("actions_by_claude", model=result.get("model", MODEL)))}</p>'
+                                + "".join(rows), unsafe_allow_html=True)
+                    if result.get("rejected"):
+                        st.caption(L("actions_rejected", n=len(result["rejected"])))
+            elif rows:
+                with st.expander(f'➡ {L("actions_title")} · {L("actions_demo_tag")}'):
+                    st.markdown(f'<p class="ov-card-sub">{esc(L("actions_by_data"))}</p>' + "".join(rows), unsafe_allow_html=True)
+
+        total = max(len(reqs) + len(todo), 1)
+        with st.container(border=True, key="checklist"):
+            n_sources = len({r["source_id"] for r in reqs})
+            # Once the case is clear the summary card above already names the service and the counts.
+            sub = [] if case_done else [demo.service_title(service, state.lang), L("cl_counts", v=len(reqs), t=len(todo))]
+            sub += [L("cl_sources", n=n_sources)] if n_sources > 1 else []
+            st.markdown(f'<p class="ov-card-h">✓ {esc(L("cl_title"))}</p>'
+                        f'<p class="ov-card-sub">{esc(" · ".join(sub))}</p>'
+                        f'<div class="ov-bar"><span style="width:{100 * len(reqs) / total:.0f}%"></span></div>', unsafe_allow_html=True)
+            any_translated = state.lang not in ("it", "en") and any(local_req(sid, r)[1] for r in reqs)
+            if any_translated:
+                st.markdown(f'<span class="ov-mt">🌐 {esc(L("translated"))}</span>', unsafe_allow_html=True)
+            if reqs:  # the one dossier download on the page
+                st.download_button(L("dossier_btn"), current_pdf(cl, current_day()),
+                                   dossier.filename(sid, current_day()), "application/pdf",
+                                   type="primary", icon=":material/download:", key="dossier-pdf-top", on_click="ignore")
+                st.caption(f'{LV("dossier_title", sid)}. {LV("dossier_cap", sid)}')
+            # The files to upload (online) or the things to bring (desk), at a glance.
+            files = kb.to_upload(cl)
+            if files:
+                head = LV("upload_title", sid, n=len(files))
+                sections = {s["id"]: s for s in ((kb.form_guide(sid, state.answers) or {}).get("sections") or [])}
+                items = []
+                for r in files:
+                    name, _ = local_req(sid, r, "short")
+                    sec = sections.get(r.get("form_section") or "")
+                    sec_label = f' <span class="sec">· {esc(kb.localized(sid, "section", sec["id"], "title", sec.get("title_it"), sec.get("title_en"), state.lang)[0])}</span>' if sec else ""
+                    items.append(f'<li class="{"done" if r["id"] in ticked else ""}">{esc(name)}{sec_label}</li>')
+                st.markdown(f'<div class="ov-sum"><b>{esc(head)}</b><ol>{"".join(items)}</ol></div>', unsafe_allow_html=True)
+            if reqs:
+                st.caption(L("cl_tick"))
+            # Grouped by category (what to prepare, how it works, if urgent, afterwards), then by source,
+            # so every item sits under the official page it was verified on.
+            by_category: dict[str, list[dict]] = {}
+            for r in reqs:
+                by_category.setdefault(r.get("category") or "prepare", []).append(r)
+            order = [c for c in kb.CATEGORIES if c in by_category] + [c for c in by_category if c not in kb.CATEGORIES]
+            if state.urgent and "if-urgent" in order:  # in a hurry: the urgent options come first, open
+                order = ["if-urgent"] + [c for c in order if c != "if-urgent"]
+
+            def requirement_rows(items: list[dict]) -> None:
+                by_source: dict[str, list[dict]] = {}
+                for r in items:
+                    by_source.setdefault(r["source_id"], []).append(r)
+                for src, group in sorted(by_source.items(), key=lambda kv: -len(kv[1])):  # largest source first
+                    s = source_meta(src)
+                    title = (f'<a href="{esc(s["url"])}" target="_blank" rel="noopener">{esc(s.get("title"))}</a>'
+                             if s.get("url") else esc(s.get("title")))
+                    checked = max((r.get("verified_at") or "" for r in group), default="")
+                    st.markdown(f'<div class="ov-group">{L("source_line", title=f"{esc(short_label(src))} · {title}", date=esc(demo.format_date(checked)))}</div>',
+                                unsafe_allow_html=True)
+                    for r in group:
+                        text, translated = local_req(sid, r)
+                        st.checkbox(text, key=f"have-{sid}-{r['id']}", help=req_help(r, src, translated) or None)
+
+            for category in order:
+                items = by_category[category]
+                label = f"{demo.category_label(category, state.lang)} · {len(items)}"
+                if category == "prepare" or (category == "if-urgent" and state.urgent):
+                    st.markdown(f'<div class="ov-cat">{esc(label)}</div>', unsafe_allow_html=True)
+                    requirement_rows(items)
+                else:
+                    with st.expander(label):
+                        requirement_rows(items)
+            if todo:
+                rows = []
+                for item in kb.open_items(sid, todo):
+                    text, _ = kb.localized(sid, "req", item["id"], "text", item.get("text_it"), item.get("text_en"), state.lang)
+                    rows.append(f'<div class="ov-todo"><span class="q">?</span>{esc(text or item["id"])} · '
+                                f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{esc(L("open_page"))}</a></div>')
+                st.markdown(f'<p class="ov-label">{esc(L("todo_title"))}</p><p class="ov-note">{esc(L("todo_note"))}</p>' + "".join(rows),
+                            unsafe_allow_html=True)
+            if cl.get("still_to_ask"):
+                qs = [demo.question_text(sid, q, state.lang) for q in service.get("deciding_questions", [])
+                      if q["id"] in cl["still_to_ask"]]
+                st.caption(L("still_ask", qs=" · ".join(qs)))
+            st.markdown(f'<div class="ov-final">{esc(LV("final_check", sid))}</div>', unsafe_allow_html=True)
+
+        # How to fill in the City's online application, section by section (residence from abroad).
+        guide = kb.form_guide(sid, state.answers) if service.get("has_form_guide") and complete else None
+        if guide and guide.get("sections"):
+            with st.container(border=True, key="form-guide"):
+                st.markdown(f'<p class="ov-card-h">📝 {esc(L("form_title"))}</p>'
+                            f'<p class="ov-card-sub">{esc(L("form_sub"))}</p>', unsafe_allow_html=True)
+                with st.expander(L("form_open", n=len(guide["sections"]))):
+                    n_files = done_files = 0
+                    for sec in guide["sections"]:
+                        title, _ = kb.localized(sid, "section", sec["id"], "title", sec.get("title_it"), sec.get("title_en"), state.lang)
+                        verbatim = state.lang != "it" and sec.get("title_it", "") in (sec.get("quote") or "")
+                        st.markdown(f'<div class="ov-sec">{esc(title)} {cite_html(sec["source_id"])}'
+                                    f'{" <small>· «" + esc(sec["title_it"]) + "»</small>" if verbatim else ""}</div>',
+                                    unsafe_allow_html=True)
+                        sec_text, _ = kb.localized(sid, "section", sec["id"], "text", sec.get("text_it"), sec.get("text_en"), state.lang)
+                        if sec_text:
+                            st.markdown(f'<div class="ov-note">{esc(sec_text)}</div>', unsafe_allow_html=True)
+                        if sec["id"] == "abitazione" and guide.get("housing_option"):
+                            h = guide["housing_option"]
+                            label, _ = kb.localized(sid, "housing", h["answer"], "label", h.get("label_it"), h.get("label_en"), state.lang)
+                            st.markdown(f'<div class="ov-housing">{esc(L("form_housing"))} <b>{esc(label)}</b>'
+                                        f'{" (« " + esc(h["label_it"]) + " »)" if state.lang != "it" else ""} {cite_html(h["source_id"])}</div>',
+                                        unsafe_allow_html=True)
+                        for item in sec["items"]:
+                            text, translated = local_req(sid, item)
+                            if sec["id"] in ("nel-modulo", "invio"):
+                                st.markdown(f'<div class="ov-tool">• {esc(text)} {cite_html(item["source_id"])}</div>', unsafe_allow_html=True)
+                                continue
+                            n_files += 1
+                            short, _ = local_req(sid, item, "short")
+                            if st.checkbox(f'{short or text} · {L("form_ready")}', key=f"form-{sid}-{item['id']}",
+                                           help=f"{text}\n\n{L('original_it')}: {item.get('text_it')}" if translated else text):
+                                done_files += 1
+                    if n_files:
+                        st.progress(done_files / n_files, text=L("form_done", d=done_files, n=n_files))
+                st.caption(L("form_note"))
+
+    if state.offices:
+        service_booking = (kb.service_links(state.service_id).get("booking_url") if state.service_id else None) or {}
+        booking = service_booking or kb.get_source("prenotazione") or {}
+        with st.container(border=True, key="offices"):
+            st.markdown(f'<p class="ov-card-h">📍 {esc(L("off_title"))} {cite_html(state.offices[0].get("source_id", "ds549"))}</p>'
+                        f'<p class="ov-card-sub">{esc(L("off_src"))}</p>', unsafe_allow_html=True)
+            for o in state.offices:
+                where = o["address"] + (f" ({o['entrance_note']})" if o.get("entrance_note") else "")
+                confirmed = (f' {cite_html(o["entrance_confirmed_by"]["source_id"])}' if o.get("entrance_confirmed_by") else "")
+                extra = f'<div class="ov-note">{esc(L("off_no_spid"))}</div>' if o.get("booking_without_spid") else ""
+                issues = "".join(f'<div class="ov-warn">{esc(L("off_note", issue=x))}</div>' for x in o.get("data_issues", []))
+                st.markdown(f'<div class="ov-office"><b>{esc(where)}</b>{confirmed}{" · Municipio " + str(o["municipio"]) if o.get("municipio") else ""}'
+                            f'<div class="ov-hours">{esc(o.get("hours_it"))}</div>{extra}{issues}</div>', unsafe_allow_html=True)
+            if len(state.offices) > 1:
+                by_address = {o["address"]: o["id"] for o in state.offices}
+                current = next((a for a, i in by_address.items() if i == state.office_id), None)
+                picked = st.radio(L("off_pick"), list(by_address), horizontal=True,
+                                  index=list(by_address).index(current) if current else 0)
+                state.office_id = by_address[picked]
+            if booking.get("url") and not state.appointment:
+                st.link_button(L("book"), booking["url"], icon=":material/open_in_new:")
+
+    if cl and "requirements" in cl:
+        with st.container(border=True, key="reminder"):
+            st.markdown(f'<p class="ov-card-h">📅 {esc(L("remind_title"))}</p>'
+                        f'<p class="ov-card-sub">{esc(L("remind_cap"))}</p>', unsafe_allow_html=True)
+            preset = (state.appointment or {}).get("date")
+            preset_day = dt.date.fromisoformat(preset) if preset else None
+            day = st.date_input(LV("appt_date", cl["service_id"]), value=preset_day, format="DD/MM/YYYY", key="appt_day",
+                                min_value=min(dt.date.today(), preset_day or dt.date.today()))
+            if day:
+                st.download_button(L("ics_btn"), ics(day, cl["service_id"]), "onevisit.ics", "text/calendar", key="ics",
+                                   icon=":material/event:", on_click="ignore")
+                st.caption(L("ics_cap"))
+
+        # After the appointment: one report, scrubbed of personal details, classified by Claude.
+        with st.expander(LV("fb_title", cl["service_id"])):
+            report_form("fb", state.service_id or cl["service_id"])
+
+    st.chat_input(L("chat_placeholder") if LIVE else L("chat_placeholder_demo"), key="chat_text", on_submit=on_chat_submit)
+    if state.chat:
+        st.button(L("new_conv"), on_click=reset, type="tertiary", icon=":material/refresh:")
+
+    if not SERVER_KEY:
+        with st.expander(L("key_title")):
+            st.text_input(L("key_label"), type="password", key="api_key", help=L("key_help"))
+            st.caption(L("key_cap"))
+
+# ---------- City panel ----------
 with panel:
-    st.title("What the appointments tell the City")
-    st.caption("Prototype panel for City staff. Statistics are real City open data; reports marked SIMULATED are demo data.")
+    lang_city = "it" if state.lang == "it" else "en"
+    st.markdown(f'<h2>{esc(L("city_title"))}</h2>', unsafe_allow_html=True)
+    st.caption(L("city_cap"))
 
     ctx = kb.context_tables()
-    arrivals = {r["year"]: r for r in ctx["arrivals-from-abroad"]}
-    res = {r["group"]: r for r in ctx["residence-2022-helped-by-group"]}
+    arrivals = {r["year"]: r for r in ctx.get("arrivals-from-abroad", [])}
+    res = {r["group"]: r for r in ctx.get("residence-2022-helped-by-group", [])}
+    arrivals_2024 = int(arrivals.get("2024", {}).get("registrations_from_abroad", 0) or 0)
+    other_comuni_2024 = int(arrivals.get("2024", {}).get("registrations_from_other_comuni", 0) or 0)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Registered from abroad, 2024", f"{int(arrivals['2024']['registrations_from_abroad']):,}",
-              help="ds1959 · Comune di Milano open data")
-    c2.metric("Online residence service didn't help: foreign citizens", f"{res['Straniero']['helped_little_or_not_pct']}%",
-              help="ds1702 · 2022 survey, 1,612 answers")
-    c3.metric("…Italian citizens", f"{res['Italiano']['helped_little_or_not_pct']}%",
-              help="ds1702 · 2022 survey, 8,582 answers")
+    c1.metric(L("kpi1"), f"{arrivals_2024:,}".replace(",", "." if lang_city == "it" else ","), help=L("kpi1_help"))
+    if res:
+        c2.metric(L("kpi2"), f"{res['Straniero']['helped_little_or_not_pct']}%", help=L("kpi2_help"))
+        c3.metric(L("kpi3"), f"{res['Italiano']['helped_little_or_not_pct']}%", help=L("kpi3_help"))
 
-    st.subheader("Problems in City data, found today")
-    for o in [o for o in json_offices if o["data_issues"]] if (json_offices := kb._offices()) else []:
-        st.markdown(f"**{o['address']}** {chip('ds549')}", unsafe_allow_html=True)
-        for issue in o["data_issues"]:
-            st.markdown(f"- {issue}")
+    # Expected impact: a formula with assumptions the staff can move, labelled as an estimate. The two bases are
+    # the 2024 registrations the app's two residence procedures serve (ds1959); ID cards have no sourced volume.
+    st.markdown(f'<h3>{esc(L("impact_title"))} <span class="ov-badge">{esc(L("impact_badge"))}</span></h3>'
+                f'<div class="ov-formula">{esc(L("impact_formula"))}</div>', unsafe_allow_html=True)
+    i1, i2 = st.columns(2)
+    p1 = i1.slider(L("impact_p1a"), 5, 50, 20, 5, format="%d%%", key="impact-abroad")
+    p1b = i2.slider(L("impact_p1b"), 0, 50, 10, 5, format="%d%%", key="impact-comuni")
+    i3, i4 = st.columns(2)
+    p2 = i3.slider(L("impact_p2"), 5, 80, 30, 5, format="%d%%", key="impact-use")
+    p3 = i4.slider(L("impact_p3"), 10, 90, 50, 10, format="%d%%", key="impact-avoided")
+    avoided = round((arrivals_2024 * p1 / 100 + other_comuni_2024 * p1b / 100) * p2 / 100 * p3 / 100)
 
-    st.subheader("Reports after appointments")
-    st.caption(f"A group reaches the office only with at least {outcomes.THRESHOLD} similar reports. "
-               "Smaller groups are visible to web editors only, without dates or office.")
+    def num(n: int) -> str:
+        return f"{n:,}".replace(",", "." if lang_city == "it" else ",")
+    st.markdown(f'<div class="ov-formula" style="border-left-color:{C["accent"]}"><b style="font-size:1.4rem">≈ {num(avoided)}</b> '
+                f'{esc(L("impact_result"))}<br><span class="ov-note">({num(arrivals_2024)} × {p1}% + {num(other_comuni_2024)} × {p1b}%)'
+                f' × {p2}% × {p3}%. {esc(L("impact_scope"))}</span></div>', unsafe_allow_html=True)
+    st.caption(L("impact_note"))
+
+    # Day one: one line in the email the City already sends.
+    st.markdown(f'<h3>{esc(L("day1_title"))}</h3>', unsafe_allow_html=True)
+    st.markdown(f'<p>{esc(L("day1_lead"))}</p>', unsafe_allow_html=True)
+    example_office = next((o for o in kb.find_offices(area="Isola", limit=1)), None)
+    example_date = (dt.date.today() + dt.timedelta(days=16)).isoformat()
+    shown = deeplink.build("carta-identita", example_office["id"] if example_office else None, example_date, lang_city)
+    href = "?" + shown.split("?", 1)[1] + ("&demo=1" if FORCE_DEMO else "")
+    st.markdown(
+        f'<div class="ov-mock">{esc(L("mock_label"))}</div>'
+        f'<div class="ov-mail"><div class="ov-mail-h">{esc(L("mock_subject"))}</div><div class="ov-mail-b">'
+        f'<div class="old">{esc(L("mock_existing"))}</div>'
+        f'<div class="new">{esc(L("mock_added"))}<br><a href="{esc(href)}" target="_self">{esc(shown)}</a></div>'
+        f'</div></div><p class="ov-note" style="margin-top:6px">{esc(L("mock_try"))}</p>', unsafe_allow_html=True)
+
+    # The same link, without office and date, in the YesMilano student guide (the student path the City runs).
+    yes = deeplink.build("iscrizione-anagrafica-extra-ue", lang=lang_city, channel="yesmilano")
+    yes_href = "?" + yes.split("?", 1)[1] + ("&demo=1" if FORCE_DEMO else "")
+    st.markdown(
+        f'<div class="ov-mock" style="margin-top:14px">{esc(L("mock_page_label"))}</div>'
+        f'<div class="ov-mail"><div class="ov-mail-h">{esc(L("mock_yes_subject"))}</div><div class="ov-mail-b">'
+        f'<div class="old">{esc(L("mock_yes_existing"))}</div>'
+        f'<div class="new">{esc(L("mock_yes_added"))}<br><a href="{esc(yes_href)}" target="_self">{esc(yes)}</a></div>'
+        f'</div></div><p class="ov-note" style="margin-top:6px">{esc(L("mock_yes_try"))}</p>', unsafe_allow_html=True)
+
+    st.markdown(f'<h3>{esc(L("proactive_title"))}</h3><p class="ov-note">{esc(L("proactive_lead"))}</p>', unsafe_allow_html=True)
+    head = "".join(f"<th>{esc(L(k))}</th>" for k in ("col_step", "col_data", "col_owner", "col_privacy", "col_when"))
+    body = "".join(
+        f'<tr class="{"day1" if n < 2 else ""}"><td><b>{esc(a)}</b></td><td>{esc(b)}</td><td>{esc(c)}</td><td>{esc(d)}</td><td class="when">{esc(e)}</td></tr>'
+        for n, (a, b, c, d, e) in enumerate(PROACTIVE[lang_city]))
+    st.markdown(f'<div class="ov-table-wrap"><table class="ov-table"><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>',
+                unsafe_allow_html=True)
+
+    # Reports after appointments, grouped, with Claude's drafts for a person to approve.
+    st.markdown(f'<h3>{esc(L("reports_title"))}</h3>', unsafe_allow_html=True)
+    st.caption(L("reports_cap", k=outcomes.THRESHOLD))
+    with st.expander(L("try_report")):
+        services = {s["id"]: demo.service_title(kb.get_service(s["id"]) or {}, lang_city) for s in kb.list_services()}
+        report_service = st.selectbox(L("try_report_service"), list(services), format_func=services.get, key="city-service")
+        report_form("city", report_service)
+    causes = CAUSES_IT if lang_city == "it" else outcomes.CAUSES
     for g in outcomes.groups():
         key = f"{g['service_id']}|{g['cause']}"
-        tag = " · SIMULATED" if g["simulated"] == g["count"] else (f" · {g['simulated']} simulated" if g["simulated"] else "")
-        status = "Ready for the office" if g["over_threshold"] else "Web editors only (below threshold)"
+        tag = (f" · {L('simulated')}" if g["simulated"] == g["count"]
+               else (f" · {L('n_simulated', n=g['simulated'])}" if g["simulated"] else ""))
+        status = L("ready") if g["over_threshold"] else L("below")
+        label, recipient = causes.get(g["cause"], (g["cause_label"], g["recipient"]))
         with st.container(border=True):
-            st.markdown(f"**{g['count']} reports · {g['cause_label']}** · {g['service_id']}{tag}  \n"
-                        f"To: {g['recipient']} · {status}")
-            for ex in g["examples_en"]:
+            st.markdown(f'<div class="ov-group-h">{esc(L("reports_n", n=g["count"]))} · {esc(label)}</div>'
+                        f'<div class="ov-note">{esc(g["service_id"])}{esc(tag)} · {esc(L("to"))}: {esc(recipient)} · <b>{esc(status)}</b></div>',
+                        unsafe_allow_html=True)
+            for ex in g["examples_it" if lang_city == "it" else "examples_en"]:
                 st.caption(f"“{ex}”")
             if key in state.approved:
-                st.markdown("**✓ Approved by a City officer.** The checklist will be updated once the page is changed.")
+                st.success(L("approved"))
             elif key in state.drafts:
                 with st.container(border=True):
+                    if not LIVE:
+                        st.caption(L("draft_recorded"))
                     st.markdown(state.drafts[key])
-                if st.button("Approve correction", key=f"ap-{key}"):
+                if st.button(L("approve"), key=f"ap-{key}", type="primary"):
                     state.approved.add(key)
                     st.rerun()
-            elif st.button("Draft a correction with Claude", key=f"dr-{key}", disabled=not has_key):
-                with st.spinner("Claude is drafting…"):
-                    try:
-                        state.drafts[key] = outcomes.draft_fix(g, client=client())
-                    except Exception as e:
-                        st.error(f"Could not draft: {e}")
-                st.rerun()
+            elif LIVE:
+                if st.button(L("draft_btn"), key=f"dr-{key}") and take_live_call():
+                    with st.spinner(L("draft_spinner")):
+                        try:
+                            state.drafts[key] = outcomes.draft_fix(g, client=client())
+                        except Exception as e:
+                            st.error(L("error", e=type(e).__name__))
+                    st.rerun()
+            else:
+                recorded = demo.draft(g)
+                if st.button(L("draft_btn_demo"), key=f"dr-{key}", disabled=not recorded):
+                    state.drafts[key] = recorded
+                    st.rerun()
 
-# ---------- design ----------
-with design:
-    st.caption("The interface we designed for the next version (IO app design system, black and white). "
-               "Clickable, with example content. The tabs on the left run the real assistant.")
-    proto = (ROOT / "design" / "onevisit-prototype.html").read_text(encoding="utf-8")
-    proto = proto.replace('<html lang="en">', f'<html lang="en" data-theme="{"dark" if dark else "light"}">', 1)
-    components.html(proto, height=1100, scrolling=True)
+    st.markdown(f'<h3>{esc(L("data_title"))}</h3>', unsafe_allow_html=True)
+    st.caption(L("data_cap"))
+    for o in [o for o in kb.find_offices(limit=1000) if o.get("data_issues") or o.get("dataset_notes")]:
+        st.markdown(f'**{esc(o["address"])}** {cite_html(o.get("source_id", "ds549"))}', unsafe_allow_html=True)
+        for issue in o.get("data_issues", []) + o.get("dataset_notes", []):
+            st.markdown(f"- {issue}")
 
-st.markdown('<div class="ov-foot">Prototype built at the Claude Impact Lab Milano, 3 Oct 2026. '
-            'Not an official City of Milan service. Open source, MIT.</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="ov-foot">{esc(L("foot"))}</div>', unsafe_allow_html=True)

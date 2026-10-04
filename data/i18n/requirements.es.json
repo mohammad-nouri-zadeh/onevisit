@@ -1,0 +1,756 @@
+{
+ "_about": "Claude's translation of the requirement, step and section texts in data/services, for the citizen's language. Each entry keeps the Italian it was translated from ('it'): when the Italian changes, the entry is stale and the app shows English until it is translated again (python -m onevisit.translate). The Italian text and the verbatim quote from the official page are the ones that count; the app labels these texts 'Traduzione di Claude'. Not reviewed by a human translator yet.",
+ "lang": "es",
+ "translated_by": "Claude (claude-opus-5-5) on 2026-10-04, following the instructions in onevisit/translate.py (the runtime path uses claude-haiku-4-5 for texts missing here)",
+ "updated": "2026-10-04",
+ "texts": {
+  "cambio-residenza:req:a-chi-si-rivolge:text": {
+   "it": "Questo servizio è per chi arriva a Milano da un altro Comune italiano, per chi cambia indirizzo dentro Milano e per chi ha cittadinanza italiana e rientra dall'estero, se iscritto all'AIRE.",
+   "text": "Este servicio es para quien llega a Milán desde otro municipio italiano, para quien cambia de dirección dentro de Milán y para los ciudadanos italianos que vuelven del extranjero inscritos en el AIRE (registro de italianos residentes en el extranjero)."
+  },
+  "cambio-residenza:req:accertamento-45-giorni:text": {
+   "it": "Gli accertamenti durano al massimo 45 giorni; se l'esito è positivo, la residenza vale dalla data della dichiarazione.",
+   "text": "Las comprobaciones duran como máximo 45 días; si el resultado es positivo, la residencia cuenta desde la fecha de la declaración."
+  },
+  "cambio-residenza:req:altri-allegati:text": {
+   "it": "Puoi allegare anche altri documenti che ritieni utili per la pratica.",
+   "text": "También puedes adjuntar cualquier otro documento que creas útil para tramitar la solicitud."
+  },
+  "cambio-residenza:req:convalida-familiari:short": {
+   "it": "SPID o CIE anche per gli altri maggiorenni, per convalidare",
+   "text": "SPID o CIE también para los demás adultos, para confirmar"
+  },
+  "cambio-residenza:req:convalida-familiari:text": {
+   "it": "Se con te si trasferiscono altri maggiorenni, prima dell'invio ognuno entra nella propria area dell'Anagrafe Nazionale e convalida i dati inseriti.",
+   "text": "Si se mudan contigo otras personas adultas, antes del envío cada una entra en su área personal del Registro Nacional y confirma los datos introducidos."
+  },
+  "cambio-residenza:req:dati-richiesti:short": {
+   "it": "Dati del nuovo indirizzo e tuoi contatti",
+   "text": "Datos de la nueva dirección y tus contactos"
+  },
+  "cambio-residenza:req:dati-richiesti:text": {
+   "it": "Nella dichiarazione ti chiedono i dati del nuovo indirizzo, il titolo con cui occupi la casa e i tuoi contatti.",
+   "text": "La declaración pide los datos de la nueva dirección, el título con el que ocupas la vivienda y tus datos de contacto."
+  },
+  "cambio-residenza:req:entro-20-giorni:text": {
+   "it": "Il cambio di città o di indirizzo va comunicato all'anagrafe entro 20 giorni dal trasferimento.",
+   "text": "El cambio de ciudad o de dirección se comunica al registro civil en un plazo de 20 días desde la mudanza."
+  },
+  "cambio-residenza:req:esito-negativo:text": {
+   "it": "Se gli accertamenti danno esito negativo il procedimento si interrompe: il Comune te lo comunica e puoi rispondere con memorie o documenti.",
+   "text": "Si las comprobaciones dan resultado negativo, el trámite se interrumpe: el Ayuntamiento te lo comunica y puedes responder con alegaciones o documentos."
+  },
+  "cambio-residenza:req:estremi-catastali:short": {
+   "it": "Estremi catastali della casa",
+   "text": "Datos catastrales de la vivienda"
+  },
+  "cambio-residenza:req:estremi-catastali:text": {
+   "it": "Casa di tua proprietà: tieni a portata di mano gli estremi catastali dell'immobile.",
+   "text": "Vivienda de tu propiedad: ten a mano los datos catastrales del inmueble (estremi catastali)."
+  },
+  "cambio-residenza:req:estremi-contratto:short": {
+   "it": "Estremi del contratto d'affitto e carta d'identità del proprietario",
+   "text": "Datos del contrato de alquiler y carta de identidad del propietario"
+  },
+  "cambio-residenza:req:estremi-contratto:text": {
+   "it": "Casa non tua: per esempio gli estremi del contratto di locazione e la carta d'identità della persona proprietaria.",
+   "text": "Vivienda que no es tuya: por ejemplo los datos de registro del contrato de alquiler y la carta de identidad del propietario."
+  },
+  "cambio-residenza:req:gratuita:text": {
+   "it": "La dichiarazione di cambio di residenza è gratuita.",
+   "text": "La declaración de cambio de residencia es gratuita."
+  },
+  "cambio-residenza:req:invio-diretto:text": {
+   "it": "Se sei l'unica persona maggiorenne che cambia residenza, invii tu la dichiarazione direttamente al Comune.",
+   "text": "Si eres la única persona adulta que cambia de residencia, envías tú directamente la declaración al Ayuntamiento."
+  },
+  "cambio-residenza:req:iscrizione-2-giorni:text": {
+   "it": "L'iscrizione anagrafica avviene nei due giorni lavorativi dopo la dichiarazione; poi il Comune accerta i requisiti.",
+   "text": "La inscripción se hace en los dos días hábiles siguientes a la declaración; después el Ayuntamiento comprueba los requisitos."
+  },
+  "cambio-residenza:req:online-spid-cie:short": {
+   "it": "SPID o CIE per entrare nel sito dell'Anagrafe Nazionale",
+   "text": "SPID o CIE para entrar en la web del Registro Nacional"
+  },
+  "cambio-residenza:req:online-spid-cie:text": {
+   "it": "Non si va allo sportello: la dichiarazione si fa sul sito dell'Anagrafe Nazionale (ANPR) e per entrare servono SPID o CIE.",
+   "text": "No vas a la ventanilla: haces la declaración en la web del Registro Nacional (Anagrafe Nazionale, ANPR) y para entrar necesitas SPID o CIE (carta de identidad electrónica)."
+  },
+  "cambio-residenza:req:permesso-extra-ue:short": {
+   "it": "Permesso di soggiorno",
+   "text": "Permiso de residencia"
+  },
+  "cambio-residenza:req:permesso-extra-ue:text": {
+   "it": "Cittadinanza extra UE: è obbligatorio allegare il permesso di soggiorno.",
+   "text": "Ciudadanía de fuera de la UE: es obligatorio adjuntar el permesso di soggiorno (permiso de residencia)."
+  },
+  "cambio-residenza:req:senza-spid-cie:text": {
+   "it": "Da verificare: come presentare la dichiarazione senza SPID o CIE. Le fonti salvate non lo dicono.",
+   "text": "Por comprobar: cómo hacer la declaración sin SPID ni CIE. Las fuentes guardadas no lo dicen."
+  },
+  "cambio-residenza:req:stato-pratica:text": {
+   "it": "Segui la pratica nella sezione «Le tue richieste» dell'Anagrafe Nazionale; le notifiche arrivano per email (se l'hai indicata) e sull'app IO.",
+   "text": "Sigue el trámite en la sección «Le tue richieste» (tus solicitudes) del Registro Nacional; las notificaciones llegan por correo electrónico (si lo indicaste) y en la app IO."
+  },
+  "cambio-residenza:req:tari:text": {
+   "it": "Ricorda di dichiarare la nuova situazione abitativa per la TARI (tassa rifiuti).",
+   "text": "Recuerda declarar tu nueva situación de vivienda a efectos de la TARI (tasa de basuras)."
+  },
+  "cambio-residenza:req:tipo-famiglia-esistente:text": {
+   "it": "Scegli invece «Residenza in famiglia esistente» se nella nuova casa ci sono persone con cui hai legami di parentela o affettivi (per esempio una coppia).",
+   "text": "Elige en cambio «Residenza in famiglia esistente» (unirse a un hogar existente) si en la nueva casa hay personas con las que tienes parentesco o una relación de pareja (por ejemplo una pareja)."
+  },
+  "cambio-residenza:req:tipo-nuova-residenza:text": {
+   "it": "Nel servizio scegli «Nuova residenza» se nella casa non abita nessun altro, oppure abitano persone con cui non hai legami di parentela o affettivi (per esempio studenti che dividono un appartamento).",
+   "text": "En el servicio elige «Nuova residenza» (nueva residencia) si en la casa no vive nadie más, o las personas que viven allí no son parientes ni pareja (por ejemplo estudiantes que comparten piso)."
+  },
+  "cambio-residenza:step:1:text": {
+   "it": "Entri nel sito dell'Anagrafe Nazionale con SPID o CIE e compili la dichiarazione di cambio di residenza.",
+   "text": "Entras en la web del Registro Nacional con SPID o CIE y rellenas la declaración de cambio de residencia."
+  },
+  "cambio-residenza:step:1:title": {
+   "it": "Dichiarazione online",
+   "text": "Declaración online"
+  },
+  "cambio-residenza:step:2:text": {
+   "it": "L'anagrafe del Comune registra e accoglie la dichiarazione, con riserva, entro 2 giorni dal ricevimento.",
+   "text": "El registro civil del Ayuntamiento registra y acepta la declaración, con reserva, en un plazo de 2 días desde que la recibe."
+  },
+  "cambio-residenza:step:2:title": {
+   "it": "Registrazione",
+   "text": "Inscripción"
+  },
+  "cambio-residenza:step:3:text": {
+   "it": "Il Comune fa gli accertamenti, al massimo in 45 giorni.",
+   "text": "El Ayuntamiento hace las comprobaciones en un máximo de 45 días."
+  },
+  "cambio-residenza:step:3:title": {
+   "it": "Accertamento",
+   "text": "Comprobación"
+  },
+  "carta-identita:req:accettazione:text": {
+   "it": "Il giorno dell'appuntamento fai l'accettazione: online con il codice della mail di conferma, oppure in sede mostrando il QR code della mail, il codice fiscale o la CIE.",
+   "text": "El día de la cita haz el registro de llegada: online con el código del correo de confirmación, o en la oficina mostrando el código QR del correo, tu código fiscal o tu CIE."
+  },
+  "carta-identita:req:altro-documento:short": {
+   "it": "Un altro documento d'identità con foto",
+   "text": "Otro documento de identidad con foto"
+  },
+  "carta-identita:req:altro-documento:text": {
+   "it": "Prima carta: porta un altro documento d'identità in corso di validità con foto, per esempio il passaporto o la patente.",
+   "text": "Primera carta: lleva otro documento de identidad con foto que no esté caducado, por ejemplo el pasaporte o el carné de conducir."
+  },
+  "carta-identita:req:cambio-indirizzo:text": {
+   "it": "Non serve rifare la carta d'identità quando cambi indirizzo o residenza.",
+   "text": "No hace falta una nueva carta de identidad cuando cambias de dirección o de residencia."
+  },
+  "carta-identita:req:carta-cartacea-espatrio:text": {
+   "it": "Dopo il 3 agosto 2026 la carta cartacea non si può più usare in nessun caso per andare all'estero.",
+   "text": "Después del 3 de agosto de 2026 la carta de papel ya no se puede usar en ningún caso para viajar al extranjero."
+  },
+  "carta-identita:req:carta-cartacea-scaduta:text": {
+   "it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
+   "text": "Las cartas de identidad de papel caducaron el 3 de agosto de 2026: si todavía tienes la de papel, necesitas la CIE."
+  },
+  "carta-identita:req:carta-provvisoria:text": {
+   "it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
+   "text": "Hasta diciembre de 2027, solo para urgencias reales y documentadas, se puede obtener una carta de identidad provisional, solo en la sede central de Via Larga 12 (entrada por Via Pecorari 3), demostrando que ya has reservado la cita para la CIE."
+  },
+  "carta-identita:req:codice-fiscale:short": {
+   "it": "Tessera sanitaria o codice fiscale",
+   "text": "Tarjeta sanitaria o código fiscal"
+  },
+  "carta-identita:req:codice-fiscale:text": {
+   "it": "Porta la tessera sanitaria o il codice fiscale.",
+   "text": "Lleva la tarjeta sanitaria (tessera sanitaria) o el código fiscal (codice fiscale)."
+  },
+  "carta-identita:req:costo:short": {
+   "it": "22,20 euro (contanti o bancomat)",
+   "text": "22,20 euros (efectivo o tarjeta de débito)"
+  },
+  "carta-identita:req:costo:text": {
+   "it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
+   "text": "Coste: 22,20 euros, en efectivo o con tarjeta de débito, el día de la cita."
+  },
+  "carta-identita:req:denuncia:short": {
+   "it": "La denuncia di furto o smarrimento",
+   "text": "La denuncia de pérdida o robo"
+  },
+  "carta-identita:req:denuncia:text": {
+   "it": "Carta persa o rubata: porta la denuncia fatta alle forze dell'ordine (autorità di Pubblica Sicurezza).",
+   "text": "Carta perdida o robada: lleva la denuncia (denuncia) presentada ante las autoridades de seguridad pública."
+  },
+  "carta-identita:req:documento-precedente:short": {
+   "it": "La carta scaduta o rovinata",
+   "text": "La carta caducada o deteriorada"
+  },
+  "carta-identita:req:documento-precedente:text": {
+   "it": "Rinnovo: consegna la carta scaduta o rovinata.",
+   "text": "Renovación: entrega la carta caducada o deteriorada."
+  },
+  "carta-identita:req:espatrio-adulti-non-italiani:text": {
+   "it": "Da verificare: le fonti salvate non dicono se la carta d'identità di un adulto non italiano vale per andare all'estero. Rimanda alla pagina ufficiale o allo sportello.",
+   "text": "Por comprobar: las fuentes guardadas no dicen si la carta de identidad de un adulto no italiano sirve para viajar al extranjero. Consulta la página oficial o la ventanilla."
+  },
+  "carta-identita:req:foto-formato-passaporto:text": {
+   "it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
+   "text": "La foto debe tener el mismo formato que la del pasaporte."
+  },
+  "carta-identita:req:foto-niente-usb:text": {
+   "it": "La foto va portata stampata: non si accettano foto su chiavetta USB.",
+   "text": "Lleva la foto impresa: no se aceptan fotos en una memoria USB."
+  },
+  "carta-identita:req:fototessera:short": {
+   "it": "Una fototessera recente, stampata",
+   "text": "Una foto de carnet reciente, impresa"
+  },
+  "carta-identita:req:fototessera:text": {
+   "it": "Porta una fototessera recente, a colori, su sfondo chiaro, a capo scoperto, secondo i parametri del Ministero dell'Interno.",
+   "text": "Lleva una foto de carnet reciente, en color, con fondo claro y la cabeza descubierta, según los parámetros del Ministerio del Interior."
+  },
+  "carta-identita:req:impronte:text": {
+   "it": "Allo sportello ti prendono le impronte digitali.",
+   "text": "En la ventanilla te toman las huellas dactilares."
+  },
+  "carta-identita:req:minori-espatrio:short": {
+   "it": "Assenso dell'altro genitore per l'espatrio",
+   "text": "Consentimiento del otro progenitor para viajar"
+  },
+  "carta-identita:req:minori-espatrio:text": {
+   "it": "Minorenni italiani: per una carta valida per l'espatrio servono entrambi i genitori; se uno non può venire, servono la copia del suo documento e la sua dichiarazione di assenso sul modulo del Comune.",
+   "text": "Menores italianos: para una carta que sirva para viajar al extranjero hacen falta los dos padres; si uno no puede venir, hacen falta la copia de su documento y su declaración de consentimiento en el formulario del Ayuntamiento."
+  },
+  "carta-identita:req:minori-extra-ue:short": {
+   "it": "Permesso di soggiorno del minore",
+   "text": "El permiso de residencia del menor"
+  },
+  "carta-identita:req:minori-extra-ue:text": {
+   "it": "Minorenni extra UE: serve un permesso di soggiorno del minore in corso di validità, oppure il minore deve essere iscritto nel permesso di soggiorno di un genitore.",
+   "text": "Menores de fuera de la UE: el menor necesita un permiso de residencia propio sin caducar, o debe figurar en el permiso de residencia de uno de los padres."
+  },
+  "carta-identita:req:minori-non-italiani-espatrio:text": {
+   "it": "Minorenni non italiani (anche UE): la carta rilasciata non vale per l'espatrio.",
+   "text": "Menores no italianos (también de la UE): la carta expedida no sirve para viajar al extranjero."
+  },
+  "carta-identita:req:minori-prenotazione:text": {
+   "it": "Quando prenoti, inserisci i dati della persona a cui è intestata la carta, anche se è minorenne.",
+   "text": "Al reservar, introduce los datos de la persona a cuyo nombre se expide la carta, aunque sea menor."
+  },
+  "carta-identita:req:minori-presenza:short": {
+   "it": "Il minore presente",
+   "text": "El menor presente"
+  },
+  "carta-identita:req:minori-presenza:text": {
+   "it": "Il minorenne a cui è intestata la carta deve essere sempre presente.",
+   "text": "El menor a cuyo nombre se expide la carta debe estar siempre presente."
+  },
+  "carta-identita:req:minori-un-genitore:short": {
+   "it": "Se viene un solo genitore: testimone o documento",
+   "text": "Si viene un solo progenitor: testigo o documento"
+  },
+  "carta-identita:req:minori-un-genitore:text": {
+   "it": "Se viene un solo genitore: serve un altro adulto con un documento d'identità come testimone, oppure un altro documento d'identità del minore con foto (passaporto o certificato di identità).",
+   "text": "Si viene un solo progenitor: hace falta otro adulto con documento de identidad como testigo, o bien otro documento de identidad del menor con foto (pasaporte o certificado de identidad)."
+  },
+  "carta-identita:req:minori:short": {
+   "it": "Entrambi i genitori, con il minore",
+   "text": "Los dos padres, con el menor"
+  },
+  "carta-identita:req:minori:text": {
+   "it": "Minorenni: il giorno dell'appuntamento vengono entrambi i genitori insieme al ragazzo o alla ragazza.",
+   "text": "Menores: el día de la cita vienen los dos padres junto con el niño o la niña."
+  },
+  "carta-identita:req:prenotazione-senza-spid:text": {
+   "it": "Nella maggior parte delle sedi si può prenotare anche senza SPID, senza registrazione.",
+   "text": "En la mayoría de las oficinas puedes reservar también sin SPID, sin registrarte."
+  },
+  "carta-identita:req:rinnovo-180-giorni:text": {
+   "it": "Puoi chiedere la nuova carta già da 180 giorni prima della scadenza di quella che hai.",
+   "text": "Puedes pedir la nueva carta desde 180 días antes de que caduque la que tienes."
+  },
+  "carta-identita:req:senza-appuntamento-orario:text": {
+   "it": "Le eccezioni senza appuntamento si gestiscono solo dalle 8:30 alle 15:00.",
+   "text": "Las excepciones sin cita se atienden solo de 8:30 a 15:00."
+  },
+  "carta-identita:req:senza-appuntamento-smarrimento:text": {
+   "it": "Carta persa o rubata, con la denuncia e senza un altro documento di riconoscimento: è una delle eccezioni in cui puoi andare a una sede anagrafica senza appuntamento.",
+   "text": "Carta perdida o robada, con la denuncia y sin otro documento de identificación: es una de las excepciones en las que puedes ir a una oficina del registro sin cita."
+  },
+  "carta-identita:req:senza-appuntamento-ticket:text": {
+   "it": "Senza appuntamento si entra con un ticket e i ticket del giorno sono limitati: vai presto.",
+   "text": "Sin cita se entra con un número de turno (ticket) y los del día son limitados: ve temprano."
+  },
+  "carta-identita:req:spedizione-citofono:text": {
+   "it": "Arriva per raccomandata: metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
+   "text": "Llega por correo certificado: pon el nombre de quien la recoge en el timbre, el portero automático y el buzón."
+  },
+  "carta-identita:req:stranieri:short": {
+   "it": "Permesso o carta di soggiorno",
+   "text": "Permiso o tarjeta de residencia"
+  },
+  "carta-identita:req:stranieri:text": {
+   "it": "Cittadini extra UE: porta anche il permesso di soggiorno o la carta di soggiorno in corso di validità.",
+   "text": "Ciudadanos de fuera de la UE: lleva también el permiso de residencia (permesso di soggiorno) o la tarjeta de residencia sin caducar."
+  },
+  "carta-identita:req:su-appuntamento:text": {
+   "it": "Gli sportelli anagrafici ricevono solo su appuntamento, prenotando online.",
+   "text": "Las ventanillas del registro solo atienden con cita, reservada online."
+  },
+  "carta-identita:req:tempi-consegna:text": {
+   "it": "La carta non si ritira allo sportello: viene stampata dal Poligrafico dello Stato e spedita entro 6 giorni lavorativi dalla richiesta (conta almeno una settimana).",
+   "text": "La carta no se recoge en la ventanilla: la imprime la Casa de la Moneda del Estado y se envía en un plazo de 6 días laborables desde la solicitud (cuenta al menos una semana)."
+  },
+  "carta-identita:req:testimoni-prima:short": {
+   "it": "Due testimoni (se non hai altri documenti)",
+   "text": "Dos testigos (si no tienes otro documento)"
+  },
+  "carta-identita:req:testimoni-prima:text": {
+   "it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
+   "text": "Primera carta y ningún otro documento de identidad: tienes que ir al Ayuntamiento con dos testigos."
+  },
+  "carta-identita:req:testimoni:short": {
+   "it": "Due testimoni (se non puoi essere riconosciuto)",
+   "text": "Dos testigos (si no pueden identificarte)"
+  },
+  "carta-identita:req:testimoni:text": {
+   "it": "Se la vecchia carta non permette di riconoscerti e non hai un altro documento d'identità in corso di validità, servono due testimoni maggiorenni con un documento d'identità.",
+   "text": "Si la carta antigua no permite identificarte y no tienes otro documento de identidad sin caducar, hacen falta dos testigos mayores de edad con un documento de identidad."
+  },
+  "carta-identita:req:urgenza-non-scadenza:text": {
+   "it": "Essersi accorti tardi che la carta è scaduta non conta come urgenza.",
+   "text": "Darse cuenta tarde de que la carta ha caducado no cuenta como urgencia."
+  },
+  "carta-identita:req:urgenza:text": {
+   "it": "Urgenza documentata (per esempio un viaggio) e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
+   "text": "Urgencia documentada (por ejemplo un viaje) y ningún otro documento útil: preséntate en una oficina del registro en los 15 días anteriores al evento con los papeles que prueban la urgencia; te darán una fecha para la expedición."
+  },
+  "carta-identita:step:1:text": {
+   "it": "Prenota online l'appuntamento allo sportello anagrafico, scegliendo sede, giorno e ora.",
+   "text": "Reserva online la cita en la ventanilla del registro, eligiendo oficina, día y hora."
+  },
+  "carta-identita:step:1:title": {
+   "it": "Prenotazione",
+   "text": "Reserva"
+  },
+  "carta-identita:step:2:text": {
+   "it": "Allo sportello, alla fine, controlli i tuoi dati e firmi il modulo di riepilogo.",
+   "text": "En la ventanilla, al final, compruebas tus datos y firmas el formulario de resumen."
+  },
+  "carta-identita:step:2:title": {
+   "it": "Allo sportello",
+   "text": "En la ventanilla"
+  },
+  "carta-identita:step:3:text": {
+   "it": "La carta arriva a casa per raccomandata entro 6 giorni lavorativi.",
+   "text": "La carta llega a casa por correo certificado en un plazo de 6 días laborables."
+  },
+  "carta-identita:step:3:title": {
+   "it": "Consegna",
+   "text": "Entrega"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:affitto-erp:label": {
+   "it": "Per chi ha un contratto di locazione · Se l'immobile è di Edilizia Residenziale Pubblica",
+   "text": "Si tienes un contrato de alquiler · Si la vivienda es social (ERP)"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:affitto-registrato:label": {
+   "it": "Per chi ha un contratto di locazione",
+   "text": "Si tienes un contrato de alquiler"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:affitto:label": {
+   "it": "Per chi ha un contratto di locazione",
+   "text": "Si tienes un contrato de alquiler"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:comodato:label": {
+   "it": "Per chi ha l'immobile in comodato gratuito",
+   "text": "Si tienes la vivienda en cesión gratuita (comodato)"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:lavoro-domestico:label": {
+   "it": "Per chi è al servizio del proprietario o dell'affittuario (colf, badanti o altri soggetti)",
+   "text": "Si trabajas para el propietario o el inquilino (empleada de hogar, cuidadora u otros)"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:ospite:label": {
+   "it": "Per chi è ospite",
+   "text": "Si eres invitado"
+  },
+  "iscrizione-anagrafica-extra-ue:housing:proprieta:label": {
+   "it": "Per chi è proprietario dell'immobile",
+   "text": "Si eres propietario de la vivienda"
+  },
+  "iscrizione-anagrafica-extra-ue:req:accertamento-45-giorni:text": {
+   "it": "Secondo la guida YesMilano, il Comune impiega 45 giorni per controllare i requisiti e venire a casa a verificare che ci abiti.",
+   "text": "Según la guía YesMilano, el Ayuntamiento tarda 45 días en comprobar los requisitos y visitar tu casa para confirmar que vives allí."
+  },
+  "iscrizione-anagrafica-extra-ue:req:accertamento:text": {
+   "it": "Poi il Comune fa degli accertamenti. Se l'esito è negativo la pratica si ferma e il Comune ti scrive: puoi rispondere con memorie o documenti.",
+   "text": "Después el Ayuntamiento hace comprobaciones. Si el resultado es negativo, el trámite se detiene y el Ayuntamiento te escribe: puedes responder con declaraciones o documentos."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto-registrazione:short": {
+   "it": "Contratto d'affitto con gli estremi di registrazione",
+   "text": "Contrato de alquiler con los datos de registro"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto-registrazione:text": {
+   "it": "Affitto con contratto già registrato: la guida YesMilano per gli studenti indica la scansione del contratto con numero, luogo e data di registrazione all'Agenzia delle Entrate.",
+   "text": "Alquiler con contrato ya registrado: la guía YesMilano para estudiantes indica escanear el contrato con el número, el lugar y la fecha de registro en la Agenzia delle Entrate (Agencia Tributaria)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto:short": {
+   "it": "Contratto d'affitto (se non ancora registrato)",
+   "text": "Contrato de alquiler (si aún no está registrado)"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-affitto:text": {
+   "it": "Affitto con contratto non ancora registrato (o in registrazione) all'Agenzia delle Entrate: copia del contratto di locazione.",
+   "text": "Alquiler con contrato todavía no registrado (o en registro) en la Agenzia delle Entrate: copia del contrato de alquiler."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-assenso:short": {
+   "it": "Dichiarazione di assenso del proprietario o dell'affittuario",
+   "text": "Declaración de consentimiento del propietario o del inquilino"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-assenso:text": {
+   "it": "Ospite, o comodato fatto solo a voce: la \"Dichiarazione di assenso dell'affittuario o del proprietario\", modulo del Comune firmato da chi ti dà la casa.",
+   "text": "Invitado, o comodato acordado solo de palabra: la \"Declaración de consentimiento del inquilino o del propietario\", formulario del Ayuntamiento firmado por quien te deja la vivienda."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-comodato:short": {
+   "it": "Contratto di comodato",
+   "text": "Contrato de comodato"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-comodato:text": {
+   "it": "Comodato gratuito con contratto non registrato (o in registrazione): copia del contratto di comodato.",
+   "text": "Cesión gratuita (comodato) con contrato no registrado (o en registro): copia del contrato de comodato."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp-nucleo:short": {
+   "it": "Autorizzazione dell'Ente Gestore",
+   "text": "Autorización del ente gestor"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp-nucleo:text": {
+   "it": "Casa popolare, se la domanda allarga il nucleo familiare: l'autorizzazione dell'Ente Gestore.",
+   "text": "Vivienda social, si la solicitud amplía el núcleo familiar: la autorización del ente gestor."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp:short": {
+   "it": "Contratto o verbale di consegna della casa popolare",
+   "text": "Contrato o acta de entrega de la vivienda social"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-erp:text": {
+   "it": "Casa popolare (Edilizia Residenziale Pubblica): copia del contratto o del verbale di consegna firmati dall'Ente Gestore.",
+   "text": "Vivienda social (Edilizia Residenziale Pubblica): copia del contrato o del acta de entrega firmados por el ente gestor."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-lavoro-domestico:short": {
+   "it": "Contratto di lavoro con il proprietario o l'affittuario",
+   "text": "Contrato de trabajo con el propietario o el inquilino"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-lavoro-domestico:text": {
+   "it": "Colf, badante o chi lavora in casa del proprietario o dell'affittuario: copia del contratto di lavoro con lui o lei.",
+   "text": "Empleada de hogar, cuidadora o quien trabaja en casa del propietario o del inquilino: copia del contrato de trabajo con esa persona."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-ospite-dati:text": {
+   "it": "Ospite: nel modulo indica i dati anagrafici di chi ti ospita e gli estremi del rogito o della registrazione del contratto d'affitto della casa.",
+   "text": "Invitado: en el formulario indica los datos personales de quien te aloja y los datos de la escritura o del registro del contrato de alquiler de la vivienda."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-ospite-documento:short": {
+   "it": "Documento d'identità di chi ti ospita",
+   "text": "Documento de identidad de quien te aloja"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-ospite-documento:text": {
+   "it": "Ospite: la guida YesMilano per gli studenti chiede anche la copia del documento d'identità di chi ti ospita (la pagina del Comune non lo elenca).",
+   "text": "Invitado: la guía YesMilano para estudiantes pide también la copia del documento de identidad de quien te aloja (la página del Ayuntamiento no lo incluye)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-proprieta:short": {
+   "it": "Atto di proprietà (rogito)",
+   "text": "Escritura de propiedad (rogito)"
+  },
+  "iscrizione-anagrafica-extra-ue:req:alloggio-proprieta:text": {
+   "it": "Proprietario: copia del documento che attesta il rogito.",
+   "text": "Propietario: copia de la escritura de compraventa (rogito)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:cambio-indirizzo-20-giorni:text": {
+   "it": "Dopo, se cambi indirizzo dentro Milano o ti trasferisci in un'altra città, devi comunicarlo all'anagrafe entro 20 giorni dal trasloco.",
+   "text": "Después, si cambias de dirección dentro de Milán o te mudas a otra ciudad, debes comunicarlo al registro en un plazo de 20 días."
+  },
+  "iscrizione-anagrafica-extra-ue:req:caso-non-coperto:text": {
+   "it": "Il tuo caso non è tra i quattro dell'elenco ufficiale dei documenti: chiedi al Comune con il modulo di assistenza della domanda online.",
+   "text": "Tu caso no está entre los cuatro de la lista oficial de documentos: pregunta al Ayuntamiento con el formulario de ayuda de la solicitud online."
+  },
+  "iscrizione-anagrafica-extra-ue:req:codice-fiscale-appuntamento:text": {
+   "it": "Se non hai ancora il codice fiscale e non te l'hanno attribuito la Questura o lo Sportello Unico: per il primo codice fiscale di un cittadino straniero serve un appuntamento in presenza all'Agenzia delle Entrate.",
+   "text": "Si todavía no tienes código fiscal y no te lo han asignado la Questura ni el Sportello Unico: el primer código fiscal de un ciudadano extranjero requiere una cita presencial en la Agenzia delle Entrate (Agencia Tributaria)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:codice-fiscale:short": {
+   "it": "Codice fiscale",
+   "text": "Código fiscal (codice fiscale)"
+  },
+  "iscrizione-anagrafica-extra-ue:req:codice-fiscale:text": {
+   "it": "Il codice fiscale. L'elenco ufficiale dice \"in originale e in fotocopia\".",
+   "text": "Tu código fiscal (codice fiscale). La lista oficial dice \"original y fotocopia\"."
+  },
+  "iscrizione-anagrafica-extra-ue:req:come-si-presenta:text": {
+   "it": "La richiesta si fa online, non allo sportello: prepari i documenti, li inserisci nella domanda online e la invii.",
+   "text": "La solicitud se hace online, no en una ventanilla: preparas los documentos, los añades a la solicitud online y la envías."
+  },
+  "iscrizione-anagrafica-extra-ue:req:consenso-stato-famiglia:short": {
+   "it": "Consenso di chi è già residente (solo se non siete parenti)",
+   "text": "Consentimiento del residente (solo si no sois parientes)"
+  },
+  "iscrizione-anagrafica-extra-ue:req:consenso-stato-famiglia:text": {
+   "it": "Solo se entri nello stato di famiglia di chi è già residente e non siete parenti: il modulo di consenso di quella persona.",
+   "text": "Solo si entras en la hoja familiar (stato di famiglia) de alguien que ya es residente y no sois parientes: el formulario de consentimiento de esa persona."
+  },
+  "iscrizione-anagrafica-extra-ue:req:contratto-soggiorno:short": {
+   "it": "Contratto di soggiorno (Sportello Unico)",
+   "text": "Contratto di soggiorno (Sportello Unico)"
+  },
+  "iscrizione-anagrafica-extra-ue:req:contratto-soggiorno:text": {
+   "it": "Copia del contratto di soggiorno firmato allo Sportello Unico per l'immigrazione.",
+   "text": "Copia del contrato de estancia (contratto di soggiorno) firmado en el Sportello Unico per l'immigrazione (oficina única de inmigración)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:correzioni:text": {
+   "it": "Se manca qualcosa o un documento non si legge, gli uffici ti chiedono le correzioni e devi rimandare la domanda.",
+   "text": "Si falta algo o un documento no se lee, la oficina te pide correcciones y tienes que volver a enviar la solicitud."
+  },
+  "iscrizione-anagrafica-extra-ue:req:decorrenza:text": {
+   "it": "La residenza vale dalla data in cui presenti la dichiarazione.",
+   "text": "La residencia cuenta desde la fecha en que presentas la declaración."
+  },
+  "iscrizione-anagrafica-extra-ue:req:dimora-abituale-60-giorni:text": {
+   "it": "Dopo, ogni volta che rinnovi il permesso o la carta di soggiorno, entro 60 giorni devi rinnovare la dichiarazione di dimora abituale al Comune.",
+   "text": "Después, cada vez que renueves el permiso o la tarjeta de residencia, en un plazo de 60 días debes renovar en el Ayuntamiento la declaración de domicilio habitual (dimora abituale)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-altri-permessi:text": {
+   "it": "Da verificare: quali documenti servono a chi aspetta il primo permesso per studio o per altri motivi non elencati nell'Allegato A.",
+   "text": "Por comprobar: qué documentos necesita quien espera un primer permiso por estudios o por otros motivos que no figuran en el Anexo A."
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-esteri-scopo:text": {
+   "it": "Questi atti tradotti e legalizzati non sono tra quelli obbligatori, ma servono per registrare in anagrafe la parentela e per avere i certificati.",
+   "text": "Estos documentos traducidos y legalizados no están entre los obligatorios, pero sirven para registrar en el padrón el parentesco y para obtener certificados."
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-esteri:short": {
+   "it": "Atti esteri tradotti e legalizzati (matrimonio, nascite)",
+   "text": "Documentos extranjeros traducidos y legalizados (matrimonio, nacimientos)"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documenti-esteri:text": {
+   "it": "Atti rilasciati all'estero su stato civile e famiglia (per esempio matrimonio, nascita dei figli): copia degli originali, tradotti e legalizzati.",
+   "text": "Documentos expedidos en el extranjero sobre estado civil y familia (por ejemplo matrimonio, nacimiento de los hijos): copia de los originales, traducidos y legalizados."
+  },
+  "iscrizione-anagrafica-extra-ue:req:documento-fronte-retro:short": {
+   "it": "Documento d'identità, fronte e retro",
+   "text": "Documento de identidad, por las dos caras"
+  },
+  "iscrizione-anagrafica-extra-ue:req:documento-fronte-retro:text": {
+   "it": "Il documento d'identità va scansionato fronte e retro.",
+   "text": "Escanea el documento de identidad por las dos caras."
+  },
+  "iscrizione-anagrafica-extra-ue:req:domanda-lavoro:short": {
+   "it": "Domanda di permesso per lavoro subordinato",
+   "text": "Solicitud del permiso por trabajo"
+  },
+  "iscrizione-anagrafica-extra-ue:req:domanda-lavoro:text": {
+   "it": "La domanda di permesso di soggiorno per lavoro subordinato presentata allo Sportello Unico.",
+   "text": "La solicitud de permiso de residencia por trabajo por cuenta ajena presentada en el Sportello Unico."
+  },
+  "iscrizione-anagrafica-extra-ue:req:email-protocollo:text": {
+   "it": "Dopo l'invio ricevi una email con il riepilogo e poi un altro messaggio con il numero di protocollo.",
+   "text": "Después del envío recibes un correo con el resumen y luego otro mensaje con el número de registro (protocollo)."
+  },
+  "iscrizione-anagrafica-extra-ue:req:firma-familiari:short": {
+   "it": "Le firme dei familiari maggiorenni sul modulo",
+   "text": "Firmas de los familiares mayores de edad en el formulario"
+  },
+  "iscrizione-anagrafica-extra-ue:req:firma-familiari:text": {
+   "it": "Chi fa la domanda la compila per sé e per la famiglia; anche i familiari maggiorenni devono firmarla.",
+   "text": "Quien presenta la solicitud la rellena para sí y para su familia; los familiares mayores de edad también deben firmarla."
+  },
+  "iscrizione-anagrafica-extra-ue:req:formati-file:text": {
+   "it": "Formati accettati: gif, jpeg, jpg, pdf, tiff, tff. Ogni allegato al massimo 7 MB.",
+   "text": "Formatos aceptados: gif, jpeg, jpg, pdf, tiff, tff. Cada archivo como máximo 7 MB."
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-consenso:short": {
+   "it": "Consenso del genitore che non si trasferisce",
+   "text": "Consentimiento del progenitor que no se traslada"
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-consenso:text": {
+   "it": "Se trasferisci un figlio minorenne e l'altro genitore non trasferisce la residenza: la sua dichiarazione di consenso, sul modulo del Comune.",
+   "text": "Si trasladas a un hijo menor de edad y el otro progenitor no traslada su residencia: su declaración de consentimiento, en el formulario del Ayuntamiento."
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-genitore-assente:short": {
+   "it": "Dichiarazione sul genitore assente",
+   "text": "Declaración sobre el progenitor ausente"
+  },
+  "iscrizione-anagrafica-extra-ue:req:minori-genitore-assente:text": {
+   "it": "Se trasferisci un figlio minorenne e un genitore è assente: la dichiarazione delle generalità del genitore assente, sul modulo del Comune.",
+   "text": "Si trasladas a un hijo menor de edad y un progenitor está ausente: la declaración de los datos personales del progenitor ausente, en el formulario del Ayuntamiento."
+  },
+  "iscrizione-anagrafica-extra-ue:req:modulo-firmato:short": {
+   "it": "Il modulo della domanda, firmato e scansionato",
+   "text": "El formulario de la solicitud, firmado y escaneado"
+  },
+  "iscrizione-anagrafica-extra-ue:req:modulo-firmato:text": {
+   "it": "Il modulo della domanda va compilato, firmato e scansionato, insieme agli altri allegati.",
+   "text": "El formulario de la solicitud se rellena, se firma y se escanea, junto con los demás anexos."
+  },
+  "iscrizione-anagrafica-extra-ue:req:nome-citofono:text": {
+   "it": "Per la visita: indica l'indirizzo completo (scala, piano) e metti il tuo nome su citofono e cassetta delle lettere.",
+   "text": "Para la visita: indica la dirección completa (escalera, piso) y pon tu nombre en el portero automático y en el buzón."
+  },
+  "iscrizione-anagrafica-extra-ue:req:nulla-osta:short": {
+   "it": "Nulla osta dello Sportello Unico",
+   "text": "Nulla osta del Sportello Unico"
+  },
+  "iscrizione-anagrafica-extra-ue:req:nulla-osta:text": {
+   "it": "Fotocopia (non autenticata) del nulla osta dello Sportello Unico.",
+   "text": "Fotocopia (no compulsada) de la autorización (nulla osta) del Sportello Unico."
+  },
+  "iscrizione-anagrafica-extra-ue:req:passaporto:short": {
+   "it": "Passaporto",
+   "text": "Pasaporte"
+  },
+  "iscrizione-anagrafica-extra-ue:req:passaporto:text": {
+   "it": "Copia del passaporto (o documento equivalente) in corso di validità.",
+   "text": "Copia del pasaporte (o documento equivalente) sin caducar."
+  },
+  "iscrizione-anagrafica-extra-ue:req:patente:text": {
+   "it": "Se hai una patente o un libretto di circolazione italiani, scrivilo nel modulo.",
+   "text": "Si tienes un carné de conducir o un permiso de circulación italianos, indícalo en el formulario."
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso-scaduto:short": {
+   "it": "Permesso di soggiorno scaduto",
+   "text": "Permiso de residencia caducado"
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso-scaduto:text": {
+   "it": "Copia del permesso di soggiorno scaduto.",
+   "text": "Copia del permiso de residencia caducado."
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso:short": {
+   "it": "Permesso di soggiorno",
+   "text": "Permiso de residencia"
+  },
+  "iscrizione-anagrafica-extra-ue:req:permesso:text": {
+   "it": "Copia del permesso di soggiorno in corso di validità.",
+   "text": "Copia del permiso de residencia (permesso di soggiorno) sin caducar."
+  },
+  "iscrizione-anagrafica-extra-ue:req:prima-il-permesso:text": {
+   "it": "Prima di tutto chiedi il permesso di soggiorno: chi arriva in Italia per la prima volta ha 8 giorni lavorativi dall'ingresso per chiederlo.",
+   "text": "Antes que nada pide el permiso de residencia: quien llega a Italia por primera vez tiene 8 días laborables desde la entrada para pedirlo."
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-poste:short": {
+   "it": "Ricevuta dell'ufficio postale",
+   "text": "Resguardo de la oficina de correos"
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-poste:text": {
+   "it": "La ricevuta dell'ufficio postale che prova che hai presentato la richiesta di permesso di soggiorno.",
+   "text": "El resguardo de la oficina de correos que prueba que presentaste la solicitud del permiso de residencia."
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-rinnovo:short": {
+   "it": "Ricevuta della richiesta di rinnovo",
+   "text": "Resguardo de la solicitud de renovación"
+  },
+  "iscrizione-anagrafica-extra-ue:req:ricevuta-rinnovo:text": {
+   "it": "Ricevuta della richiesta di rinnovo del permesso di soggiorno.",
+   "text": "Resguardo de la solicitud de renovación del permiso de residencia."
+  },
+  "iscrizione-anagrafica-extra-ue:req:solo-online:text": {
+   "it": "I file si caricano solo con i pulsanti della procedura online: quelli mandati per email non vengono considerati.",
+   "text": "Los archivos se suben solo con los botones del procedimiento online: los enviados por correo electrónico no se tienen en cuenta."
+  },
+  "iscrizione-anagrafica-extra-ue:req:una-domanda-alla-volta:text": {
+   "it": "Non puoi inviare una nuova domanda finché quella precedente non è conclusa: conviene mandarla completa la prima volta.",
+   "text": "No puedes enviar una nueva solicitud hasta que la anterior haya terminado: conviene enviarla completa la primera vez."
+  },
+  "iscrizione-anagrafica-extra-ue:req:visto-ingresso:short": {
+   "it": "Visto d'ingresso",
+   "text": "Visado de entrada"
+  },
+  "iscrizione-anagrafica-extra-ue:req:visto-ingresso:text": {
+   "it": "Il visto d'ingresso, in originale e in fotocopia.",
+   "text": "El visado de entrada, original y fotocopia."
+  },
+  "iscrizione-anagrafica-extra-ue:section:abitazione:title": {
+   "it": "Documentazione relativa all'abitazione",
+   "text": "Documentación sobre la vivienda"
+  },
+  "iscrizione-anagrafica-extra-ue:section:base:title": {
+   "it": "Documentazione di base per tutti",
+   "text": "Documentación básica para todos"
+  },
+  "iscrizione-anagrafica-extra-ue:section:cittadinanza:text": {
+   "it": "Per chi ha cittadinanza extra UE: i documenti dell'elenco ufficiale (Allegato A) per il tuo caso di permesso.",
+   "text": "Para ciudadanos de fuera de la UE: los documentos de la lista oficial (Anexo A) para tu situación de permiso."
+  },
+  "iscrizione-anagrafica-extra-ue:section:cittadinanza:title": {
+   "it": "Documentazione relativa alla cittadinanza",
+   "text": "Documentación sobre la ciudadanía"
+  },
+  "iscrizione-anagrafica-extra-ue:section:dichiarazione:text": {
+   "it": "Compili il modulo di dichiarazione per te e per i componenti della famiglia; anche i maggiorenni lo firmano.",
+   "text": "Rellenas el formulario de declaración para ti y para los miembros de tu familia; los mayores de edad también lo firman."
+  },
+  "iscrizione-anagrafica-extra-ue:section:dichiarazione:title": {
+   "it": "Il modulo di dichiarazione",
+   "text": "El formulario de declaración"
+  },
+  "iscrizione-anagrafica-extra-ue:section:invio:title": {
+   "it": "Come trasmettere la documentazione",
+   "text": "Cómo enviar la documentación"
+  },
+  "iscrizione-anagrafica-extra-ue:section:minori:title": {
+   "it": "Documentazione per il trasferimento di minori",
+   "text": "Documentación para el traslado de menores"
+  },
+  "iscrizione-anagrafica-extra-ue:section:nel-modulo:title": {
+   "it": "Da scrivere nel modulo",
+   "text": "Para escribir en el formulario"
+  },
+  "iscrizione-anagrafica-extra-ue:step:1:text": {
+   "it": "Permesso di soggiorno: chi arriva in Italia per la prima volta ha 8 giorni lavorativi dall'ingresso per chiederlo al Questore; per alcuni permessi tramite gli uffici postali abilitati.",
+   "text": "Permiso de residencia: quien llega a Italia por primera vez tiene 8 días laborables desde la entrada para pedirlo al Questore (jefe de policía de la provincia); para algunos permisos, a través de las oficinas de correos habilitadas."
+  },
+  "iscrizione-anagrafica-extra-ue:step:1:title": {
+   "it": "Permesso di soggiorno",
+   "text": "Permiso de residencia"
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:route:1:text": {
+   "it": "Se la domanda di ingresso è passata dallo Sportello Unico per l'immigrazione (lavoro subordinato o ricongiungimento familiare): te lo attribuisce lo stesso Sportello Unico.",
+   "text": "Si tu solicitud de entrada pasó por el Sportello Unico per l'immigrazione (trabajo por cuenta ajena o reagrupación familiar): te lo asigna ese mismo Sportello Unico."
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:route:2:text": {
+   "it": "Altrimenti: per il primo codice fiscale serve un appuntamento in presenza all'Agenzia delle Entrate.",
+   "text": "Si no: el primer código fiscal requiere una cita presencial en la Agenzia delle Entrate."
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:text": {
+   "it": "Se chiedi il permesso di soggiorno (o il rinnovo): il codice fiscale te lo attribuisce la Questura.",
+   "text": "Si pides el permiso de residencia (o su renovación): el código fiscal te lo asigna la Questura."
+  },
+  "iscrizione-anagrafica-extra-ue:step:2:title": {
+   "it": "Codice fiscale",
+   "text": "Código fiscal (codice fiscale)"
+  },
+  "iscrizione-anagrafica-extra-ue:step:3:text": {
+   "it": "Residenza: domanda online sul sito del Comune, con i documenti caricati nella domanda.",
+   "text": "Residencia: solicitud online en la web del Ayuntamiento, con los documentos subidos en la solicitud."
+  },
+  "iscrizione-anagrafica-extra-ue:step:3:title": {
+   "it": "Domanda di residenza online",
+   "text": "Solicitud de residencia online"
+  },
+  "iscrizione-anagrafica-extra-ue:step:4:text": {
+   "it": "Dopo l'invio ricevi una email di riepilogo e poi il numero di protocollo.",
+   "text": "Después del envío recibes un correo de resumen y luego el número de registro (protocollo)."
+  },
+  "iscrizione-anagrafica-extra-ue:step:4:title": {
+   "it": "Riepilogo e protocollo",
+   "text": "Resumen y número de registro"
+  },
+  "iscrizione-anagrafica-extra-ue:step:5:text": {
+   "it": "Il Comune controlla i requisiti e viene a casa a verificare che ci abiti: secondo la guida YesMilano ci vogliono 45 giorni.",
+   "text": "El Ayuntamiento comprueba los requisitos y visita tu casa para confirmar que vives allí: según la guía YesMilano tarda 45 días."
+  },
+  "iscrizione-anagrafica-extra-ue:step:5:title": {
+   "it": "Accertamento a casa",
+   "text": "Comprobación en casa"
+  },
+  "iscrizione-anagrafica-extra-ue:step:6:text": {
+   "it": "Ogni volta che rinnovi il permesso: entro 60 giorni rinnova la dichiarazione di dimora abituale (online o allo sportello su appuntamento).",
+   "text": "Cada vez que renueves el permiso: en un plazo de 60 días renueva la declaración de domicilio habitual (online o en ventanilla con cita)."
+  },
+  "iscrizione-anagrafica-extra-ue:step:6:title": {
+   "it": "Dopo: dimora abituale",
+   "text": "Después: domicilio habitual"
+  }
+ }
+}

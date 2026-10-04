@@ -20,7 +20,7 @@ TOOLS = [
     },
     {
         "name": "get_service",
-        "description": "Get one service: the questions whose answers change what the citizen needs, the steps across offices, and what the sources don't cover yet.",
+        "description": "Get one service: the questions whose answers change what the citizen needs, the steps across offices (a step may list alternative routes, e.g. who assigns the tax code, each with its source_id), the official links (page, booking page, online application form) each with its source_id, where the online application is sent (online_form_kind: 'city' for the City's own form, 'anpr' for the national registry website), whether get_form_guide applies, and what the sources don't cover yet. A deciding question may have a 'narrow' form to ask instead when the message already gives a hint (e.g. the person rents but didn't say if the contract is registered).",
         "input_schema": {
             "type": "object",
             "properties": {"service_id": {"type": "string", "description": "An id from list_services, e.g. 'carta-identita'"}},
@@ -43,6 +43,23 @@ TOOLS = [
                     "description": "Deciding-question id -> chosen option, e.g. {\"motivo\": \"smarrimento-furto\"}",
                     "additionalProperties": {"type": "string"},
                 },
+            },
+            "required": ["service_id"],
+        },
+    },
+    {
+        "name": "get_form_guide",
+        "description": (
+            "For a service sent online (has_form_guide in get_service): how to fill in the City's online application "
+            "for this case. Returns the sections of the City's Modulistica page in order, the checklist items that go "
+            "in each section, the City's own wording for the citizen's housing situation, and how to send the files. "
+            "Pass the answers you have. Use it when the checklist is complete, to tell the person where each file goes."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "service_id": {"type": "string"},
+                "answers": {"type": "object", "additionalProperties": {"type": "string"}},
             },
             "required": ["service_id"],
         },
@@ -81,6 +98,8 @@ def run_tool(name: str, args: dict) -> str:
             result = kb.get_service(args["service_id"]) or {"error": "Unknown service_id"}
         elif name == "get_checklist":
             result = kb.checklist(args["service_id"], args.get("answers"))
+        elif name == "get_form_guide":
+            result = kb.form_guide(args["service_id"], args.get("answers"))
         elif name == "find_offices":
             result = kb.find_offices(args.get("area"), args.get("municipio"),
                                      args.get("lat"), args.get("lon"), args.get("limit", 3))

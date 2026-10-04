@@ -30,3 +30,6 @@ runtime/
 video/rec/
 video/rec2/
 video/timing*.txt
+
+# Streamlit secrets (API key): only in the app settings or locally, never in git
+.streamlit/secrets.toml

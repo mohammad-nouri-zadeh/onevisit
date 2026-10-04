@@ -1,0 +1,29 @@
+{
+  "_about": "Demo without a key: Claude's recorded classification of two invented example reports, shown in the app with the label 'registrata'. Live, Claude (onevisit/outcomes.py classify) classifies any report after the code has removed emails, tax codes, dates, phone and document numbers. The example notes contain invented personal details on purpose, to show what is removed before Claude reads them; they belong to no real person.",
+  "examples": [
+    {
+      "service_id": "iscrizione-anagrafica-extra-ue",
+      "note": {
+        "it": "Il 12/09/2026 il Comune mi ha chiesto di rimandare la domanda: il certificato di matrimonio non era tradotto e legalizzato, ma nella lista non avevo capito che servisse. Scrivetemi a nome.prova@example.org",
+        "en": "On 12/09/2026 the City asked me to send the application again: my marriage certificate was not translated and legalised, but I hadn't understood from the list that it was needed. Write to me at nome.prova@example.org"
+      },
+      "result": {
+        "cause": "pagina-incompleta",
+        "summary_it": "La pagina non spiega chiaramente che gli atti esteri di stato civile vanno caricati tradotti e legalizzati.",
+        "summary_en": "The page does not explain clearly that foreign civil status documents must be uploaded translated and legalised."
+      }
+    },
+    {
+      "service_id": "carta-identita",
+      "note": {
+        "it": "Allo sportello di via Padova mi hanno chiesto anche il contratto d'affitto per la carta d'identità, ma non era nella lista. Il mio numero è 000 000 0000.",
+        "en": "At the via Padova desk they also asked me for my rental contract for the ID card, but it wasn't on the list. My number is 000 000 0000."
+      },
+      "result": {
+        "cause": "richiesta-non-prevista",
+        "summary_it": "Allo sportello è stato chiesto per la carta d'identità un documento sull'alloggio che la procedura non prevede.",
+        "summary_en": "For the ID card the desk asked for a housing document that the procedure does not require."
+      }
+    }
+  ]
+}
