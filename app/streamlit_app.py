@@ -12,6 +12,7 @@ import sys
 import uuid
 
 import streamlit as st
+import streamlit.components.v1 as components
 from dotenv import load_dotenv
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -26,42 +27,66 @@ st.set_page_config(page_title="OneVisit", page_icon="🗂️", layout="centered"
 
 # ---------- look ----------
 big = st.session_state.get("big_text", False)
+dark = st.session_state.get("theme_mode") == "Dark"
+C = ({"bg": "#0C0C0E", "side": "#141518", "fill": "#24252A", "bubble": "#24252A", "pill": "#3A3C42", "fg": "#F2F2F3", "fg2": "#B7B9C0",
+      "muted": "#8B8E97", "line": "#3A3C42", "soft": "#24252A", "ink": "#F2F2F3", "on_ink": "#0C0C0E"} if dark else
+     {"bg": "#FFFFFF", "side": "#EDEEF0", "fill": "#EDEEF0", "bubble": "#E4E5E9", "pill": "#FFFFFF", "fg": "#111214", "fg2": "#4A4D55",
+      "muted": "#6E727C", "line": "#C6C8CE", "soft": "#E4E5E9", "ink": "#111214", "on_ink": "#FFFFFF"})
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-html {{ font-size: {'20px' if big else '16px'}; }}
+html {{ font-size: {'20px' if big else '16px'}; color-scheme: {'dark' if dark else 'light'}; }}
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], [data-testid="stHeader"] {{ background:{C['bg']} !important; color:{C['fg']}; }}
+[data-testid="stSidebar"], [data-testid="stSidebar"] > div {{ background:{C['side']} !important; }}
+.stApp [data-testid="stMarkdownContainer"], .stApp [data-testid="stMarkdownContainer"] p, .stApp [data-testid="stMarkdownContainer"] li,
+.stApp h1, .stApp h2, .stApp h3, .stApp [data-testid="stWidgetLabel"] p, [data-testid="stMetricValue"], [data-testid="stMetricLabel"] p,
+[data-testid="stExpander"] summary p {{ color:{C['fg']} !important; }}
+.stApp [data-testid="stCaptionContainer"], .stApp [data-testid="stCaptionContainer"] p {{ color:{C['muted']} !important; }}
 .stMarkdown, .stMarkdown p, .stMarkdown li, h1, h2, h3, .stCaption, [data-testid="stMetricValue"], [data-testid="stMetricLabel"] p {{ font-family: "Titillium Web", -apple-system, system-ui, sans-serif; }}
+[data-baseweb="select"] > div, [data-baseweb="input"], [data-baseweb="input"] > div, [data-baseweb="base-input"], .stTextInput input,
+[data-testid="stChatInput"] > div, [data-testid="stChatInputTextArea"] {{ background:{C['fill']} !important; color:{C['fg']} !important; border-color:{C['line']} !important; }}
+[data-testid="stChatInputTextArea"]::placeholder, .stTextInput input::placeholder {{ color:{C['muted']} !important; }}
+[data-baseweb="popover"] ul, [data-baseweb="popover"] li {{ background:{C['fill']} !important; color:{C['fg']} !important; }}
 .ov-chip {{ display:inline-block; font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:0.72em; padding:1px 8px; margin-left:6px; border-radius:999px;
-           background:#111214; color:#FFFFFF; white-space:nowrap; vertical-align:middle; }}
-.ov-chip.todo {{ background:transparent; color:#6E727C; border:1px dashed #C6C8CE; }}
-.ov-item {{ padding:8px 0; border-bottom:1px solid #E4E5E9; }}
-.ov-muted {{ color:#6E727C; }}
-.ov-warn {{ border-top:1px solid #C6C8CE; color:#4A4D55; padding:6px 0; font-size:0.9em; }}
+           background:{C['ink']}; color:{C['on_ink']}; white-space:nowrap; vertical-align:middle; }}
+.ov-chip.todo {{ background:transparent; color:{C['muted']}; border:1px dashed {C['line']}; }}
+.ov-item {{ padding:8px 0; border-bottom:1px solid {C['soft']}; color:{C['fg']}; }}
+.ov-muted {{ color:{C['muted']}; }}
+.ov-warn {{ border-top:1px solid {C['line']}; color:{C['fg2']}; padding:6px 0; font-size:0.9em; }}
 [data-testid="stToolbar"], [data-testid="stDecoration"], footer {{ display:none !important; }}
-.block-container {{ max-width: 460px !important; padding-top: 2.2rem !important; }}
+.block-container {{ max-width: 460px !important; padding-top: 4.5rem !important; }}
+[data-testid="stHeader"] {{ background: transparent !important; }}
 h1 {{ font-weight:700 !important; letter-spacing:-0.02em; }}
-[data-baseweb="tab-list"] {{ background:#EDEEF0; border-radius:999px; padding:3px; gap:2px; width:fit-content; }}
-[data-baseweb="tab"] {{ border-radius:999px !important; padding:6px 16px !important; height:auto !important; }}
-[data-baseweb="tab"][aria-selected="true"] {{ background:#FFFFFF; box-shadow:0 1px 3px rgba(0,0,0,.14); }}
-[data-baseweb="tab-highlight"], [data-baseweb="tab-border"] {{ display:none !important; }}
 [data-testid="stChatMessage"] {{ border-radius:20px; padding:10px 14px !important; gap:0 !important; }}
 [data-testid="stChatMessageAvatarUser"], [data-testid="stChatMessageAvatarAssistant"] {{ display:none !important; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {{ background:#111214 !important; margin-left:auto; max-width:86%; width:fit-content; border-bottom-right-radius:6px; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) p {{ color:#FFFFFF !important; }}
-[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {{ background:#E4E5E9 !important; margin-right:8%; border-bottom-left-radius:6px; }}
-[data-testid="stChatInput"] {{ border-radius:999px !important; }}
-.stButton > button {{ background:transparent; }}
-[data-testid="stVerticalBlockBorderWrapper"] {{ border-radius:22px !important; }}
-[data-testid="stExpander"] details {{ border-radius:14px !important; }}
-.ov-foot {{ color:#6E727C; font-size:0.8em; margin-top:2rem; border-top:1px solid #C6C8CE; padding-top:10px; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {{ background:{C['ink']} !important; margin-left:auto; max-width:86%; width:fit-content; border-bottom-right-radius:6px; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) p {{ color:{C['on_ink']} !important; }}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {{ background:{C['bubble']} !important; margin-right:8%; border-bottom-left-radius:6px; }}
+[data-testid="stVerticalBlockBorderWrapper"] {{ border-radius:22px !important; border-color:{C['line']} !important; }}
+[data-testid="stExpander"] details {{ border-radius:14px !important; border-color:{C['line']} !important; }}
+[data-testid="stTabs"] [role="tablist"] {{ background:{C['fill']}; border-radius:999px; padding:3px; gap:2px; width:fit-content; max-width:100%; border:0 !important; box-shadow:none !important; overflow:visible !important; margin:2px 0 6px; }}
+[data-testid="stTabs"] [role="tablist"]::after {{ display:none !important; }}
+[data-testid="stTab"] {{ border-radius:999px !important; padding:6px 16px !important; }}
+[data-testid="stTab"] p {{ color:{C['fg2']} !important; }}
+[data-testid="stTab"][aria-selected="true"] {{ background:{C['pill']}; box-shadow:0 1px 3px rgba(0,0,0,.14); }}
+[data-testid="stTab"][aria-selected="true"] p {{ color:{C['fg']} !important; }}
+[data-testid="stTab"] > div:not([data-testid]) {{ display:none !important; }}
+[data-testid="stChatInput"] > div {{ border-radius:999px !important; }}
+.ov-hero h1 {{ font-size:2.4rem; line-height:1.06; margin:.2rem 0 .6rem; padding:0; }}
+.ov-kicker {{ color:{C['muted']}; font-size:.85rem; }}
+.ov-lead {{ color:{C['fg2']}; font-size:1.05rem; }}
+.ov-foot {{ color:{C['muted']}; font-size:0.8em; margin-top:2rem; border-top:1px solid {C['line']}; padding-top:10px; }}
 div[data-testid="stMetricValue"] {{ font-variant-numeric: tabular-nums; letter-spacing:-0.02em; }}
-.stButton > button, .stDownloadButton > button {{ border-radius:999px; border:1.5px solid #111214; font-weight:600; }}
-@media (prefers-color-scheme: dark) {{
-  .ov-chip {{ background:#F2F2F3; color:#0C0C0E; }}
-  .ov-chip.todo {{ color:#8B8E97; border-color:#3A3C42; }}
-  .ov-item {{ border-color:#24252A; }}
-  .stButton > button, .stDownloadButton > button {{ border-color:#F2F2F3; }}
-}}
+.stButton > button, .stDownloadButton > button {{ border-radius:999px; border:1.5px solid {C['ink']} !important; font-weight:600; background:transparent !important; color:{C['fg']} !important; }}
+.stButton > button p, .stDownloadButton > button p {{ color:{C['fg']} !important; }}
+.stButton > button:disabled {{ opacity:.45; }}
+[data-testid="stButtonGroup"] button {{ border-radius:999px !important; background:transparent !important; color:{C['fg2']} !important; border:1px solid {C['line']} !important; }}
+[data-testid="stButtonGroup"] button p {{ color:{C['fg2']} !important; }}
+[data-testid="stButtonGroup"] button[data-testid$="Active"] {{ background:{C['ink']} !important; border-color:{C['ink']} !important; }}
+[data-testid="stButtonGroup"] button[data-testid$="Active"] p {{ color:{C['on_ink']} !important; }}
+[data-testid="stSelectbox"] [data-baseweb="select"] > div {{ background:{C['fill']} !important; border-color:{C['fill']} !important; }}
+[data-testid="stSelectbox"] [data-baseweb="select"] div, [data-testid="stSelectbox"] [data-baseweb="select"] span {{ color:{C['fg']} !important; }}
+[data-testid="stSelectbox"] svg {{ fill:{C['fg']} !important; color:{C['fg']} !important; }}
 </style>""", unsafe_allow_html=True)
 
 state = st.session_state
@@ -98,6 +123,34 @@ with st.sidebar:
         for k in ("messages", "chat", "checklist", "offices", "service_id"):
             state[k] = [] if k in ("messages", "chat") else None
         st.rerun()
+
+
+WELCOME = {
+    "English": {"dir": "ltr", "kicker": "Anagrafe, Comune di Milano", "h": "Get it right at your first appointment.",
+                "lead": "Tell us your situation in your language. We check every requirement against official City sources and show where each one comes from.",
+                "note": "We never ask for your name, tax code or documents. Prototype, not an official City of Milan service.",
+                "examples": ["I lost my ID card and I travel next month. I live in Isola.",
+                             "I just moved to Milan from abroad and need to register my residence."]},
+    "Italiano": {"dir": "ltr", "kicker": "Anagrafe, Comune di Milano", "h": "La pratica chiusa al primo appuntamento.",
+                 "lead": "Raccontaci la tua situazione nella tua lingua. Controlliamo ogni requisito sulle fonti ufficiali del Comune e ti mostriamo da dove viene.",
+                 "note": "Non chiediamo mai nome, codice fiscale o documenti. Prototipo, non è un servizio ufficiale del Comune di Milano.",
+                 "examples": ["Ho perso la carta d'identità e parto il mese prossimo. Abito all'Isola.",
+                              "Mi sono appena trasferito a Milano dall'estero e devo registrare la residenza."]},
+    "العربية": {"dir": "rtl", "kicker": "Anagrafe، بلدية ميلانو", "h": "أنجز معاملتك من الموعد الأول.",
+                "lead": "أخبرنا بوضعك بلغتك. نتحقق من كل شرط في المصادر الرسمية لبلدية ميلانو ونُظهر لك مصدر كل معلومة.",
+                "note": "لا نطلب أبدًا اسمك أو رمزك الضريبي أو وثائقك. نموذج أولي، وليس خدمة رسمية من بلدية ميلانو.",
+                "examples": ["فقدت بطاقة هويتي وسأسافر الشهر القادم. أسكن في إيزولا.",
+                             "انتقلت للتو إلى ميلانو من الخارج وأحتاج إلى تسجيل إقامتي."]},
+    "中文": {"dir": "ltr", "kicker": "Anagrafe，米兰市政府", "h": "第一次预约就把事情办好。",
+             "lead": "用你的语言告诉我们你的情况。我们根据米兰市政府的官方来源核对每一项要求，并告诉你每一项的出处。",
+             "note": "我们从不询问你的姓名、税号或证件。这是原型，不是米兰市政府的官方服务。",
+             "examples": ["我的身份证丢了，下个月要出行。我住在Isola。", "我刚从国外搬到米兰，需要登记居住。"]},
+    "Español": {"dir": "ltr", "kicker": "Anagrafe, Ayuntamiento de Milán", "h": "Resuélvelo en tu primera cita.",
+                "lead": "Cuéntanos tu situación en tu idioma. Comprobamos cada requisito con las fuentes oficiales del Ayuntamiento y te mostramos de dónde viene cada uno.",
+                "note": "Nunca te pedimos tu nombre, tu código fiscal ni tus documentos. Prototipo, no es un servicio oficial del Ayuntamiento de Milán.",
+                "examples": ["Perdí mi carta de identidad y viajo el mes que viene. Vivo en Isola.",
+                             "Acabo de mudarme a Milán desde el extranjero y tengo que registrar mi residencia."]},
+}
 
 
 def chip(text: str, todo: bool = False) -> str:
@@ -166,17 +219,25 @@ def ask(text: str) -> None:
     state.chat.append({"role": "assistant", **reply})
 
 
-citizen, panel = st.tabs(["For citizens", "For City staff"])
+st.segmented_control("Theme", ["Light", "Dark"], default="Light", key="theme_mode", label_visibility="collapsed")
+citizen, panel, design = st.tabs(["For citizens", "For City staff", "Design preview"])
 
 # ---------- citizen ----------
 with citizen:
-    st.title("OneVisit")
-    st.markdown("Get ready for your registry office appointment, in your language. "
-                "Every answer comes from official City sources, with the source shown.")
-
     if not state.chat:
-        st.caption("Try: *I just moved to Milan from Cairo and need to register my residence* · "
-                   "*Perdí mi carta de identidad italiana* · *أحتاج إلى بطاقة هوية*")
+        lang = st.selectbox("Language", list(WELCOME), key="lang", label_visibility="collapsed")
+        w = WELCOME[lang]
+        st.markdown(
+            f'<div class="ov-hero" dir="{w["dir"]}"><div class="ov-kicker">{w["kicker"]}</div>'
+            f'<h1>{w["h"]}</h1><p class="ov-lead">{w["lead"]}</p></div>', unsafe_allow_html=True)
+        for j, ex in enumerate(w["examples"]):
+            if st.button(ex, key=f"ex-{lang}-{j}", use_container_width=True, disabled=not has_key):
+                state.pending = ex
+                st.rerun()
+        st.markdown(f'<p class="ov-muted" dir="{w["dir"]}" style="font-size:.85em">{w["note"]}</p>', unsafe_allow_html=True)
+    else:
+        st.markdown('<div class="ov-kicker">Anagrafe, Comune di Milano</div>', unsafe_allow_html=True)
+        st.title("OneVisit")
 
     for i, m in enumerate(state.chat):
         with st.chat_message(m["role"]):
@@ -279,6 +340,14 @@ with panel:
                     except Exception as e:
                         st.error(f"Could not draft: {e}")
                 st.rerun()
+
+# ---------- design ----------
+with design:
+    st.caption("The interface we designed for the next version (IO app design system, black and white). "
+               "Clickable, with example content. The tabs on the left run the real assistant.")
+    proto = (ROOT / "design" / "onevisit-prototype.html").read_text(encoding="utf-8")
+    proto = proto.replace('<html lang="en">', f'<html lang="en" data-theme="{"dark" if dark else "light"}">', 1)
+    components.html(proto, height=1100, scrolling=True)
 
 st.markdown('<div class="ov-foot">Prototype built at the Claude Impact Lab Milano, 3 Oct 2026. '
             'Not an official City of Milan service. Open source, MIT.</div>', unsafe_allow_html=True)

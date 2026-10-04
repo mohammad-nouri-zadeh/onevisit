@@ -1,5 +1,7 @@
 # OneVisit
 
+**Pitch slides:** [PowerPoint](docs/slides/onevisit-pitch.pptx) (8 slides, in Italian, with speaker notes)
+
 > Claude Impact Lab Milano · 3 October 2026 · Track **01 · Welcome journey for people arriving in Milan** (team: change here and in the submission form if you pick 03)
 
 **One line:** for people who go to a City of Milan registry desk, above all newcomers who don't speak Italian, OneVisit checks with them, in their language and from official sources, what they need before the appointment, so the procedure closes the first time.
