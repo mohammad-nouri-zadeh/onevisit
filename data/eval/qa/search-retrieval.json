@@ -1,0 +1,513 @@
+{
+ "_doc": [
+  "Retrieval cases for onevisit/search.py: a question in the words and language a person would use, and the saved",
+  "pages (source ids) that answer it. A case passes when one of expect_any is among the top k passages.",
+  "python -m onevisit.search --eval data/eval/qa/search-retrieval.json   (no API key, no network)",
+  "All the cases were seen while tuning the synonym map and the weights: this is a regression set (a change must",
+  "not break them), not a measure of accuracy on new questions. Add a case for every question a user asked that",
+  "the search missed, with the expected ids taken from reading the saved pages, not from the search results."
+ ],
+ "k": 5,
+ "cases": [
+  {
+   "query": "Quanto costa la carta d'identità?",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00305",
+    "cie-ministero-faq",
+    "yesmilano-work-identity-card"
+   ]
+  },
+  {
+   "query": "How much does the ID card cost?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00305",
+    "cie-ministero-faq",
+    "yesmilano-work-identity-card"
+   ]
+  },
+  {
+   "query": "¿Cuánto cuesta el DNI en Milán?",
+   "lang": "es",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00305",
+    "cie-ministero-faq"
+   ]
+  },
+  {
+   "query": "身份证多少钱",
+   "lang": "zh",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00305",
+    "cie-ministero-faq"
+   ]
+  },
+  {
+   "query": "I lost my ID card, what do I do?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00580",
+    "cie-faq-00520",
+    "cie-ministero-furto-smarrimento",
+    "cie-ministero-faq",
+    "cie"
+   ]
+  },
+  {
+   "query": "j'ai perdu ma carte d'identité",
+   "lang": "fr",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00580",
+    "cie-faq-00520",
+    "cie-ministero-furto-smarrimento",
+    "cie-ministero-faq",
+    "cie"
+   ]
+  },
+  {
+   "query": "我的身份证丢了怎么办",
+   "lang": "zh",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00580",
+    "cie-faq-00520",
+    "cie-ministero-furto-smarrimento",
+    "cie-ministero-faq",
+    "cie"
+   ]
+  },
+  {
+   "query": "سرقت بطاقة الهوية الخاصة بي",
+   "lang": "ar",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00355",
+    "cie-faq-00417",
+    "cie-faq-00475",
+    "cie-ministero-furto-smarrimento",
+    "cie-ministero-faq"
+   ]
+  },
+  {
+   "query": "Mi hanno rubato la carta d'identità",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00355",
+    "cie-faq-00417",
+    "cie-faq-00475",
+    "cie-ministero-furto-smarrimento",
+    "cie-ministero-faq"
+   ]
+  },
+  {
+   "query": "Can my child travel abroad with the ID card?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00353",
+    "cie-faq-00469",
+    "pds-espatrio-minori",
+    "cie-ministero-minori"
+   ]
+  },
+  {
+   "query": "¿Mi hijo necesita a los dos padres para el DNI?",
+   "lang": "es",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00302",
+    "cie-faq-00412",
+    "cie-ministero-minori",
+    "cie"
+   ]
+  },
+  {
+   "query": "What are the photo requirements?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-ministero-foto",
+    "cie-faq-00308",
+    "cie-foto-requisiti",
+    "cie"
+   ]
+  },
+  {
+   "query": "Posso portare la foto su chiavetta USB?",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00414",
+    "cie"
+   ]
+  },
+  {
+   "query": "How long does it take to receive the card?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00410",
+    "cie-ministero",
+    "cie-ministero-spedizione"
+   ]
+  },
+  {
+   "query": "Can I track the delivery of my card?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00471",
+    "cie-ministero-spedizione",
+    "cie"
+   ]
+  },
+  {
+   "query": "Non mi è arrivata la carta d'identità",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00407",
+    "cie-ministero-spedizione"
+   ]
+  },
+  {
+   "query": "I lost the PIN and PUK",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00404",
+    "cie-faq-04366",
+    "cie-ministero-faq",
+    "cie-ministero-recupero-puk",
+    "cie-ministero-pin-puk"
+   ]
+  },
+  {
+   "query": "Can I renew before it expires?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00405",
+    "cie-ministero"
+   ]
+  },
+  {
+   "query": "I'm 75, is my new card valid forever?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-04339",
+    "cie-faq-04338",
+    "cie",
+    "circ-dait-060-2026"
+   ]
+  },
+  {
+   "query": "Is my paper ID card still valid?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-04007",
+    "cie-faq-04009",
+    "cie",
+    "circ-dait-008-2026"
+   ]
+  },
+  {
+   "query": "Can I go to the office without an appointment?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie",
+    "cie-faq-00580",
+    "cie-faq-00310"
+   ]
+  },
+  {
+   "query": "I am bedridden, can someone come to my home for the ID card?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-04018",
+    "cie-faq-04019",
+    "cie-domicilio-salute",
+    "cie-faq-04024",
+    "cie",
+    "cie-faq-04023"
+   ]
+  },
+  {
+   "query": "Quanto costa il servizio a domicilio?",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-04023"
+   ]
+  },
+  {
+   "query": "Is the ID card valid for travel if I am not Italian?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "yesmilano-id-card",
+    "yesmilano-work-identity-card",
+    "cie-faq-00469",
+    "cie"
+   ]
+  },
+  {
+   "query": "What documents do I need as a non-EU citizen?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00393",
+    "cie-faq-00564",
+    "cie",
+    "yesmilano-work-identity-card"
+   ]
+  },
+  {
+   "query": "Do I need witnesses if I have no other ID?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie",
+    "cie-faq-00552",
+    "cie-faq-00393"
+   ]
+  },
+  {
+   "query": "Je veux faire le don d'organes avec la carte d'identité",
+   "lang": "fr",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00519",
+    "cie-donazione-organi",
+    "cie-faq-00542",
+    "cie-faq-00551"
+   ]
+  },
+  {
+   "query": "Fingerprints for children",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-ministero-impronte",
+    "cie-ministero-minori",
+    "cie"
+   ]
+  },
+  {
+   "query": "Can I use the receipt to travel?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00304",
+    "cie-ministero-ricevuta"
+   ]
+  },
+  {
+   "query": "Ho un'urgenza, posso avere subito la carta?",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00306",
+    "cie",
+    "cie-faq-04353",
+    "cie-faq-04355"
+   ]
+  },
+  {
+   "query": "How much is the temporary paper ID?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-04359",
+    "cie"
+   ]
+  },
+  {
+   "query": "My name is not fully visible on the card",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00473"
+   ]
+  },
+  {
+   "query": "Is check-in mandatory?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-03784",
+    "cie-faq-03783",
+    "prenotazione"
+   ]
+  },
+  {
+   "query": "Can I book on the national portal?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-03767",
+    "cie-faq-00578",
+    "prenotazione"
+   ]
+  },
+  {
+   "query": "Who do I call if the chip doesn't work?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00409",
+    "cie-ministero-faq"
+   ]
+  },
+  {
+   "query": "I became an Italian citizen, can I get a new ID card?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-04180"
+   ]
+  },
+  {
+   "query": "Do I have to change the ID card when I change address?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00518",
+    "cie"
+   ]
+  },
+  {
+   "query": "Opening hours of the registry office in via Larga",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "sedi-anagrafiche",
+    "cie",
+    "ds549"
+   ]
+  },
+  {
+   "query": "Can I book appointments for my family members?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie",
+    "prenotazione"
+   ]
+  },
+  {
+   "query": "I live in Milan but I'm resident in another Lombardy town",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00413",
+    "cie-faq-00392",
+    "cie",
+    "cie-faq-00302"
+   ]
+  },
+  {
+   "query": "Can a delegate pick up my card at the post office?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-ministero-spedizione",
+    "cie",
+    "cie-faq-00406"
+   ]
+  },
+  {
+   "query": "Quelle taille doit avoir la photo ?",
+   "lang": "fr",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00308",
+    "cie-ministero-foto",
+    "cie-foto-requisiti"
+   ]
+  },
+  {
+   "query": "هل يمكنني تجديد البطاقة قبل انتهاء صلاحيتها؟",
+   "lang": "ar",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00405",
+    "cie-ministero"
+   ]
+  },
+  {
+   "query": "What happens if I'm not home when the postman comes?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-ministero-spedizione",
+    "cie-faq-00407",
+    "cie",
+    "cie-faq-00471",
+    "cie-faq-00406"
+   ]
+  },
+  {
+   "query": "Can I wear a headscarf in the photo?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-ministero-foto",
+    "cie-foto-requisiti"
+   ]
+  },
+  {
+   "query": "is the CIE valid in the UK?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00472",
+    "cie-ministero-viaggiare",
+    "circ-dait-081-2023"
+   ]
+  },
+  {
+   "query": "How do I activate CieID on my phone?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-ministero-faq",
+    "cie-ministero-attiva",
+    "cie-ministero-credenziali"
+   ]
+  },
+  {
+   "query": "Do I need to bring my old card?",
+   "lang": "en",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00579",
+    "cie",
+    "cie-faq-00413",
+    "cie-faq-00564"
+   ]
+  },
+  {
+   "query": "Posso fare la carta se ho solo la ricevuta del permesso di soggiorno?",
+   "lang": "it",
+   "service_id": "carta-identita",
+   "expect_any": [
+    "cie-faq-00393",
+    "cie-faq-00564",
+    "cie"
+   ]
+  }
+ ]
+}

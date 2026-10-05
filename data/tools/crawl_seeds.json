@@ -1,0 +1,212 @@
+{
+  "_doc": [
+    "Configuration of data/tools/crawl.py: where the crawler may go, how fast, and what counts as relevant for each topic.",
+    "policy applies to every topic. topics.<name> holds the seeds and keywords of one topic: add 'residenza' next to 'carta-identita'.",
+    "Keywords are matched on text without accents, in lower case, with typographic apostrophes made plain, as whole words.",
+    "Patterns are Python regular expressions matched against the normalised URL (https, lower-case host, no fragment).",
+    "A page is scored on the text ingest would save (clean_rules: the Ministry's <article>, the support centre's question and answer) and on its title without the site's name (title_suffixes); only the text counts toward min_strong_hits.",
+    "topic_hosts only break ties between links of the same score: a link needs a keyword in its address or anchor to be followed, on any host.",
+    "min_score 8 and min_strong_hits 1 are calibrated on that cleaned text (a support-centre answer is a few lines): on the 2026-10-04 crawl they keep every saved CIE page that names the card and drop the Ministry's hubs, menus and news lists, whose <article> is empty."
+  ],
+  "policy": {
+    "allowed_domains": [
+      "comune.milano.it",
+      "yesmilano.it",
+      "cartaidentita.interno.gov.it",
+      "dait.interno.gov.it",
+      "poliziadistato.it"
+    ],
+    "blocked_hosts": [
+      "servizicdm.comune.milano.it",
+      "ssocdm.comune.milano.it",
+      "dati.comune.milano.it",
+      "geoportale.comune.milano.it"
+    ],
+    "blocked_url_patterns": [
+      "/cdmlogin",
+      "/signin",
+      "/login",
+      "/logout",
+      "/user/",
+      "servizicrm\\.comune\\.milano\\.it/spec/",
+      "servizicrm\\.comune\\.milano\\.it/appuntamenti",
+      "servizicrm\\.comune\\.milano\\.it/(?!centro-supporto/)",
+      "comune\\.milano\\.it/ricerca",
+      "comune\\.milano\\.it/c/portal/",
+      "comune\\.milano\\.it/fascicolo-del-cittadino",
+      "[?&]p_p_id=",
+      "[?&]p_p_lifecycle=",
+      "[?&](sort|order|page|delta|cur)=",
+      "/search/",
+      "/feed/?$",
+      "/wp-json/",
+      "/wp-admin/",
+      "cartaidentita\\.interno\\.gov\\.it/(fr|slv|de|es)/",
+      "cartaidentita\\.interno\\.gov\\.it/(en/)?(pa-e-imprese|public-and-business-administration|fornitori-di-servizi)/",
+      "cartaidentita\\.interno\\.gov\\.it/(cookie-policy|dichiarazione-di-accessibilita|popupbuilder|statistiche)/",
+      "(?i)cartaidentita\\.interno\\.gov\\.it/downloads/.*(specifiche|middleware|manuale)",
+      "/watch\\?v=",
+      "yesmilano\\.it/(?!(en/)?(study|work)(/|$))",
+      "poliziadistato\\.it/(?!articolo/)"
+    ],
+    "skip_extensions": [
+      ".jpg", ".jpeg", ".png", ".gif", ".svg", ".webp", ".ico", ".bmp", ".tif", ".tiff",
+      ".css", ".js", ".json", ".xml", ".rss", ".zip", ".rar", ".7z", ".gz",
+      ".mp3", ".mp4", ".avi", ".mov", ".webm", ".ogg",
+      ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".odt", ".ods", ".p7m", ".ics", ".csv"
+    ],
+    "default_interval_s": 1.0,
+    "host_intervals_s": {
+      "yesmilano.it": 3.0,
+      "servizicrm.comune.milano.it": 3.0
+    },
+    "retry_statuses": [403, 429],
+    "retry_wait_s": 30.0,
+    "timeout_s": 40.0,
+    "max_bytes": 15000000,
+    "max_redirects": 5,
+    "drop_query_params": {
+      "*": ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "fbclid", "gclid"],
+      "servizicrm.comune.milano.it": ["query"]
+    },
+    "match_ignore_params": {
+      "www.comune.milano.it": ["version", "t", "download", "inheritRedirect", "redirect"]
+    },
+    "canonical_rules": [
+      {"pattern": "^https://servizicrm\\.comune\\.milano\\.it/centro-supporto/(KA-\\d+)", "key": "servizicrm-ka:\\1"},
+      {"pattern": "^https://(?:www|studyandwork)\\.yesmilano\\.it(/[^?#]*?)/?$", "key": "yesmilano:\\1"}
+    ],
+    "publishers": {
+      "comune.milano.it": "Comune di Milano",
+      "yesmilano.it": "YesMilano",
+      "cartaidentita.interno.gov.it": "Ministero dell'Interno",
+      "dait.interno.gov.it": "Ministero dell'Interno",
+      "poliziadistato.it": "Polizia di Stato"
+    },
+    "kind_rules": [
+      {"pattern": "servizicrm\\.comune\\.milano\\.it/centro-supporto/", "kind": "faq"},
+      {"pattern": "comune\\.milano\\.it/w/", "kind": "news"},
+      {"pattern": "formshd\\d*\\.comune\\.milano\\.it/", "kind": "form"}
+    ],
+    "title_suffixes": [
+      " - Carta di Identità Elettronica (CIE)",
+      " - The Electronic Identity Card (CIE)",
+      " - Comune di Milano",
+      " - Centro di supporto - Comune di Milano",
+      " | Comune di Milano",
+      " | Polizia di Stato",
+      " - Polizia di Stato",
+      " | YesMilano",
+      " - YesMilano",
+      " | Study and Work in Milan",
+      " - Dipartimento per gli Affari Interni e Territoriali"
+    ],
+    "clean_rules": [
+      {"pattern": "servizicrm\\.comune\\.milano\\.it/centro-supporto/", "select_many": ["#faqtitle", "#faqcontent", "#faqlastmodified"]},
+      {"pattern": "cartaidentita\\.interno\\.gov\\.it/", "select": "article"},
+      {"pattern": "formshd\\d*\\.comune\\.milano\\.it/", "unescape_inner": true}
+    ]
+  },
+  "topics": {
+    "carta-identita": {
+      "title": "Carta d'identità elettronica (CIE) a Milano",
+      "service_id": "carta-identita",
+      "id_prefix": "cie",
+      "seed_sources": {
+        "servizio": "carta-identita",
+        "id_patterns": [
+          "^cie", "^circ-dait-", "^pds-", "^news-cie", "^news-cabine-foto-cie$", "^news-anagrafe-",
+          "^yesmilano-(id-card|work-identity-card|first-steps)$", "^sedi-anagrafiche$", "^prenotazione$",
+          "^oggetti-smarriti$", "^rettifica-dati-stranieri$", "^detenuti-"
+        ],
+        "exclude_kinds": ["opendata"]
+      },
+      "seeds": [
+        "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita",
+        "https://www.comune.milano.it/en/servizi/anagrafe/carta-d-identita",
+        "https://www.comune.milano.it/argomenti/anagrafe",
+        "https://www.yesmilano.it/en/study/how-to/id-card",
+        "https://www.cartaidentita.interno.gov.it/"
+      ],
+      "keywords": {
+        "strong": [
+          "carta d'identita", "carta di identita", "carta d'identita elettronica", "carta di identita elettronica",
+          "carta identita", "cie", "identity card", "id card", "electronic identity card", "electronic id card",
+          "carte d'identite", "documento d'identita provvisorio", "documento di identita provvisorio"
+        ],
+        "medium": [
+          "documento d'identita", "documento di identita", "pin", "puk", "espatrio", "valida per l'espatrio", "fototessera", "fototessere", "documento di riconoscimento",
+          "impronte digitali", "impronte", "cieid", "entra con cie", "passport photo", "fingerprints", "valid for travel",
+          "rinnovo", "smarrimento", "smarrita", "furto", "rubata", "denuncia", "ricevuta", "documento provvisorio",
+          "donazione di organi", "organ donation", "chip", "scadenza", "renewal", "lost", "stolen"
+        ],
+        "weak": [
+          "anagrafe", "anagrafica", "anagrafici", "sportello", "appuntamento", "prenotazione", "prenota", "registry office",
+          "appointment", "booking", "foto", "photo", "municipio", "minorenni", "minori", "minor", "genitori",
+          "cittadini stranieri", "extra ue", "non-eu", "permesso di soggiorno", "residence permit", "residenza",
+          "residence", "codice fiscale", "tessera sanitaria", "via larga", "spedizione", "consegna", "poste"
+        ]
+      },
+      "weights": {"strong": 3, "medium": 2, "weak": 1},
+      "count_cap": 5,
+      "title_bonus": 2,
+      "min_score": 8,
+      "min_strong_hits": 1,
+      "link_keywords": {
+        "strong": [
+          "carta d identita", "carta di identita", "carta identita", "carta d identita elettronica", "cie",
+          "identity card", "id card", "documento d identita", "documento di identita", "documento identita",
+          "espatrio", "pin puk", "pin", "puk", "fototessera", "fototessere", "fotografia passaporto",
+          "impronte", "cieid", "entra con cie", "documento provvisorio", "carta provvisoria"
+        ],
+        "weak": [
+          "anagrafe", "anagrafica", "anagrafici", "sedi anagrafiche", "prenota", "appuntamento", "smarrimento",
+          "smarriti", "furto", "denuncia", "denunce", "minori", "minorenni", "stranieri", "extra ue", "domicilio",
+          "donazione", "organi", "rettifica", "study", "work", "how to", "getting started", "first steps",
+          "richiedi", "info utili", "assistenza", "faq", "viaggiare", "travel", "circolare", "circolari",
+          "servizi demografici", "carte d identita", "attiva", "credenziali", "identita digitale",
+          "la carta", "ricevuta", "chip", "microchip", "normativa", "identita fisica", "identity", "useful info",
+          "help", "activate", "loss", "theft"
+        ]
+      },
+      "topic_hosts": ["www.cartaidentita.interno.gov.it"],
+      "search_endpoints": [
+        {
+          "name": "centro-supporto",
+          "url": "https://servizicrm.comune.milano.it/Support/SearchService?query={query}",
+          "format": "json-list",
+          "link_field": "link",
+          "title_field": "question",
+          "extra_fields": ["category", "answer"],
+          "queries": [
+            "carta d'identità", "carta di identità", "carta identità elettronica", "CIE", "PIN", "PUK",
+            "fototessera", "foto carta identità", "espatrio", "smarrimento carta", "furto carta", "rinnovo carta",
+            "documento provvisorio", "minori carta identità", "extra UE carta identità", "domicilio carta identità",
+            "donazione organi", "spedizione carta", "check-in appuntamento", "carta cartacea", "chip", "AIRE",
+            "70 anni", "cittadinanza italiana carta", "rettifica dati"
+          ]
+        }
+      ],
+      "sitemaps": {
+        "hosts": ["www.cartaidentita.interno.gov.it", "www.yesmilano.it", "www.comune.milano.it", "www.poliziadistato.it"],
+        "max_files_per_host": 6,
+        "max_index_entries": 200
+      },
+      "id_rules": [
+        {"pattern": "^https://servizicrm\\.comune\\.milano\\.it/centro-supporto/KA-(\\d+)", "id": "cie-faq-\\1"},
+        {"pattern": "^https://www\\.cartaidentita\\.interno\\.gov\\.it/?$", "id": "cie-ministero-home"},
+        {"pattern": "^https://www\\.cartaidentita\\.interno\\.gov\\.it/en/?$", "id": "cie-ministero-en-home"},
+        {"pattern": "^https://www\\.cartaidentita\\.interno\\.gov\\.it/en/(?:[^/?]+/)*([^/?]+)/?$", "id": "cie-ministero-en-\\1"},
+        {"pattern": "^https://www\\.cartaidentita\\.interno\\.gov\\.it/(?:[^/?]+/)*([^/?]+)/?$", "id": "cie-ministero-\\1"},
+        {"pattern": "^https://dait\\.interno\\.gov\\.it/documenti/circ-(?:dait-)?(\\d+)-servdemo-\\d+-\\d+-(\\d{4})\\.pdf", "id": "circ-dait-\\1-\\2"},
+        {"pattern": "^https://dait\\.interno\\.gov\\.it/(?:[^/?]+/)*([^/?]+?)(?:\\.pdf)?$", "id": "dait-\\1"},
+        {"pattern": "^https://www\\.comune\\.milano\\.it/w/(.+)$", "id": "news-\\1"},
+        {"pattern": "^https://www\\.comune\\.milano\\.it/en/(?:[^/?]+/)*([^/?]+)", "id": "comune-en-\\1"},
+        {"pattern": "^https://www\\.comune\\.milano\\.it/documents/(?:[^/?]+/)*([^/?]+)", "id": "comune-doc-\\1"},
+        {"pattern": "^https://[a-z0-9.-]*comune\\.milano\\.it/(?:[^/?]+/)*([^/?]+)", "id": "comune-\\1"},
+        {"pattern": "^https://[a-z0-9.-]*yesmilano\\.it/(?:[^/?]+/)*([^/?]+)", "id": "yesmilano-\\1"},
+        {"pattern": "^https://www\\.poliziadistato\\.it/(?:[^/?]+/)*([^/?]+)", "id": "pds-\\1"}
+      ]
+    }
+  }
+}
