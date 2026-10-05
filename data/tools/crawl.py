@@ -23,12 +23,14 @@ approve   After a person has read the saved Markdown: status "ok", and the searc
           (onevisit/search.py) quotes the page from the next query. A searchable page is still
           not a verified fact: a requirement needs a quote that validate.py finds in the page.
 
-Politeness: robots.txt of every host (urllib.robotparser, plus the * and $ wildcards it ignores),
-at least 1 s between two requests to the same host (3 s for yesmilano.it and the support centre,
-more if robots.txt asks), one retry after 30 s on 403, 429 or a dropped connection, a page cap,
-the plain browser headers of our earlier curl downloads (the City's firewall answers 403 to script
-user agents; nothing else is imitated: no cookies, no JavaScript), TLS verification on with the
-default CA bundle, and the environment's HTTPS_PROXY.
+Politeness: an honest user agent (OneVisitCrawler, with the project's address: the same name robots.txt
+rules are read for; never a browser's), robots.txt of every host (urllib.robotparser, plus the * and $
+wildcards it ignores), at least 1 s between two requests to the same host (3 s for yesmilano.it and the
+support centre, more if robots.txt asks), one retry after 30 s on 429 or a dropped connection, a page
+cap, no cookies and no JavaScript, TLS verification on with the default CA bundle, and the
+environment's HTTPS_PROXY. A 403 is the site saying no: never retried, never worked around; the
+report says to ask the site (the Comune di Milano, partner of the event, can allow the crawler or
+send the pages), and such a page is saved by hand from a browser, as docs/knowledge.md says.
 
 discover uses only the standard library (any Python 3.11+; PDFs are scored with pdftotext when it
 is installed). refresh and ingest clean pages like clean_html.py, so they need the kit environment
@@ -71,17 +73,21 @@ DEFAULT_DATA_DIR = REPO / "data"
 DEFAULT_SEEDS = TOOLS_DIR / "crawl_seeds.json"
 CLEAN_HTML = TOOLS_DIR / "clean_html.py"
 
-# The headers of the curl downloads the City's firewall accepts (a script user agent gets 403).
-BROWSER_HEADERS = {
+# Our token for robots.txt groups: rules for "*" apply, and rules that name us.
+ROBOTS_AGENT = "OneVisitCrawler"
+# Who we are, honestly: the same name robots.txt is read for, and where to find the project. A site
+# that refuses this agent (403) is asked, not worked around.
+CRAWLER_HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/129.0 Safari/537.36"
+        f"{ROBOTS_AGENT}/1.0 (+https://github.com/Claude-Milano/impact-lab-oct-2026; "
+        "OneVisit, Claude Impact Lab Milano)"
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "it-IT,it;q=0.9,en;q=0.8",
 }
-# Our token for robots.txt groups: rules for "*" apply, and rules that name us.
-ROBOTS_AGENT = "OneVisitCrawler"
+# What the report says when a site refuses the crawler.
+REFUSED_HINT = ("refused (403): the site does not allow this crawler; ask the site to allow "
+                f"{ROBOTS_AGENT} or to send the page, or save it by hand from a browser (docs/knowledge.md)")
 REDIRECT_STATUSES = (301, 302, 303, 307, 308)
 # Words of a dropped connection, worth one retry after the wait.
 _RETRYABLE_ERRORS = ("reset", "remotedisconnected", "timed out", "timeout", "aborted", "broken pipe", "eof")
@@ -130,7 +136,7 @@ class Policy:
     skip_extensions: list[str] = dataclasses.field(default_factory=list)
     default_interval_s: float = 1.0
     host_intervals_s: dict[str, float] = dataclasses.field(default_factory=dict)
-    retry_statuses: list[int] = dataclasses.field(default_factory=lambda: [403, 429])
+    retry_statuses: list[int] = dataclasses.field(default_factory=lambda: [429])  # never 403: a refusal
     retry_wait_s: float = 30.0
     timeout_s: float = 40.0
     max_bytes: int = 15_000_000
@@ -908,8 +914,12 @@ class PoliteClient:
         host = urllib.parse.urlsplit(url).hostname or ""
         self.throttle.wait(host)
         self.requests += 1
-        answer = self.transport(url, dict(BROWSER_HEADERS), self.policy.timeout_s, self.policy.max_bytes)
+        answer = self.transport(url, dict(CRAWLER_HEADERS), self.policy.timeout_s, self.policy.max_bytes)
         dropped = answer.status == 0 and any(w in answer.error.lower() for w in _RETRYABLE_ERRORS)
+        if answer.status == 403:  # the site says no: ask it, don't retry or work around it
+            answer.error = answer.error or REFUSED_HINT
+            self.log(f"  403 on {url}: {REFUSED_HINT}")
+            return answer
         if answer.status in self.policy.retry_statuses or dropped:
             self.log(
                 f"  {answer.status or answer.error} on {url}: "
@@ -918,7 +928,7 @@ class PoliteClient:
             self.sleep(self.policy.retry_wait_s)
             self.throttle.wait(host)
             self.requests += 1
-            answer = self.transport(url, dict(BROWSER_HEADERS), self.policy.timeout_s, self.policy.max_bytes)
+            answer = self.transport(url, dict(CRAWLER_HEADERS), self.policy.timeout_s, self.policy.max_bytes)
             answer.retried = True
         return answer
 

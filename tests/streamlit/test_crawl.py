@@ -73,7 +73,7 @@ class FakeWeb:
         self, url: str, headers: dict[str, str], timeout: float, max_bytes: int
     ) -> crawl.Response:
         self.calls.append(url)
-        assert headers["User-Agent"].startswith("Mozilla/5.0")  # the browser headers of fetch.sh
+        assert headers["User-Agent"].startswith("OneVisitCrawler/")  # who we are, never a browser
         assert headers["Accept-Language"] == "it-IT,it;q=0.9,en;q=0.8"
         answer = self.pages.get(url)
         if isinstance(answer, list):
@@ -495,7 +495,8 @@ def test_robots_missing_allows_and_robots_refused_blocks_the_host():
     assert client.get("https://servizicrm.comune.milano.it/centro-supporto/KA-1/X").status == 200
     blocked = client.get("https://www.yesmilano.it/en/study/how-to/id-card")
     assert blocked.blocked and "https://www.yesmilano.it/en/study/how-to/id-card" not in web.calls
-    assert 30.0 in clock.sleeps  # robots.txt got its one retry after 30 s
+    assert 30.0 not in clock.sleeps  # a 403 is the site saying no: never retried
+    assert web.calls.count("https://www.yesmilano.it/robots.txt") == 1
 
 
 def test_throttle_spaces_requests_per_host():
@@ -513,10 +514,9 @@ def test_throttle_spaces_requests_per_host():
     assert throttle.interval("www.comune.milano.it") == 5.0
 
 
-def test_retry_once_after_403_429_or_dropped_connection():
+def test_retry_once_after_429_or_dropped_connection():
     url = "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita"
     for first in (
-        (403, {}, "waf"),
         (429, {}, "slow down"),
         crawl.Response(url, 0, {}, b"", error="ConnectionResetError: [Errno 104] reset"),
     ):
@@ -526,8 +526,25 @@ def test_retry_once_after_403_429_or_dropped_connection():
         assert answer.status == 200 and answer.retried
         assert clock.sleeps.count(30.0) == 1
         assert web.calls.count(url) == 2
-    web = FakeWeb({url: [(403, {}, "waf"), (403, {}, "waf"), (200, HTML, CIE_PAGE)]})
-    assert client_for(web).get(url).status == 403  # only one retry
+    web = FakeWeb({url: [(429, {}, "slow"), (429, {}, "slow"), (200, HTML, CIE_PAGE)]})
+    assert client_for(web).get(url).status == 429  # only one retry
+
+
+def test_a_403_is_a_refusal_not_retried_and_the_report_says_to_ask_the_site():
+    url = "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita"
+    web = FakeWeb({url: [(403, {}, ""), (200, HTML, CIE_PAGE)]})
+    clock = FakeClock()
+    answer = client_for(web, clock).get(url)
+    assert answer.status == 403 and not answer.retried and web.calls.count(url) == 1
+    assert "ask the site" in answer.error and 30.0 not in clock.sleeps
+
+
+def test_the_crawler_says_who_it_is():
+    agent = crawl.CRAWLER_HEADERS["User-Agent"]
+    assert agent.startswith(crawl.ROBOTS_AGENT + "/") and "github.com" in agent
+    assert "Mozilla" not in agent and "Chrome" not in agent
+    assert 403 not in crawl.Policy(allowed_domains=[]).retry_statuses
+    assert 403 not in POLICY.retry_statuses  # the seeds file too
 
 
 def test_redirects_are_followed_only_inside_the_allowlist():

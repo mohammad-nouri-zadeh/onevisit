@@ -14,9 +14,9 @@
       "todo": "{m} voci non hanno ancora una fonte verificata: per quelle controlla la pagina ufficiale, non te le invento.",
       "booking": "Per prenotare l'appuntamento: [pagina di prenotazione del Comune]({url}) {cite}.",
       "dossier": "Scarica il dossier per lo sportello e portalo all'appuntamento. La verifica finale spetta all'operatore allo sportello.",
-      "free_text": "Non ho trovato la risposta nel tuo messaggio: scegli una delle risposte qui sotto. Questa replica legge solo le parole chiave; dal vivo Claude capisce qualsiasi frase.",
+      "free_text": "Non ho trovato la risposta nel tuo messaggio: scegli una delle risposte qui sotto, oppure fammi una domanda sulla pratica. Questa replica legge solo le parole chiave; dal vivo Claude capisce qualsiasi frase.",
       "start_free": "Questa è la replica dimostrativa: scrivi la tua situazione o scegli uno degli esempi.",
-      "done": "La checklist è pronta qui sotto. La replica non risponde a domande nuove: dal vivo risponde Claude; intanto c'è la pagina ufficiale.",
+      "done": "La checklist è pronta qui sotto. Puoi farmi una domanda sulla pratica (la replica cerca la risposta nelle pagine ufficiali salvate, per parole chiave) o raccontarmi un altro caso.",
       "steps": "Il percorso ha {n} passi tra {entes}: li trovi qui sotto, in ordine, ognuno con la sua fonte {cites}.",
       "delta": "Con la tua risposta la checklist cambia: ora sono {n} voci (+{k}){cites}.",
       "same": "La checklist resta di {n} voci{cites}.",
@@ -55,9 +55,9 @@
       "todo": "{m} items don't have a verified source yet: check those on the official page, I won't make them up.",
       "booking": "To book the appointment: [the City's booking page]({url}) {cite}.",
       "dossier": "Download the desk dossier and bring it to the appointment. The desk officer makes the final check.",
-      "free_text": "I couldn't find the answer in your message: pick one of the answers below. This replay reads keywords only; live, Claude understands any wording.",
+      "free_text": "I couldn't find the answer in your message: pick one of the answers below, or ask me a question about the procedure. This replay reads keywords only; live, Claude understands any wording.",
       "start_free": "This is the demo replay: describe your situation or pick one of the examples.",
-      "done": "Your checklist is below. The replay can't answer new questions: live, Claude does; meanwhile there is the official page.",
+      "done": "Your checklist is below. Ask me a question about the procedure (the replay looks for the answer in the saved official pages, by keywords) or tell me about another case.",
       "steps": "The path has {n} steps across {entes}: they are below, in order, each with its source {cites}.",
       "delta": "With your answer the checklist changes: now {n} items (+{k}){cites}.",
       "same": "The checklist stays at {n} items{cites}.",
@@ -96,9 +96,9 @@
       "todo": "عدد البنود التي ليس لها مصدر موثّق بعد: {m}. تحقّق منها في الصفحة الرسمية، لن أختلقها.",
       "booking": "لحجز الموعد: [صفحة الحجز في البلدية]({url}) {cite}.",
       "dossier": "نزّل ملف الشباك وأحضره معك إلى الموعد. القرار النهائي لموظف الشباك.",
-      "free_text": "لم أجد الإجابة في رسالتك: اختر إحدى الإجابات أدناه. هذا العرض المسجّل يقرأ الكلمات المفتاحية فقط؛ في الوضع المباشر يفهم Claude أي صياغة.",
+      "free_text": "لم أجد الإجابة في رسالتك: اختر إحدى الإجابات أدناه، أو اسألني عن الإجراء. هذا العرض المسجّل يقرأ الكلمات المفتاحية فقط؛ في الوضع المباشر يفهم Claude أي صياغة.",
       "start_free": "هذا عرض تجريبي مسجّل: صِف وضعك أو اختر أحد الأمثلة.",
-      "done": "قائمتك أدناه. العرض المسجّل لا يجيب عن أسئلة جديدة: في الوضع المباشر يجيب Claude؛ وإلى ذلك الحين راجع الصفحة الرسمية.",
+      "done": "قائمتك أدناه. يمكنك أن تسألني عن الإجراء (يبحث العرض المسجّل عن الجواب في الصفحات الرسمية المحفوظة بالكلمات المفتاحية) أو أن تحكي لي حالة أخرى.",
       "steps": "المسار فيه {n} خطوات بين {entes}: تجدها أدناه بالترتيب، ولكل خطوة مصدرها {cites}.",
       "delta": "مع إجابتك تتغيّر القائمة: عدد البنود الآن {n} (+{k}){cites}.",
       "same": "يبقى عدد البنود {n}{cites}.",
@@ -136,9 +136,9 @@
       "todo": "{m} puntos aún no tienen una fuente verificada: compruébalos en la página oficial, no me los invento.",
       "booking": "Para pedir cita: [página de citas del Ayuntamiento]({url}) {cite}.",
       "dossier": "Descarga el dossier para la ventanilla y llévalo a la cita. La comprobación final la hace el funcionario de la ventanilla.",
-      "free_text": "No he encontrado la respuesta en tu mensaje: elige una de las respuestas de abajo. Esta réplica solo lee palabras clave; en directo Claude entiende cualquier frase.",
+      "free_text": "No he encontrado la respuesta en tu mensaje: elige una de las respuestas de abajo o hazme una pregunta sobre el trámite. Esta réplica solo lee palabras clave; en directo Claude entiende cualquier frase.",
       "start_free": "Esta es la réplica de demostración: describe tu situación o elige uno de los ejemplos.",
-      "done": "Tu lista está abajo. La réplica no responde a preguntas nuevas: en directo responde Claude; mientras tanto, consulta la página oficial.",
+      "done": "Tu lista está abajo. Hazme una pregunta sobre el trámite (la réplica busca la respuesta en las páginas oficiales guardadas, por palabras clave) o cuéntame otro caso.",
       "steps": "El recorrido tiene {n} pasos entre {entes}: los tienes abajo, en orden, cada uno con su fuente {cites}.",
       "delta": "Con tu respuesta la lista cambia: ahora son {n} puntos (+{k}){cites}.",
       "same": "La lista se queda en {n} puntos{cites}.",
@@ -167,7 +167,7 @@
       "opening": "我来帮你准备：**{service}**。我已阅读该服务的资料及其官方来源。",
       "understood": "从你的消息中我理解到：{facts}。",
       "office": "{area}附近的户籍办公室：**{office}** {office_cite}。",
-      "deeplink": "你在 **{date}** 于 **{office}** {office_cite} 有一个“**{service}**”的预约：我们来准备材料吧。",
+      "deeplink": "你在 **{date}** 于 **{office}** {office_cite} 有一个**{service}**的预约：我们来准备材料吧。",
       "partial": "下面的清单目前有 {n} 项，来自 {s} 个官方来源{cites}。",
       "none": "已保存的来源中还没有适用于你情况的已核实要求：我不会猜测，请查看官方页面。",
       "ask_first": "一个会改变材料清单的问题：{question}",
@@ -176,9 +176,9 @@
       "todo": "有 {m} 项还没有已核实的来源：请在官方页面上查看，我不会编造。",
       "booking": "预约办理：[市政府预约页面]({url}) {cite}。",
       "dossier": "下载窗口材料单，并在预约时带上。最终由窗口工作人员审核。",
-      "free_text": "我没有在你的消息中找到答案：请选择下面的一个回答。这个演示回放只能理解关键词；实时版本中 Claude 能理解任何说法。",
+      "free_text": "我没有在你的消息中找到答案：请选择下面的一个回答，或者问我关于办理的问题。这个演示回放只能理解关键词；实时版本中 Claude 能理解任何说法。",
       "start_free": "这是演示回放：请描述你的情况，或选择一个示例。",
-      "done": "你的清单在下方。演示回放无法回答新问题：实时版本由 Claude 回答；你也可以查看官方页面。",
+      "done": "你的清单在下方。你可以问我关于办理的问题（演示回放会按关键词在已保存的官方页面中查找答案），或者告诉我另一个情况。",
       "steps": "整个流程共 {n} 步，涉及 {entes}：按顺序列在下方，每一步都有来源 {cites}。",
       "delta": "根据你的回答，清单有变化：现在共 {n} 项（新增 {k} 项）{cites}。",
       "same": "清单仍为 {n} 项{cites}。",
@@ -223,14 +223,14 @@
   },
   "questions": {
     "carta-identita.residenza": {
-      "ar": "أين الإقامة المسجّلة (residenza) للشخص: في ميلانو، أم في بلدية أخرى (داخل لومبارديا أو خارجها)، أم في الخارج مع التسجيل في AIRE، أم لم يسجّل إقامته في إيطاليا بعد؟",
-      "es": "¿Dónde tiene la persona su residencia empadronada: en Milán, en otro municipio (en Lombardía o fuera), en el extranjero con inscripción en el AIRE, o todavía no en Italia?",
-      "zh": "此人的户籍登记（residenza）在哪里：在米兰，在其他市镇（伦巴第大区内或外），在国外并已在 AIRE 登记，还是尚未在意大利登记？"
+      "ar": "أين الإقامة المسجّلة (residenza) للشخص؟ في ميلانو؛ في بلدية خارج لومبارديا لكنه يسكن في ميلانو؛ في بلدية أخرى داخل لومبارديا؛ في بلدية خارج لومبارديا ولا يسكن في ميلانو؛ في الخارج مع التسجيل في AIRE؛ أم لم يسجّل إقامته في إيطاليا بعد؟",
+      "es": "¿Dónde tiene la persona su residencia empadronada? En Milán; en un municipio fuera de Lombardía pero vive en Milán; en otro municipio de Lombardía; en un municipio fuera de Lombardía y no vive en Milán; en el extranjero, con inscripción en el AIRE; ¿o todavía no es residente en Italia?",
+      "zh": "此人的户籍登记（residenza）在哪里？在米兰；在伦巴第大区以外的市镇但住在米兰；在伦巴第大区的其他市镇；在伦巴第大区以外的市镇且不住在米兰；在国外并已在 AIRE 登记；还是尚未在意大利登记？"
     },
     "carta-identita.motivo": {
-      "ar": "ماذا تحتاج؟ أول بطاقة هوية؛ تجديد (منتهية أو قاربت على الانتهاء أو ما زالت ورقية)؛ بطاقة تالفة؛ بطاقة سليمة لكن شريحتها لا تعمل؛ بطاقة مفقودة أو مسروقة؛ رمز PIN أو PUK مفقود (أو تغيير بيانات الاتصال المرتبطة بالبطاقة)؛ أم لديك البطاقة الإلكترونية بالفعل ولديك سؤال (تغيير العنوان، الشحن)؟",
-      "es": "¿Qué necesitas? La primera carta de identidad; una renovación (caducada, a punto de caducar o todavía de papel); una carta estropeada; una carta en buen estado cuyo chip no funciona; una carta perdida o robada; PIN o PUK perdidos (o cambiar los datos de contacto de la carta); ¿o ya tienes la CIE y tienes una pregunta (cambio de dirección, envío)?",
-      "zh": "你需要办理什么？首次办理身份证；续办（已过期、即将过期或仍是纸质的）；证件损坏；证件完好但芯片失灵；证件丢失或被盗；PIN 或 PUK 丢失（或需更改证件关联的联系方式）；还是你已经有电子身份证，有问题想问（更改地址、邮寄）？"
+      "ar": "ماذا تحتاج؟ أول بطاقة هوية؛ تجديد (منتهية أو قاربت على الانتهاء أو ما زالت ورقية)؛ بطاقة تالفة؛ بطاقة سليمة لكن شريحتها لا تعمل؛ بطاقة مفقودة أو مسروقة؛ رمز PIN أو PUK مفقود (أو تغيير بيانات الاتصال المرتبطة بالبطاقة)؛ أم لديك البطاقة الإلكترونية بالفعل ولديك سؤال (مدة الصلاحية، السفر، بيانات الدخول للخدمات الإلكترونية، التبرع بالأعضاء، تغيير العنوان أو البيانات، الشحن)؟",
+      "es": "¿Qué necesitas? La primera carta de identidad; una renovación (caducada, a punto de caducar o todavía de papel); una carta estropeada; una carta en buen estado cuyo chip no funciona; una carta perdida o robada; PIN o PUK perdidos (o cambiar los datos de contacto de la carta); ¿o ya tienes la CIE y tienes una pregunta (cuánto dura, viajes, credenciales para los servicios en línea, donación de órganos, cambio de dirección o de datos, envío)?",
+      "zh": "你需要办理什么？首次办理身份证；续办（已过期、即将过期或仍是纸质的）；证件损坏；证件完好但芯片失灵；证件丢失或被盗；PIN 或 PUK 丢失（或需更改证件关联的联系方式）；还是你已经有电子身份证，有问题想问（有效期、出行、网上服务登录凭证、器官捐献、更改地址或个人信息、邮寄）？"
     },
     "carta-identita.eta": {
       "ar": "هل البطاقة لشخص بالغ أم لقاصر؟",
@@ -388,6 +388,13 @@
       "ar": "مقيم في بلدية أخرى في لومبارديا",
       "es": "Residente en otro municipio de Lombardía",
       "zh": "户籍在伦巴第大区其他市镇"
+    },
+    "altra-regione": {
+      "it": "Residente fuori Lombardia, non abita a Milano",
+      "en": "Resident outside Lombardy, not living in Milan",
+      "ar": "مقيم خارج لومبارديا ولا يسكن في ميلانو",
+      "es": "Residente fuera de Lombardía, no vive en Milán",
+      "zh": "户籍在伦巴第大区以外，不住在米兰"
     },
     "aire": {
       "it": "Italiano iscritto all'AIRE (vive all'estero)",

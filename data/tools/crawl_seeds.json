@@ -60,7 +60,7 @@
       "yesmilano.it": 3.0,
       "servizicrm.comune.milano.it": 3.0
     },
-    "retry_statuses": [403, 429],
+    "retry_statuses": [429],
     "retry_wait_s": 30.0,
     "timeout_s": 40.0,
     "max_bytes": 15000000,

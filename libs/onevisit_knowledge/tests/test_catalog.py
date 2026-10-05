@@ -1,8 +1,10 @@
 """Regole della checklist, sedi, enti e scadenza delle fonti (storie A2, C4)."""
 
+import json
 from collections.abc import Callable
 from datetime import date, datetime
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -48,7 +50,8 @@ def test_checklist_without_answers_lists_questions_still_to_ask(data_dir: Path) 
     assert [i.id for i in checklist.items] == ["sempre"]
     assert checklist.items[0].lead_time_days == 7
     assert checklist.items[0].origin == "source"
-    assert checklist.still_to_ask == ["eta", "motivo"]
+    # Nell'ordine delle domande del catalogo, non in ordine alfabetico.
+    assert checklist.still_to_ask == ["motivo", "eta"]
     assert checklist.not_yet_verified == ["costo"]
     assert [s.id for s in checklist.sources] == ["dataset-demo"]
 
@@ -227,3 +230,139 @@ def test_overlay_without_when_inherits_condition_of_replaced_requirement(data_di
 
     assert "genitori" not in [i.id for i in adult.items]
     assert "genitori" in [i.id for i in minor.items]
+
+
+def test_question_is_asked_only_if_something_still_possible_depends_on_it(
+    make_dataset: Callable[..., Path],
+) -> None:
+    def only_renewals_ask_age(service: dict[str, Any]) -> None:
+        service["requirements"][2]["when"] = {"motivo": ["rinnovo"], "eta": ["minore"]}
+
+    catalog = load_catalog(make_dataset(only_renewals_ask_age))
+
+    assert catalog.checklist("servizio-demo", {}).still_to_ask == ["motivo", "eta"]
+    # Per una prima carta nessun requisito ancora possibile dipende dall'età: non si chiede.
+    assert catalog.checklist("servizio-demo", {"motivo": "prima"}).still_to_ask == []
+    assert catalog.checklist("servizio-demo", {"motivo": "rinnovo"}).still_to_ask == ["eta"]
+
+
+def test_a_stop_route_ends_the_questions_except_its_own(
+    make_dataset: Callable[..., Path],
+) -> None:
+    def add_stop(service: dict[str, Any]) -> None:
+        service["deciding_questions"].insert(
+            0,
+            {
+                "id": "residenza",
+                "ask_it": "Dove risiedi?",
+                "options": ["qui", "altrove"],
+                "option_routes": {
+                    "altrove": {
+                        "route": "stop",
+                        "services": [
+                            {"id": "servizio-demo", "when": {"eta": ["adulto"]}},
+                        ],
+                    }
+                },
+            },
+        )
+        for req in service["requirements"][1:3]:
+            req["when"] = {"residenza": ["qui"], **req["when"]}
+        service["requirements"].append(
+            {
+                "id": "solo-residenti",
+                "text_it": "Qui solo per i residenti.",
+                "when": {"residenza": ["altrove"]},
+                "source_id": "pagina-demo",
+                "quote": "Per il rinnovo serve la carta d'identità scaduta.",
+                "verified_at": "2026-09-01",
+                "status": "verified",
+            }
+        )
+
+    catalog = load_catalog(make_dataset(add_stop))
+
+    assert catalog.checklist("servizio-demo", {}).still_to_ask == ["residenza", "motivo", "eta"]
+    away = catalog.checklist("servizio-demo", {"residenza": "altrove"})
+    # "motivo" non serve più; "eta" sì, perché decide quale servizio indicare.
+    assert away.still_to_ask == ["eta"]
+    assert "solo-residenti" in [i.id for i in away.items]
+    [route] = catalog.routes("servizio-demo", {"residenza": "altrove"})
+    assert route["route"] == "stop" and route["ends_case"] is True
+    assert "services" not in route  # la sua condizione non ha ancora risposta
+    [route] = catalog.routes("servizio-demo", {"residenza": "altrove", "eta": "adulto"})
+    assert [s["id"] for s in route["services"]] == ["servizio-demo"]
+    assert catalog.routes("servizio-demo", {"residenza": "qui"}) == []
+    with pytest.raises(CatalogError):
+        catalog.routes("non-esiste", {})
+
+
+def test_invalid_option_routes_raise_catalog_error(make_dataset: Callable[..., Path]) -> None:
+    def broken(service: dict[str, Any]) -> None:
+        service["deciding_questions"][0]["option_routes"] = ["stop"]
+
+    with pytest.raises(CatalogError):
+        load_catalog(make_dataset(broken))
+
+
+def _depends_on(answers: dict[str, str]) -> set[str]:
+    """Lettura indipendente dei dati reali: le domande nominate da un requisito della CIE che
+    nessuna risposta ha ancora escluso (senza percorsi che chiudono il caso)."""
+    raw = json.loads((REAL_DATA / "services" / "carta-identita.json").read_text(encoding="utf-8"))
+    needed: set[str] = set()
+    for req in raw["requirements"]:
+        when = req.get("when") or {}
+        if all(answers[q] in allowed for q, allowed in when.items() if q in answers):
+            needed |= {q for q in when if q not in answers}
+    return needed
+
+
+def test_real_id_card_questions_follow_the_routes() -> None:
+    catalog = load_catalog(REAL_DATA)
+    cie = "carta-identita"
+    service = catalog.service(cie)
+    assert service is not None
+    order = [q.id for q in service.deciding_questions]
+
+    assert catalog.checklist(cie, {}).still_to_ask == [q for q in order if q in _depends_on({})]
+    # PIN e PUK persi, o già la CIE con una domanda: si chiede solo ciò da cui dipende
+    # qualcosa di quel percorso (età e cittadinanza solo se una voce le nomina).
+    for case in ({"motivo": "pin-puk"}, {"motivo": "gia-cie"}):
+        expected = [q for q in order if q in _depends_on(case)]
+        assert catalog.checklist(cie, case).still_to_ask == expected
+    [route] = [r for r in catalog.routes(cie, {"motivo": "pin-puk"}) if r["question"] == "motivo"]
+    assert any("richiesta-duplicato-pin-puk" in link["url"] for link in route["links"])
+    assert all(link["source_id"] in catalog.source_ids() for link in route["links"])
+    # Residente in Lombardia fuori Milano: la pratica non si fa qui; niente età né presenza.
+    monza = {"residenza": "altro-comune-lombardia", "motivo": "rinnovo"}
+    assert not {"eta", "presenza"} & set(catalog.checklist(cie, monza).still_to_ask)
+    [stop] = [r for r in catalog.routes(cie, monza) if r["ends_case"]]
+    assert "cambio-residenza" in [s["id"] for s in stop["services"]]
+    home = {"residenza": "milano", "motivo": "rinnovo", "presenza": "domicilio-salute"}
+    assert catalog.checklist(cie, home).still_to_ask == [q for q in order if q in _depends_on(home)]
+    assert [r["route"] for r in catalog.routes(cie, home)] == ["home"]
+
+
+def test_a_stop_holds_only_while_something_it_stops_is_still_possible() -> None:
+    """Resident in another region but with lost PIN/PUK (asked at any registry desk): the card's
+    stop items need another motivo, so the case goes on with the desk route (as onevisit/kb.py)."""
+    catalog = load_catalog(REAL_DATA)
+    cie = "carta-identita"
+    case = {"residenza": "altra-regione", "motivo": "pin-puk"}
+    assert catalog.checklist(cie, case).still_to_ask == ["presenza"]
+    assert [r["route"] for r in catalog.routes(cie, case)] == ["desk"]
+    done = {**case, "presenza": "sportello"}
+    assert "pin-puk-smarriti" in [i.id for i in catalog.checklist(cie, done).items]
+    # without a motivo yet, or with one the stop items name, the stop holds
+    assert [r["route"] for r in catalog.routes(cie, {"residenza": "altra-regione"})] == ["stop"]
+    first = {"residenza": "altra-regione", "motivo": "prima"}
+    assert [r["route"] for r in catalog.routes(cie, first)] == ["stop"]
+
+
+def test_route_services_carry_their_official_page() -> None:
+    catalog = load_catalog(REAL_DATA)
+    monza = {"residenza": "altro-comune-lombardia", "motivo": "rinnovo"}
+    [stop] = [r for r in catalog.routes("carta-identita", monza) if r["ends_case"]]
+    [service] = [s for s in stop["services"] if s["id"] == "cambio-residenza"]
+    assert service["official_url"]["url"].startswith("https://")
+    assert service["official_url"]["source_id"] in catalog.source_ids()

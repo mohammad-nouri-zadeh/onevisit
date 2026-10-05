@@ -11,7 +11,13 @@
   "'query_regex' (optional) are regular expressions on the folded query, for what words can't list: an age of 70 or more is 'elderly', under 18 'minor'.",
   "'not' (optional) lists phrases inside which the concept's words mean something else: 'ho subito un furto' is not urgent, 'I arrived in Milan' is not a delivery. A match of the concept inside a 'not' phrase is dropped, in pages and in queries.",
   "'distinct': true marks a concept that names another thing than the card itself (the PIN codes, the digital credentials, organ donation, the residence permit...). A section whose heading is about it ranks lower when the question doesn't mention it: 'I lost my ID card' is not 'I lost my PIN'.",
-  "Never put a fact here: this file only says which words mean the same thing. Reviewed by a person like any other data file."
+  "'off_topic': true marks a concept of questions that are not about any procedure (the weather, small talk, a restaurant): a query that asks it and not the service's own subject gets no confident answer (reason 'off_topic'). Its words are 'query_only'.",
+  "Never put a fact here: this file only says which words mean the same thing. Reviewed by a person like any other data file.",
+  "'means_for' (optional) lists concepts for which this other document is only the means (SPID to book an appointment or to go online): a question with one of them is about the service, not about the other document.",
+  "'asks_other_document': true marks a concept of questions that ask to obtain or renew another document ('fare il passaporto all'anagrafe'): such a question is about that document even when it also names the ID card. Its weight is 0: it only gates, it never ranks.",
+  "'frame': true marks a concept that says how a question is asked (what to bring, where, when, is it mandatory, can I apply) more than what it is about: a passage needs the question's other concepts to be a confident answer, not these.",
+  "'unanswered_topic': true marks a concept no saved page answers (parking near an office, bringing a pet): a question that asks it gets the honest 'the pages don't say' (reason 'unknown_words'), whatever generic word (office, anagrafe) it shares with the pages.",
+  "'situation': true marks the person's situation or why the card is needed (lost, stolen, damaged, expired, renewal; a minor, a student, a foreign resident): a passage that holds the rest of the question ('quanto costa rifarla se l'ho persa?': the fee) answers it without naming the situation; a question about the situation alone needs it."
  ],
  "concepts": {
   "idcard": {
@@ -183,12 +189,16 @@
     "hay que llevar",
     "tengo que llevar",
     "dois je apporter",
-    "faut il apporter"
+    "faut il apporter",
+    "需要带",
+    "要带",
+    "要什么"
    ],
    "query_regex": [
     "^\\W*(?:mi |ci |ti )?serv(?:e|ono|ira)\\b(?! (?:a|per) (?:cosa|che))",
     "\\b(?:do|will|would|should) (?:i|we|you) (?:need|have) (?:to (?:bring|show|have) )?(?:my|a|an|the|his|her|our|their)\\s+(?!appointment|booking|reservation|new\\b)\\w"
-   ]
+   ],
+   "frame": true
   },
   "lost": {
    "phrases": [
@@ -266,7 +276,8 @@
    ],
    "related": [
     "stolen"
-   ]
+   ],
+   "situation": true
   },
   "stolen": {
    "phrases": [
@@ -312,7 +323,8 @@
    "query_only": [],
    "related": [
     "lost"
-   ]
+   ],
+   "situation": true
   },
   "police_report": {
    "phrases": [
@@ -464,7 +476,8 @@
     "বয়স\\s*(?:[1-9]|1[0-7])(?!\\d)",
     "\\b(?:under|below|sotto i|meno di|menores de|menos de|moins de|до)\\s+(?:[1-9]|1[0-7])\\s*(?:anni|years?|yrs?|anos|ans|років|рок)\\b",
     "\\b(?:under|below|sotto i|menores de|moins de|до)\\s+(?:14|18)\\b(?!\\s*(?:minut|min\\b|ore\\b|hours?|giorn|days?|dias?|jours?|mes|months?|mois|settiman|weeks?|semana|euro|eur\\b|€|%))"
-   ]
+   ],
+   "situation": true
   },
   "parent": {
    "phrases": [
@@ -608,7 +621,12 @@
     "expensive",
     "cheap",
     "costosa",
-    "costoso"
+    "costoso",
+    "نقدا",
+    "الدفع",
+    "ادفع",
+    "أدفع",
+    "دفع"
    ],
    "query_only": [
     "how much",
@@ -624,7 +642,10 @@
     "es caro",
     "est chère",
     "est cher",
-    "c'est cher"
+    "c'est cher",
+    "free",
+    "for free",
+    "is it free"
    ]
   },
   "photo": {
@@ -844,7 +865,12 @@
     "válida hasta",
     "valable jusqu"
    ],
-   "query_only": []
+   "query_only": [],
+   "related": [
+    "validity",
+    "duration"
+   ],
+   "situation": true
   },
   "renewal": {
    "phrases": [
@@ -893,7 +919,8 @@
     "sustituir",
     "remplacer"
    ],
-   "query_only": []
+   "query_only": [],
+   "situation": true
   },
   "travel": {
    "phrases": [
@@ -1072,7 +1099,17 @@
     "brussels",
     "bruxelles",
     "lisbon",
-    "lisbona"
+    "lisbona",
+    "treno",
+    "in treno",
+    "train",
+    "by train",
+    "tren",
+    "en tren",
+    "en train"
+   ],
+   "related": [
+    "italy_travel"
    ]
   },
   "booking": {
@@ -1295,7 +1332,13 @@
     "arrivé en",
     "arrivée en",
     "acabo de llegar",
-    "llegué a"
+    "llegué a",
+    "чи можу я отримати",
+    "можу я отримати",
+    "можу отримати",
+    "можна отримати",
+    "як отримати",
+    "як мені отримати"
    ]
   },
   "timing": {
@@ -1351,7 +1394,8 @@
     "cuánto tarda",
     "cuanto tarda",
     "combien de temps faut"
-   ]
+   ],
+   "frame": true
   },
   "urgent": {
    "phrases": [
@@ -1493,7 +1537,23 @@
     "不能出门",
     "行动不便"
    ],
-   "distinct": true
+   "distinct": true,
+   "not": [
+    "stay at home",
+    "stay home",
+    "stays at home",
+    "stays home",
+    "stare a casa",
+    "restare a casa",
+    "rimanere a casa",
+    "resta a casa",
+    "rimane a casa",
+    "sta a casa",
+    "quedarse en casa",
+    "se queda en casa",
+    "rester à la maison",
+    "reste à la maison"
+   ]
   },
   "organ_donation": {
    "phrases": [
@@ -1742,7 +1802,8 @@
     "українк",
     "українец",
     "বাংলাদেশি"
-   ]
+   ],
+   "situation": true
   },
   "damaged": {
    "phrases": [
@@ -1796,7 +1857,8 @@
     "ক্ষতিগ্রস্ত",
     "নষ্ট"
    ],
-   "query_only": []
+   "query_only": [],
+   "situation": true
   },
   "residence": {
    "phrases": [
@@ -1833,7 +1895,8 @@
     "проживаю",
     "বসবাস"
    ],
-   "query_only": []
+   "query_only": [],
+   "situation": true
   },
   "office": {
    "phrases": [
@@ -1884,7 +1947,22 @@
     "在哪",
     "in which office",
     "which office"
-   ]
+   ],
+   "not": [
+    "where will they send",
+    "where do they send",
+    "where will it be sent",
+    "where is it sent",
+    "where will it arrive",
+    "dove la spediscono",
+    "dove viene spedita",
+    "dove la mandano",
+    "dove arriva",
+    "adónde la envían",
+    "dónde la envían",
+    "où l'envoient"
+   ],
+   "frame": true
   },
   "correction": {
    "phrases": [
@@ -2000,7 +2078,8 @@
     "回执",
     "收据"
    ],
-   "query_only": []
+   "query_only": [],
+   "distinct": true
   },
   "hours": {
    "phrases": [
@@ -2110,7 +2189,19 @@
     "不预约",
     "直接去",
     "без запису",
-    "অ্যাপয়েন্টমেন্ট ছাড়া"
+    "অ্যাপয়েন্টমেন্ট ছাড়া",
+    "pas pris rendez vous",
+    "pas de rendez vous",
+    "sans prendre rendez vous",
+    "me presenter directement",
+    "presenter directement",
+    "directement au guichet",
+    "presentarsi direttamente",
+    "andare direttamente",
+    "direttamente allo sportello",
+    "go directly",
+    "just show up",
+    "show up without"
    ],
    "query_only": [],
    "query_regex": [
@@ -2154,7 +2245,8 @@
     "icao",
     "standard"
    ],
-   "query_only": []
+   "query_only": [],
+   "frame": true
   },
   "contact": {
    "phrases": [
@@ -2196,7 +2288,8 @@
     "who can i call",
     "a chi posso chiedere",
     "a chi rivolgersi"
-   ]
+   ],
+   "frame": true
   },
   "family": {
    "phrases": [
@@ -2573,7 +2666,8 @@
    "query_regex": [
     "(?:^|[.?!,;]\\s*)(?:do|does|must|should|will) (?:i|we|you|he|she|they|my \\w+|the \\w+) (?:have|need) to\\b",
     "\\bis (?:it|this|that) (?:mandatory|compulsory|necessary|required|obligatory)\\b"
-   ]
+   ],
+   "frame": true
   },
   "size": {
    "phrases": [
@@ -2696,7 +2790,22 @@
     "\\b(?:usare|uso|use|using|usar|utiliser)\\b[^.?!]{0,40}?\\b(?:come|as|como|comme)\\b"
    ],
    "not": [
-    "дійсно"
+    "дійсно",
+    "non viene riconosciuta",
+    "nn viene riconosciuta",
+    "non è riconosciuta",
+    "non e riconosciuta",
+    "non la riconosce",
+    "not recognized",
+    "not recognised",
+    "isn't recognized",
+    "no se reconoce",
+    "no la reconoce",
+    "n'est pas reconnue"
+   ],
+   "related": [
+    "duration",
+    "expiry"
    ]
   },
   "activation": {
@@ -2729,6 +2838,9 @@
     "attivo",
     "come attivo",
     "attivarle"
+   ],
+   "related": [
+    "online_access"
    ]
   },
   "old_card": {
@@ -2858,7 +2970,8 @@
     "mientras espero",
     "en attendant"
    ],
-   "query_only": []
+   "query_only": [],
+   "frame": true
   },
   "weekday": {
    "phrases": [
@@ -2944,7 +3057,10 @@
     "подпис",
     "স্বাক্ষর"
    ],
-   "query_only": []
+   "query_only": [],
+   "related": [
+    "online_access"
+   ]
   },
   "expression": {
    "phrases": [
@@ -3009,7 +3125,17 @@
     "кольор",
     "রঙ"
    ],
-   "query_only": []
+   "query_only": [
+    "black and white",
+    "in black and white",
+    "bianco e nero",
+    "in bianco e nero",
+    "blanco y negro",
+    "noir et blanc",
+    "黑白",
+    "أبيض وأسود",
+    "чорно-біл"
+   ]
   },
   "civil_status": {
    "phrases": [
@@ -3094,9 +3220,39 @@
     "عنوان",
     "地址",
     "адрес",
-    "ঠিকানা"
+    "ঠিকানা",
+    "proprio domicilio",
+    "un altro indicato",
+    "altro indirizzo",
+    "indirizzo diverso",
+    "indirizzo di sua preferenza"
    ],
-   "query_only": []
+   "query_only": [
+    "where will they send",
+    "where do they send",
+    "where will it be sent",
+    "where is it sent",
+    "where will it arrive",
+    "dove la spediscono",
+    "dove viene spedita",
+    "dove la mandano",
+    "dove arriva",
+    "a quale indirizzo",
+    "which address",
+    "adónde la envían",
+    "dónde la envían",
+    "où l'envoient",
+    "my home",
+    "my house",
+    "dorm",
+    "dormitory",
+    "studentato",
+    "student residence",
+    "another address",
+    "different address",
+    "otra dirección",
+    "autre adresse"
+   ]
   },
   "workplace": {
    "phrases": [
@@ -3163,7 +3319,10 @@
     "чип",
     "চিপ"
    ],
-   "query_only": []
+   "query_only": [],
+   "related": [
+    "online_access"
+   ]
   },
   "read_card": {
    "phrases": [
@@ -3190,6 +3349,9 @@
    ],
    "query_only": [
     "non legge"
+   ],
+   "related": [
+    "online_access"
    ]
   },
   "disability": {
@@ -3411,7 +3573,11 @@
     "онлайн",
     "অনলাইন"
    ],
-   "query_only": []
+   "query_only": [],
+   "frame": true,
+   "related": [
+    "online_access"
+   ]
   },
   "apply": {
    "phrases": [
@@ -3433,7 +3599,23 @@
     "оформ",
     "আবেদন"
    ],
-   "query_only": []
+   "query_only": [
+    "da capo",
+    "tutto da capo",
+    "from scratch",
+    "start over",
+    "start again",
+    "desde cero",
+    "de cero",
+    "à zéro",
+    "depuis le début",
+    "можу я отримати",
+    "можу отримати",
+    "можна отримати",
+    "як отримати",
+    "як мені отримати"
+   ],
+   "frame": true
   },
   "provisional": {
    "phrases": [
@@ -3474,7 +3656,19 @@
     "document d'identité provisoire"
    ],
    "query_only": [],
-   "distinct": true
+   "distinct": true,
+   "not": [
+    "protezione temporanea",
+    "temporary protection",
+    "protección temporal",
+    "protection temporaire",
+    "тимчасовий захист",
+    "тимчасового захисту",
+    "временная защита",
+    "временной защиты",
+    "الحماية المؤقتة",
+    "临时保护"
+   ]
   },
   "duration": {
    "phrases": [
@@ -3546,6 +3740,10 @@
     "几年",
     "多少年",
     "كم سنة"
+   ],
+   "related": [
+    "validity",
+    "expiry"
    ]
   },
   "adult": {
@@ -3740,7 +3938,8 @@
     "ছাত্রী",
     "শিক্ষার্থী"
    ],
-   "query_only": []
+   "query_only": [],
+   "situation": true
   },
   "passport": {
    "phrases": [
@@ -3775,7 +3974,10 @@
     "等级",
     "рівень"
    ],
-   "query_only": []
+   "query_only": [],
+   "related": [
+    "online_access"
+   ]
   },
   "recover": {
    "phrases": [
@@ -3952,7 +4154,10 @@
     "ইমেইল",
     "ই-মেইল"
    ],
-   "query_only": []
+   "query_only": [],
+   "related": [
+    "online_access"
+   ]
   },
   "digital_photo": {
    "phrases": [
@@ -4033,7 +4238,8 @@
     "изменит",
     "পরিবর্তন"
    ],
-   "query_only": []
+   "query_only": [],
+   "frame": true
   },
   "consulate": {
    "phrases": [
@@ -4182,7 +4388,11 @@
    ],
    "query_only": [],
    "distinct": true,
-   "other_document": true
+   "other_document": true,
+   "means_for": [
+    "booking",
+    "online_access"
+   ]
   },
   "block": {
    "phrases": [
@@ -4259,7 +4469,10 @@
     "безпек",
     "নিরাপত্তা"
    ],
-   "query_only": []
+   "query_only": [],
+   "related": [
+    "online_access"
+   ]
   },
   "printed": {
    "phrases": [
@@ -4510,7 +4723,24 @@
     "особисто",
     "নিজে"
    ],
-   "query_only": []
+   "query_only": [
+    "need to come",
+    "have to come",
+    "has to come",
+    "come too",
+    "come with me",
+    "come along",
+    "deve venire",
+    "devono venire",
+    "venire anche",
+    "deve esserci",
+    "debe venir",
+    "tiene que venir",
+    "tienen que venir",
+    "doit venir",
+    "doivent venir"
+   ],
+   "frame": true
   },
   "baby_care": {
    "phrases": [
@@ -4552,6 +4782,236 @@
     "ডায়াপার"
    ],
    "query_only": []
+  },
+  "small_talk": {
+   "phrases": [],
+   "query_only": [
+    "che tempo fa",
+    "che tempo farà",
+    "che tempo fara",
+    "meteo",
+    "previsioni del tempo",
+    "pioverà",
+    "nevica",
+    "weather",
+    "forecast",
+    "will it rain",
+    "is it raining",
+    "qué tiempo hace",
+    "que tiempo hace",
+    "va a llover",
+    "quel temps",
+    "météo",
+    "il pleut",
+    "天气",
+    "下雨",
+    "الطقس",
+    "طقس",
+    "погода",
+    "আবহাওয়া",
+    "come stai",
+    "how's it going",
+    "how is it going",
+    "cómo estás",
+    "como estas",
+    "comment ça va",
+    "comment allez vous",
+    "你好吗",
+    "كيف حالك",
+    "як справи",
+    "как дела",
+    "chi sei",
+    "who are you",
+    "come ti chiami",
+    "what's your name",
+    "what is your name",
+    "barzelletta",
+    "joke",
+    "ristorante",
+    "ristoranti",
+    "restaurant",
+    "restaurants",
+    "pizzeria",
+    "recipe",
+    "capital of",
+    "partita di calcio",
+    "football",
+    "soccer",
+    "chi ha vinto",
+    "who won",
+    "oroscopo",
+    "horoscope",
+    "capitale della",
+    "capitale del",
+    "capitale di",
+    "capitale d'italia",
+    "the capital city"
+   ],
+   "off_topic": true,
+   "query_regex": [
+    "^\\W*(?:(?:ciao|hi|hello|hey|salve)\\W+)?(?:come va|how are you|piove|sta piovendo|is it raining)\\W*$"
+   ]
+  },
+  "obtain_other": {
+   "phrases": [],
+   "query_only": [
+    "办护照",
+    "办理护照",
+    "申请护照",
+    "换护照",
+    "办驾照",
+    "申请居留",
+    "استخراج جواز",
+    "تجديد جواز",
+    "استخراج رخصة"
+   ],
+   "query_regex": [
+    "\\b(?:fare|rifare|richiedere|chiedere|ottenere|rinnovare|prendere|get|getting|apply for|applying for|renew|renewing|obtain|make|sacar|sacarme|obtener|renovar|tramitar|solicitar|faire|refaire|obtenir|renouveler|demander)\\s+(?:(?:il|lo|la|un|una|anche|pure|nuovo|my|a|the|also|new|el|mi|un|nuevo|le|mon|ma|aussi|nouveau)\\s+){0,2}(?:passaport\\w*|passport\\w*|pasaporte\\w*|passeport\\w*|patente|driving licen[cs]e|driver'?s licen[cs]e|permesso di soggiorno|residence permit|permiso de residencia|titre de sejour|spid|codice fiscale|tessera sanitaria)\\b"
+   ],
+   "weight": 0.0,
+   "asks_other_document": true
+  },
+  "italy_travel": {
+   "phrases": [
+    "viaggi in italia",
+    "viaggiare in italia",
+    "spostamenti in italia",
+    "territorio nazionale",
+    "sul territorio nazionale",
+    "viaggi sul territorio nazionale",
+    "all'interno del territorio nazionale",
+    "travel within italy",
+    "travelling in italy",
+    "traveling in italy",
+    "domestic travel",
+    "domestic flight",
+    "domestic flights",
+    "volo nazionale",
+    "voli nazionali",
+    "volo interno"
+   ],
+   "query_only": [
+    "火车",
+    "قطار",
+    "потяг",
+    "in italia",
+    "in italy",
+    "en italia",
+    "en italie",
+    "within italy"
+   ],
+   "related": [
+    "travel"
+   ],
+   "not": [
+    "arrivato in italia",
+    "arrivata in italia",
+    "arrivati in italia",
+    "arrivo in italia",
+    "arrived in italy",
+    "residente in italia",
+    "residenti in italia",
+    "vivo in italia",
+    "living in italy",
+    "live in italy",
+    "llegué a italia"
+   ],
+   "query_regex": [
+    "\\b(?:travel\\w*|go|going|fly|flying|trip|visit\\w*|viaggi\\w*|andare|vado|andiamo|vai|volo|volare|treno|train|tren|viajar|voy|ir a|aller|voyager|partire|parto)\\b[^.?!]{0,30}\\b(?:roma|rome|napoli|naples|torino|turin|firenze|florence|venezia|venice|bologna|genova|genoa|palermo|bari|verona|catania|trieste|cagliari|sicilia|sardegna|sicily|sardinia)\\b"
+   ]
+  },
+  "truth_check": {
+   "phrases": [],
+   "query_only": [
+    "is it true",
+    "is that true",
+    "è vero",
+    "e vero che",
+    "es verdad",
+    "es cierto",
+    "c'est vrai",
+    "est-ce vrai",
+    "це правда",
+    "真的吗",
+    "هل صحيح"
+   ],
+   "weight": 0.3
+  },
+  "venue_extras": {
+   "phrases": [],
+   "query_only": [
+    "parcheggio",
+    "parcheggi",
+    "parcheggiare",
+    "posteggio",
+    "parking",
+    "car park",
+    "park my car",
+    "aparcamiento",
+    "aparcar",
+    "estacionamiento",
+    "stationnement",
+    "se garer",
+    "موقف سيارات",
+    "停车",
+    "парковк",
+    "cane",
+    "cani",
+    "il mio cane",
+    "gatto",
+    "gatti",
+    "animale",
+    "animali",
+    "animale domestico",
+    "dog",
+    "dogs",
+    "my dog",
+    "cat",
+    "cats",
+    "pet",
+    "pets",
+    "perro",
+    "perros",
+    "chien",
+    "chiens",
+    "كلب",
+    "狗",
+    "宠物",
+    "собак",
+    "wifi",
+    "wi-fi",
+    "distributori automatici",
+    "vending machine",
+    "caffè",
+    "coffee"
+   ],
+   "not": [
+    "contrassegno parcheggio",
+    "contrassegno di parcheggio",
+    "parcheggio invalidi",
+    "cane guida",
+    "cani guida",
+    "guide dog",
+    "guide dogs"
+   ],
+   "unanswered_topic": true
+  },
+  "temporary_protection": {
+   "phrases": [],
+   "query_only": [
+    "protezione temporanea",
+    "temporary protection",
+    "protección temporal",
+    "protection temporaire",
+    "тимчасовий захист",
+    "тимчасового захисту",
+    "тимчасовим захистом",
+    "временная защита",
+    "временной защиты",
+    "الحماية المؤقتة",
+    "临时保护"
+   ],
+   "unanswered_topic": true
   }
  },
  "abbreviations": {
@@ -4580,7 +5040,15 @@
   "q": "que",
   "xq": "porque",
   "pq": "porque",
-  "tb": "también"
+  "tb": "también",
+  "qnt": "quanto",
+  "qnto": "quanto",
+  "qnta": "quanta",
+  "qndo": "quando",
+  "wat": "what",
+  "wot": "what",
+  "hw": "how",
+  "wht": "what"
  },
  "scripts": {
   "_doc": [

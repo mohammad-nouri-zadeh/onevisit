@@ -2,8 +2,11 @@
 
 Riproduce la semantica di ``onevisit/kb.py``: al cittadino arrivano solo i fatti con
 ``status == "verified"`` (salvo ``include_drafts``, solo sviluppo); un requisito il cui
-``when`` dipende da una domanda senza risposta non compare e la domanda entra in
-``still_to_ask``. Le correzioni approvate nel pannello (B11) si sovrappongono al catalogo.
+``when`` dipende da una domanda senza risposta non compare. ``still_to_ask`` elenca,
+nell'ordine del catalogo, solo le domande da cui dipende qualcosa ancora possibile (un
+requisito che nessuna risposta ha escluso, un servizio indicato da un percorso attivo); un
+percorso che chiude il caso (``option_routes`` con ``route: "stop"``) ferma le altre domande.
+Le correzioni approvate nel pannello (B11) si sovrappongono al catalogo.
 """
 
 import csv
@@ -33,6 +36,8 @@ from onevisit_knowledge.models import (
 )
 
 VERIFIED = "verified"
+# Percorsi (``option_routes``) che chiudono il caso: la persona non può fare la pratica qui.
+ENDING_ROUTES = frozenset({"stop"})
 # Diametro medio della Terra in km (2 x 6371), come in onevisit/kb.py.
 EARTH_DIAMETER_KM = 12742.0
 # Cifre decimali delle distanze restituite.
@@ -110,13 +115,87 @@ class _RawService:
             self.questions = [
                 DecidingQuestion.model_validate(q) for q in raw.get("deciding_questions", [])
             ]
+            self.option_routes: dict[str, dict[str, dict[str, Any]]] = {
+                str(q["id"]): _routes_of(q) for q in raw.get("deciding_questions", [])
+            }
             self.requirements = [
                 Requirement.model_validate(_clean_dates(r)) for r in raw.get("requirements", [])
             ]
             self.steps = [Step.model_validate(_clean_dates(s)) for s in raw.get("steps", [])]
             self.unknowns_it: list[str] = list(raw.get("unknowns_it") or [])
-        except (KeyError, ValidationError) as exc:
+            self.official_url: str = str(raw.get("official_url") or "")
+        except (KeyError, TypeError, ValidationError) as exc:
             raise CatalogError(f"servizio non valido: {file_name}") from exc
+
+
+def _routes_of(question: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    """I percorsi di una domanda (``option_routes``: opzione -> percorso), letti così come sono."""
+    routes = question.get("option_routes") or {}
+    if not isinstance(routes, Mapping) or not all(isinstance(r, Mapping) for r in routes.values()):
+        raise TypeError("option_routes non valido")
+    return {str(option): dict(route) for option, route in routes.items()}
+
+
+def _possible(when: Mapping[str, Sequence[str]], answers: Mapping[str, str]) -> bool:
+    """Vero se nessuna risposta data finora esclude la condizione (le domande aperte no)."""
+    return all(answers[q] in allowed for q, allowed in when.items() if q in answers)
+
+
+def _stop_applies(raw: _RawService, question: str, answer: str, answers: Mapping[str, str]) -> bool:
+    """Un percorso "stop" chiude il caso solo finché qualcosa che ferma è ancora possibile: un
+    requisito che nomina la risposta che chiude e che nessuna risposta ha escluso (stessa regola di
+    ``onevisit/kb.py``). Residente in un'altra regione ma con PIN/PUK smarriti (si chiedono a
+    qualsiasi sportello): le voci dello stop non valgono e il caso prosegue. Uno stop che nessun
+    requisito nomina vale sempre."""
+    naming = [r.when for r in raw.requirements if answer in (r.when.get(question) or [])]
+    return not naming or any(_possible(when, answers) for when in naming)
+
+
+def _active_routes(raw: _RawService, answers: Mapping[str, str]) -> list[dict[str, Any]]:
+    """I percorsi scelti dalle risposte date finora, nell'ordine delle domande (uno "stop" solo
+    finché qualcosa che ferma è ancora possibile, vedi ``_stop_applies``)."""
+    out: list[dict[str, Any]] = []
+    for question in raw.questions:
+        answer = answers.get(question.id)
+        route = raw.option_routes.get(question.id, {}).get(answer) if answer is not None else None
+        if route is None:
+            continue
+        if route.get("route") in ENDING_ROUTES and not _stop_applies(
+            raw, question.id, str(answer), answers
+        ):
+            continue
+        out.append({"question": question.id, "answer": answer, **route})
+    return out
+
+
+def _still_to_ask(
+    raw: _RawService,
+    answers: Mapping[str, str],
+    whens: Sequence[Mapping[str, Sequence[str]]],
+) -> list[str]:
+    """Domande ancora utili, nell'ordine del catalogo (stessa regola di ``onevisit/kb.py``).
+
+    Una domanda entra solo se ne dipende qualcosa ancora possibile: una condizione ``when``
+    che nessuna risposta ha escluso, o il ``when`` di un servizio indicato da un percorso
+    attivo. Un percorso che chiude il caso ferma le altre domande: restano solo quelle da cui
+    dipendono le sue voci (i requisiti che nominano la risposta che chiude, i suoi servizi).
+    """
+    active = _active_routes(raw, answers)
+    stops = [r for r in active if r.get("route") in ENDING_ROUTES]
+    considered: list[Mapping[str, Sequence[str]]] = list(whens)
+    if stops:
+        stopping = {str(r["question"]) for r in stops}
+        considered = [w for w in considered if stopping & set(w)]
+        active = stops
+    for route in active:
+        for service in route.get("services") or []:
+            considered.append(service.get("when") or {})
+    needed: set[str] = set()
+    for when in considered:
+        if _possible(when, answers):
+            needed.update(q for q in when if q not in answers)
+    order = [q.id for q in raw.questions]
+    return [q for q in order if q in needed] + sorted(needed - set(order))
 
 
 def _clean_dates(raw: Mapping[str, Any]) -> dict[str, Any]:
@@ -204,13 +283,12 @@ class Catalog:
         overlays = [o for o in self._overlays if o.service_id == service_id]
         replaced = {o.requirement_id for o in overlays if o.requirement_id}
         items: list[ChecklistItem] = []
-        still_to_ask: set[str] = set()
         not_verified: list[str] = []
+        whens: list[Mapping[str, Sequence[str]]] = []
 
         def applies(when: Mapping[str, Sequence[str]]) -> bool:
-            missing = [q for q in when if q not in answers]
-            if missing:
-                still_to_ask.update(missing)
+            whens.append(when)
+            if any(q not in answers for q in when):
                 return False
             return all(answers[q] in allowed for q, allowed in when.items())
 
@@ -253,10 +331,65 @@ class Catalog:
         return Checklist(
             service_id=service_id,
             items=items,
-            still_to_ask=sorted(still_to_ask),
+            still_to_ask=_still_to_ask(raw, answers, whens),
             not_yet_verified=not_verified,
             sources=[self._sources[s] for s in cited if s in self._sources],
         )
+
+    def _official_page(self, raw: _RawService | None) -> dict[str, str] | None:
+        """La pagina ufficiale di un servizio con la fonte salvata che ha quell'indirizzo, come
+        ``kb.service_links``; None se nessuna fonte salvata la riporta."""
+        if raw is None or not raw.official_url:
+            return None
+        source = next((s for s in self._sources.values() if s.url == raw.official_url), None)
+        return {"url": raw.official_url, "source_id": source.id} if source else None
+
+    def routes(self, service_id: str, answers: Mapping[str, str]) -> list[dict[str, Any]]:
+        """Dove portano le risposte date finora (``option_routes`` delle domande decisive).
+
+        Ogni percorso: ``question``, ``answer``, ``route`` ("stop": la pratica non si fa qui;
+        "home": servizio a domicilio; "desk", "walk-in", "info"), ``ends_case``, i ``links``
+        con la loro ``source_id`` e i ``services`` da fare prima (solo quelli la cui
+        condizione ha già risposta e vale), ognuno con ``official_url`` (url e ``source_id``)
+        quando una fonte salvata lo riporta. Solleva ``CatalogError`` se il servizio non esiste.
+        """
+        raw = self._services.get(service_id)
+        if raw is None:
+            raise CatalogError(f"servizio sconosciuto: {service_id}")
+        out: list[dict[str, Any]] = []
+        for route in _active_routes(raw, answers):
+            item: dict[str, Any] = {
+                "question": route["question"],
+                "answer": route["answer"],
+                "route": route.get("route"),
+                "ends_case": route.get("route") in ENDING_ROUTES,
+            }
+            links = [
+                dict(link)
+                for link in route.get("links") or []
+                if link.get("url") and link.get("source_id")
+            ]
+            if links:
+                item["links"] = links
+            services: list[dict[str, Any]] = []
+            for service in route.get("services") or []:
+                when = service.get("when") or {}
+                if not all(answers.get(q) in allowed for q, allowed in when.items()):
+                    continue
+                other = self._services.get(str(service.get("id")))
+                entry: dict[str, Any] = {
+                    "id": str(service.get("id")),
+                    "title_it": other.title_it if other else None,
+                    "title_en": other.title_en if other else None,
+                }
+                page = self._official_page(other)
+                if page is not None:
+                    entry["official_url"] = page
+                services.append(entry)
+            if services:
+                item["services"] = services
+            out.append(item)
+        return out
 
     def requirements_citing(self, source_id: str) -> list[tuple[str, str]]:
         """Coppie ``(service_id, requirement_id)`` dei requisiti che citano questa fonte."""

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import datetime as dt
 import html
+import inspect
 import json
 import os
 import pathlib
@@ -22,6 +23,7 @@ import re
 import sys
 import threading
 import uuid
+from urllib.parse import urljoin
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -36,8 +38,11 @@ load_dotenv(ROOT / ".env")
 # E402 below: these imports need the paths above and the key from .env loaded first
 import deeplink  # noqa: E402
 from i18n import CAUSES_IT, LANGS, PROACTIVE, RTL, STRINGS, t, t_variant  # noqa: E402
-from onevisit import demo, dossier, kb, outcomes, plan, translate, validator  # noqa: E402
+from onevisit import demo, dossier, kb, outcomes, plan, search, translate, validator  # noqa: E402
 from onevisit.agent import MODEL, guess_lang, run_turn  # noqa: E402
+
+# The agent takes the service the app already knows (the default for search_official_pages), when it can.
+TURN_TAKES_SERVICE = "service_id" in inspect.signature(run_turn).parameters
 
 st.set_page_config(page_title="OneVisit · Servizi anagrafici Milano", page_icon="🗂️", layout="centered",
                    initial_sidebar_state="collapsed")
@@ -163,6 +168,11 @@ def LV(key: str, service_id: str | None, **kw: object) -> str:
             return t_variant(key, kind, state.lang, **kw)
         return t_variant(key, "online", state.lang, **kw)
     return t(key, state.lang, **kw)
+
+
+def LR(key: str, service_id: str | None, route_kind: str | None, **kw: object) -> str:
+    """LV, with the home-service wording ("_home") when the case's route sends an officer to the home."""
+    return t_variant(key, "home", state.lang, **kw) if route_kind == "home" else LV(key, service_id, **kw)
 
 
 # ---------- look: .italia tokens, Comune di Milano red ----------
@@ -344,6 +354,27 @@ details.ov-details summary {{ cursor:pointer; color:{C['muted']}; font-weight:60
 .ov-tool {{ margin:4px 0; font-size:.9rem; color:{C['fg']}; }}
 .ov-tool code {{ font-size:.8rem; background:{C['surface']}; color:{C['fg2']}; padding:1px 6px; border-radius:3px; border:1px solid {C['surface2']}; }}
 .ov-check.warn {{ color:{C['warn_line']}; }}
+/* quotes of the official pages: one card per « » quote, with its page, publisher and date */
+.ov-q {{ margin:10px 0 12px; padding:10px 14px 8px; background:{C['bg']}; border:1px solid {C['line']}; border-left:4px solid {C['accent']};
+  border-radius:6px; text-align:start; }}
+.ov-q-h {{ font-weight:700; font-size:.86rem; color:{C['fg2']}; margin:0 0 4px; line-height:1.35; }}
+.stApp .ov-q blockquote.ov-q-t, .ov-q-t {{ margin:0 !important; padding:0 !important; border:0 !important; opacity:1 !important; font-style:normal; color:{C['fg']} !important;
+  font-size:.95rem; line-height:1.5; overflow-wrap:anywhere; }}
+.stApp .ov-q .ov-q-t p, .stApp .ov-q .ov-q-t li {{ color:{C['fg']} !important; }}
+.stApp .ov-q [dir="ltr"], .stApp .ov-q [dir="ltr"] p, .stApp .ov-q [dir="ltr"] li, .stApp .ov-q [dir="ltr"] summary {{ text-align:left !important;
+  direction:ltr; unicode-bidi:isolate; }}
+.ov-q-t p {{ margin:0 0 .45em; }} .ov-q-t p:last-child {{ margin-bottom:0; }}
+.ov-q-t ul {{ margin:.15em 0 .45em; padding-inline-start:1.2em; }} .ov-q-t li {{ margin:1px 0; }}
+.ov-q-t li.sub {{ margin-inline-start:1.1em; list-style:circle; }}
+.ov-q figcaption {{ font-size:.8rem; color:{C['muted']}; margin-top:7px; line-height:1.45; }}
+.ov-q figcaption a {{ color:{C['accent']} !important; font-weight:600; }}
+.ov-q-ok {{ color:{C['ok']}; font-weight:600; white-space:nowrap; }}
+.ov-q-more {{ margin-top:4px; font-size:.86rem; }}
+.ov-q-more summary {{ cursor:pointer; color:{C['accent']}; font-size:.8rem; font-weight:600; }}
+.ov-q-more .ov-q-t {{ margin-top:6px; padding-top:6px; border-top:1px dashed {C['line']}; font-size:.9rem; color:{C['fg2']}; }}
+[class*="st-key-qa-ex"] [data-testid^="stBaseButton-secondary"] {{ border-width:1px !important; border-radius:999px !important; min-height:36px;
+  padding:4px 14px !important; }}
+[class*="st-key-qa-ex"] [data-testid^="stBaseButton-secondary"] p {{ font-weight:600; font-size:.92rem; }}
 /* checklist */
 .ov-card-h {{ font-size:1.15rem; font-weight:700; color:{C['fg']}; margin:0; }}
 .ov-card-sub {{ color:{C['muted']}; font-size:.88rem; margin:2px 0 6px; }}
@@ -499,6 +530,177 @@ def chips_html(ids: list[str]) -> str:
     return "".join(out)
 
 
+# ---------- quotes of the official pages («…» [source_id]) as cards ----------
+QUOTE_RE = re.compile(r"«([^«»]{1,3000})»(?:\s*[,.;:]?\s*\[([^\[\]\n]{1,120})\](?!\())?")
+CARD_MIN_WORDS = 6  # a shorter quote is a term («Sblocca carta»): it stays in the sentence
+_PASSAGE_LINK = re.compile(r"(!?)\[([^\]\n]*)\]\(([^)\s]+)(?:\s+\"[^\"\n]*\")?\)")  # [text](url "title")
+_PASSAGE_ITEM = re.compile(r"^(\s*)(?:[-*+•]|\d+[.)])\s+")
+_ELLIPSIS_SPLIT = re.compile(r"\s*(?:\[\s*(?:\.{3}|…)\s*\]|\.{3}|…)\s*")
+
+
+def passages_in_trace(trace: list[dict] | None) -> list[dict]:
+    """The passages of the official pages a turn's tools returned (search_official_pages results,
+    read_source pages), each with its page's title, publisher, url and dates."""
+    out: list[dict] = []
+    for step in trace or []:
+        o = step.get("output")
+        if not isinstance(o, dict):
+            continue
+        if step.get("tool") == "search_official_pages":
+            out += [r for r in o.get("results") or [] if isinstance(r, dict) and r.get("text")]
+        elif step.get("tool") == "read_source":
+            page = {k: o.get(k) for k in ("source_id", "title", "publisher", "url", "updated_at", "saved_at")}
+            out += [{**page, **p} for p in o.get("passages") or [] if isinstance(p, dict) and p.get("text")]
+    return out
+
+
+def norm_quote(text: str) -> str:
+    """Text as the validator compares quotes (Markdown, spacing, typographic quotes and case don't count)."""
+    fn = getattr(validator, "normalize_quote", None)
+    return fn(text) if fn else re.sub(r"\s+", " ", text or "").strip().casefold()
+
+
+def quote_passage(quote: str, sid: str | None, passages: list[dict]) -> tuple[dict | None, bool]:
+    """The passage a quote comes from (same source, holding the quote's first part) and True; else any
+    passage of that page (for its title and dates) and False; else (None, False)."""
+    parts = [p for p in (_ELLIPSIS_SPLIT.split(quote) or []) if p.strip(" .,;:")]
+    key = norm_quote(parts[0]).strip(" .,;:") if parts else ""
+    same = [p for p in passages if not sid or p.get("source_id") == sid]
+    held = next((p for p in same if key and key in norm_quote(p.get("text") or "")), None)
+    return (held, True) if held else ((same[0] if same else None), False)
+
+
+def passage_hrefs(text: str, base: str = "") -> set[str]:
+    """The links of a saved passage, made absolute against the page URL: the only ones a quote card links."""
+    return {urljoin(base, m.group(3)) if base else m.group(3) for m in _PASSAGE_LINK.finditer(text or "")}
+
+
+def _passage_inline(text: str, base: str, allowed: set[str] | None = None) -> str:
+    """One line of a passage: escaped, **bold**, links made absolute against the page URL, images left out.
+    With `allowed`, a link whose target is not among them (a quote that altered a link) is shown as text."""
+    out, last = [], 0
+
+    def plain(s: str) -> str:
+        s = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|])", r"\1", s)  # Markdown escapes of the saved page: "\_\_" is "__"
+        return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", html.escape(s, quote=False))
+    for m in _PASSAGE_LINK.finditer(text):
+        out.append(plain(text[last:m.start()]))
+        if not m.group(1):  # an image says nothing to read
+            href = urljoin(base, m.group(3)) if base else m.group(3)
+            label = plain(m.group(2)) or esc(href)
+            linkable = href.startswith(("http://", "https://")) and (allowed is None or href in allowed)
+            out.append(f'<a href="{esc(href)}" target="_blank" rel="noopener">{label}</a>' if linkable else label)
+        last = m.end()
+    out.append(plain(text[last:]))
+    return "".join(out)
+
+
+def passage_html(text: str, base: str = "", allowed: set[str] | None = None) -> str:
+    """A verbatim passage as HTML: its paragraphs, its lists (one level of nesting) and its links (with
+    `allowed`, only those links; the others as text)."""
+    blocks = []
+    for para in re.split(r"\n\s*\n", (text or "").strip()):
+        lines = [ln for ln in para.split("\n") if ln.strip()]
+        if not lines:
+            continue
+        items, prose = [], []
+        for ln in lines:
+            m = _PASSAGE_ITEM.match(ln)
+            if m:
+                cls = ' class="sub"' if len(m.group(1)) >= 2 else ""
+                items.append(f"<li{cls}>{_passage_inline(ln[m.end():], base, allowed)}</li>")
+            elif items:  # a line that continues the previous item
+                items[-1] = items[-1][:-5] + " " + _passage_inline(ln.strip(), base, allowed) + "</li>"
+            else:
+                prose.append(_passage_inline(ln.strip(), base, allowed))
+        if prose:
+            blocks.append("<p>" + "<br>".join(prose) + "</p>")
+        if items:
+            blocks.append("<ul>" + "".join(items) + "</ul>")
+    return "".join(blocks)
+
+
+def quote_card_html(quote: str, sid: str, passages: list[dict], verified: bool, exact: bool = True) -> str:
+    """A « » quote as a card: the quoted words (verbatim, in the page's language), the question or section
+    it answers, the page (title, publisher, the page's own date or the day it was saved, link) and,
+    when the passage goes on, the whole passage. A link inside the quote is a link only when the passage
+    it comes from has it (a quote can't bring its own URL); `exact` False (an ellipsis skips words)
+    labels the quote as shortened."""
+    found, holds = quote_passage(quote, sid, passages)
+    p = found or {}
+    meta = source_meta(sid)
+    url = p.get("url") or meta.get("url") or ""
+    title = p.get("title") or meta.get("title") or sid
+    publisher = p.get("publisher") or meta.get("publisher") or ""
+    updated, saved = p.get("updated_at"), p.get("saved_at") or meta.get("retrieved_at")
+    when = (L("qa_updated", date=demo.format_date(updated)) if updated
+            else (L("qa_saved", date=demo.format_date(saved)) if saved else ""))
+    heading = (p.get("heading") or "").split(" > ")[-1].strip() if holds else ""
+    starts = norm_quote(quote)[:40]
+    head = (f'<div class="ov-q-h">{esc(heading)}</div>'
+            if heading and not starts.startswith(norm_quote(heading)[:40]) else "")
+    full = ""
+    if holds and p.get("text") and len(norm_quote(p["text"])) > len(norm_quote(quote)) + 60:
+        full = (f'<details class="ov-q-more"><summary>{esc(L("qa_full"))}</summary>'
+                f'<div class="ov-q-t">{passage_html(p["text"], url)}</div></details>')
+    link = f'<a href="{esc(url)}" target="_blank" rel="noopener">{esc(title)} ↗</a>' if url else esc(title)
+    parts = [f"<bdi>{x}</bdi>" for x in (esc(publisher), link, esc(when)) if x]  # Italian names in an Arabic line
+    badge = (f' · <bdi class="ov-q-ok">✓ {esc(L("qa_verbatim" if exact else "qa_verbatim_parts"))}</bdi>'
+             if verified else "")
+    allowed = passage_hrefs(p.get("text") or "", url) if holds else set()
+    return (f'<figure class="ov-q" data-source="{esc(sid)}"><div dir="ltr">{head}<blockquote class="ov-q-t">'
+            f'{passage_html(quote, url, allowed)}</blockquote>{full}</div>'
+            f'<figcaption dir="auto">📄 {" · ".join(parts)}{badge}</figcaption></figure>')
+
+
+def quote_checks(m: dict) -> list[dict]:
+    """Every quote of a reply with what the validator says about it (status, sources holding it, exact):
+    checked against the turn's passages, with the agent's own list of verified quotes (which also counts
+    the passages of earlier turns) taking precedence."""
+    if not hasattr(validator, "verify_quotes"):
+        return []
+    texts = validator.official_texts_in_trace(m.get("trace") or [])
+    found = validator.verify_quotes(m.get("text") or "", texts, KNOWN)
+    agent_quotes = {norm_quote(q.get("text", "")): q for q in m.get("quotes") or [] if isinstance(q, dict)}
+    for q in found:
+        mine = agent_quotes.get(norm_quote(q["text"]))
+        if mine:
+            q.update(status="verified", exact=mine.get("exact", q.get("exact", True)),
+                     source_ids=[mine.get("source_id")] + [s for s in q["source_ids"] if s != mine.get("source_id")])
+    return found
+
+
+def verified_quotes(m: dict) -> set[str]:
+    """The quotes of a reply found word for word in the official text the tools returned (normalized)."""
+    return {norm_quote(q["text"]) for q in quote_checks(m) if q["status"] == "verified"}
+
+
+def answer_html(text: str, notes: list[str], m: dict) -> str:
+    """A reply as HTML, with each « » quote of an official page followed by its [source_id] shown as a
+    card (see quote_card_html); short quotes and the rest of the text as md_html renders them."""
+    passages = passages_in_trace(m.get("trace"))
+    checks = {norm_quote(q["text"]): q for q in quote_checks(m)} if "«" in text else {}
+    out, last = [], 0
+    for q in QUOTE_RE.finditer(text):
+        quote, cited = q.group(1).strip(), q.group(2)
+        ids = [i for i in (validator.cited_source_ids(f"[{cited}]", KNOWN) if cited else []) if i in KNOWN]
+        if not ids or len(quote.split()) < CARD_MIN_WORDS:
+            continue
+        check = checks.get(norm_quote(quote)) or {}
+        verified = check.get("status") == "verified"
+        # the card names the page that holds the quote: a cited one the validator found it in, else the
+        # first cited page whose passages hold it, else the first cited page (then without the badge)
+        sid = next((i for i in check.get("source_ids") or [] if i in ids), None) if verified else None
+        sid = sid or next((i for i in ids if quote_passage(quote, i, passages)[1]), None)
+        verified = verified and sid is not None
+        sid = sid or ids[0]
+        out.append(md_html(text[last:q.start()], notes))
+        out.append(quote_card_html(quote, sid, passages, verified, check.get("exact", True)))
+        last = q.end() + len(re.match(r"[\s.,;:]*", text[q.end():]).group())  # "». Quindi" → "Quindi"
+    out.append(md_html(text[last:], notes))
+    return "".join(out)
+
+
 def check_line(m: dict) -> str:
     check = m.get("check") or {}
     why_lang = "it" if state.lang == "it" else "en"
@@ -510,6 +712,11 @@ def check_line(m: dict) -> str:
         return f'<div class="ov-check">✓ {esc(L("check_retry", why=why))}</div>'
     if check.get("blocked"):
         return f'<div class="ov-check warn">⚠ {esc(L("check_blocked", why=validator.describe(check["blocked"], why_lang)))}</div>'
+    quotes = quote_checks(m) if passages_in_trace(m.get("trace")) else []
+    if quotes and all(q["status"] == "verified" for q in quotes):  # every quote, not just one, was found
+        return f'<div class="ov-check">{esc(L("check_ok_qa"))}</div>'
+    if m.get("qa") or (passages_in_trace(m.get("trace")) and not any(x.get("tool") == "get_checklist" for x in m.get("trace") or [])):
+        return f'<div class="ov-check">{esc(L("check_ok_plain"))}</div>'
     return f'<div class="ov-check">{esc(L("check_ok") if m.get("cited") else L("check_ok_plain"))}</div>'
 
 
@@ -534,6 +741,13 @@ def step_text(step: dict) -> str:
         return L("step_find_offices", area=area, n=len(out) if isinstance(out, list) else 0)
     if tool == "get_source":
         return L("step_get_source", title=out.get("title", args.get("source_id")))
+    if tool == "search_official_pages":
+        results = [r for r in out.get("results") or [] if isinstance(r, dict)]
+        pages = len({r.get("source_id") for r in results})
+        key = "step_search_none" if not results else ("step_search" if out.get("reason", "ok") == "ok" else "step_search_weak")
+        return L(key, query=args.get("query", ""), n=len(results), p=pages)
+    if tool == "read_source":
+        return L("step_read_source", title=out.get("title") or args.get("source_id"), n=len(out.get("passages") or []))
     return f"{tool}"
 
 
@@ -613,6 +827,8 @@ def on_chat_submit() -> None:
 def follow_language(text: str) -> str:
     """Switch the page to the language the person writes in (Arabic, Chinese, Spanish…), from the next run."""
     guessed = guess_lang(text) if len(text or "") >= 12 else None
+    if "¿" in (text or "") or "¡" in (text or ""):  # Spanish, whatever words it shares with Italian
+        guessed = "es"
     if guessed in LANGS and guessed != state.lang:
         state["_lang_next"] = guessed
         return guessed
@@ -629,7 +845,8 @@ def run_live(text: str, origin: str | None = None) -> bool:
     n = len(state.messages)
     state.messages.append({"role": "user", "content": text})
     try:
-        reply = run_turn(state.messages, client=client(), lang=state.get("_lang_next") or state.lang)
+        extra = {"service_id": state.service_id} if TURN_TAKES_SERVICE and state.service_id else {}
+        reply = run_turn(state.messages, client=client(), lang=state.get("_lang_next") or state.lang, **extra)
     except Exception:  # no key that works, no credit, no network: continue without Claude
         del state.messages[n:]
         state.chat.pop()
@@ -645,12 +862,24 @@ def demo_text(text: str, origin: str | None = None) -> None:
     """A typed message without Claude: keyword rules pick the service and answers, the tools do the rest."""
     lang = state.get("_lang_next") or state.lang
     state.chat.append({"role": "user", "text": text, "origin": origin})
-    if state.demo_state and (state.demo_state.get("service_id") or state.demo_state.get("pending")):
-        reply = demo.answer(state.demo_state, text)
-    else:
-        state.demo_state, reply = demo.start_text(text, lang)
-    if reply.get("other_language") and reply.get("lang") != lang:  # a language the replay can't write: English page
+    # an answer, a new case, or a question answered from the saved official pages (the case is kept)
+    state.demo_state, reply = demo.respond(state.demo_state, text, lang)
+    # one detector: the page follows the language the replay answered in (the question's, or English for a
+    # language the replay can't write), so the buttons and labels match the reply
+    if reply.get("lang") in LANGS and reply.get("lang") != lang:
         state["_lang_next"] = reply["lang"]
+    absorb(reply)
+    state.chat.append({"role": "assistant", **reply})
+
+
+def demo_question(text: str) -> None:
+    """An example question (a chip) without Claude: always answered from the saved official pages,
+    whatever its words; a case in progress is kept and its pending question offered again."""
+    lang = state.get("_lang_next") or state.lang
+    state.chat.append({"role": "user", "text": text})
+    if state.demo_state is None:
+        state.demo_state = demo.new_state(None, lang, persona=None, routing="keywords")
+    reply = demo.ask(state.demo_state, text, lang)
     absorb(reply)
     state.chat.append({"role": "assistant", **reply})
 
@@ -689,6 +918,9 @@ def process(pending: dict) -> None:
     text = pending["text"]
     follow_language(text)
     if LIVE and run_live(text):
+        return
+    if kind == "question":
+        demo_question(text)
         return
     demo_text(text)
 
@@ -771,6 +1003,42 @@ def report_form(prefix: str, service_id: str) -> None:
         st.warning(L("fb_need_claude"))
 
 
+def route_actions(route: dict, sid: str, primary: bool = False) -> None:
+    """The next step the case's route leads to (demo.case_route, from the data): not served in Milan (no
+    booking, the procedures to do first), the home-service form, the PIN/PUK booking links, no visit or
+    no appointment (a note), the online form, or the City's booking page."""
+    kind = "primary" if primary else "secondary"
+    links_now = kb.service_links(sid)
+    if route["kind"] == "stop":
+        st.markdown(f'<div class="ov-warn">{esc(L("route_stop"))}</div>', unsafe_allow_html=True)
+        if route["services"]:
+            st.caption(L("route_first"))
+            for s in route["services"]:
+                title = demo.service_title(kb.get_service(s["id"]) or {"id": s["id"]}, state.lang)
+                st.link_button(title, s["url"], type=kind, icon=":material/open_in_new:")
+    elif route["links"]:
+        if route["kind"] == "home":
+            st.caption(L("route_home"))
+        with st.container(horizontal=True, gap="small"):
+            for link in route["links"]:
+                st.link_button(demo.link_label(link, state.lang), link["url"], type=kind, icon=":material/open_in_new:")
+    elif links_now.get("online_form_url"):
+        st.link_button(LV("online_btn", sid), links_now["online_form_url"]["url"], type=kind, icon=":material/open_in_new:")
+    elif route["kind"] in ("info", "walk-in"):
+        st.caption(L("route_info" if route["kind"] == "info" else "route_walkin"))
+    elif route["booking"] and links_now.get("booking_url") and not state.appointment:
+        st.link_button(L("book"), links_now["booking_url"]["url"], type=kind, icon=":material/open_in_new:")
+
+
+def question_chips(key: str) -> None:
+    """The example questions about the ID card, as chips in the page language: each one is asked as a
+    question (Claude live; without a key, the replay's search of the saved official pages)."""
+    with st.container(horizontal=True, gap="small", key=key):
+        for ex in demo.example_questions(state.lang):
+            st.button(ex["label"], key=f"{key}-{ex['id']}", on_click=queue, args=("question",),
+                      kwargs={"text": ex["query"]}, help=ex["query"])
+
+
 # ---------- citizen ----------
 with citizen:
     appt = state.appointment
@@ -810,6 +1078,10 @@ with citizen:
                 if alt and alt != state.lang:
                     st.button(f'{L("try_alt_" + alt)}: {persona["opening"][alt]}', key=f"ex-{pid}-{alt}", type="tertiary",
                               on_click=queue, args=("persona",), kwargs={"id": pid, "lang": alt})
+        # Or just a question: answered from the saved official pages (Claude live, keyword search in the replay).
+        st.markdown(f'<div class="ov-label">{esc(L("qa_examples_title"))}</div>', unsafe_allow_html=True)
+        question_chips("qa-ex")
+        st.caption(L("qa_examples_note" if LIVE else "qa_examples_note_demo"))
         others = [(pid, p) for pid, p in everyone.items() if not p.get("featured")]
         if others:
             st.markdown(f'<div class="ov-label">{esc(L("other_cases"))}</div>', unsafe_allow_html=True)
@@ -840,16 +1112,23 @@ with citizen:
                         f'{origin}{esc(m["text"])}</div></div></div>', unsafe_allow_html=True)
             return
         by_demo = bool(m.get("demo"))
-        if m.get("routing") == "keywords":
+        if m.get("routing") == "search":
+            tag = f'<span class="ov-tag">{esc(L("qa_tag"))}</span>'
+        elif m.get("routing") == "keywords":
             tag = f'<span class="ov-tag">{esc(L("keywords_tag"))}</span>'
         else:
             tag = f'<span class="ov-tag">{esc(L("recorded"))}</span>' if by_demo else ""
         notes: list[str] = []
-        body = md_html(m["text"], notes)
+        body = answer_html(m["text"], notes, m) if "«" in (m.get("text") or "") else md_html(m["text"], notes)
         read = m.get("sources_read") or []
         suffix = "_demo" if by_demo else ""
-        read_line = (f'<div>📚 {esc(L("read_1" + suffix) if len(read) == 1 else L("read_n" + suffix, n=len(read)))}</div>'
-                     if read else "")
+        passages = passages_in_trace(m.get("trace"))
+        pages = list(dict.fromkeys(p.get("source_id") for p in passages if p.get("source_id")))
+        read_line = (f'<div>🔎 {esc(L("read_passages" + suffix, n=len(passages), p=len(pages)))}</div>' if passages else "")
+        case_work = any(step.get("tool") == "get_checklist" for step in m.get("trace") or [])
+        others = [r for r in read if r not in pages] if passages else read
+        if others and (case_work or not passages):  # the sources of the case's tools, besides the pages searched
+            read_line += f'<div>📚 {esc(L("read_1" + suffix) if len(others) == 1 else L("read_n" + suffix, n=len(others)))}</div>'
         meta = (f'<div class="ov-meta" dir="{"rtl" if RTL_UI else "ltr"}">{read_line}{footnotes_html(notes)}'
                 f'{check_line(m) if m.get("check") else ""}</div>')
         st.markdown(f'<div class="ov-msg bot"><div class="ov-body">'
@@ -879,19 +1158,19 @@ with citizen:
         sid_now = cl_now["service_id"]
         files_now = kb.to_upload(cl_now)
         links_now = kb.service_links(sid_now)
+        route_now = demo.case_route(sid_now, state.answers)
         with st.container(border=True, key="summary"):
             title = demo.service_title(kb.get_service(sid_now) or {"id": sid_now}, state.lang)
+            # nothing to bring (a question only, or not served here): no "To bring: 0"
+            bring = ("" if route_now["kind"] == "stop" or not files_now
+                     else f'{LR("upload_title", sid_now, route_now["kind"], n=len(files_now))} · ')
             st.markdown(f'<p class="ov-card-h">✓ {esc(L("summary_title"))}</p>'
                         f'<p class="ov-card-sub">{esc(title)}</p>'
-                        f'<p class="ov-summary-n">{esc(LV("upload_title", sid_now, n=len(files_now)))} · '
+                        f'<p class="ov-summary-n">{esc(bring)}'
                         f'{esc(L("cl_counts", v=len(cl_now["requirements"]), t=len(cl_now.get("not_yet_verified", []))))}</p>',
                         unsafe_allow_html=True)
-            # The one action that sends the case (online form, or booking); the dossier is at the top of the checklist.
-            if links_now.get("online_form_url"):
-                st.link_button(LV("online_btn", sid_now), links_now["online_form_url"]["url"], type="primary",
-                               icon=":material/open_in_new:")
-            elif links_now.get("booking_url") and not state.appointment:
-                st.link_button(L("book"), links_now["booking_url"]["url"], type="primary", icon=":material/open_in_new:")
+            # The one action that sends the case, as the answers' route says (see route_actions).
+            route_actions(route_now, sid_now, primary=True)
         earlier = list(range(last_assistant))
         if len(earlier) >= 3:  # at least one question and its answer: fold them, keep the last reply open
             with st.expander(L("conv_title", n=len(earlier))):
@@ -935,6 +1214,23 @@ with citizen:
                     except Exception:
                         pass  # English stays on screen; nothing invented
 
+        # The path follows the answers' route: no desk steps for someone not served in Milan or who needs no
+        # visit; the home-service form or the PIN/PUK booking instead of "book online"; no booking step for a walk-in.
+        case_rt = demo.case_route(sid, state.answers)
+        if case_rt["kind"] in ("stop", "info"):
+            steps = []
+        elif case_rt["kind"] == "walk-in":
+            steps = [x for x in steps if not x.get("booking")]
+        if case_rt["links"]:
+            items = "".join(f'<li><a href="{esc(link["url"])}" target="_blank" rel="noopener">{esc(demo.link_label(link, state.lang))}</a> '
+                            f'{cite_html(link["source_id"])}</li>' for link in case_rt["links"])
+            with st.container(border=True, key="steps"):
+                st.markdown(f'<p class="ov-card-h">🧭 {esc(L("steps_title"))}</p>'
+                            f'<div class="ov-step"><span class="n">1</span><div><div class="who">{esc(L("route_step_title"))}</div>'
+                            f'<ul class="ov-route">{items}</ul></div></div>', unsafe_allow_html=True)
+                if links.get("official_url"):
+                    st.link_button(L("official_link"), links["official_url"]["url"], icon=":material/open_in_new:")
+            steps = []
         if steps:
             with st.container(border=True, key="steps"):
                 st.markdown(f'<p class="ov-card-h">🧭 {esc(L("steps_title"))}</p>'
@@ -1016,15 +1312,15 @@ with citizen:
             any_translated = state.lang not in ("it", "en") and any(local_req(sid, r)[1] for r in reqs)
             if any_translated:
                 st.markdown(f'<span class="ov-mt">🌐 {esc(L("translated"))}</span>', unsafe_allow_html=True)
-            if reqs:  # the one dossier download on the page
+            if reqs and case_rt["kind"] != "stop":  # the one dossier download on the page (none if not served here)
                 st.download_button(L("dossier_btn"), current_pdf(cl, current_day()),
                                    dossier.filename(sid, current_day()), "application/pdf",
                                    type="primary", icon=":material/download:", key="dossier-pdf-top", on_click="ignore")
-                st.caption(f'{LV("dossier_title", sid)}. {LV("dossier_cap", sid)}')
+                st.caption(f'{LR("dossier_title", sid, case_rt["kind"])}. {LR("dossier_cap", sid, case_rt["kind"])}')
             # The files to upload (online) or the things to bring (desk), at a glance.
             files = kb.to_upload(cl)
             if files:
-                head = LV("upload_title", sid, n=len(files))
+                head = LR("upload_title", sid, case_rt["kind"], n=len(files))
                 sections = {s["id"]: s for s in ((kb.form_guide(sid, state.answers) or {}).get("sections") or [])}
                 items = []
                 for r in files:
@@ -1033,7 +1329,7 @@ with citizen:
                     sec_label = f' <span class="sec">· {esc(kb.localized(sid, "section", sec["id"], "title", sec.get("title_it"), sec.get("title_en"), state.lang)[0])}</span>' if sec else ""
                     items.append(f'<li class="{"done" if r["id"] in ticked else ""}">{esc(name)}{sec_label}</li>')
                 st.markdown(f'<div class="ov-sum"><b>{esc(head)}</b><ol>{"".join(items)}</ol></div>', unsafe_allow_html=True)
-            if reqs:
+            if reqs and case_rt["kind"] != "stop":
                 st.caption(L("cl_tick"))
             # Grouped by category (what to prepare, how it works, if urgent, afterwards), then by source,
             # so every item sits under the official page it was verified on.
@@ -1080,7 +1376,8 @@ with citizen:
                 qs = [demo.question_text(sid, q, state.lang) for q in service.get("deciding_questions", [])
                       if q["id"] in cl["still_to_ask"]]
                 st.caption(L("still_ask", qs=" · ".join(qs)))
-            st.markdown(f'<div class="ov-final">{esc(LV("final_check", sid))}</div>', unsafe_allow_html=True)
+            if case_rt["kind"] != "stop":  # not served here: no desk, no final check at a desk
+                st.markdown(f'<div class="ov-final">{esc(LV("final_check", sid))}</div>', unsafe_allow_html=True)
 
         # How to fill in the City's online application, section by section (residence from abroad).
         guide = kb.form_guide(sid, state.answers) if service.get("has_form_guide") and complete else None
@@ -1119,9 +1416,12 @@ with citizen:
                         st.progress(done_files / n_files, text=L("form_done", d=done_files, n=n_files))
                 st.caption(L("form_note"))
 
-    if state.offices:
+    office_route = demo.case_route(state.service_id, state.answers) if state.service_id else None
+    if state.offices and not (office_route and office_route["kind"] == "stop"):  # not served in Milan: no office to go to
         service_booking = (kb.service_links(state.service_id).get("booking_url") if state.service_id else None) or {}
         booking = service_booking or kb.get_source("prenotazione") or {}
+        if office_route and not (office_route["booking"] or office_route["kind"] == "none"):
+            booking = {}  # the route has its own next step (home form, PIN/PUK booking, no appointment)
         with st.container(border=True, key="offices"):
             st.markdown(f'<p class="ov-card-h">📍 {esc(L("off_title"))} {cite_html(state.offices[0].get("source_id", "ds549"))}</p>'
                         f'<p class="ov-card-sub">{esc(L("off_src"))}</p>', unsafe_allow_html=True)
@@ -1140,8 +1440,13 @@ with citizen:
                 state.office_id = by_address[picked]
             if booking.get("url") and not state.appointment:
                 st.link_button(L("book"), booking["url"], icon=":material/open_in_new:")
+            elif office_route and office_route["kind"] == "desk" and office_route["links"] and not state.appointment:
+                with st.container(horizontal=True, gap="small"):
+                    for link in office_route["links"]:
+                        st.link_button(demo.link_label(link, state.lang), link["url"], icon=":material/open_in_new:")
 
-    if cl and "requirements" in cl:
+    # No appointment and nothing to report afterwards when the case is not served here or needs no visit.
+    if cl and "requirements" in cl and demo.case_route(cl["service_id"], state.answers)["kind"] not in ("stop", "info"):
         with st.container(border=True, key="reminder"):
             st.markdown(f'<p class="ov-card-h">📅 {esc(L("remind_title"))}</p>'
                         f'<p class="ov-card-sub">{esc(L("remind_cap"))}</p>', unsafe_allow_html=True)
@@ -1158,7 +1463,11 @@ with citizen:
         with st.expander(LV("fb_title", cl["service_id"])):
             report_form("fb", state.service_id or cl["service_id"])
 
-    st.chat_input(L("chat_placeholder") if LIVE else L("chat_placeholder_demo"), key="chat_text", on_submit=on_chat_submit)
+    if state.chat and state.service_id in (None, demo.QA_SERVICE):  # questions stay one tap away, also mid-case
+        with st.expander(f'💬 {L("qa_examples_more")}'):
+            question_chips("qa-ex2")
+    st.chat_input(L("chat_placeholder") if LIVE else L("chat_placeholder_demo"), key="chat_text", on_submit=on_chat_submit,
+                  max_chars=search.MAX_QUERY_CHARS)  # a message, not a pasted page
     if state.chat:
         st.button(L("new_conv"), on_click=reset, type="tertiary", icon=":material/refresh:")
 

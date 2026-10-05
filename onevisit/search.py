@@ -11,7 +11,7 @@ el DNI?") only from what the official pages say. This module finds the passages 
          "score": 9.87, "confidence": 0.93, "confident": True, ...}, ...]
     search.best_answer("Posso pagare con Satispay?", service_id="carta-identita")
     -> {"confident": ..., "confidence": ..., "reason": "ok" | "no_match" | "weak_match" |
-        "other_document" | "unknown_words", "passages": [...]}
+        "off_topic" | "other_document" | "unknown_words", "passages": [...]}
 
 How it works:
 
@@ -93,6 +93,7 @@ import re
 import time
 import unicodedata
 from collections.abc import Callable
+import dataclasses
 from dataclasses import dataclass
 
 DATA = pathlib.Path(__file__).resolve().parents[1] / "data"
@@ -138,6 +139,8 @@ LOCAL_BOOST = 1.15
 # Guides written for newcomers by others than the office that applies the rule.
 PUBLISHER_PRIOR = {"YesMilano": 0.9}
 PER_SOURCE = 2  # at most this many passages of one page in a result
+MAX_QUERY_CHARS = 1000  # a longer query is cut here (a pasted page is not a question)
+MAX_PARTS = 4  # at most this many questions of one message are searched one by one
 SPELL_MIN_WORD = 6  # shorter words are never corrected: "both" is not "booth", "treno" not "trento"
 SPELL_CONCEPT_MIN_WORD = 7  # a correction that makes a concept word needs this many letters
 SPELL_MIN_COUNT = 3  # ... any other correction, a word found this many times in the pages
@@ -184,6 +187,7 @@ SERVICE_PAGES = {
         "news-cabine-foto-cie",
         "pds-denunce-online",
         "pds-espatrio-minori",
+        "pds-documenti-viaggio",
         "oggetti-smarriti",
         "news-anagrafe-*",
         "detenuti-direttive-news",
@@ -212,7 +216,7 @@ quella quelli quelle è sono sei siamo siete ho hai ha abbiamo avete hanno esser
 si ne mio mia miei mie tuo tua tuoi tue suo sua suoi sue loro nostro nostra vostro vostra io tu
 lui lei noi voi anche più molto già solo così ogni tutto tutti tutte posso puoi può possono devo
 deve devono fare fa faccio stato stata sia sarà viene vengono c d s m t po essa esso nostri
-cosa
+cosa qual sto stai sta stanno
 """
 _STOP_EN = """
 a an the and or but if of to in on at by for with from as is are was were be been being am do
@@ -245,12 +249,14 @@ _EN_MARKERS = frozenset(
 # Python's \w: without the second class "আইডি" (Bengali "ID") would split into pieces.
 _WORD = re.compile(r"\d+|(?:[^\W\d_]|[\u0900-\u0dff])+")
 _HEADING = re.compile(r"^(#{1,6})[ \t]+(.+?)[ \t#]*$")
-_MD_IMAGE = re.compile(r"!\[[^\]]*\]\([^)]*\)")
-_MD_LINK = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+# A link target may hold one level of parentheses and a title: [Via Larga](javascript:void(0); "Via Larga").
+_TARGET = r"\((?:[^()\n]|\([^()\n]*\))*\)"
+_MD_IMAGE = re.compile(r"!\[[^\]]*\]" + _TARGET)
+_MD_LINK = re.compile(r"\[([^\]]*)\]" + _TARGET)
 _BARE_URL = re.compile(r"<?(?:https?://|mailto:|tel:)\S+>?")
 _LIST_MARK = r"(?:[-*+]|\d+[.)])?\s*"
-_LINK_ONLY = re.compile(r"^\s*" + _LIST_MARK + r"(?:!?\[[^\]]*\]\([^)]*\)[\s/|·\-]*)+$")
-_IMAGE_ONLY = re.compile(r"^\s*" + _LIST_MARK + r"(?:!\[[^\]]*\]\([^)]*\)\s*)+$")
+_LINK_ONLY = re.compile(r"^\s*" + _LIST_MARK + r"(?:!?\[[^\]]*\]" + _TARGET + r"[\s/|·\-]*)+$")
+_IMAGE_ONLY = re.compile(r"^\s*" + _LIST_MARK + r"(?:!\[[^\]]*\]" + _TARGET + r"\s*)+$")
 _SENTENCE_END = re.compile(r"(?<=[.;:!?])\s+")
 _NON_LATIN = re.compile(r"[^\x00-\u024f]")
 _BOILERPLATE = frozenset(
@@ -437,6 +443,36 @@ class _Concepts:
             for name, spec in (raw.get("concepts") or {}).items()
             if spec.get("other_document")
         )
+        # Another document that is only the means of something the question asks (SPID to book).
+        self.means_for: dict[str, frozenset[str]] = {
+            "§" + name: frozenset("§" + m for m in spec.get("means_for") or [])
+            for name, spec in (raw.get("concepts") or {}).items()
+            if spec.get("means_for")
+        }
+        # Asking to obtain another document ("fare il passaporto"), even next to the ID card.
+        self.asks_other = frozenset(
+            "§" + name
+            for name, spec in (raw.get("concepts") or {}).items()
+            if spec.get("asks_other_document")
+        )
+        # How a question is asked (what to bring, where, when, must I), not what it is about.
+        self.frames = frozenset(
+            "§" + name for name, spec in (raw.get("concepts") or {}).items() if spec.get("frame")
+        )
+        # Why the card is needed (lost, expired...): context, when the question asks something else.
+        self.situations = frozenset(
+            "§" + name for name, spec in (raw.get("concepts") or {}).items() if spec.get("situation")
+        )
+        # Topics no saved page answers (parking near an office, a pet): never a confident answer.
+        self.unanswered = frozenset(
+            "§" + name
+            for name, spec in (raw.get("concepts") or {}).items()
+            if spec.get("unanswered_topic")
+        )
+        # Questions about no procedure at all (the weather, small talk): never a confident answer.
+        self.off_topic = frozenset(
+            "§" + name for name, spec in (raw.get("concepts") or {}).items() if spec.get("off_topic")
+        )
         # Concepts that headings name together ("Furto e smarrimento"): asking about one, a
         # heading that also names the other is not about something else.
         self.related: dict[str, frozenset[str]] = {
@@ -458,12 +494,16 @@ class _Concepts:
             return None
         return _Phrase(concept, words, "", query_only)
 
-    def _starting_with(self, word: str) -> tuple[_Phrase, ...]:
+    def _starting_with(self, word: str, cache: bool = True) -> tuple[_Phrase, ...]:
+        """The phrases a word can start. Cached for the pages' words only: a query's words (the
+        citizen's free text, names included) are never kept."""
         cached = self._first_cache.get(word)
         if cached is None:
             found = list(self.by_first.get(word, ()))
             found += [p for p in self.prefix_first if word.startswith(p.words[0][:-1])]
-            cached = self._first_cache[word] = tuple(found)
+            cached = tuple(found)
+            if cache:
+                self._first_cache[word] = cached
         return cached
 
     @staticmethod
@@ -540,7 +580,7 @@ class _Concepts:
         Latin-script phrases, character positions in `folded` for the others and patterns."""
         spans: list[tuple[int, int, str, bool]] = []
         for i, word in enumerate(words):
-            for phrase in self._starting_with(word):
+            for phrase in self._starting_with(word, cache=not query):
                 if phrase.query_only and not query:
                     continue
                 n = len(phrase.words)
@@ -984,12 +1024,33 @@ def _heading_levels(body: str) -> list[int]:
     return levels
 
 
+# A circular opens with the Ministry's letterhead and its addressees ("AI PREFETTI DELLA REPUBBLICA
+# LORO SEDI", "ROMA"...) before its subject line: names of offices and cities, nothing a citizen asks.
+_SUBJECT_LINE = re.compile(r"(?m)^[ \t]*\**OGGETTO\b")
+LETTERHEAD_MAX_SHARE = 0.5  # a subject line further down than this is not the letterhead's end
+
+
+def _text_start(page: _Page) -> int:
+    """Where a page's indexed text starts: after a circular's letterhead and addressees (at its
+    "OGGETTO" line), else 0."""
+    if page.kind != "circular":
+        return 0
+    m = _SUBJECT_LINE.search(page.body)
+    return m.start() if m and m.start() <= LETTERHEAD_MAX_SHARE * len(page.body) else 0
+
+
+_CONTINUES = re.compile(r"^[a-z]")  # "and delivery of the card", "keep the letters": the heading above goes on
+
+
 def _passages(page: _Page, faq_page: bool) -> list[_Passage]:
     """Cut a page body into passages: sections by heading, then blocks packed to size.
 
     Every passage is body[start:end] of the page; a question passage starts at the
-    question's text (after the '#'s) and runs through its answer."""
+    question's text (after the '#'s) and runs through its answer. A circular's letterhead
+    is left out (_text_start). A heading that only continues the one right above it ("### On
+    your appointment" then "#### and delivery of the card") is read as one heading."""
     body = page.body
+    skip = _text_start(page)
     lines = body.splitlines(keepends=True)
     sections: list[tuple[tuple[str, ...], bool, int, int, int, bool]] = []
     stack: list[tuple[int, str]] = []
@@ -1007,6 +1068,8 @@ def _passages(page: _Page, faq_page: bool) -> list[_Passage]:
             while stack and stack[-1][0] >= level:
                 stack.pop()
             heading = _clean_heading(m.group(2))
+            if heading and stack and _CONTINUES.match(heading) and not body[content_start:pos].strip():
+                heading = f"{stack[-1][1]} {heading}"  # the heading above had no text: one heading
             if heading:
                 stack.append((level, heading))
             path = tuple(h for _, h in stack)
@@ -1019,6 +1082,9 @@ def _passages(page: _Page, faq_page: bool) -> list[_Passage]:
 
     out: list[_Passage] = []
     for path, is_question, start, end, q_start, is_label in sections:
+        if end <= skip:
+            continue
+        start = max(start, skip)
         units = _units(body, start, end)
         if not any(u.kind == "text" for u in units):
             continue
@@ -1082,6 +1148,8 @@ class _Index:
     as_of: str  # the latest date a page was saved: "now" for the index (stale news)
     build_ms: float
     signature: tuple
+    # concepts of a passage's own heading, the frequent ones included (topics leaves those out)
+    heading_concepts: list[frozenset[str]] = dataclasses.field(default_factory=list)
 
 
 def _sources_rows() -> dict[str, dict]:
@@ -1223,6 +1291,7 @@ def _build(signature: tuple) -> _Index:
         idf[term] = math.log(1 + (total - df + 0.5) / (df + 0.5))
     # Concepts in most passages ("carta d'identità") say nothing about a question's topic.
     common = {t for t, plist in postings.items() if t.startswith("§") and len(plist) > n / 5}
+    heading_concepts = list(topics)
     topics = [t - common for t in topics]
     norms = [K1 * (1 - B + B * length / average) for length in lengths]
     as_of = max((p.saved_at for p in pages.values() if _ISO_DATE.fullmatch(p.saved_at)), default="")
@@ -1251,6 +1320,7 @@ def _build(signature: tuple) -> _Index:
         as_of,
         build_ms,
         signature,
+        heading_concepts,
     )
 
 
@@ -1369,9 +1439,27 @@ def _correct(index: _Index, word: str) -> str:
 # ---------------------------------------------------------------- service filter
 
 
+_SERVICE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
 def _service_pages(index: _Index, service_id: str) -> set[str] | None:
     """Pages of a service: those its catalog cites, those whose front matter names it, and
-    the ids in SERVICE_PAGES. None for a service nobody knows."""
+    the ids in SERVICE_PAGES. None for a service nobody knows (or an id that is not one:
+    "../x", 123). Cached per service and index."""
+    if not isinstance(service_id, str) or not _SERVICE_ID.match(service_id):
+        return None
+    catalog = DATA / "services" / f"{service_id}.json"
+    found = _service_pages_cached(index.signature, service_id, _stat(catalog))
+    return set(found) if found is not None else None
+
+
+@functools.lru_cache(maxsize=32)
+def _service_pages_cached(signature: tuple, service_id: str, catalog: tuple) -> frozenset[str] | None:
+    found = _service_pages_uncached(_build(signature), service_id)
+    return frozenset(found) if found is not None else None
+
+
+def _service_pages_uncached(index: _Index, service_id: str) -> set[str] | None:
     known = False
     allowed: set[str] = set()
     path = DATA / "services" / f"{service_id}.json"
@@ -1524,10 +1612,13 @@ def _attainable(index: _Index, terms: dict[str, float], gaps: float = 0.0) -> fl
 
 
 def _gate(index: _Index, terms: dict[str, float], service_id: str | None) -> str:
-    """Why no passage can be a confident answer, whatever its score: "other_document" (the
-    question is about another document and not the service's own), "unknown_words" (most of
-    its words are on no saved page), "weak_match" (it asks nothing but what every page is
-    about: "carta?"); "" when the query passes.
+    """Why no passage can be a confident answer, whatever its score: "off_topic" (small talk,
+    the weather: no procedure, unless it also names the service's subject), "other_document" (the
+    question is about another document and not the service's own, or asks to obtain another
+    document even next to this one: "posso fare il passaporto insieme alla carta?"; a document that
+    is only the means, "book with SPID", doesn't count), "unknown_words" (most of its words are on
+    no saved page, or it asks a topic no page answers: parking, a pet), "weak_match" (it asks nothing but what every page is about: "carta?"); ""
+    when the query passes.
 
     A question that names another document only as something to bring or show ("Devo
     portare il permesso di soggiorno?", "Should I bring my passport?", "Serve la tessera
@@ -1535,12 +1626,16 @@ def _gate(index: _Index, terms: dict[str, float], service_id: str | None) -> str
     concepts = _concepts(_stat(SYNONYMS_FILE))
     asked = {t for t in terms if t.startswith("§")}
     subject = SERVICE_SUBJECT.get(service_id or "")
-    if (
-        subject
-        and "§" + subject not in asked
-        and asked & concepts.other_documents
-        and not asked & BRING_CONCEPTS
-    ):
+    subjects = {"§" + s for s in ([subject] if subject else SERVICE_SUBJECT.values())}
+    if asked & concepts.off_topic and not asked & subjects:
+        return "off_topic"
+    if subject and asked & concepts.asks_other:  # "fare il passaporto all'anagrafe": another document
+        return "other_document"
+    if asked & concepts.unanswered:  # parking near the office, a dog at the desk: no page says
+        return "unknown_words"
+    # another document as the means of what is asked (SPID to book) is not the question's subject
+    others = {d for d in asked & concepts.other_documents if not concepts.means_for.get(d, frozenset()) & asked}
+    if subject and "§" + subject not in asked and others and not asked & BRING_CONCEPTS:
         return "other_document"
     informative = any(
         t in index.postings
@@ -1647,7 +1742,9 @@ def _search(
     of the message it answers ("part")."""
     if k <= 0:
         return [], ""
-    parts = _parts(query) if split and isinstance(query, str) else [query]
+    if isinstance(query, str):
+        query = query[:MAX_QUERY_CHARS]
+    parts = _parts(query)[:MAX_PARTS] if split and isinstance(query, str) else [query]
     if len(parts) > 1:
         answers = [_search(part, service_id, k, lang, per_source, split=False) for part in parts]
         merged: list[dict] = []
@@ -1669,9 +1766,11 @@ def _search(
     if ranked is None:
         return [], ""
     index, order, terms, held = ranked
-    attainable = _attainable(index, terms, _script_gaps(_concepts(_stat(SYNONYMS_FILE)), query))
+    concepts = _concepts(_stat(SYNONYMS_FILE))
+    attainable = _attainable(index, terms, _script_gaps(concepts, query))
     gate = _gate(index, terms, service_id)
     top = -order[0][0] if order else 0.0
+    unheld = _unheld(index, concepts, terms, service_id)
     out: list[dict] = []
     per_page: dict[str, int] = {}
     seen: set[tuple[str, str]] = set()  # a page that repeats a section ("In evidenza"): once
@@ -1692,11 +1791,61 @@ def _search(
             not gate
             and relative >= MIN_RELATIVE
             and -negative >= max(MIN_SCORE, RELATIVE_TO_TOP * top)
+            and not unheld(i)
         )
         out.append(result)
         if len(out) >= k:
             break
     return out, gate
+
+
+def _unheld(
+    index: _Index, concepts: _Concepts, terms: dict[str, float], service_id: str | None
+) -> Callable[[int], list[str]]:
+    """What keeps a passage from being a confident answer however well it scores: the concepts
+    of the question it lacks (or a related one: "furto" for "smarrimento"), more than a third of
+    them (a question with two concepts needs both; the person's situation, such as a lost or
+    expired card or being a student, only when the passage holds nothing asked), leaving out what
+    every page is about (the ID card), how the question is asked (frames: what to bring, where,
+    must I) and question words, and concepts no page of the service has; and a concept its own
+    heading is about that the question doesn't ask, when it names another thing ("distinct": a
+    FAQ on the PIN codes, the digital identity or the receipt answers another question). "Is the
+    card free for people over 70?" is not answered by the validity of the over-70s' card."""
+    asked = {
+        t
+        for t in terms
+        if t.startswith("§")
+        and t not in concepts.weights
+        and t not in index.common
+        and t not in concepts.frames
+    }
+    near_all = asked | {t for t in terms if t.startswith("§")}
+    near = near_all.union(*(concepts.related.get(t, frozenset()) for t in near_all))
+    allowed = _service_pages(index, service_id) if service_id else None
+    holders: dict[str, set[int]] = {}
+    for concept in asked:
+        found = {
+            i
+            for t in (concept, *concepts.related.get(concept, ()))
+            for i, _ in index.postings.get(t, ())
+        }
+        if allowed is not None:
+            found = {i for i in found if index.passages[i].source_id in allowed}
+        if found:  # a concept no page of the service has can't be asked of a passage
+            holders[concept] = found
+
+    # a passage may miss a third of the question's concepts (one of three), not one of two
+    allowed_missing = len(holders) // 3
+
+    def unheld(i: int) -> list[str]:
+        missing = sorted(t for t, found in holders.items() if i not in found)
+        if any(i in found for found in holders.values()):
+            missing = [t for t in missing if t not in concepts.situations]  # the fee answers "if I lost it"
+        return (missing if len(missing) > allowed_missing else []) + sorted(
+            (index.heading_concepts[i] - near) & concepts.distinct
+        )
+
+    return unheld
 
 
 def best_answer(
@@ -1705,7 +1854,8 @@ def best_answer(
     """The passages for `query` and whether the best one looks like an answer.
 
     {"query", "confident": bool, "confidence": float, "reason", "passages": [...]}, where
-    reason is "ok", "no_match" (nothing found), "other_document" (the question names another
+    reason is "ok", "no_match" (nothing found), "off_topic" (small talk, the weather: about no
+    procedure), "other_document" (the question names another
     document than the service's own: a passport, a driving licence, SPID...), "unknown_words"
     (most of its words are on no saved page) or "weak_match" (the best passage holds too
     little of the question). Lexical matching cannot tell a page on the same topic from a
@@ -1724,6 +1874,90 @@ def best_answer(
         "reason": reason,
         "passages": passages,
     }
+
+
+_UNIT_END = re.compile(r"\n+|(?<=[.;!?])\s+")
+
+
+def focus(query: str, text: str, max_chars: int) -> tuple[int, int]:
+    """The stretch of a passage's `text` that holds most of `query`, at most `max_chars` long, as
+    (start, end) offsets cut at line and sentence ends: what to quote when the whole passage is too
+    long. Each window of whole lines and sentences is worth the IDF of the query terms it holds
+    (each term once, concepts included, as the ranking counts them), leaving out the concepts found
+    in more than a fifth of the passages (the ID card itself): they say what every passage is about,
+    not where one answers. The best window wins, the earliest on a tie, so a passage whose opening
+    already answers is quoted from its start; lines before the first one that holds a query term
+    (a circular's letterhead) are left out. (0, len(text)) when the text fits; a single sentence
+    longer than `max_chars` is returned whole."""
+    if not isinstance(text, str) or len(text) <= max_chars:
+        return 0, len(text or "")
+    index = _index()
+    concepts = _concepts(_stat(SYNONYMS_FILE))
+    terms = query_terms(query) if isinstance(query, str) else {}
+    value = {t: index.idf[t] * w for t, w in terms.items() if t in index.idf and t not in index.common}
+    units: list[tuple[int, int]] = []
+    at = 0
+    for m in _UNIT_END.finditer(text):
+        if text[at : m.start()].strip():
+            units.append((at, m.start()))
+        at = m.end()
+    if text[at:].strip():
+        units.append((at, len(text)))
+    if not units or not value:
+        return 0, min(len(text), max_chars)
+    held = [
+        {t for t, _ in _weighted_terms(concepts, text[a:b], query=False) if t in value}
+        for a, b in units
+    ]
+    best, best_i, best_end = -1.0, 0, units[0][1]
+    for i, (start, _) in enumerate(units):
+        found: set[str] = set()
+        end = units[i][1]
+        for j in range(i, len(units)):
+            if j > i and units[j][1] - start > max_chars:
+                break
+            found |= held[j]
+            end = units[j][1]
+        worth = sum(value[t] for t in found)
+        if worth > best + 1e-9:
+            best, best_i, best_end = worth, i, end
+    # a window starts where it starts answering: lines holding none of the query (a letterhead) go
+    while best_i + 1 < len(units) and not held[best_i] and units[best_i + 1][0] < best_end:
+        best_i += 1
+    return units[best_i][0], best_end
+
+
+def held_concepts(query: str, passage_id: str) -> frozenset[str]:
+    """The concepts of `query` ("§cost", "§elderly") that a passage holds, in its text or headings (a
+    related concept counts: "furto" for "smarrimento"); empty for an unknown passage."""
+    index = _index()
+    concepts = _concepts(_stat(SYNONYMS_FILE))
+    at = next((i for i, p in enumerate(index.passages) if p.passage_id == passage_id), None)
+    if at is None or not isinstance(query, str):
+        return frozenset()
+    found = set()
+    for term in query_terms(query):
+        if not term.startswith("§") or term in concepts.weights or term in index.common:
+            continue
+        for t in (term, *concepts.related.get(term, ())):
+            if any(i == at for i, _ in index.postings.get(t, ())):
+                found.add(term)
+                break
+    return frozenset(found)
+
+
+def heading_mismatch(query: str, passage_id: str) -> list[str]:
+    """The concepts a passage's own heading is about that name another thing than the question asks
+    ("distinct": the PIN codes, the digital identity, the receipt): such a passage answers another
+    question, even as the closest one. [] for an unknown passage."""
+    index = _index()
+    concepts = _concepts(_stat(SYNONYMS_FILE))
+    at = next((i for i, p in enumerate(index.passages) if p.passage_id == passage_id), None)
+    if at is None or not isinstance(query, str):
+        return []
+    asked = {t for t in query_terms(query) if t.startswith("§")}
+    near = asked.union(*(concepts.related.get(t, frozenset()) for t in asked))
+    return sorted((index.heading_concepts[at] - near) & concepts.distinct)
 
 
 def passages_for(source_id: str) -> list[dict]:
@@ -1788,25 +2022,48 @@ TOOL = {
 
 
 _WEAK_NOTES = {
+    "off_topic": "The question doesn't seem to be about a City procedure (small talk, the weather...).",
     "other_document": "The question seems to be about another document than this service's.",
     "unknown_words": "Most of the question's words are on no saved page.",
     "weak_match": "The best passage holds little of the question.",
 }
 
 
+def official_page(service_id: str | None) -> dict | None:
+    """The service's official City page, to link when no passage answers: {"url", "source_id",
+    "title"} from the catalog (onevisit.kb.service_links), or None for no or an unknown service."""
+    if not isinstance(service_id, str) or not _SERVICE_ID.match(service_id):
+        return None
+    from onevisit import kb  # the catalog; imported here so that kb never depends on search
+
+    try:
+        link = kb.service_links(service_id).get("official_url")
+    except (OSError, ValueError):  # a catalog file being rewritten
+        return None
+    if not link:
+        return None
+    source = kb.get_source(link["source_id"]) or {}
+    return {"url": link["url"], "source_id": link["source_id"], "title": source.get("title", "")}
+
+
 def run_tool(args: dict, lang: str | None = None) -> str:
-    """JSON string for a tool_result: the passages with `confident` and `reason`, and a note
-    when nothing matched or the match is weak."""
+    """JSON string for a tool_result: the passages with `confident` and `reason`, a note
+    when nothing matched or the match is weak, and, when the service is known, its official
+    page (`official_page`: url and source_id) for the agent to link and cite when no
+    passage answers. The query is cut to MAX_QUERY_CHARS and not echoed back."""
     try:
         k = max(1, min(int(args.get("k") or 5), 10))
-        answer = best_answer(str(args.get("query") or ""), args.get("service_id"), k=k, lang=lang)
+        service_id = args.get("service_id") if isinstance(args.get("service_id"), str) else None
+        answer = best_answer(str(args.get("query") or "")[:MAX_QUERY_CHARS], service_id, k=k, lang=lang)
         results = answer["passages"]
-        payload: dict = {
-            "query": args.get("query"),
+        payload: dict = {  # the query is not echoed back: it is the person's text, already in the request
             "confident": answer["confident"],
             "reason": answer["reason"],
             "results": results,
         }
+        page = official_page(service_id)
+        if page:
+            payload["official_page"] = page
         if not results:
             payload["note"] = (
                 "No saved official page answers this. Say you don't know and link the "

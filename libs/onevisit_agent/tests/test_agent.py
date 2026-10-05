@@ -1,5 +1,6 @@
 """Test del ciclo dell'agente con il client finto (storie C3, B1-B4). Nessuna rete."""
 
+import dataclasses
 import json
 import re
 
@@ -317,3 +318,48 @@ def test_reply_without_citation_after_get_procedure_is_regenerated(make_agent) -
 
     assert result.messages == ["Prima prenota, poi vai allo sportello [fonte: ds549]."]
     assert len(client.calls) == 3
+
+
+def test_identify_case_asks_only_what_the_catalog_still_needs(make_agent, catalog) -> None:  # type: ignore[no-untyped-def]
+    """still_to_ask is the catalog's (questions something still possible depends on), not every
+    unanswered question: as onevisit/kb.py."""
+    original = catalog.checklist
+    catalog.checklist = lambda service_id, answers: dataclasses.replace(
+        original(service_id, answers), still_to_ask=()
+    )
+    client = FakeClaudeClient(
+        script=[
+            tool_response(
+                ("identify_case", {"service_id": "carta-identita", "answers": {"motivo": "prima"}})
+            ),
+            text_response("<lang>it</lang>Bene."),
+        ]
+    )
+    make_agent(client).run_turn(SessionState(), "prima carta", WEB)
+    payload = json.loads(str(_tool_results(client, 1)[0]["content"]))
+    assert payload["still_to_ask"] == []  # "eta" is unanswered, but nothing depends on it here
+
+
+def test_build_checklist_gives_the_routes_with_their_sources(make_agent, catalog) -> None:  # type: ignore[no-untyped-def]
+    stop = {
+        "question": "residenza",
+        "answer": "altra-regione",
+        "route": "stop",
+        "ends_case": True,
+        "services": [
+            {
+                "id": "x",
+                "official_url": {"url": "https://www.comune.milano.it/x", "source_id": "cie"},
+            }
+        ],
+    }
+    catalog.routes = lambda service_id, answers: [stop]
+    client = FakeClaudeClient(
+        script=[
+            tool_response(("build_checklist", {"service_id": "carta-identita", "answers": {}})),
+            text_response("<lang>it</lang>Qui non si fa [fonte: cie]."),
+        ]
+    )
+    make_agent(client).run_turn(SessionState(), "sono residente a Roma", WEB)
+    payload = json.loads(str(_tool_results(client, 1)[0]["content"]))
+    assert payload["routes"] == [stop]

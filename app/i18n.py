@@ -805,6 +805,153 @@ _ROUND3: dict[str, dict[str, str]] = {
 for _lang, _values in _ROUND3.items():
     STRINGS[_lang].update(_values)
 
+# Questions answered from the saved official pages (quote cards, the search in the trace, example
+# questions), and the route a case takes (not served in Milan, home service, PIN/PUK, no visit).
+_QA: dict[str, dict[str, str]] = {
+    "it": {
+        "qa_examples_title": "Oppure fai una domanda sulla carta d'identità",
+        "qa_examples_more": "Domande sulla carta d'identità",
+        "qa_examples_note_demo": "La replica risponde con le parole delle pagine ufficiali salvate, scelte per parole chiave; dal vivo Claude risponde e cita il passaggio.",
+        "qa_examples_note": "Claude risponde solo dalle pagine ufficiali salvate e cita il passaggio, con la data della pagina.",
+        "qa_tag": "passaggi scelti per parole chiave; dal vivo li sceglie Claude",
+        "qa_updated": "pagina aggiornata il {date}",
+        "qa_saved": "pagina salvata il {date}",
+        "qa_full": "Leggi tutto il passaggio",
+        "qa_verbatim": "testo identico alla pagina salvata",
+        "qa_verbatim_parts": "citazione accorciata (…): ogni parte è identica alla pagina salvata",
+        "check_ok_qa": "Controllo automatico: le citazioni sono identiche alle pagine salvate, ognuna con la sua fonte ✓",
+        "read_passages": "Claude ha letto {n} passaggi da {p} pagine ufficiali",
+        "read_passages_demo": "La ricerca per parole chiave ha trovato {n} passaggi in {p} pagine ufficiali",
+        "step_search": "Ha cercato «{query}» nelle pagine ufficiali salvate: {n} passaggi da {p} pagine",
+        "step_search_weak": "Ha cercato «{query}» nelle pagine ufficiali salvate: {n} passaggi da {p} pagine, nessuno risponde con certezza",
+        "step_search_none": "Ha cercato «{query}» nelle pagine ufficiali salvate: nessun passaggio",
+        "step_read_source": "Ha letto per intero la pagina «{title}» ({n} passaggi)",
+        "route_stop": "In questo caso la carta non si chiede a Milano: le voci della checklist dicono perché e dove andare. Per questo niente prenotazione.",
+        "route_first": "Da fare prima",
+        "route_info": "Per questa domanda non serve un appuntamento: le risposte sono nella checklist, ognuna con la sua fonte.",
+        "route_walkin": "Per il tuo caso non si prenota: la checklist dice come presentarti allo sportello senza appuntamento.",
+        "route_home": "Il servizio a domicilio si chiede con il modulo online, non con la prenotazione allo sportello.",
+        "route_step_title": "Come fare la richiesta",
+        "type_hint_demo": "Oppure scrivi la tua situazione o una domanda qui sotto: la replica legge la situazione per parole chiave e risponde alle domande con le pagine ufficiali salvate; dal vivo risponde Claude, in qualsiasi lingua.",
+        "chat_placeholder_demo": "Replica: scrivi la tua situazione o una domanda",
+        "chat_placeholder": "Descrivi la tua situazione o fai una domanda, in qualsiasi lingua",
+    },
+    "en": {
+        "qa_examples_title": "Or ask a question about the ID card",
+        "qa_examples_more": "Questions about the ID card",
+        "qa_examples_note_demo": "The replay answers with the saved official pages' own words, picked by keywords; live, Claude answers and quotes the passage.",
+        "qa_examples_note": "Claude answers only from the saved official pages and quotes the passage, with the page's date.",
+        "qa_tag": "passages picked by keywords; live, Claude picks them",
+        "qa_updated": "page updated {date}",
+        "qa_saved": "page saved {date}",
+        "qa_full": "Read the whole passage",
+        "qa_verbatim": "word for word from the saved page",
+        "qa_verbatim_parts": "shortened quote (…): each part word for word from the saved page",
+        "check_ok_qa": "Automatic check: the quotes match the saved pages word for word, each with its source ✓",
+        "read_passages": "Claude read {n} passages from {p} official pages",
+        "read_passages_demo": "The keyword search found {n} passages in {p} official pages",
+        "step_search": "Searched the saved official pages for “{query}”: {n} passages from {p} pages",
+        "step_search_weak": "Searched the saved official pages for “{query}”: {n} passages from {p} pages, none answers with certainty",
+        "step_search_none": "Searched the saved official pages for “{query}”: no passage",
+        "step_read_source": "Read the whole page “{title}” ({n} passages)",
+        "route_stop": "In this case the card is not requested in Milan: the checklist items say why and where to go. So no booking.",
+        "route_first": "To do first",
+        "route_info": "You don't need an appointment for this question: the answers are in the checklist, each with its source.",
+        "route_walkin": "No booking for your case: the checklist says how to go to the desk without an appointment.",
+        "route_home": "The home service is requested with the online form, not by booking a desk appointment.",
+        "route_step_title": "How to apply",
+        "type_hint_demo": "Or describe your situation or ask a question below: the replay reads situations by keywords and answers questions with the saved official pages; live, Claude answers, in any language.",
+        "chat_placeholder_demo": "Replay: describe your situation or ask a question",
+        "chat_placeholder": "Describe your situation or ask a question, in any language",
+    },
+    "ar": {
+        "qa_examples_title": "أو اطرح سؤالًا عن بطاقة الهوية",
+        "qa_examples_more": "أسئلة عن بطاقة الهوية",
+        "qa_examples_note_demo": "يجيب العرض المسجّل بكلمات الصفحات الرسمية المحفوظة، المختارة بالكلمات المفتاحية؛ في الوضع المباشر يجيب Claude ويقتبس المقطع.",
+        "qa_examples_note": "يجيب Claude من الصفحات الرسمية المحفوظة فقط ويقتبس المقطع مع تاريخ الصفحة.",
+        "qa_tag": "مقاطع اختيرت بالكلمات المفتاحية؛ في الوضع المباشر يختارها Claude",
+        "qa_updated": "حُدّثت الصفحة في {date}",
+        "qa_saved": "حُفظت الصفحة في {date}",
+        "qa_full": "اقرأ المقطع كاملًا",
+        "qa_verbatim": "مطابق حرفيًا للصفحة المحفوظة",
+        "qa_verbatim_parts": "اقتباس مختصر (…): كل جزء مطابق حرفيًا للصفحة المحفوظة",
+        "check_ok_qa": "تحقق تلقائي: الاقتباسات مطابقة حرفيًا للصفحات المحفوظة، ولكلٍّ منها مصدره ✓",
+        "read_passages": "قرأ Claude {n} مقاطع من {p} صفحات رسمية",
+        "read_passages_demo": "وجد البحث بالكلمات المفتاحية {n} مقاطع في {p} صفحات رسمية",
+        "step_search": "بحث في الصفحات الرسمية المحفوظة عن «{query}»: {n} مقاطع من {p} صفحات",
+        "step_search_weak": "بحث في الصفحات الرسمية المحفوظة عن «{query}»: {n} مقاطع من {p} صفحات، لا يجيب أيّ منها بشكل مؤكد",
+        "step_search_none": "بحث في الصفحات الرسمية المحفوظة عن «{query}»: لا مقاطع",
+        "step_read_source": "قرأ الصفحة «{title}» كاملة ({n} مقاطع)",
+        "route_stop": "في هذه الحالة لا تُطلب البطاقة في ميلانو: بنود القائمة تقول السبب وإلى أين تذهب. لذلك لا حجز.",
+        "route_first": "ما يجب فعله أولًا",
+        "route_info": "لا تحتاج إلى موعد لهذا السؤال: الإجابات في القائمة، كلٌّ منها مع مصدره.",
+        "route_walkin": "لا حجز في حالتك: تقول القائمة كيف تذهب إلى المكتب دون موعد.",
+        "route_home": "تُطلب الخدمة المنزلية بالنموذج الإلكتروني، لا بحجز موعد في المكتب.",
+        "route_step_title": "كيف تقدّم الطلب",
+        "type_hint_demo": "أو صِف وضعك أو اطرح سؤالًا أدناه: يقرأ العرض المسجّل الوضع بالكلمات المفتاحية ويجيب عن الأسئلة من الصفحات الرسمية المحفوظة؛ في الوضع المباشر يجيب Claude بأي لغة.",
+        "chat_placeholder_demo": "عرض مسجّل: صِف وضعك أو اطرح سؤالًا",
+        "chat_placeholder": "صِف وضعك أو اطرح سؤالًا، بأي لغة",
+    },
+    "es": {
+        "qa_examples_title": "O haz una pregunta sobre la carta de identidad",
+        "qa_examples_more": "Preguntas sobre la carta de identidad",
+        "qa_examples_note_demo": "La réplica responde con las palabras de las páginas oficiales guardadas, elegidas por palabras clave; en directo Claude responde y cita el pasaje.",
+        "qa_examples_note": "Claude responde solo con las páginas oficiales guardadas y cita el pasaje, con la fecha de la página.",
+        "qa_tag": "pasajes elegidos por palabras clave; en directo los elige Claude",
+        "qa_updated": "página actualizada el {date}",
+        "qa_saved": "página guardada el {date}",
+        "qa_full": "Leer el pasaje completo",
+        "qa_verbatim": "idéntico a la página guardada",
+        "qa_verbatim_parts": "cita abreviada (…): cada parte es idéntica a la página guardada",
+        "check_ok_qa": "Control automático: las citas son idénticas a las páginas guardadas, cada una con su fuente ✓",
+        "read_passages": "Claude leyó {n} pasajes de {p} páginas oficiales",
+        "read_passages_demo": "La búsqueda por palabras clave encontró {n} pasajes en {p} páginas oficiales",
+        "step_search": "Buscó «{query}» en las páginas oficiales guardadas: {n} pasajes de {p} páginas",
+        "step_search_weak": "Buscó «{query}» en las páginas oficiales guardadas: {n} pasajes de {p} páginas, ninguno responde con certeza",
+        "step_search_none": "Buscó «{query}» en las páginas oficiales guardadas: ningún pasaje",
+        "step_read_source": "Leyó entera la página «{title}» ({n} pasajes)",
+        "route_stop": "En este caso la carta no se pide en Milán: los puntos de la lista dicen por qué y adónde ir. Por eso no hay reserva.",
+        "route_first": "Lo primero",
+        "route_info": "Para esta pregunta no hace falta cita: las respuestas están en la lista, cada una con su fuente.",
+        "route_walkin": "En tu caso no se reserva: la lista dice cómo ir a la oficina sin cita.",
+        "route_home": "El servicio a domicilio se pide con el formulario en línea, no reservando cita en la oficina.",
+        "route_step_title": "Cómo hacer la solicitud",
+        "type_hint_demo": "O describe tu situación o haz una pregunta abajo: la réplica lee la situación por palabras clave y responde a las preguntas con las páginas oficiales guardadas; en directo responde Claude, en cualquier idioma.",
+        "chat_placeholder_demo": "Réplica: describe tu situación o haz una pregunta",
+        "chat_placeholder": "Describe tu situación o haz una pregunta, en cualquier idioma",
+    },
+    "zh": {
+        "qa_examples_title": "或者问一个关于身份证的问题",
+        "qa_examples_more": "关于身份证的问题",
+        "qa_examples_note_demo": "演示回放用已保存官方页面的原话回答，段落按关键词选出；实时版本由 Claude 回答并引用原文。",
+        "qa_examples_note": "Claude 只根据已保存的官方页面回答，并引用原文和页面日期。",
+        "qa_tag": "按关键词选出的段落；实时版本由 Claude 选择",
+        "qa_updated": "页面更新于 {date}",
+        "qa_saved": "页面保存于 {date}",
+        "qa_full": "阅读完整段落",
+        "qa_verbatim": "与保存的页面逐字一致",
+        "qa_verbatim_parts": "节选引文（…）：每一部分都与保存的页面逐字一致",
+        "check_ok_qa": "自动检查：引文与保存的页面逐字一致，并各自附有来源 ✓",
+        "read_passages": "Claude 阅读了 {p} 个官方页面中的 {n} 个段落",
+        "read_passages_demo": "关键词搜索在 {p} 个官方页面中找到 {n} 个段落",
+        "step_search": "在已保存的官方页面中搜索“{query}”：{p} 个页面中的 {n} 个段落",
+        "step_search_weak": "在已保存的官方页面中搜索“{query}”：{p} 个页面中的 {n} 个段落，没有一个能确定地回答",
+        "step_search_none": "在已保存的官方页面中搜索“{query}”：没有段落",
+        "step_read_source": "完整阅读了页面“{title}”（{n} 个段落）",
+        "route_stop": "这种情况下不在米兰申请身份证：清单中的条目说明了原因和该去哪里。因此不需要预约。",
+        "route_first": "需要先办理",
+        "route_info": "这个问题不需要预约：答案在清单中，每条都附有来源。",
+        "route_walkin": "你的情况不需要预约：清单说明了如何不预约直接去窗口。",
+        "route_home": "上门服务通过在线表格申请，而不是预约窗口。",
+        "route_step_title": "如何申请",
+        "type_hint_demo": "或者在下面描述你的情况或提问：演示回放按关键词理解情况，并用已保存的官方页面回答问题；实时版本由 Claude 用任何语言回答。",
+        "chat_placeholder_demo": "演示回放：描述你的情况或提问",
+        "chat_placeholder": "用任何语言描述你的情况或提问",
+    },
+}
+for _lang, _values in _QA.items():
+    STRINGS[_lang].update(_values)
+
 # Italian labels for the report causes (onevisit/outcomes.py keeps the English ones).
 CAUSES_IT = {
     "pagina-incompleta": ("Pagina incompleta", "Redazione web"),
@@ -843,6 +990,35 @@ PROACTIVE = {
     ],
 }
 
+
+# The home service (an officer comes to a person who cannot move): nothing is brought to a desk.
+_HOME = {
+    "it": {"upload_title_home": "Da preparare per l'operatore che viene a casa: {n}",
+           "dossier_title_home": "Il tuo dossier per il servizio a domicilio",
+           "dossier_cap_home": "Ti aiuta a preparare gli allegati del modulo online e i documenti per l'operatore che "
+                               "verrà a casa, in italiano con l'inglese. Solo requisiti verificati, ognuno con la sua "
+                               "fonte e la data di verifica. Nessun dato personale."},
+    "en": {"upload_title_home": "To prepare for the officer who comes to the home: {n}",
+           "dossier_title_home": "Your dossier for the home service",
+           "dossier_cap_home": "It helps you prepare the attachments of the online form and the documents for the "
+                               "officer who comes to the home, in Italian with English. Only verified requirements, "
+                               "each with its source and verification date. No personal data."},
+    "ar": {"upload_title_home": "ما تحضّره للموظف الذي يأتي إلى المنزل: {n}",
+           "dossier_title_home": "ملفك لخدمة السجل المدني في المنزل",
+           "dossier_cap_home": "يساعدك على تحضير مرفقات النموذج الإلكتروني والوثائق للموظف الذي يأتي إلى المنزل، "
+                               "بالإيطالية مع الإنجليزية. شروط موثّقة فقط، لكل منها مصدره. بدون بيانات شخصية."},
+    "es": {"upload_title_home": "Qué preparar para el funcionario que va a casa: {n}",
+           "dossier_title_home": "Tu dossier para el servicio a domicilio",
+           "dossier_cap_home": "Te ayuda a preparar los adjuntos del formulario online y los documentos para el "
+                               "funcionario que irá a casa, en italiano con tu idioma al lado. Solo requisitos "
+                               "verificados, cada uno con su fuente. Sin datos personales."},
+    "zh": {"upload_title_home": "为上门工作人员准备：{n} 项",
+           "dossier_title_home": "你的上门服务材料单",
+           "dossier_cap_home": "帮助你准备在线表格的附件和上门工作人员需要的文件，意大利语并附你的语言。"
+                               "只包含已核实的要求，每项都有来源。不含个人信息。"},
+}
+for _lang, _values in _HOME.items():
+    STRINGS[_lang].update(_values)
 
 def t(key: str, lang: str, **values: object) -> str:
     """The interface string in `lang`, falling back to English, then Italian."""

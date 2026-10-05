@@ -2,7 +2,7 @@
  "_about": "Claude's translation of the requirement, step and section texts in data/services, for the citizen's language. Each entry keeps the Italian it was translated from ('it'): when the Italian changes, the entry is stale and the app shows English until it is translated again (python -m onevisit.translate). The Italian text and the verbatim quote from the official page are the ones that count; the app labels these texts 'Traduzione di Claude'. Not reviewed by a human translator yet.",
  "lang": "zh",
  "translated_by": "Claude (claude-opus-5-5) on 2026-10-04, following the instructions in onevisit/translate.py (the runtime path uses claude-haiku-4-5 for texts missing here)",
- "updated": "2026-10-04",
+ "updated": "2026-10-05",
  "texts": {
   "cambio-residenza:req:a-chi-si-rivolge:text": {
    "it": "Questo servizio è per chi arriva a Milano da un altro Comune italiano, per chi cambia indirizzo dentro Milano e per chi ha cittadinanza italiana e rientra dall'estero, se iscritto all'AIRE.",
@@ -128,6 +128,10 @@
    "it": "Accertamento",
    "text": "核查"
   },
+  "carta-identita:req:accesso-online-requisiti:text": {
+   "it": "Per entrare nei servizi online con la CIE servono: la carta non scaduta (con una carta scaduta l'accesso può essere bloccato o sospeso per sicurezza), il PIN ricevuto con la carta, un lettore NFC se usi il computer oppure l'app CieID installata e aggiornata se usi lo smartphone, e un browser aggiornato. Se manca uno di questi l'accesso può non riuscire; se non riesce anche con tutti i requisiti, il Comune consiglia di riavviare o di provare da un altro dispositivo.",
+   "text": "用 CIE 登录网上服务需要：未过期的身份证（身份证过期后，出于安全原因登录可能被封锁或暂停）、随卡收到的 PIN 码、用电脑时需要 NFC 读卡器，用手机时需要安装并更新 CieID 应用，以及更新过的浏览器。缺少其中任何一项都可能登录失败；如果全部具备仍然失败，市政府建议重启或换一台设备再试。"
+  },
   "carta-identita:req:accettazione-obbligatoria:text": {
    "it": "Il check-in è obbligatorio: senza, non ti chiamano allo sportello. Si può fare solo nella fascia di tempo scritta nella mail di conferma (un margine prima e dopo l'orario).",
    "text": "签到是必须的：不签到就不会被叫到窗口。只能在确认邮件写明的时间段内签到（你的预约时间前后各有一段余量）。"
@@ -140,6 +144,10 @@
    "it": "Se sei iscritto all'AIRE, la carta può arrivare al tuo domicilio in Italia (da dire allo sportello), al tuo indirizzo all'estero oppure al tuo Consolato.",
    "text": "如果你在 AIRE 登记，证件可以寄到你在意大利的地址（请告诉窗口）、你在国外的地址或你的领事馆。"
   },
+  "carta-identita:req:aire-consolato:text": {
+   "it": "Secondo il Ministero dell'Interno, chi è iscritto all'AIRE può chiedere la carta anche al proprio Consolato di riferimento (le modalità sono sul sito del Ministero degli Affari Esteri).",
+   "text": "根据内政部的说明，在 AIRE 登记的人也可以向所属领事馆申请身份证（办理方式见外交部网站）。"
+  },
   "carta-identita:req:aire-prenotazione:text": {
    "it": "Se sei iscritto all'AIRE di Milano, per il rinnovo prenoti l'appuntamento dal pulsante «Prenota appuntamento» in cima alla pagina del Comune.",
    "text": "如果你在米兰的 AIRE 登记，续办时请通过市政府页面顶部的“Prenota appuntamento”按钮预约。"
@@ -147,6 +155,10 @@
   "carta-identita:req:aire-qualsiasi-comune:text": {
    "it": "Secondo una circolare del Ministero dell'Interno (maggio 2026), chi è iscritto all'AIRE può chiedere la CIE in qualsiasi Comune italiano.",
    "text": "根据内政部的一份通函（2026 年 5 月），在 AIRE 登记的人可以在意大利任何一个市镇申请 CIE。"
+  },
+  "carta-identita:req:altra-regione-comune:text": {
+   "it": "Il Ministero dell'Interno indica che la carta d'identità elettronica si chiede al proprio Comune di residenza o di dimora.",
+   "text": "内政部指出，电子身份证应向自己的户籍所在市镇或实际居住（dimora）的市镇申请。"
   },
   "carta-identita:req:altro-documento:short": {
    "it": "Un altro documento d'identità con foto",
@@ -185,12 +197,20 @@
    "text": "2026 年 8 月 3 日之后，纸质身份证在任何情况下都不能再用于出国。"
   },
   "carta-identita:req:carta-cartacea-scaduta:text": {
-   "it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026: se hai ancora quella di carta, ti serve la CIE.",
-   "text": "纸质身份证已于 2026 年 8 月 3 日失效：如果你还持有纸质身份证，就需要办理电子身份证（CIE）。"
+   "it": "Le carte d'identità cartacee sono scadute il 3 agosto 2026, in base alle direttive europee.",
+   "text": "纸质身份证已于 2026 年 8 月 3 日按欧洲规定到期。"
   },
   "carta-identita:req:carta-cartacea-usi-residui:text": {
    "it": "Fino al 31 gennaio 2027, purché la carta cartacea non scada prima di quella data, si può ancora usare in Italia per alcuni servizi (per esempio sanità, pensione, posta, banca) e con la Pubblica Amministrazione.",
    "text": "到 2027 年 1 月 31 日为止，只要纸质身份证在此日期之前不过期，在意大利仍可用于部分服务（例如医疗、养老金、邮局、银行）以及在公共机构办事。"
+  },
+  "carta-identita:req:carta-con-se-pin-puk:short": {
+   "it": "La carta d'identità elettronica (CIE)",
+   "text": "电子身份证（CIE）"
+  },
+  "carta-identita:req:carta-con-se-pin-puk:text": {
+   "it": "Porta la tua carta d'identità elettronica (CIE): per il duplicato di PIN e PUK e per cambiare i contatti vai di persona con la carta.",
+   "text": "请带上你的电子身份证（CIE）：申请补发PIN和PUK以及更改联系方式时，需要本人携带身份证前往。"
   },
   "carta-identita:req:carta-provvisoria:text": {
    "it": "Fino a dicembre 2027, solo per urgenze reali e documentate, si può avere una carta d'identità provvisoria, solo nella sede centrale di via Larga 12 (ingresso da via Pecorari 3), mostrando di avere già prenotato l'appuntamento per la CIE.",
@@ -204,6 +224,14 @@
    "it": "Chip che non funziona: prima segnala il difetto all'assistenza del Ministero dell'Interno, cie.cittadini@interno.it oppure 06 4298 5699.",
    "text": "芯片失灵：先向内政部客服报告故障，cie.cittadini@interno.it 或 06 4298 5699。"
   },
+  "carta-identita:req:chip-verifica-data:text": {
+   "it": "Il Ministero dell'Interno ha rilevato che alcune carte hanno un difetto nel chip, che contiene una data di emissione diversa da quella stampata sul fronte: con il servizio di verifica del Ministero, inserendo codice fiscale e numero di serie della carta, controlli subito se la tua è tra queste.",
+   "text": "内政部发现部分身份证的芯片有缺陷：芯片中的签发日期与卡片正面印的日期不同。使用内政部的核查服务，输入你的税号和卡片序列号，即可马上查看你的卡是否在其中。"
+  },
+  "carta-identita:req:cieid-app:text": {
+   "it": "Con uno smartphone con NFC puoi entrare nei servizi online al livello di sicurezza più alto (livello 3) con l'app CieID: dopo aver ricevuto la carta, apri l'app e registra la carta inserendo il PIN di otto cifre e avvicinando la carta al retro dello smartphone.",
+   "text": "使用带 NFC 的智能手机，可以通过 CieID 应用以最高安全级别（第 3 级）登录网上服务：收到身份证后，打开应用，输入八位 PIN 码并把卡贴近手机背面，即可登记你的卡。"
+  },
   "carta-identita:req:codice-fiscale:short": {
    "it": "Tessera sanitaria o codice fiscale",
    "text": "医疗卡或税号"
@@ -215,6 +243,10 @@
   "carta-identita:req:consegna-indirizzo:text": {
    "it": "La carta viene spedita al tuo domicilio oppure a un altro indirizzo che indichi allo sportello.",
    "text": "证件会邮寄到你家，或寄到你在窗口提供的其他地址。"
+  },
+  "carta-identita:req:consegna-senza-documento:text": {
+   "it": "Se non hai nessun documento di riconoscimento, nemmeno scaduto, non puoi ritirare la carta all'ufficio postale: finiti i giorni di giacenza, la carta viene spedita alla sede che l'ha rilasciata e la ritiri lì. Per questo il Ministero dell'Interno suggerisce di scegliere, quando fai la richiesta, la spedizione al Comune (la pagina del Comune di Milano indica solo la spedizione a un indirizzo).",
+   "text": "如果你没有任何身份证件，连过期的也没有，就不能在邮局领取身份证：存放期结束后，身份证会被寄回签发的办公室，你要到那里领取。因此内政部建议在申请时选择寄到市政府（米兰市政府的页面只提到寄到某个地址）。"
   },
   "carta-identita:req:consegnata-al-mittente:text": {
    "it": "Se su poste.it la spedizione risulta «Consegnata al mittente», vai alla sede del Comune dove hai fatto la richiesta.",
@@ -236,6 +268,10 @@
    "it": "Costo: 22,20 euro, in contanti o bancomat, il giorno dell'appuntamento.",
    "text": "费用：22,20 欧元，预约当天用现金或借记卡支付。"
   },
+  "carta-identita:req:credenziali-con-carta:text": {
+   "it": "Se hai già la carta, puoi attivare le credenziali CIE di livello 1 e 2 (nome utente e password) facendo un accesso di livello 3 con la carta e seguendo la procedura di attivazione.",
+   "text": "如果你已经有身份证，可以用卡以第 3 级登录，然后按激活步骤操作，来激活 CIE 第 1 级和第 2 级登录凭证（用户名和密码）。"
+  },
   "carta-identita:req:credenziali-scadute-90-giorni:text": {
    "it": "Se la carta è già scaduta, le credenziali CIE per i servizi online funzionano ancora per 90 giorni, ma smettono di funzionare prima se nel frattempo rinnovi la carta e ricevi i nuovi codici.",
    "text": "如果身份证已经过期，它的 CIE 在线登录凭证还能再用 90 天；但如果在此期间你换了新证并收到新的密码，旧凭证会提前失效。"
@@ -249,8 +285,8 @@
    "text": "如果证件是丢失（不是被盗），可以在 Polizia di Stato（国家警察）的“Denunce online”网站上在线报失，不用去警察局：报失证明会在 96 小时内发到你的个人页面，申请新证件时就用它。"
   },
   "carta-identita:req:denuncia-online-spid:text": {
-   "it": "Al portale «Denunce online» si accede con SPID o CIE: se non hai SPID e la carta persa era la tua unica CIE, fai la denuncia alle forze dell'ordine.",
-   "text": "登录“Denunce online”网站需要使用 SPID 或 CIE：如果你没有 SPID，而丢失的就是你唯一的电子身份证，请向警方报案。"
+   "it": "Al portale «Denunce online» della Polizia di Stato si accede con SPID o CIE.",
+   "text": "国家警察的「Denunce online」网上报案平台使用 SPID 或 CIE 登录。"
   },
   "carta-identita:req:denuncia:short": {
    "it": "La denuncia di furto o smarrimento",
@@ -312,6 +348,14 @@
    "it": "Se la domanda la fa un'altra persona che non è il genitore: allega la delega o l'atto di nomina (tutore o amministratore di sostegno).",
    "text": "如果申请人不是父母：附上委托书或任命文书（监护人或支持管理人）。"
   },
+  "carta-identita:req:domicilio-denuncia:short": {
+   "it": "Denuncia di smarrimento o furto",
+   "text": "遗失或被盗报案材料"
+  },
+  "carta-identita:req:domicilio-denuncia:text": {
+   "it": "Carta persa o rubata: allega alla richiesta online la denuncia di smarrimento o furto; in questo caso serve anche un altro documento d'identità in corso di validità.",
+   "text": "身份证遗失或被盗：在网上申请中附上遗失或被盗的报案材料；这种情况下还需要另一份未过期的身份证件。"
+  },
   "carta-identita:req:domicilio-documento:short": {
    "it": "Documento d'identità della persona",
    "text": "本人的身份证件"
@@ -323,6 +367,14 @@
   "carta-identita:req:domicilio-form:text": {
    "it": "Il servizio a domicilio si chiede con il modulo online del Comune, entrando con SPID o CIE; può compilarlo anche un'altra persona (genitore di un minorenne, tutore, amministratore di sostegno o un delegato).",
    "text": "上门服务通过市政府的在线表格申请，用 SPID 或 CIE 登录；也可以由他人填写（未成年人的父母、监护人、支持管理人或受托人）。"
+  },
+  "carta-identita:req:domicilio-foto:short": {
+   "it": "Foto (requisiti del Ministero)",
+   "text": "照片（内政部要求）"
+  },
+  "carta-identita:req:domicilio-foto:text": {
+   "it": "Da allegare alla richiesta online: la foto per la carta d'identità, secondo i requisiti indicati sul sito del Ministero dell'Interno.",
+   "text": "随网上申请附上：身份证照片，须符合内政部网站上的要求。"
   },
   "carta-identita:req:domicilio-pagamento:short": {
    "it": "Pagamento a casa (contanti, bancomat o carta)",
@@ -341,12 +393,20 @@
    "text": "填写表格前，先查看户籍办公室地图，选择要把申请发送到的办公室。"
   },
   "carta-identita:req:domicilio-servizio:text": {
-   "it": "Se la persona non può andare in anagrafe per gravi motivi di salute (ricoverata in ospedale o in RSA, oppure a letto a casa), c'è il servizio anagrafico a domicilio: un operatore del Comune va da lei.",
-   "text": "如果此人因严重健康原因无法前往户籍办公室（住院、住在护理机构或卧床在家），可以使用户籍上门服务：市政府工作人员会上门办理。"
+   "it": "Se la persona non può andare in anagrafe per gravi motivi di salute (ricoverata in ospedale o in RSA, oppure a letto a casa), c'è il servizio anagrafico a domicilio.",
+   "text": "如果当事人因严重健康原因无法前往户籍处（住院、住在护理院或卧床在家），可以申请户籍上门服务。"
   },
   "carta-identita:req:domicilio-urgenza:text": {
    "it": "Se il servizio a domicilio è urgente: dopo aver inviato la domanda, segnala l'urgenza dalla sezione «Hai ancora bisogno di aiuto?» del centro di supporto del Comune, con il numero della pratica.",
    "text": "如果上门服务很紧急：提交申请后，在市政府支持中心的“Hai ancora bisogno di aiuto?”栏目中报告紧急情况，并附上申请编号。"
+  },
+  "carta-identita:req:domicilio-vecchia-carta:short": {
+   "it": "Copia della vecchia carta",
+   "text": "旧身份证复印件"
+  },
+  "carta-identita:req:domicilio-vecchia-carta:text": {
+   "it": "Da allegare alla richiesta online: copia della vecchia carta d'identità (da consegnare all'operatore il giorno dell'appuntamento).",
+   "text": "随网上申请附上：旧身份证的复印件（预约当天交给工作人员）。"
   },
   "carta-identita:req:donazione-modifica:text": {
    "it": "Se hai dato l'assenso alla donazione, puoi cambiare idea in qualsiasi momento: per cancellare il sì si manda il modulo del Comune (pagina «Esprimi la tua volontà sulla donazione di organi»).",
@@ -384,6 +444,10 @@
    "it": "La fototessera deve avere lo stesso formato usato per il passaporto.",
    "text": "照片规格须与护照照片相同。"
   },
+  "carta-identita:req:foto-larghezza-fonti:text": {
+   "it": "Larghezza della foto: la guida del Comune per le foto (PDF del 2007, a cui rimandano la pagina della carta d'identità e il centro di supporto) indica 35-40 mm, mentre il Ministero dell'Interno e l'articolo del centro di supporto sul formato della foto indicano 35 mm. Le fonti non sono allineate.",
+   "text": "照片宽度：市政府的照片指南（2007 年的 PDF，身份证页面和支持中心都有链接）写的是 35-40 毫米，而内政部和支持中心关于照片格式的文章写的是 35 毫米。各来源说法不一致。"
+  },
   "carta-identita:req:foto-misure:text": {
    "it": "Misure della foto: 45 mm di altezza e 35 mm di larghezza. In primo piano viso e spalle, con il viso che occupa il 70-80% della foto, su sfondo chiaro e uniforme.",
    "text": "照片尺寸：高 45 毫米、宽 35 毫米。面部和肩膀在前景，面部占照片的 70-80%，背景为浅色且均匀。"
@@ -391,6 +455,14 @@
   "carta-identita:req:foto-niente-usb:text": {
    "it": "Il Comune di Milano accetta solo fototessere stampate su carta: niente foto su chiavetta USB.",
    "text": "米兰市政府只接受打印在纸上的证件照：不接受存在 U 盘里的照片。"
+  },
+  "carta-identita:req:foto-non-piegata:text": {
+   "it": "La foto non deve essere piegata o spillata, né avere scritte o essere rovinata.",
+   "text": "照片不得折叠、钉订、写字或破损。"
+  },
+  "carta-identita:req:foto-non-ritoccata:text": {
+   "it": "La foto non va ritagliata per togliere lo sfondo o per raddrizzare la testa, e non può essere ritoccata, colorata o modificata.",
+   "text": "照片不得为去掉背景或摆正头部而裁剪，也不得修图、上色或改动。"
   },
   "carta-identita:req:foto-posa:text": {
    "it": "Nella foto: espressione neutra e bocca chiusa, niente sorrisi né occhi chiusi, sguardo dritto verso l'obiettivo; niente cappelli, occhiali da sole o accessori che coprono il viso; occhiali da vista solo se non fanno riflessi e non nascondono gli occhi.",
@@ -415,6 +487,10 @@
   "carta-identita:req:giacenza-documento:text": {
    "it": "Per ritirarla all'ufficio postale porta un documento d'identità non scaduto; se ne hai solo uno scaduto, porta anche una sua fotocopia su cui dichiari che i dati non sono cambiati.",
    "text": "去邮局领取时，请带一份未过期的身份证件；如果只有过期的证件，还要带一份它的复印件，并在上面声明信息没有变化。"
+  },
+  "carta-identita:req:impronte-conservazione:text": {
+   "it": "Secondo l'informativa sulla privacy del Ministero dell'Interno (2023), l'immagine delle impronte digitali è conservata solo per il tempo strettamente necessario al rilascio e alla produzione della carta.",
+   "text": "根据内政部的隐私说明（2023 年），指纹图像只在签发和制作身份证所严格需要的时间内保存。"
   },
   "carta-identita:req:impronte-dita:text": {
    "it": "Vai con le dita pulite: patine o pellicole sulle dita possono alterare le impronte.",
@@ -473,8 +549,8 @@
    "text": "从 12 岁起要采集两枚指纹，并由孩子在证件上签名。"
   },
   "carta-identita:req:minori-neonati-attesa:text": {
-   "it": "Neonato: aspetta 30 giorni lavorativi dalla nascita e controlla nel Fascicolo del Cittadino che la nascita sia registrata, poi prenota.",
-   "text": "新生儿：出生后等待 30 个工作日，在 Fascicolo del Cittadino（市政府个人页面）中确认出生已登记，然后再预约。"
+   "it": "Neonato: bisogna aspettare 30 giorni lavorativi dalla nascita e controllare nel Fascicolo del Cittadino che la nascita sia registrata.",
+   "text": "新生儿：需要从出生起等待 30 个工作日，并在 Fascicolo del Cittadino（市民档案）中确认出生已登记。"
   },
   "carta-identita:req:minori-neonati:text": {
    "it": "Per la prima carta di un neonato servono entrambi i genitori oppure un altro adulto maggiorenne.",
@@ -537,12 +613,12 @@
    "text": "未成年人：预约当天父母双方须与孩子一起到场。"
   },
   "carta-identita:req:notaio-rovinata:text": {
-   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
-   "text": "你需要证件去办理公证（notaio）或出席法律相关的约见，而没有其他证件：在约见前 15 天内不用预约去户籍办公室。"
+   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro, portando: una fototessera cartacea recente conforme ai requisiti; la tessera sanitaria o il codice fiscale; un altro documento d'identità (passaporto, patente o altro) oppure due testimoni; la carta rovinata, da consegnare.",
+   "text": "你需要它办理公证或法律预约，且没有其他证件：在会面前 15 天内无需预约直接去户籍办公室，携带：一张符合要求的近期纸质证件照；医疗卡或税号；另一份身份证件（护照、驾照或其他）或两名证人；损坏的身份证（需上交）。"
   },
   "carta-identita:req:notaio-smarrimento:text": {
-   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro.",
-   "text": "你需要证件去办理公证（notaio）或出席法律相关的约见，而没有其他证件：在约见前 15 天内不用预约去户籍办公室。"
+   "it": "Ti serve per un atto dal notaio o un appuntamento legale e non hai un altro documento: vai all'anagrafe senza appuntamento nei 15 giorni prima dell'incontro, portando: la denuncia; una fototessera cartacea recente conforme ai requisiti; la tessera sanitaria o il codice fiscale; un altro documento d'identità (passaporto, patente o altro) oppure due testimoni.",
+   "text": "你需要它办理公证或法律预约，且没有其他证件：在会面前 15 天内无需预约直接去户籍办公室，携带：报案材料；一张符合要求的近期纸质证件照；医疗卡或税号；另一份身份证件（护照、驾照或其他）或两名证人。"
   },
   "carta-identita:req:nuovi-cittadini:text": {
    "it": "Se sei appena diventato cittadino italiano (dopo il giuramento), puoi chiedere la nuova carta anche se quella da straniero scade tra più di 180 giorni; prima di prenotare controlla che in anagrafe la cittadinanza risulti aggiornata.",
@@ -588,9 +664,13 @@
    "it": "Per prenotare l'appuntamento della carta d'identità non serve lo SPID: si prenota dalla pagina del servizio del Comune.",
    "text": "预约身份证办理不需要 SPID（数字身份）：在市政府的服务页面上预约即可。"
   },
+  "carta-identita:req:presenza-titolare:text": {
+   "it": "Per il rilascio della carta deve essere sempre presente la persona a cui è intestata.",
+   "text": "办理身份证时，持证人本人必须始终到场。"
+  },
   "carta-identita:req:prima-la-residenza:text": {
-   "it": "La carta d'identità si chiede dopo l'iscrizione all'anagrafe come residente a Milano: se sei appena arrivato, prima chiedi la residenza.",
-   "text": "身份证要在你登记为米兰居民之后才能申请：如果你刚到，请先申请居住登记（residenza）。"
+   "it": "Secondo la guida YesMilano, la carta d'identità la può chiedere chi è iscritto all'anagrafe come residente a Milano e in Italia.",
+   "text": "根据 YesMilano 指南，在户籍处登记为米兰和意大利居民的人都可以申请身份证。"
   },
   "carta-identita:req:primo-permesso-in-attesa:text": {
    "it": "Da verificare: le fonti salvate non dicono se basta la ricevuta della prima domanda di permesso di soggiorno (permesso non ancora rilasciato). Le fonti parlano della ricevuta solo per un permesso scaduto in rinnovo: chiedi all'anagrafe prima di prenotare.",
@@ -609,12 +689,16 @@
    "text": "如果你为出国旅行申请临时身份证，需要在表格中声明你没有未过期的出国护照。"
   },
   "carta-identita:req:provvisoria-estero:text": {
-   "it": "Con la carta provvisoria gli altri Paesi UE potrebbero non farti entrare: controlla prima le regole del Paese dove vai.",
-   "text": "其他欧盟国家可能拒绝持临时身份证入境：请先查看你要去的国家的规定。"
+   "it": "Gli altri Paesi UE potrebbero non accettare la carta provvisoria per l'ingresso: la pagina del Comune invita a verificare prima le regole del Paese di destinazione.",
+   "text": "其他欧盟国家可能不接受用临时身份证入境：市政府页面建议事先查看目的地国家的规定。"
   },
   "carta-identita:req:provvisoria-foto-modulo:text": {
    "it": "Per la carta provvisoria porta il modulo di richiesta del Comune compilato e due fototessere a colori su sfondo chiaro, recenti e a capo scoperto.",
    "text": "办理临时身份证时，请带上填好的市政府申请表，以及两张近期的彩色护照规格照片，浅色背景，不戴帽子。"
+  },
+  "carta-identita:req:provvisoria-prima-carta:text": {
+   "it": "Prima carta: il modulo del Comune per la carta d'identità provvisoria parla solo di una nuova carta «sostitutiva della precedente» (scaduta, rovinata, persa o rubata); nessuna fonte salvata dice se la carta provvisoria si può avere per una prima carta: chiedi all'anagrafe.",
+   "text": "第一次办理：市政府的临时身份证申请表只提到「替换原有证件」的新身份证（过期、损坏、遗失或被盗）；已保存的来源都没有说第一次办理能否申请临时身份证：请向户籍办公室询问。"
   },
   "carta-identita:req:provvisoria-restituzione:text": {
    "it": "La carta provvisoria va restituita al Comune quando fai la richiesta della CIE.",
@@ -693,8 +777,8 @@
    "text": "不预约只能在还有排队号（ticket）时办理：号发完后，你可能无法办理。"
   },
   "carta-identita:req:servizi-online:text": {
-   "it": "Con la carta e i suoi codici PIN e PUK entri nei servizi online delle Pubbliche Amministrazioni abilitate, fino al livello di sicurezza più alto (tre livelli).",
-   "text": "凭证件及其 PIN 和 PUK，你可以登录接受这张证的公共机构网上服务，最高可达最高安全级别（共三级）。"
+   "it": "Grazie ai codici PIN e PUK la carta permette di entrare nei servizi online delle Pubbliche Amministrazioni abilitate, con un'autenticazione fino a tre livelli di sicurezza.",
+   "text": "凭 PIN 码和 PUK 码，身份证可以登录已开通的公共部门网上服务，认证最多分三个安全级别。"
   },
   "carta-identita:req:smarrimento-estero-etd:text": {
    "it": "Se sei cittadino italiano e ti rubano o perdi la carta mentre sei all'estero, e non hai modo né tempo di chiedere un nuovo documento, rivolgiti al Consolato o all'Ambasciata d'Italia e chiedi un documento provvisorio di viaggio (E.T.D. – Emergency Travel Document).",
@@ -715,6 +799,10 @@
   "carta-identita:req:spedizione-citofono:text": {
    "it": "Metti il nome di chi la ritira su campanello, citofono e cassetta delle lettere.",
    "text": "在门铃、对讲机和信箱上写好收件人的姓名。"
+  },
+  "carta-identita:req:stato-lavorazione-vedo:text": {
+   "it": "Con l'app Ve.Do., inquadrando il codice QR della ricevuta, puoi verificare lo stato di lavorazione della tua carta.",
+   "text": "使用 Ve.Do. 应用扫描回执上的二维码，可以查看你的身份证的制作进度。"
   },
   "carta-identita:req:stranieri:short": {
    "it": "Permesso o carta di soggiorno",
@@ -737,8 +825,8 @@
    "text": "两名证人（如没有其他证件）"
   },
   "carta-identita:req:testimoni-prima:text": {
-   "it": "Prima carta senza nessun altro documento d'identità: devi andare in Comune con due testimoni.",
-   "text": "第一次办理且没有任何其他身份证件：须带两名证人到市政府。"
+   "it": "Prima carta senza un altro documento d'identità in corso di validità (passaporto, patente o altro): vieni con due testimoni.",
+   "text": "第一次办理且没有其他未过期的身份证件（护照、驾照或其他）：须带两名证人前来。"
   },
   "carta-identita:req:testimoni-smarrimento:short": {
    "it": "Due testimoni (se non hai altri documenti)",
@@ -772,6 +860,14 @@
    "it": "Urgenza documentata e nessun altro documento utile: presentati a una sede anagrafica nei 15 giorni prima dell'evento con i documenti che provano l'urgenza; ti fissano una data per il rilascio.",
    "text": "有书面证明的紧急情况，且没有其他可用证件：在事件发生前 15 天内，带上证明紧急情况的材料去户籍办公室；工作人员会为你定一个发证日期。"
   },
+  "carta-identita:req:validita-70-anni-espatrio:text": {
+   "it": "Secondo il centro di supporto del Comune, per chi ha 70 anni o più la carta rilasciata dopo il 30 luglio 2026 vale senza scadenza come documento di riconoscimento e per l'espatrio; il certificato digitale per entrare nei servizi online della Pubblica Amministrazione dura invece 10 anni.",
+   "text": "据市政府支持中心说明，对于年满 70 岁的人，2026 年 7 月 30 日之后签发的身份证作为身份证明和出境证件没有期限；而用于登录公共行政网上服务的数字证书期限为 10 年。"
+  },
+  "carta-identita:req:validita-70-anni-prima:text": {
+   "it": "Se hai 70 anni o più e la carta ti è stata rilasciata prima del 30 luglio 2026, dura 10 anni.",
+   "text": "如果你年满 70 岁，且身份证是在 2026 年 7 月 30 日之前签发的，有效期为 10 年。"
+  },
   "carta-identita:req:validita-70-anni:text": {
    "it": "Se hai 70 anni o più, la carta rilasciata dal 30 luglio 2026 non scade; per entrare nei servizi online della Pubblica Amministrazione vale invece 10 anni. Non vale per chi ha chiesto asilo (la carta resta di 3 anni) né per chi per un problema temporaneo non può dare le impronte (resta di 1 anno).",
    "text": "如果你年满 70 岁，2026 年 7 月 30 日起签发的证件不会过期；用于登录公共网上服务时期限为 10 年。这不适用于庇护申请人（证件仍为 3 年），也不适用于暂时无法采集指纹的人（仍为 1 年）。"
@@ -788,13 +884,17 @@
    "it": "Se per un problema temporaneo non è possibile prendere le impronte, la carta dura 1 anno.",
    "text": "如果因暂时性问题无法采集指纹，证件期限为 1 年。"
   },
+  "carta-identita:req:viaggi-italia-documenti:text": {
+   "it": "Secondo la Polizia di Stato, per viaggiare in Italia basta uno dei documenti equipollenti alla carta d'identità: passaporto, patente di guida, patente nautica, libretto di pensione, patentino per gli impianti termici, porto d'armi, tessere di riconoscimento con foto e timbro rilasciate da un'amministrazione dello Stato.",
+   "text": "根据国家警察的说明，在意大利境内出行，只需出示一份与身份证同等效力的证件：护照、驾照、船舶驾驶执照、养老金手册、供暖设备操作证、持枪证，或由国家行政机关签发、带照片和印章的身份识别卡。"
+  },
   "carta-identita:req:viaggio-15-giorni-rovinata:text": {
-   "it": "Carta rovinata, viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza con la prova della data di partenza e la carta danneggiata.",
-   "text": "证件损坏、即将出行且没有未过期的护照：在出发前 15 天内去户籍办公室，带上出发日期的证明和损坏的证件。"
+   "it": "Carta rovinata, viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza con: la prova della data di partenza; la copia della denuncia (l'articolo la chiede anche per la carta rovinata); una fototessera cartacea recente conforme ai requisiti; la tessera sanitaria o il codice fiscale; un altro documento d'identità (per esempio la patente) oppure due testimoni; la carta danneggiata.",
+   "text": "身份证损坏、即将出行且没有未过期的护照：在出发前 15 天内去户籍办公室，携带：出发日期的证明；报案材料的复印件（该文章对损坏的身份证也要求提供）；一张符合要求的近期纸质证件照；医疗卡或税号；另一份身份证件（例如驾照）或两名证人；损坏的身份证。"
   },
   "carta-identita:req:viaggio-15-giorni:text": {
-   "it": "Viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza, portando anche la prova della data di partenza.",
-   "text": "即将出行且没有未过期的护照：在出发前 15 天内去户籍办公室，同时带上出发日期的证明。"
+   "it": "Viaggio vicino e nessun passaporto in corso di validità: presentati all'anagrafe nei 15 giorni prima della partenza con: la prova della data di partenza; la copia della denuncia; una fototessera cartacea recente conforme ai requisiti; la tessera sanitaria o il codice fiscale; un altro documento d'identità in corso di validità (per esempio la patente) oppure due testimoni.",
+   "text": "即将出行且没有未过期的护照：在出发前 15 天内去户籍办公室，携带：出发日期的证明；报案材料的复印件；一张符合要求的近期纸质证件照；医疗卡或税号；另一份未过期的身份证件（例如驾照）或两名证人。"
   },
   "carta-identita:req:viaggio-5-giorni:text": {
    "it": "Se chiedi la carta per urgenza nei 5 giorni prima di un viaggio in Europa, il Comune non può assicurare che arrivi subito.",

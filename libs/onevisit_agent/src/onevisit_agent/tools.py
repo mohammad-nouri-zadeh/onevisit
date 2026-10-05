@@ -131,7 +131,9 @@ class ToolRunner:
         if args.confirmed and not self.case.confirmed:
             self.case.confirmed = True
             self.events.append(AgentEvent(kind="case_confirmed", data={"service_id": service.id}))
-        still = [q.id for q in service.deciding_questions if q.id not in answers and q.options]
+        # Only the questions something still possible depends on, in the catalog's order (a route
+        # that ends the case stops the others): the catalog's own rule, as in onevisit/kb.py.
+        still = list(self.catalog.checklist(service.id, answers).still_to_ask)
         return {"recorded": self.case.model_dump(exclude={"appointment"}), "still_to_ask": still}
 
     def _get_procedure(self, args: GetProcedureInput) -> dict[str, Any]:
@@ -208,8 +210,18 @@ class ToolRunner:
             ],
             "still_to_ask": list(checklist.still_to_ask),
             "not_yet_verified": list(checklist.not_yet_verified),
+            "routes": self._routes(service.id, answers),
             "has_facts": bool(checklist.items),
         }
+
+    def _routes(self, service_id: str, answers: dict[str, str]) -> list[dict[str, Any]]:
+        """Where the answers lead (``Catalog.routes``: stop, home, desk, walk-in, info), each link
+        and each service to do first with its source; [] for a catalog without routes."""
+        routes = getattr(self.catalog, "routes", None)
+        if not callable(routes):
+            return []
+        found = routes(service_id, answers)
+        return [dict(r) for r in found] if isinstance(found, list) else []
 
     def _checklist(self) -> ChecklistView | None:
         if self.case.service_id is None:

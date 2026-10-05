@@ -1,0 +1,263 @@
+{
+  "_about": "Questions in the demo replay (onevisit/demo.py `ask`): the replay answers a question with the saved official pages' own words, picked by keyword search (onevisit.search), never by Claude. These are the replay's own sentences around the quotes (no City fact lives here) and the example questions the app shows as chips. {link} is the service's official page, written as a Markdown link followed by its source id.",
+  "templates": {
+    "it": {
+      "lead": "Ecco cosa dicono le pagine ufficiali salvate. I passaggi li ha scelti la ricerca per parole chiave della replica, non Claude:",
+      "lead_one": "Ecco cosa dice la pagina ufficiale salvata. Il passaggio l'ha scelto la ricerca per parole chiave della replica, non Claude:",
+      "check": "Sono le parole delle pagine, non un parere: se non rispondono alla tua domanda, controlla la pagina ufficiale {link}.",
+      "honest": "Le pagine ufficiali salvate non rispondono con certezza a questa domanda: controlla la pagina ufficiale {link}.",
+      "honest_nolink": "Le pagine ufficiali salvate non rispondono con certezza a questa domanda: controlla il sito del Comune, {url}.",
+      "other_document": "La domanda sembra riguardare un altro documento, non **{service}**.",
+      "off_topic": "La domanda non sembra riguardare una pratica del Comune: rispondo solo con le pagine ufficiali sulla carta d'identità e sulla residenza.",
+      "closest": "I passaggi più vicini, che potrebbero non rispondere:",
+      "back": "Torniamo alla tua pratica. {question}",
+      "back_choice": "Torniamo alla tua pratica: scegli qui sotto quale ti serve.",
+      "also": "Sulla tua domanda, ecco cosa dicono le pagine ufficiali salvate (passaggi scelti per parole chiave, non da Claude):",
+      "also_honest": "Sulla tua domanda, le pagine ufficiali salvate non rispondono con certezza: controlla la pagina ufficiale {link}.",
+      "also_closest": "Il passaggio più vicino, che potrebbe non rispondere:",
+      "new_case_label": "Nuova pratica: {service}",
+      "kept_case": "La tua pratica in corso ({service}) resta aperta. Per prepararne una nuova scegli **Nuova pratica** qui sotto.",
+      "closed_case": "Ho chiuso la pratica precedente ({service}) e ne apro una nuova.",
+      "office_area": "Sede anagrafica a {area} (dati aperti del Comune): **{office}** {cite}.",
+      "office_list": "Le sedi anagrafiche sono elencate in questa pagina ufficiale: {link}. Questa replica le trova per nome di quartiere o di via."
+    },
+    "en": {
+      "lead": "Here is what the saved official pages say. The replay's keyword search picked these passages, not Claude:",
+      "lead_one": "Here is what the saved official page says. The replay's keyword search picked this passage, not Claude:",
+      "check": "These are the pages' own words, in the language they are published in, not advice: if they don't answer your question, check the official page {link}.",
+      "honest": "The saved official pages don't answer this question with certainty: check the official page {link}.",
+      "honest_nolink": "The saved official pages don't answer this question with certainty: check the City's website, {url}.",
+      "other_document": "The question seems to be about another document, not **{service}**.",
+      "off_topic": "The question doesn't seem to be about a City procedure: I answer only from the official pages on the ID card and on residence.",
+      "closest": "The closest passages, which may not answer it:",
+      "back": "Back to your case. {question}",
+      "back_choice": "Back to your case: choose below which procedure you need.",
+      "also": "On your question, here is what the saved official pages say (passages picked by keywords, not by Claude):",
+      "also_honest": "On your question, the saved official pages don't answer with certainty: check the official page {link}.",
+      "also_closest": "The closest passage, which may not answer:",
+      "new_case_label": "New case: {service}",
+      "kept_case": "Your case in progress ({service}) stays open. To prepare a new one, choose **New case** below.",
+      "closed_case": "I closed the earlier case ({service}) and I'm opening a new one.",
+      "office_area": "Registry office in {area} (the City's open data): **{office}** {cite}.",
+      "office_list": "The registry offices are listed on this official page: {link}. This replay finds them by neighbourhood or street name."
+    },
+    "ar": {
+      "lead": "إليك ما تقوله الصفحات الرسمية المحفوظة. اختار هذه المقاطع البحثُ بالكلمات المفتاحية في العرض المسجّل، وليس Claude:",
+      "lead_one": "إليك ما تقوله الصفحة الرسمية المحفوظة. اختار هذا المقطع البحثُ بالكلمات المفتاحية في العرض المسجّل، وليس Claude:",
+      "check": "هذه كلمات الصفحات نفسها، باللغة التي نُشرت بها، وليست رأيًا: إن لم تُجب عن سؤالك فراجع الصفحة الرسمية {link}.",
+      "honest": "الصفحات الرسمية المحفوظة لا تجيب عن هذا السؤال بشكل مؤكد: راجع الصفحة الرسمية {link}.",
+      "honest_nolink": "الصفحات الرسمية المحفوظة لا تجيب عن هذا السؤال بشكل مؤكد: راجع موقع البلدية، {url}.",
+      "other_document": "يبدو أن السؤال يتعلق بوثيقة أخرى، وليس **{service}**.",
+      "off_topic": "لا يبدو أن السؤال يتعلق بمعاملة لدى البلدية: أجيب فقط من الصفحات الرسمية عن بطاقة الهوية وعن الإقامة.",
+      "closest": "أقرب المقاطع، وقد لا تجيب عن السؤال:",
+      "back": "لنعد إلى ملفك. {question}",
+      "back_choice": "لنعد إلى ملفك: اختر أدناه الإجراء الذي تحتاجه.",
+      "also": "عن سؤالك، إليك ما تقوله الصفحات الرسمية المحفوظة (مقاطع اختيرت بالكلمات المفتاحية، وليس بواسطة Claude):",
+      "also_honest": "بشأن سؤالك، لا تجيب الصفحات الرسمية المحفوظة بشكل مؤكد: راجع الصفحة الرسمية {link}.",
+      "also_closest": "أقرب مقطع، وقد لا يجيب:",
+      "new_case_label": "معاملة جديدة: {service}",
+      "kept_case": "معاملتك الجارية ({service}) تبقى مفتوحة. لإعداد معاملة جديدة اختر **معاملة جديدة** أدناه.",
+      "closed_case": "أغلقتُ المعاملة السابقة ({service}) وأفتح معاملة جديدة.",
+      "office_area": "مكتب السجل المدني في {area} (البيانات المفتوحة للبلدية): **{office}** {cite}.",
+      "office_list": "مكاتب السجل المدني مذكورة في هذه الصفحة الرسمية: {link}. يجدها هذا العرض المسجّل باسم الحي أو الشارع."
+    },
+    "es": {
+      "lead": "Esto es lo que dicen las páginas oficiales guardadas. Estos pasajes los eligió la búsqueda por palabras clave de la réplica, no Claude:",
+      "lead_one": "Esto es lo que dice la página oficial guardada. Este pasaje lo eligió la búsqueda por palabras clave de la réplica, no Claude:",
+      "check": "Son las palabras de las páginas, en el idioma en que se publican, no una opinión: si no responden a tu pregunta, consulta la página oficial {link}.",
+      "honest": "Las páginas oficiales guardadas no responden con certeza a esta pregunta: consulta la página oficial {link}.",
+      "honest_nolink": "Las páginas oficiales guardadas no responden con certeza a esta pregunta: consulta la web del Ayuntamiento, {url}.",
+      "other_document": "La pregunta parece tratar de otro documento, no de **{service}**.",
+      "off_topic": "La pregunta no parece tratar de un trámite del Ayuntamiento: respondo solo con las páginas oficiales sobre la carta de identidad y la residencia.",
+      "closest": "Los pasajes más cercanos, que quizá no respondan:",
+      "back": "Volvamos a tu trámite. {question}",
+      "back_choice": "Volvamos a tu trámite: elige abajo cuál necesitas.",
+      "also": "Sobre tu pregunta, esto es lo que dicen las páginas oficiales guardadas (pasajes elegidos por palabras clave, no por Claude):",
+      "also_honest": "Sobre tu pregunta, las páginas oficiales guardadas no responden con certeza: consulta la página oficial {link}.",
+      "also_closest": "El pasaje más cercano, que puede no responder:",
+      "new_case_label": "Nuevo trámite: {service}",
+      "kept_case": "Tu trámite en curso ({service}) sigue abierto. Para preparar uno nuevo elige **Nuevo trámite** abajo.",
+      "closed_case": "He cerrado el trámite anterior ({service}) y abro uno nuevo.",
+      "office_area": "Oficina del registro en {area} (datos abiertos del Ayuntamiento): **{office}** {cite}.",
+      "office_list": "Las oficinas del registro están en esta página oficial: {link}. Esta réplica las encuentra por nombre de barrio o de calle."
+    },
+    "zh": {
+      "lead": "以下是已保存的官方页面原文。这些段落由演示回放的关键词搜索选出，而不是 Claude：",
+      "lead_one": "以下是已保存的官方页面原文。这段文字由演示回放的关键词搜索选出，而不是 Claude：",
+      "check": "这些是页面的原话（按发布时的语言），不是建议：如果没有回答你的问题，请查看官方页面 {link}。",
+      "honest": "已保存的官方页面无法确定地回答这个问题：请查看官方页面 {link}。",
+      "honest_nolink": "已保存的官方页面无法确定地回答这个问题：请查看市政府网站 {url}。",
+      "other_document": "这个问题似乎涉及另一种证件，而不是**{service}**。",
+      "off_topic": "这个问题似乎与市政府的办事手续无关：我只根据关于身份证和居住登记的官方页面回答。",
+      "closest": "最接近的段落，可能并不能回答：",
+      "back": "回到你的办理事项。{question}",
+      "back_choice": "回到你的办理事项：请在下面选择你需要办理的事项。",
+      "also": "关于你的问题，以下是已保存的官方页面原文（按关键词选出，不是由 Claude 选出）：",
+      "also_honest": "关于你的问题，已保存的官方页面没有确定的答案：请查看官方页面 {link}。",
+      "also_closest": "最接近的段落，可能并不回答你的问题：",
+      "new_case_label": "新的事项：{service}",
+      "kept_case": "你正在办理的事项（{service}）仍然保留。要准备新的事项，请在下面选择**新的事项**。",
+      "closed_case": "我已关闭之前的事项（{service}），现在开始新的事项。",
+      "office_area": "{area} 的户籍办公室（市政府开放数据）：**{office}** {cite}。",
+      "office_list": "户籍办公室列在这个官方页面上：{link}。演示回放按街区或街道名称查找它们。"
+    },
+    "fr": {
+      "lead": "Voici ce que disent les pages officielles enregistrées. Ces passages ont été choisis par la recherche par mots-clés de la démo, pas par Claude :",
+      "lead_one": "Voici ce que dit la page officielle enregistrée. Ce passage a été choisi par la recherche par mots-clés de la démo, pas par Claude :",
+      "check": "Ce sont les mots des pages, dans la langue où elles sont publiées, pas un avis : s'ils ne répondent pas à votre question, consultez la page officielle {link}.",
+      "honest": "Les pages officielles enregistrées ne répondent pas avec certitude à cette question : consultez la page officielle {link}.",
+      "honest_nolink": "Les pages officielles enregistrées ne répondent pas avec certitude à cette question : consultez le site de la Ville, {url}.",
+      "other_document": "La question semble porter sur un autre document, pas sur **{service}**.",
+      "off_topic": "La question ne semble pas porter sur une démarche de la Commune : je réponds seulement à partir des pages officielles sur la carte d'identité et la résidence.",
+      "closest": "Les passages les plus proches, qui ne répondent peut-être pas :",
+      "back": "Revenons à votre démarche. {question}",
+      "back_choice": "Revenons à votre démarche : choisissez ci-dessous celle qu'il vous faut.",
+      "also": "Sur votre question, voici ce que disent les pages officielles enregistrées (passages choisis par mots-clés, pas par Claude) :",
+      "also_honest": "Sur votre question, les pages officielles enregistrées ne répondent pas avec certitude : consultez la page officielle {link}.",
+      "also_closest": "Le passage le plus proche, qui pourrait ne pas répondre :",
+      "new_case_label": "Nouvelle démarche : {service}",
+      "kept_case": "Votre démarche en cours ({service}) reste ouverte. Pour en préparer une nouvelle, choisissez **Nouvelle démarche** ci-dessous.",
+      "closed_case": "J'ai fermé la démarche précédente ({service}) et j'en ouvre une nouvelle.",
+      "office_area": "Bureau de l'état civil à {area} (données ouvertes de la Ville) : **{office}** {cite}.",
+      "office_list": "Les bureaux de l'état civil sont listés sur cette page officielle : {link}. Cette démo les trouve par nom de quartier ou de rue."
+    }
+  },
+  "examples": [
+    {
+      "id": "cost",
+      "label": {
+        "it": "Quanto costa?",
+        "en": "How much does it cost?",
+        "ar": "كم التكلفة؟",
+        "es": "¿Cuánto cuesta?",
+        "zh": "要多少钱？"
+      },
+      "query": {
+        "it": "Quanto costa la carta d'identità?",
+        "en": "How much does the ID card cost?",
+        "ar": "كم تكلفة بطاقة الهوية؟",
+        "es": "¿Cuánto cuesta la carta de identidad?",
+        "zh": "身份证要多少钱？"
+      }
+    },
+    {
+      "id": "pin",
+      "label": {
+        "it": "Ho perso il PIN",
+        "en": "I lost my PIN",
+        "ar": "فقدت رمز PIN",
+        "es": "Perdí el PIN",
+        "zh": "PIN码丢了"
+      },
+      "query": {
+        "it": "Ho perso il PIN: cosa faccio?",
+        "en": "I lost my PIN: what do I do?",
+        "ar": "فقدت رمز PIN: ماذا أفعل؟",
+        "es": "Perdí el PIN: ¿qué hago?",
+        "zh": "我的PIN码丢了，怎么办？"
+      }
+    },
+    {
+      "id": "child",
+      "label": {
+        "it": "Mio figlio di 2 anni deve venire?",
+        "en": "Must my 2-year-old come?",
+        "ar": "هل يحضر طفلي ذو السنتين؟",
+        "es": "¿Mi hijo de 2 años debe venir?",
+        "zh": "两岁孩子要到场吗？"
+      },
+      "query": {
+        "it": "Mio figlio di 2 anni deve venire all'appuntamento?",
+        "en": "Does my 2-year-old child have to come to the appointment?",
+        "ar": "هل يجب أن يحضر طفلي البالغ سنتين إلى الموعد؟",
+        "es": "¿Mi hijo de 2 años tiene que venir a la cita?",
+        "zh": "两岁的孩子办身份证必须本人到场吗？"
+      }
+    },
+    {
+      "id": "photo",
+      "label": {
+        "it": "Posso fare la foto in Comune?",
+        "en": "Photo at the registry office?",
+        "ar": "التصوير في البلدية؟",
+        "es": "¿Foto en el Ayuntamiento?",
+        "zh": "能在市政府拍照吗？"
+      },
+      "query": {
+        "it": "Posso fare la foto in Comune?",
+        "en": "Can I take the photo at the registry office?",
+        "ar": "هل يمكنني التقاط الصورة في البلدية؟",
+        "es": "¿Puedo hacerme la foto en el Ayuntamiento?",
+        "zh": "可以在市政府拍证件照吗？"
+      }
+    },
+    {
+      "id": "non-eu",
+      "label": {
+        "it": "Cosa porto se sono extra UE?",
+        "en": "What to bring if non-EU?",
+        "ar": "ماذا أحضر من خارج الاتحاد الأوروبي؟",
+        "es": "¿Qué llevo si no soy de la UE?",
+        "zh": "非欧盟公民带什么？"
+      },
+      "query": {
+        "it": "Cosa devo portare se sono extra UE?",
+        "en": "What do I bring if I am a non-EU citizen?",
+        "ar": "ما المستندات التي أحضرها إذا كنت أجنبيًا من خارج الاتحاد الأوروبي؟",
+        "es": "¿Qué documentos necesito si soy extracomunitario?",
+        "zh": "非欧盟公民要带什么材料？"
+      }
+    },
+    {
+      "id": "delivery",
+      "label": {
+        "it": "Quanto ci mette ad arrivare?",
+        "en": "How long until it arrives?",
+        "ar": "متى تصل البطاقة؟",
+        "es": "¿Cuánto tarda en llegar?",
+        "zh": "多久能收到？"
+      },
+      "query": {
+        "it": "Quanto ci mette ad arrivare la carta?",
+        "en": "How long does the card take to arrive?",
+        "ar": "كم من الوقت تستغرق البطاقة لتصل؟",
+        "es": "¿Cuánto tarda en llegar la carta?",
+        "zh": "身份证多久能寄到？"
+      }
+    },
+    {
+      "id": "home",
+      "label": {
+        "it": "Posso farla a domicilio?",
+        "en": "Can it be done at home?",
+        "ar": "هل تُصدر في المنزل؟",
+        "es": "¿Se hace a domicilio?",
+        "zh": "能上门办理吗？"
+      },
+      "query": {
+        "it": "Posso fare la carta d'identità a domicilio?",
+        "en": "Can it be done at home if I can't move?",
+        "ar": "هل يمكن إصدارها في المنزل إذا لم أستطع الحركة؟",
+        "es": "¿Se puede hacer a domicilio si no puedo moverme?",
+        "zh": "行动不便可以上门办理吗？"
+      }
+    },
+    {
+      "id": "abroad",
+      "label": {
+        "it": "Vale per l'estero?",
+        "en": "Can I travel abroad with it?",
+        "ar": "هل تصلح للسفر؟",
+        "es": "¿Sirve para viajar?",
+        "zh": "能出国用吗？"
+      },
+      "query": {
+        "it": "La carta d'identità vale all'estero?",
+        "en": "Can I travel abroad with the ID card?",
+        "ar": "هل يمكنني السفر إلى الخارج ببطاقة الهوية؟",
+        "es": "¿Puedo viajar al extranjero con la carta de identidad?",
+        "zh": "可以用身份证出国旅行吗？"
+      }
+    }
+  ]
+}

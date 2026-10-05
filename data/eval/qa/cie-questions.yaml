@@ -1248,12 +1248,13 @@ questions:
   holdout: false
   question: "What do I attach to the online request for the ID card at home?"
   answer: "The person's ID document, a medical certificate stating they cannot move permanently, and (if filed by a third party other than a parent) the proxy or guardianship appointment."
-  expected_sources: ["cie-domicilio-salute", "cie-faq-00392", "cie", "cie-faq-04366"]
+  expected_sources: ["cie-domicilio-salute", "cie-faq-00392", "cie", "cie-faq-04366", "cie-faq-04025"]
   evidence:
   - {"source": "cie-domicilio-salute", "quote": "certificato medico che attesti l’impossibilità di muoversi in modo permanente"}
   - {"source": "cie-faq-00392", "quote": "un certificato medico che attesti l’impossibilità a muoversi in modo permanente"}
   - {"source": "cie", "quote": "un certificato medico che ne attesti l’impossibilità di muoversi;"}
   - {"source": "cie-faq-04366", "quote": "certificato medico che attesti l’impossibilità di muoversi in modo permanente"}
+  - {"source": "cie-faq-04025", "quote": "per fare o rinnovare la carta d'identità devono essere allegati i seguenti documenti:"}
 - id: "cie-home-service-03"
   lang: "it"
   style: "formal"
@@ -1517,10 +1518,11 @@ questions:
   holdout: false
   question: "Con il PIN e il PUK non riesco ad accedere ai servizi online, cosa devo fare?"
   answer: "You can ask for a new card with the Ministry's authorisation: e-mail cie.cittadini@interno.it with the card number and your details."
-  expected_sources: ["cie-faq-00470", "cie"]
+  expected_sources: ["cie-faq-00470", "cie", "cie-faq-03728"]
   evidence:
   - {"source": "cie-faq-00470", "quote": "È possibile sollecitare l’emissione di una nuova Carta di Identità Elettronica, previa autorizzazione del Ministero dell’interno."}
   - {"source": "cie", "quote": "è possibile chiedere l'emissione di una nuova carta d'identità, previa autorizzazione rilasciata dal Ministero dell'Interno."}
+  - {"source": "cie-faq-03728", "quote": "In assenza di uno di tali requisiti, l’accesso potrebbe non andare a buon fine."}
 - id: "cie-pin-puk-08"
   lang: "it"
   style: "formal"
@@ -1601,10 +1603,11 @@ questions:
   holdout: false
   question: "Cos'è l'app CieID e su quali telefoni funziona?"
   answer: "The official app for \"Entra con CIE\" logins (levels 1-3), PUK recovery and PIN change; Android 6.0+ or iOS 13+."
-  expected_sources: ["cie-ministero-faq"]
+  expected_sources: ["cie-ministero-faq", "cie-ministero-cie-id"]
   evidence:
   - {"source": "cie-ministero-faq", "quote": "L’applicazione è disponibile per smartphone con sistema operativo Android 6.0 o superiore, o iOS 13 o superiore."}
   - {"source": "cie-ministero-faq", "quote": "La sua principale funzione è garantire la possibilità di autenticazione e accesso tramite «Entra con CIE» ai servizi online della Pubblica Amministrazione"}
+  - {"source": "cie-ministero-cie-id", "quote": "L’Applicazione è disponibile per smartphone con sistema operativo Android 6.0 o superiore e iOS 13 o superiore."}
 - id: "cie-digital-identity-04"
   lang: "en"
   style: "formal"
@@ -1624,10 +1627,12 @@ questions:
   holdout: false
   question: "Can I log in to the City of Milan online services with my ID card?"
   answer: "Yes: with CIE credentials (CIE number, codice fiscale or e-mail + password), with the CieID app QR code, or by reading the card (NFC phone or smart-card reader)."
-  expected_sources: ["cie-faq-03621", "prenotazione"]
+  expected_sources: ["cie-faq-03621", "prenotazione", "cie-faq-03726", "cie-ministero-identificazione-digitale"]
   evidence:
   - {"source": "cie-faq-03621", "quote": "Con credenziali CIE, inserendo il numero CIE, il codice fiscale o l'email, più la password scelta in fase di attivazione;"}
   - {"source": "prenotazione", "quote": "L'autenticazione tramite SPID o Carta d’Identità Elettronica (CIE) garantisce l'accesso a tutti i servizi online del Comune."}
+  - {"source": "cie-faq-03726", "quote": "Carta d’Identità Elettronica – CIE (con PIN e lettore NFC o app CieID)."}
+  - {"source": "cie-ministero-identificazione-digitale", "quote": "Accedere ai servizi digitali, come ad esempio quelli offerti dal tuo Comune"}
 - id: "cie-digital-identity-07"
   lang: "it"
   style: "colloquial"
@@ -1636,10 +1641,11 @@ questions:
   holdout: false
   question: "Il telefono non legge la carta, cosa sbaglio?"
   answer: "Rest the card on the upper back of the phone and keep it there about 10 seconds; remove the cover if it interferes."
-  expected_sources: ["cie-ministero-faq"]
+  expected_sources: ["cie-ministero-faq", "cie-faq-03728"]
   evidence:
   - {"source": "cie-ministero-faq", "quote": "Assicurati di aver appoggiato la Carta sul retro del tuo smartphone, nella parte superiore."}
   - {"source": "cie-ministero-faq", "quote": "Se hai delle difficoltà e utilizzi una cover per proteggere il tuo smartphone, prova a rimuoverla perché potrebbe impedire la corretta interazione con la Carta."}
+  - {"source": "cie-faq-03728", "quote": "lettore NFC se si utilizza il PC, oppure, si utilizza lo smartphone, App CieID installata e aggiornata"}
 - id: "cie-digital-identity-09"
   lang: "it"
   style: "formal"
@@ -1648,10 +1654,11 @@ questions:
   holdout: false
   question: "Si possono firmare documenti con la carta d'identità elettronica?"
   answer: "Yes, with the CieSign app as an advanced electronic signature (FEA)."
-  expected_sources: ["cie", "cie-ministero-la-carta"]
+  expected_sources: ["cie", "cie-ministero-la-carta", "cie-ministero-firma-con-cie"]
   evidence:
   - {"source": "cie", "quote": "Inoltre, la CIE può essere utilizzata tramite l’app CieSign come strumento di firma elettronica avanzata."}
   - {"source": "cie-ministero-la-carta", "quote": "come strumento di firma elettronica avanzata (FEA) consentendo ai cittadini di firmare agevolmente documenti elettronici."}
+  - {"source": "cie-ministero-firma-con-cie", "quote": "può essere utilizzata come dispositivo di firma elettronica avanzata (FEA) per firmare documenti elettronici."}
 - id: "cie-digital-identity-10"
   lang: "it"
   style: "typo"
@@ -1684,10 +1691,11 @@ questions:
   holdout: false
   question: "What are CIE levels 1, 2 and 3?"
   answer: "Level 1: username and password; level 2: plus a second factor (OTP or QR/CieID app); level 3: reading the card with an NFC phone or a reader."
-  expected_sources: ["cie-ministero-la-carta", "yesmilano-work-identity-card"]
+  expected_sources: ["cie-ministero-la-carta", "yesmilano-work-identity-card", "cie-ministero-identificazione-digitale"]
   evidence:
   - {"source": "cie-ministero-la-carta", "quote": "livello 1: accesso mediante una coppia di credenziali (username e password),"}
   - {"source": "yesmilano-work-identity-card", "quote": "level 3: a reader or an NFC-enabled smartphone to read the CIE is requested."}
+  - {"source": "cie-ministero-identificazione-digitale", "quote": "livello 1: accesso mediante una coppia di credenziali (username e password),"}
 - id: "cie-organ-donation-01"
   lang: "it"
   style: "colloquial"
@@ -1709,11 +1717,12 @@ questions:
   holdout: false
   question: "Ho detto sì alla donazione degli organi ma ho cambiato idea: come faccio?"
   answer: "You can change it at any time: download the cancellation form and send it by e-mail or by post to Comune di Milano, Direzione Area Servizi al Cittadino, via Larga 12, 20122 Milano."
-  expected_sources: ["cie-donazione-organi", "cie-faq-00551"]
+  expected_sources: ["cie-donazione-organi", "cie-faq-00551", "cie-ministero-donazione"]
   evidence:
   - {"source": "cie-donazione-organi", "quote": "può modificare in qualsiasi momento la propria decisione."}
   - {"source": "cie-donazione-organi", "quote": "Per cancellare l'assenso espresso in precedenza, scarica il modulo e invialo a uno dei seguenti canali."}
   - {"source": "cie-faq-00551", "quote": "o tramite posta a: Comune di Milano, Direzione Area Servizi al Cittadino, via Larga, 12 – 20122, Milano"}
+  - {"source": "cie-ministero-donazione", "quote": "se il cittadino decide di cancellare la dichiarazione di volontà espressa, deve rivolgersi al Comune"}
 - id: "cie-organ-donation-04"
   lang: "en"
   style: "colloquial"
@@ -1734,10 +1743,11 @@ questions:
   holdout: false
   question: "Est-ce obligatoire de répondre sur le don d'organes quand on fait la carte d'identité ?"
   answer: "The Ministry says the choice is given only if you wish; the City's FAQ says adults sign a form stating yes or no. Present both."
-  expected_sources: ["cie-ministero", "cie-faq-00542"]
+  expected_sources: ["cie-ministero", "cie-faq-00542", "cie-ministero-donazione"]
   evidence:
   - {"source": "cie-ministero", "quote": "fornisce, se lo desidera, il consenso o il diniego alla donazione degli organi;"}
   - {"source": "cie-faq-00542", "quote": "Tutti i cittadini maggiorenni al momento della richiesta o del rinnovo della carta d’identità devono firmare un modulo in cui esprimono la propria volontà"}
+  - {"source": "cie-ministero-donazione", "quote": "il cittadino può dichiarare la propria volontà sulla donazione di organi e tessuti."}
 - id: "cie-data-change-01"
   lang: "it"
   style: "typo"
@@ -2037,6 +2047,100 @@ questions:
   evidence:
   - {"source": "cie-ministero-caratteristiche", "quote": "Stampata in bianco e nero con tecnica laser engraving"}
 
+# Added from the review of 2026-10-05 (seen while fixing the search: tuning, not holdout).
+- id: "cie-travel-09"
+  lang: "en"
+  style: "typo"
+  facet: "travel"
+  answerable: true
+  holdout: false
+  question: "my card was stolen yesterday, can i still travel to rome by train?"
+  answer: "Yes within Italy: another identity document listed by law (passport, driving licence...) is enough, and once the new CIE is requested its receipt can be used for travel in Italy."
+  expected_sources: ["pds-documenti-viaggio", "cie-faq-00355", "cie-faq-04355"]
+  evidence:
+  - {"source": "pds-documenti-viaggio", "quote": "In caso di viaggi sul territorio nazionale, è sufficiente l'esibizione di uno dei documenti di identificazione"}
+  - {"source": "cie-faq-00355", "quote": "Per i viaggi in Italia, il cittadino può utilizzare la ricevuta della Carta d'Identità Elettronica (CIE)"}
+  - {"source": "cie-faq-04355", "quote": "Per i viaggi in Italia, il cittadino può utilizzare la ricevuta della Carta d'Identità Elettronica (CIE)"}
+- id: "cie-booking-13"
+  lang: "en"
+  style: "colloquial"
+  facet: "booking"
+  answerable: true
+  holdout: false
+  question: "Can my friend book the appointment for me using his SPID?"
+  answer: "SPID is not needed to book: the appointment is booked on the City's page without SPID authentication; with SPID/CIE one person can book up to five appointments for members of their own household."
+  expected_sources: ["cie-faq-00578", "cie"]
+  evidence:
+  - {"source": "cie-faq-00578", "quote": "non è necessaria l'autenticazione con Spid."}
+  - {"source": "cie", "quote": "è possibile prenotare simultaneamente fino a un massimo di cinque appuntamenti per componenti del proprio nucleo familiare"}
+- id: "cie-booking-14"
+  lang: "it"
+  style: "colloquial"
+  facet: "booking"
+  answerable: true
+  holdout: false
+  question: "posso prenotare per tutta la famiglia con un solo spid?"
+  answer: "Yes, up to five appointments at once for members of one's own household, logging in with SPID or CIE."
+  expected_sources: ["cie"]
+  evidence:
+  - {"source": "cie", "quote": "è possibile prenotare simultaneamente fino a un massimo di cinque appuntamenti per componenti del proprio nucleo familiare"}
+- id: "cie-documents-10"
+  lang: "it"
+  style: "colloquial"
+  facet: "documents"
+  answerable: true
+  holdout: false
+  question: "Ho perso la tessera sanitaria, posso fare lo stesso la carta d'identità?"
+  answer: "The documents list the health card OR the tax code: the tax code can replace the lost health card; the desk officer decides."
+  expected_sources: ["cie", "cie-faq-00552"]
+  evidence:
+  - {"source": "cie", "quote": "Tessera sanitaria (Carta Nazionale dei Servizi) o codice fiscale"}
+  - {"source": "cie-faq-00552", "quote": "la tessera sanitaria o codice fiscale"}
+- id: "cie-photo-17"
+  lang: "it"
+  style: "colloquial"
+  facet: "photo"
+  answerable: true
+  holdout: false
+  question: "Come va fatta la foto?"
+  answer: "Paper photo meeting the requirements: face and shoulders in the foreground, face 70-80% of the photo, light uniform background."
+  expected_sources: ["cie-faq-00308"]
+  evidence:
+  - {"source": "cie-faq-00308", "quote": "Il viso deve occupare il 70-80% della foto, con uno sfondo chiaro e uniforme."}
+- id: "cie-cost-11"
+  lang: "en"
+  style: "colloquial"
+  facet: "cost"
+  answerable: true
+  holdout: false
+  question: "How are you supposed to pay?"
+  answer: "At the desk on the day of the appointment, in cash or by debit card (bancomat)."
+  expected_sources: ["cie-faq-00305"]
+  evidence:
+  - {"source": "cie-faq-00305", "quote": "Sono accettati sia contanti che bancomat."}
+- id: "cie-delivery-17"
+  lang: "en"
+  style: "formal"
+  facet: "delivery"
+  answerable: true
+  holdout: false
+  question: "Can I get my ID card delivered to my university dorm instead of my home?"
+  answer: "Yes: the card can be sent to one's own address or to another one given at the request, with a complete address."
+  expected_sources: ["cie-faq-00577"]
+  evidence:
+  - {"source": "cie-faq-00577", "quote": "Sì, presso il proprio domicilio o un altro indicato."}
+- id: "cie-loss-theft-18"
+  lang: "it"
+  style: "colloquial"
+  facet: "loss_theft"
+  answerable: true
+  holdout: false
+  question: "Il chip non funziona più, devo pagare di nuovo 22 euro?"
+  answer: "No: report the defect to the Ministry; after its checks it authorises the City to remake the card at no cost."
+  expected_sources: ["cie-faq-00409"]
+  evidence:
+  - {"source": "cie-faq-00409", "quote": "invierà una mail per autorizzare il Comune al rifacimento della Carta di Identità Elettronica, a costo zero."}
+
 # ======================================================================
 # HONESTY SET: no saved page answers these (answerable: false) or they are
 # not about the ID card (facet out_of_scope). The right answer says so and
@@ -2259,6 +2363,229 @@ questions:
   evidence:
   - {"source": "cie", "quote": "€ 22,20 da versare in contanti o bancomat il giorno dell’appuntamento."}
   - {"source": "cie-faq-00305", "quote": "Il costo per il rilascio della Carta di Identità elettronica è di €22,20"}
+- id: "cie-digital-identity-13"
+  lang: "it"
+  style: "colloquial"
+  facet: "digital_identity"
+  answerable: true
+  holdout: false
+  question: "Posso firmare un PDF con la carta d'identità usando il telefono?"
+  answer: "Yes: the CIE is an advanced electronic signature device (FEA); on a phone with NFC you sign with the CieSign app (PAdES for a PDF), with the card in hand and its PIN."
+  expected_sources: ["cie-ministero-firma-con-cie", "cie"]
+  evidence:
+  - {"source": "cie-ministero-firma-con-cie", "quote": "“Mobile” – l’utente appone una firma elettronica mediante uno smartphone dotato di interfaccia NFC e dell’app “CieSign”"}
+  - {"source": "cie", "quote": "la CIE può essere utilizzata tramite l’app CieSign come strumento di firma elettronica avanzata."}
+- id: "cie-digital-identity-14"
+  lang: "en"
+  style: "formal"
+  facet: "digital_identity"
+  answerable: true
+  holdout: false
+  question: "Which software do I need to log in with my ID card from my computer?"
+  answer: "The 'Software CIE' (middleware), on a computer connected to a contactless smart-card reader that can read the CIE; then you enter the PIN."
+  expected_sources: ["cie-ministero-software-cie", "cie-ministero-entra-con-cie"]
+  evidence:
+  - {"source": "cie-ministero-software-cie", "quote": "Il Software CIE (c.d. “middleware”) è il software necessario per accedere mediante Carta di Identità Elettronica ai servizi erogati in rete dalle Pubbliche Amministrazioni."}
+  - {"source": "cie-ministero-entra-con-cie", "quote": "modalità desktop: si può accedere attraverso un computer collegato a un lettore di smart card contactless abilitato alla lettura della CIE"}
+- id: "cie-digital-identity-15"
+  lang: "it"
+  style: "typo"
+  facet: "digital_identity"
+  answerable: true
+  holdout: false
+  question: "la mia cie nn viene riconosciuta quando provo a entrare nei servizi online, xke?"
+  answer: "Logging in needs a card that has not expired, the PIN, an NFC reader on a PC or the up-to-date CieID app on a phone, and an updated browser; if it still fails, restart or try another device."
+  expected_sources: ["cie-faq-03728"]
+  evidence:
+  - {"source": "cie-faq-03728", "quote": "Per usare la Carta di Identità Elettronica (CIE) per accedere ai servizi online, è necessario essere in possesso dei seguenti requisiti:"}
+- id: "cie-digital-identity-16"
+  lang: "es"
+  style: "colloquial"
+  facet: "digital_identity"
+  answerable: true
+  holdout: false
+  question: "¿Con la carta de identidad italiana puedo entrar en servicios online de otros países de la UE?"
+  answer: "Yes: through the Italian eIDAS node, CIE holders can also use online services of other EU countries (for example university, bank or public administration services)."
+  expected_sources: ["cie-ministero-entra-con-cie"]
+  evidence:
+  - {"source": "cie-ministero-entra-con-cie", "quote": "che permette ai titolari di una CIE di accedere anche ai servizi online di altri Paesi dell’Unione Europea (ad esempio servizi universitari, bancari o delle pubbliche amministrazioni)."}
+- id: "cie-card-info-07"
+  lang: "en"
+  style: "colloquial"
+  facet: "card_info"
+  answerable: true
+  holdout: false
+  question: "I heard some cards have a wrong date in the chip. How do I check mine?"
+  answer: "Use the Ministry's verification service: enter your tax code and the card's serial number to see in real time whether your card has the chip defect (an issue date different from the one printed on the front)."
+  expected_sources: ["cie-ministero-verifica-chip"]
+  evidence:
+  - {"source": "cie-ministero-verifica-chip", "quote": "inserendo il tuo codice fiscale ed il numero di serie della tua Carta di Identità Elettronica"}
+- id: "cie-card-info-08"
+  lang: "it"
+  style: "formal"
+  facet: "card_info"
+  answerable: true
+  holdout: false
+  question: "Esiste un'app per leggere i dati nel chip della carta e controllare che siano giusti?"
+  answer: "Yes: the Ministry's IDEA app (Android phones with NFC) reads the data in the chip and checks that the card works and that its data are correct."
+  expected_sources: ["cie-ministero-idea"]
+  evidence:
+  - {"source": "cie-ministero-idea", "quote": "Con IDEA è possibile leggere i dati memorizzati nel microprocessore della Carta di Identità Elettronica, verificare il corretto funzionamento del documento e l’esattezza dei dati che riporta."}
+- id: "cie-card-info-09"
+  lang: "it"
+  style: "formal"
+  facet: "card_info"
+  answerable: true
+  holdout: false
+  question: "Chi tratta i miei dati personali quando faccio la CIE e a chi scrivo per esercitare i miei diritti?"
+  answer: "The Ministry of the Interior is the data controller (the State Printing Office processes the data for it); rights are exercised with the Ministry's Data Protection Officer by registered letter, e-mail or PEC, and a complaint can go to the Garante."
+  expected_sources: ["cie-ministero-privacy"]
+  evidence:
+  - {"source": "cie-ministero-privacy", "quote": "Responsabile della Protezione dei Dati (RPD) o Data Protection Officer (DPO) del Titolare al seguente"}
+- id: "cie-delivery-15"
+  lang: "it"
+  style: "colloquial"
+  facet: "delivery"
+  answerable: true
+  holdout: false
+  question: "Come faccio a vedere a che punto è la lavorazione della mia carta d'identità?"
+  answer: "With the Ve.Do. app, scanning the QR code on the CIE receipt, you can see the production status of the card; the shipment itself is tracked on poste.it."
+  expected_sources: ["cie-ministero-ve-do"]
+  evidence:
+  - {"source": "cie-ministero-ve-do", "quote": "Al tempo stesso consente al possessore di verificare lo stato di lavorazione della propria Carta di Identità Elettronica."}
+- id: "cie-urgent-11"
+  lang: "en"
+  style: "formal"
+  facet: "urgent"
+  answerable: true
+  holdout: false
+  question: "How can an office check that my CIE receipt is genuine?"
+  answer: "With the Ve.Do. app, which scans the QR code on the CIE receipt and checks that it is authentic."
+  expected_sources: ["cie-ministero-ve-do"]
+  evidence:
+  - {"source": "cie-ministero-ve-do", "quote": "per la verifica della ricevuta rilasciata al cittadino che ha completato la pratica di richiesta della Carta di Identità Elettronica."}
+- id: "cie-organ-donation-06"
+  lang: "en"
+  style: "formal"
+  facet: "organ_donation"
+  answerable: true
+  holdout: false
+  question: "Who do I contact to delete the organ donation choice I made when I got my CIE?"
+  answer: "The Comune: after the card is issued, a person who wants to cancel the declaration turns to the Comune (in Milan, with the City's cancellation form)."
+  expected_sources: ["cie-ministero-donazione", "cie-donazione-organi"]
+  evidence:
+  - {"source": "cie-ministero-donazione", "quote": "se il cittadino decide di cancellare la dichiarazione di volontà espressa, deve rivolgersi al Comune seguendo la procedura sotto indicata."}
+  - {"source": "cie-donazione-organi", "quote": "Per cancellare l'assenso espresso in precedenza, scarica il modulo e invialo a uno dei seguenti canali."}
+- id: "cie-home-service-11"
+  lang: "it"
+  style: "colloquial"
+  facet: "home_service"
+  answerable: true
+  holdout: false
+  question: "Chiedo la carta a domicilio per mio figlio minorenne malato: devo allegare una delega?"
+  answer: "No: parents asking for the home service for their minor children do not need a delegation; the medical certificate and the photo are still attached (and the copy of the old card for a renewal)."
+  expected_sources: ["cie-faq-04025", "cie-domicilio-salute"]
+  evidence:
+  - {"source": "cie-faq-04025", "quote": "la delega non è richiesta ai genitori che richiedono il servizio per i figli minorenni."}
+  - {"source": "cie-domicilio-salute", "quote": "La domanda può essere compilata tramite form anche da una terza persona (genitore di minorenne, tutore, amministratore di sostegno o delegato semplice)."}
+- id: "cie-photo-14"
+  lang: "en"
+  style: "colloquial"
+  facet: "photo"
+  answerable: true
+  holdout: false
+  question: "Can the photo shop crop or retouch my ID photo so it looks better?"
+  answer: "No: the photo must not be cropped to remove the background or straighten the head, nor retouched, coloured or altered."
+  expected_sources: ["cie-ministero-foto"]
+  evidence:
+  - {"source": "cie-ministero-foto", "quote": "La foto non deve essere ritagliata per escludere lo sfondo o per raddrizzare la testa, né può essere ritoccata, colorata o manomessa."}
+- id: "cie-photo-15"
+  lang: "it"
+  style: "typo"
+  facet: "photo"
+  answerable: true
+  holdout: false
+  question: "la foto deve essere larga 35 o 40 mm??"
+  answer: "The Ministry and the City's support centre say 35 mm wide (and 45 mm high); the City's older photo guide (2007) says 35-40 mm: the sources differ, 35 mm is the figure both current sources give."
+  expected_sources: ["cie-ministero-foto", "cie-faq-00308", "cie-foto-requisiti"]
+  evidence:
+  - {"source": "cie-ministero-foto", "quote": "Altezza minima: 45 mm - Larghezza: 35 mm"}
+  - {"source": "cie-faq-00308", "quote": "Dimensioni: Altezza 45mm, larghezza 35mm."}
+  - {"source": "cie-foto-requisiti", "quote": "avere una larghezza di 35–40mm"}
+- id: "cie-travel-08"
+  lang: "it"
+  style: "colloquial"
+  facet: "travel"
+  answerable: true
+  holdout: false
+  question: "Ho perso la carta d'identità: posso prendere il treno per Roma mostrando solo la patente?"
+  answer: "Yes: for travel within Italy any document equivalent to the ID card is enough (passport, driving licence and the others listed in art. 35 DPR 445/2000); the CIE receipt also works in Italy."
+  expected_sources: ["pds-documenti-viaggio", "cie-faq-00306"]
+  evidence:
+  - {"source": "pds-documenti-viaggio", "quote": "In caso di viaggi sul territorio nazionale, è sufficiente l'esibizione di uno dei documenti di identificazione specificamente indicati all'articolo 35, comma 2"}
+  - {"source": "cie-faq-00306", "quote": "Per i viaggi in Italia, il cittadino può utilizzare la ricevuta della Carta d'Identità Elettronica (CIE), senza aspettare la consegna della stessa."}
+
+# Added from the review of 2026-10-05 (seen while fixing the search: not holdout).
+- id: "cie-offices-08"
+  lang: "it"
+  style: "colloquial"
+  facet: "offices"
+  answerable: false
+  holdout: false
+  question: "C'è un parcheggio vicino alla sede di via Larga?"
+  answer: "Say the saved pages don't say anything about parking near the offices; link the offices page."
+  expected_sources: []
+  redirect: {"url": "https://www.comune.milano.it/argomenti/anagrafe/sedi-anagrafiche", "source": "sedi-anagrafiche"}
+  related_sources: ["sedi-anagrafiche"]
+  why: "No saved page mentions parking near the registry offices."
+- id: "cie-accessibility-06"
+  lang: "en"
+  style: "colloquial"
+  facet: "accessibility"
+  answerable: false
+  holdout: false
+  question: "Can I bring my dog to the anagrafe?"
+  answer: "Say the saved pages don't say whether pets may enter the offices; link the City page."
+  expected_sources: []
+  redirect: {"url": "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita", "source": "cie"}
+  related_sources: []
+  why: "No saved page mentions animals in the offices."
+- id: "cie-foreigners-15"
+  lang: "uk"
+  style: "colloquial"
+  facet: "foreigners"
+  answerable: false
+  holdout: false
+  question: "Я маю тимчасовий захист в Італії. Чи можу я отримати ID-картку?"
+  answer: "Say the saved pages don't cover temporary protection; they list the documents for foreign residents (residence permit); link the City page."
+  expected_sources: []
+  redirect: {"url": "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita", "source": "cie"}
+  related_sources: ["cie-faq-00393"]
+  why: "No saved page mentions temporary protection (protezione temporanea)."
+- id: "cie-cost-12"
+  lang: "en"
+  style: "formal"
+  facet: "cost"
+  answerable: false
+  holdout: false
+  question: "Is it true the ID card is free for people over 70?"
+  answer: "Say no saved page mentions a free card for people over 70; the City page gives the fee (EUR 22.20) without exemptions; do not confirm; link the City page."
+  expected_sources: []
+  redirect: {"url": "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita", "source": "cie"}
+  related_sources: ["cie-faq-00305", "cie-faq-04339"]
+  why: "The pages give the over-70s' card validity and one fee for everyone, no exemption."
+- id: "cie-out-of-scope-06"
+  lang: "it"
+  style: "formal"
+  facet: "out_of_scope"
+  answerable: false
+  holdout: false
+  question: "Posso fare il passaporto all'anagrafe insieme alla carta d'identità?"
+  answer: "Say the passport is not a registry (anagrafe) procedure covered here: the saved pages don't cover applying for a passport; link the City page."
+  expected_sources: []
+  redirect: {"url": "https://www.comune.milano.it/servizi/anagrafe/carta-d-identita", "source": "cie"}
+  related_sources: ["pds-espatrio-minori"]
+  why: "Passports are issued by the Questura; no saved page covers getting one at the anagrafe."
 
 # ======================================================================
 # HOLDOUT SET (holdout: true). STOP READING HERE if you are tuning search,
@@ -2783,3 +3110,59 @@ questions:
   evidence:
   - {"source": "news-cie-addio-cartacee", "quote": "insieme a un link personalizzato per confermare o riprogrammare la prenotazione in pochi passaggi."}
   - {"source": "news-cie-due-terzi", "quote": "le persone interessate hanno ricevuto una proposta di appuntamento dedicato presso gli uffici anagrafici, con la possibilità di confermare o riprogrammare la prenotazione in pochi passaggi."}
+- id: "cie-digital-identity-17"
+  lang: "it"
+  style: "colloquial"
+  facet: "digital_identity"
+  answerable: true
+  holdout: true
+  question: "Con la carta d'identità elettronica posso entrare in metro al posto del biglietto?"
+  answer: "The Ministry lists access to public transport (bus, tram, metro gates, car and bike sharing), replacing tickets and passes, among the possible uses of the CIE; whether a given transport service accepts it is not stated for Milan."
+  expected_sources: ["cie-ministero-identificazione-digitale"]
+  evidence:
+  - {"source": "cie-ministero-identificazione-digitale", "quote": "Accedere ai mezzi di trasporto (autobus, tram, tornelli della metro, car/bike sharing, ecc.), sostituendo titoli di viaggio e abbonamenti"}
+- id: "cie-photo-16"
+  lang: "en"
+  style: "colloquial"
+  facet: "photo"
+  answerable: true
+  holdout: true
+  question: "My printed photo got folded in my wallet. Can I still use it for the ID card?"
+  answer: "No: the photo must not be folded, stapled, written on or damaged."
+  expected_sources: ["cie-ministero-foto"]
+  evidence:
+  - {"source": "cie-ministero-foto", "quote": "La foto non deve essere piegata, spillata, presentare scritte o, in generale, essere manomessa o danneggiata."}
+- id: "cie-home-service-12"
+  lang: "en"
+  style: "formal"
+  facet: "home_service"
+  answerable: true
+  holdout: true
+  question: "My bedridden mother has lost her ID card. What do we attach to the home-service request?"
+  answer: "The report of the loss (and in that case another valid identity document is needed), the medical certificate saying she cannot move, the photo meeting the Ministry's requirements, and a delegation or appointment deed if someone other than a parent applies."
+  expected_sources: ["cie-faq-04025"]
+  evidence:
+  - {"source": "cie-faq-04025", "quote": "Eventuale denuncia di smarrimento o furto (in questo caso è necessario avere un altro documento valido)."}
+- id: "cie-non-residents-08"
+  lang: "es"
+  style: "formal"
+  facet: "non_residents"
+  answerable: true
+  holdout: true
+  question: "Soy italiano, vivo en Alemania y estoy inscrito en el AIRE. ¿Puedo pedir la carta de identidad en el consulado?"
+  answer: "Yes: Italians registered with AIRE can apply at their Consulate (procedure on the Foreign Ministry website); a 2026 circular also lets AIRE members apply in any Italian Comune."
+  expected_sources: ["cie-ministero-estero-aire", "circ-dait-054-2026"]
+  evidence:
+  - {"source": "cie-ministero-estero-aire", "quote": "la Carta di Identità Elettronica può essere richiesta presso il Consolato di riferimento."}
+  - {"source": "circ-dait-054-2026", "quote": "di richiedere il rilascio della carta d’identità elettronica (CIE) presso qualsiasi comune italiano"}
+- id: "cie-delivery-16"
+  lang: "it"
+  style: "formal"
+  facet: "delivery"
+  answerable: true
+  holdout: true
+  question: "Non ho nessun documento d'identità, nemmeno scaduto: come ritiro la carta se il postino non mi trova in casa?"
+  answer: "Without any identity document, even expired, the card cannot be collected at the post office: after the holding period it is sent to the issuing office, where it is collected; the Ministry suggests choosing delivery to the Comune when applying."
+  expected_sources: ["cie-ministero-spedizione"]
+  evidence:
+  - {"source": "cie-ministero-spedizione", "quote": "Il cittadino privo di un documento di riconoscimento, anche scaduto, dovrà attendere invece che trascorra il periodo di giacenza"}

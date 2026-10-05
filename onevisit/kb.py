@@ -50,6 +50,11 @@ def _services() -> dict[str, dict]:
     return out
 
 
+def list_service_ids() -> list[str]:
+    """The ids of the services the catalog has (data/services/*.json)."""
+    return list(_services())
+
+
 def list_services() -> list[dict]:
     """The services OneVisit covers, with how many requirements are verified."""
     result = []
@@ -165,26 +170,152 @@ def open_items(service_id: str, ids: list[str]) -> list[dict]:
 # Order in which the app and the dossier show a checklist's categories.
 CATEGORIES = ("prepare", "how", "if-urgent", "after")
 
+# Routes (a deciding question's `option_routes`) that end the case: the person cannot apply
+# here (e.g. not resident in Milan), so only what the stop itself says is still asked.
+ENDING_ROUTES = frozenset({"stop"})
+
+
+def _possible(when: dict, answers: dict) -> bool:
+    """True when no answer given so far rules this condition out (unanswered questions don't)."""
+    return all(answers[q] in allowed for q, allowed in when.items() if q in answers)
+
+
+def _stop_applies(svc: dict, question: str, answer: str, answers: dict) -> bool:
+    """A "stop" route ends the case only while something it stops is still possible: a requirement
+    that names the stopping answer and that no answer has ruled out. Resident in another region but
+    asking for a lost PIN/PUK (requested at any registry desk): the card's stop items don't apply, so
+    the case goes on. A stop no requirement names always applies."""
+    naming = [r.get("when") or {} for r in svc.get("requirements", [])
+              if answer in ((r.get("when") or {}).get(question) or [])]
+    return not naming or any(_possible(w, answers) for w in naming)
+
+
+def _active_routes(svc: dict, answers: dict) -> list[dict]:
+    """The `option_routes` the answers so far select, in the order of the deciding questions (a stop
+    only while something it stops is still possible, see _stop_applies)."""
+    out = []
+    for q in svc.get("deciding_questions", []):
+        route = (q.get("option_routes") or {}).get(answers.get(q["id"]))
+        if route and (route.get("route") not in ENDING_ROUTES
+                      or _stop_applies(svc, q["id"], answers[q["id"]], answers)):
+            out.append({"question": q["id"], "answer": answers[q["id"]], **route})
+    return out
+
+
+def active_routes(service_id: str, answers: dict | None = None) -> list[dict]:
+    """The `option_routes` the answers select, as written in the catalog (with "question" and
+    "answer"), a stop only while something it stops is still possible; [] for an unknown service."""
+    svc = _services().get(service_id)
+    return _active_routes(svc, valid_answers(service_id, answers)[0]) if svc else []
+
+
+def valid_answers(service_id: str, answers: dict | None) -> tuple[dict, list[dict]]:
+    """The answers whose value is one of their question's options, and the others as
+    {"question", "value", "options"} (an unknown question or a value that is not an option, such
+    as "adult" for "adulto": dropped, so the question is asked again)."""
+    svc = _services().get(service_id) or {}
+    options = {q["id"]: q.get("options") or [] for q in svc.get("deciding_questions", [])}
+    kept, rejected = {}, []
+    for qid, value in (answers or {}).items():
+        allowed = options.get(qid)
+        if allowed is None or (allowed and value not in allowed):
+            rejected.append({"question": qid, "value": str(value)[:40], "options": allowed or []})
+        else:
+            kept[qid] = value
+    return kept, rejected
+
+
+def _still_to_ask(svc: dict, answers: dict) -> list[str]:
+    """The deciding questions still worth asking, in the catalog's order.
+
+    A question is listed only when something that is still possible depends on it: a
+    requirement whose condition no answer has ruled out yet, or a service an active route
+    points to (`option_routes[...].services[].when`). A route that ends the case ("stop") stops
+    the other questions: only those its own items depend on (the requirements that name the
+    stopping answer, the services it points to) are still asked.
+    """
+    active = _active_routes(svc, answers)
+    stops = [r for r in active if r.get("route") in ENDING_ROUTES]
+    whens = [r.get("when") or {} for r in svc.get("requirements", [])]
+    if stops:
+        stopping = {r["question"] for r in stops}
+        whens = [w for w in whens if stopping & set(w)]
+        active = stops
+    whens += [s.get("when") or {} for r in active for s in r.get("services", [])]
+    needed: set[str] = set()
+    for when in whens:
+        if _possible(when, answers):
+            needed.update(q for q in when if q not in answers)
+    order = [q["id"] for q in svc.get("deciding_questions", [])]
+    return [q for q in order if q in needed] + sorted(needed - set(order))
+
+
+def questions_to_ask(service_id: str, answers: dict | None = None) -> list[str]:
+    """The deciding questions that still change the answer for this case, in the catalog's order
+    (the same list as checklist()["still_to_ask"]); [] for an unknown service."""
+    svc = _services().get(service_id)
+    return _still_to_ask(svc, answers or {}) if svc else []
+
+
+def routes(service_id: str, answers: dict | None = None) -> list[dict]:
+    """Where the answers so far lead, from the deciding questions' `option_routes`.
+
+    Each route: {"question", "answer", "route", "ends_case", "links"?, "services"?}. route is
+    "stop" (the person cannot apply here: no booking advice, `services` lists what to do first,
+    each with its official page and source), "home" (the home service: its online form in
+    `links` instead of the booking page), "desk" with booking links of its own (PIN/PUK
+    duplicate), "walk-in" (no appointment needed) or "info" (no visit needed). Every link has
+    the source_id of the saved page that has it. A service whose condition is not answered yet
+    is left out (its question is in still_to_ask).
+    """
+    catalog = _services()
+    svc = catalog.get(service_id)
+    if not svc:
+        return []
+    answers = answers or {}
+    out = []
+    for r in _active_routes(svc, answers):
+        item = {"question": r["question"], "answer": r["answer"], "route": r.get("route"),
+                "ends_case": r.get("route") in ENDING_ROUTES}
+        links = [dict(link) for link in r.get("links", []) if link.get("url") and link.get("source_id")]
+        if links:
+            item["links"] = links
+        services = []
+        for s in r.get("services", []):
+            if not all(answers.get(q) in allowed for q, allowed in (s.get("when") or {}).items()):
+                continue
+            entry = {"id": s["id"], "title": (catalog.get(s["id"]) or {}).get("title")}
+            official = service_links(s["id"]).get("official_url")
+            if official:
+                entry["official_url"] = official
+            services.append(entry)
+        if services:
+            item["services"] = services
+        out.append(item)
+    return out
+
 
 def checklist(service_id: str, answers: dict | None = None) -> dict:
     """Requirements that apply to this case, each with its source.
 
     `answers` maps deciding-question ids to the citizen's answer, e.g.
-    {"motivo": "smarrimento-furto", "eta": "adulto"}. A requirement whose
-    condition depends on an unanswered question is left out and that question
-    is listed in `still_to_ask`. Each requirement has a `category`: what to
-    prepare, how the procedure works, what happens after, what to do if urgent.
+    {"motivo": "smarrimento-furto", "eta": "adulto"}; an answer that is not an option of its
+    question ("adult", "Milano") is ignored and listed in `invalid_answers`. A requirement whose
+    condition depends on an unanswered question is left out. `still_to_ask` lists,
+    in the catalog's order, the questions that still change the answer (see
+    _still_to_ask: a question nothing possible depends on is not asked, and a route
+    that ends the case stops the others). `routes` says where the answers lead
+    (see routes()). Each requirement has a `category`: what to prepare, how the
+    procedure works, what happens after, what to do if urgent.
     """
     svc = _services().get(service_id)
     if not svc:
         return {"error": f"Unknown service '{service_id}'. Call list_services first."}
-    answers = answers or {}
-    applies, still_to_ask, not_verified = [], set(), []
+    answers, rejected = valid_answers(service_id, answers)
+    applies, not_verified = [], []
     for req in svc.get("requirements", []):
         when = req.get("when") or {}
-        missing = [q for q in when if q not in answers]
-        if missing:
-            still_to_ask.update(missing)
+        if any(q not in answers for q in when):
             continue
         if not all(answers[q] in allowed for q, allowed in when.items()):
             continue
@@ -206,15 +337,21 @@ def checklist(service_id: str, answers: dict | None = None) -> dict:
                 item[key] = req[key]
         applies.append(item)
     cited = sorted({r["source_id"] for r in applies})
-    return {
+    out = {
         "service_id": service_id,
         "requirements": applies,
-        "still_to_ask": sorted(still_to_ask),
+        "still_to_ask": _still_to_ask(svc, answers),
         "not_yet_verified": not_verified,
+        "routes": routes(service_id, answers),
         "sources": [get_source(s) for s in cited],
         "note": "Requirements in not_yet_verified exist but are not checked against a source: "
                 "say you don't know them and point to the official page.",
     }
+    if rejected:  # "adult" for "adulto": ignored, so the question stays in still_to_ask
+        out["invalid_answers"] = rejected
+        out["note"] += (" Some answers were not options of their question and were ignored (invalid_answers): "
+                        "pass exactly one of the listed options.")
+    return out
 
 
 # Sections of a checklist item that are files to upload (or things to bring), in the order
